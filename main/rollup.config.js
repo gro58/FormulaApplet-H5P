@@ -4,10 +4,12 @@ import commonjs from '@rollup/plugin-commonjs';
 import builtins from 'rollup-plugin-node-builtins';
 import livereload from 'rollup-plugin-livereload';
 import copy from 'rollup-plugin-copy';
-import { terser } from 'rollup-plugin-terser';
+import {
+	terser
+} from 'rollup-plugin-terser';
 import json from '@rollup/plugin-json';
 import replace from '@rollup/plugin-replace';
-// import babel from '@rollup/plugin-babel';
+import babel from '@rollup/plugin-babel';
 
 const production = process.env.PRODUCTION === "true";
 console.log("PRODUCTION", production, "(env: " + process.env.PRODUCTION + ")");
@@ -40,19 +42,15 @@ function getCopyTargets(filename) {
 		if (filename.endsWith(".js")) extension = "js";
 		else if (filename.endsWith(".css")) extension = "css";
 		else throw Error("Invalid extension");
-		targets.push(
-			{
-				src: `./public/${ filename }`, 
-				dest: getH5Ppath(plugin, extension)
-			}
-		);
+		targets.push({
+			src: `./public/${ filename }`,
+			dest: getH5Ppath(plugin, extension)
+		});
 		if (!production && extension === "js") {
-			targets.push(
-				{
-					src: `./public/${ filename.replace('.js', '.js.map') }`, 
-					dest: getH5Ppath(plugin, extension)
-				}
-			);
+			targets.push({
+				src: `./public/${ filename.replace('.js', '.js.map') }`,
+				dest: getH5Ppath(plugin, extension)
+			});
 		}
 	}
 	return targets;
@@ -69,8 +67,8 @@ export default [{
 	},
 	plugins: [
 		replace({
-			'process.env.NODE_ENV': JSON.stringify(production ? 'production' : 'development'), 
-			'__h5p__': (!!h5pCopy).toString(), 
+			'process.env.NODE_ENV': JSON.stringify(production ? 'production' : 'development'),
+			'__h5p__': (!!h5pCopy).toString(),
 			preventAssignment: true
 		}),
 		json(),
@@ -98,14 +96,14 @@ export default [{
 		!production && livereload("public"),
 
 		// If we're building for production, minify
-		production && terser(), 
+		production && terser(),
 
 		h5pCopy && copy({
 			targets: getCopyTargets("build/bundle.js")
-					 .concat(getCopyTargets("css/gf09.css"))
-					 .concat(getCopyTargets("css/table.css"))
-					 .concat(getCopyTargets("css/virtualKeyboard.css"))
-					 .concat(getCopyTargets("MathQuill/mathquill.css"))
+				.concat(getCopyTargets("css/gf09.css"))
+				.concat(getCopyTargets("css/table.css"))
+				.concat(getCopyTargets("css/virtualKeyboard.css"))
+				.concat(getCopyTargets("MathQuill/mathquill.css"))
 		})
 	]
 }, {
@@ -119,10 +117,10 @@ export default [{
 	},
 	plugins: [
 		replace({
-			'process.env.NODE_ENV': JSON.stringify(production ? 'production' : 'development'), 
+			'process.env.NODE_ENV': JSON.stringify(production ? 'production' : 'development'),
 			preventAssignment: true
 		}),
-		json(), 
+		json(),
 		resolve({
 			browser: true,
 			dedupe: importee => importee === 'svelte' || importee.startsWith('svelte/'),
@@ -132,9 +130,11 @@ export default [{
 		commonjs({
 			preferBuiltins: false
 		}),
-		babel({ babelHelpers: 'bundled' }),
+		babel({
+			babelHelpers: 'bundled'
+		}),
 		// minify
-		terser(), 
+		terser(),
 
 		h5pCopy && copy({
 			targets: getCopyTargets("build/bundleLicense.js")
