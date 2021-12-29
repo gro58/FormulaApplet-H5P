@@ -21,6 +21,9 @@ import {
 } from "./texParser.js";
 
 import MQ from "./lib/mathquillWrapper.js";
+// import {
+//     get_editorFapp
+// } from "./preparePage";
 
 export async function initEditor() {
     await domLoad;
@@ -56,53 +59,61 @@ function mathQuillifyEditor(fApp) {
 
 var newLatex = 'new'; //TODO get rid of global vars
 // this kind of messageHandler receives also messages intended to be received by other messageHandlers!
-export async function editorMessageHandler(event) {
+export async function editorAction() {
+    var actionType = arguments[0];
+    var data = arguments[1];
+    // var editor_fApp = await get_editorFapp();
     if (typeof editor_fApp !== 'undefined') {
-        var fApp = editor_fApp;
         // H5P 
-        console.log(fApp.id + ' ' + event);
-        var editorMf = fApp.mathField;
-        var eventType = event[0];
-        if (eventType == 'idChangedEvent') {
-            var newId = event[1];
-            console.info('*** RECEIVE message idChangedEvent (editor.js) data=' + newId);
-            fApp.id = newId;
+        console.log(editor_fApp.id + ' action(editor.js): ' + actionType);
+        var editorMf = editor_fApp.mathField;
+        console.log(editorMf);
+        if (actionType == 'idChanged') {
+            var newId = data;
+            console.info('*** idChanged data=' + newId);
+            editor_fApp.id = newId;
+            refreshResultField(editorMf.latex(), editor_fApp);
         }
-        if (eventType == 'testEvent') {
-            console.info('*** RECEIVE message testEvent (editor.js) data=' + event[1]);
+        if (actionType == 'testAction') {
+            console.info('*** testAction data=' + data);
         }
-        if (eventType == 'setInputFieldMouseoverEvent') {
-            console.info('*** RECEIVE message setInputFieldMouseoverEvent (editor.js)');
+        if (actionType == 'setInputFieldMouseoverEvent') {
+            console.info('*** setInputFieldMouseoverEvent');
             var latex = setInput(editorMf);
             console.log(latex);
             editorMf.latex(latex.old);
             //TODO get rid of global vars
-            newLatex = latex.new; //prepare for setInputFieldEvent
+            newLatex = latex.new; //prepare for setInputField
         }
 
-        if (eventType == 'refreshEvent') {
+        if (actionType == 'refreshEvent') {
             console.info('*** RECEIVE message refreshEvent (editor.js)');
-            latex = editorMf.latex();
-            console.log(latex);
-            editorMf.latex(latex);
+            try {
+                refreshResultField(editor_fApp.mathField.latex(), editor_fApp);
+            } catch (error) {
+                console.error('ERROR: ' + error);
+            }
+            // var la = editorMf.latex();
+            // console.log(la);
+            // editorMf.latex(la);
         }
 
-        // setInputFieldMouseoverEvent precedes setInputFieldEvent
+        // setInputFieldMouseoverEvent precedes setInputField
         // global var newLatex is renewed by function setInput() 
-        if (eventType == 'setInputFieldEvent') {
-            console.info('*** RECEIVE message setInputFieldEvent (editor.js)');
+        if (actionType == 'setInputField') {
+            console.info('*** setInputField');
             editorMf.latex(newLatex);
         }
-        if (eventType == 'setModeEvent') {
-            var auto_or_manu = event[1];
-            console.info('*** RECEIVE message setModeEvent (editor.js) ' + auto_or_manu);
+        if (actionType == 'setMode') {
+            var auto_or_manu = data;
+            console.info('***setMode ' + auto_or_manu);
             if (auto_or_manu == 'auto') {
-                fApp.hasSolution = false;
-                refreshResultField(editorMf.latex(), fApp)
+                editor_fApp.hasSolution = false;
+                refreshResultField(editorMf.latex(), editor_fApp)
             }
             if (auto_or_manu == 'manu') {
-                fApp.hasSolution = true;
-                refreshResultField(editorMf.latex(), fApp)
+                editor_fApp.hasSolution = true;
+                refreshResultField(editorMf.latex(), editor_fApp)
             }
         }
     }
@@ -121,8 +132,8 @@ export async function prepareEditorApplet(fApp) {
     $.event.trigger("refreshLatexEvent"); //adjust \cdot versus \times
 
     // H5P stuff
-    window.addEventListener('message', editorMessageHandler(fApp), false); //bubbling phase
-    window.parent.parent.addEventListener('message', editorMessageHandler(fApp), false); //bubbling phase
+    // window.addEventListener('message', editorAction(fApp), false); //bubbling phase
+    // window.parent.parent.addEventListener('message', editorAction(fApp), false); //bubbling phase
 
 
     $('#set-input-d, #set-input-e').on('mousedown', ev => {
@@ -192,21 +203,7 @@ export async function prepareEditorApplet(fApp) {
         }
     });
 
-    if (isH5P()) {
-        // //TODO if H5P take ID from editor applet 
-        // console.log('H5PEditor:');
-        // // eslint-disable-next-line no-undef
-        // console.log(H5PEditor);
-        // console.log('H5PEditor.Editor');
-        // // eslint-disable-next-line no-undef
-        // console.log(H5PEditor.Editor);
-        // // console.log('H5PEditor.FormulaAppletEditor.prototype.getparentParams:');
-        // // eslint-disable-next-line no-undef
-        // console.log('');
-
-        // something like changeId(H5P.id-field) would be nice
-        document.defaultView.postMessage(['initIdEvent', 'dummy data'], document.URL);
-    } else {
+    if (!isH5P()) {
         // generate a new random ID
         changeId(randomId(8));
         $('input[type="radio"]#auto').trigger('click');

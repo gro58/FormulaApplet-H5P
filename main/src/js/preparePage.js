@@ -48,11 +48,11 @@ console.log('preparePage.js: window.name = ' + window.name);
 var activeMathfieldId = 0;
 var FAList = {};
 var editHandlerActive = true;
-var editorFapp;
+// var editorFapp;
 
-export async function get_editorFapp() {
-  return editorFapp;
-}
+// export async function get_editorFapp() {
+//   return editorFapp;
+// }
 
 // define class FApp using function syntax
 function FApp() {
@@ -363,11 +363,11 @@ export async function mathQuillify(id) {
 
     // store FApp object in FAList and take id as key
     FAList[id] = fApp;
-    if (id == 'formulaappleteditor') {
-      console.log('store editor: fApp -> editorFapp');
-      editorFapp = fApp;
-      console.log(editorFapp);
-    }
+    // if (isEditor) {
+    //   console.log('store editor: fApp -> editorFapp');
+    //   editorFapp = fApp;
+    //   console.log(editorFapp);
+    // }
 
     // activate mouse clicks
     $el.on('click', clickHandler);

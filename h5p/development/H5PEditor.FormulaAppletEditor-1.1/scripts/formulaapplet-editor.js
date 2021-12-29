@@ -6,13 +6,10 @@
 
 
 var H5P = H5P || {};
-H5P['FAEditor'] = {e: 'empty'};
-// H5P['test_key'] = {a: 'test', b: 'object'};
 console.log('Here is formulaapplet-editor.js 1.1 - window.name = ' + window.name);
 console.log(H5P);
 console.log(H5PEditor);
 console.log(H5Pbridge);
-console.log(H5Pbridge.editor_fApp);
 
 //TODO get rid of global variables
 var selectionArray = [];
@@ -38,7 +35,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
   }
 
   // /**
-  //  * Peovide parent parameters 
+  //  * Provide parent parameters 
   //  * @public
   //  * @param {H5P.jQuery} 
   //  */
@@ -59,6 +56,10 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     // params.TEX_expression = params.fa_applet;
 
     var hasSolution = (params.formulaAppletMode == 'manu');
+    if (typeof params.id == 'undefined') {
+      params.id = 'new_id';
+    }
+    console.log('generating html. params.id=' + params.id);
     var html = '<p class="formula_applet" id="' + params.id + '-edit"';
     if (params.formulaAppletPhysics == true) {
       html += ' mode="physics"';
@@ -108,8 +109,8 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       text: 'Set input field (Joubel)',
       click: function (event) {
         event.preventDefault();
-        console.log("post setInputFieldEvent click");
-        postEvent(["setInputFieldEvent", "dummy data"]);
+        console.log("post setInputField click");
+        H5Pbridge.editorAction("setInputField");
       }
     });
     $button.attr('id', '#set-input-h5p');
@@ -123,7 +124,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       ev.stopImmediatePropagation();
       ev.preventDefault();
       console.log("post setInputFieldMouseoverEvent");
-      postEvent(["setInputFieldMouseoverEvent", 'dummy data']);
+      H5Pbridge.editorAction("setInputFieldMouseoverEvent");
     };
 
     $(function () {
@@ -135,24 +136,29 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     });
   };
 
-  function afterMainIsLoaded() {
+  async function afterMainIsLoaded() {
     // this code is executed if main is loaded
     console.log('*** MAIN is loaded *** ');
     console.log(H5Pbridge);
     console.log('before triggering preparePageEvent');
-    H5Pbridge.preparePage();
+    await H5Pbridge.preparePage();
     var id = getputId.get();
-    console.log('id=' + id);
+    console.log('getputId.get: id=' + id);
+    // debugger;
     if (id !== 'nothingToDo') {
-      console.log('postEvent idChangedEvent with id=' + id);
-      postEvent(["idChangedEvent", id]);
+      console.log('H5Pbridge.editorAction idChanged with id=' + id);
+      H5Pbridge.editorAction("idChanged", id);
+      // var editorFapp = H5Pbridge.get_editorFapp();
+      // editorFapp.id = id;
     }
-    postEvent(["testEvent", "dummy data"]);
-    var elem = document.getElementById('new_id');
-    console.log(elem);
-    H5P.jQuery(elem).attr('id', id)
-    console.log(elem);
-    postEvent(["refreshEvent", "dummy"]);
+    H5Pbridge.editorAction("testAction", "dummy data");
+    var elem = document.getElementById('new_id-edit');
+    if (elem !== null) {
+      console.log(elem);
+      H5P.jQuery(elem).attr('id', id)
+      console.log(elem);
+    }
+    H5Pbridge.editorAction("refreshEvent");
   }
 
   /**
@@ -217,7 +223,7 @@ async function afterAppend(obj) {
       console.log('obj.parent.params.id=' + obj.parent.params.id);
       obj.parent.params.id = newId;
       console.log('obj.parent.params.id=' + obj.parent.params.id);
-      // postEvent(["idChangedEvent", newId]); //wait for main to be loaded
+      // H5Pbridge.editorAction(["idChanged", newId]); //wait for main to be loaded
       getputId.put(newId);
     } else {
       getputId.put('nothingToDo');
@@ -225,12 +231,6 @@ async function afterAppend(obj) {
   } catch (error) {
     console.error('ERROR: ' + error);
   }
-
-  // // if (params.id == 'new_id') {
-  //   var new_id = randomId(12);
-  //   // console.log('new id -> ' + new_id);
-  //   params.id = new_id;
-  //   // }
 
   //TODO bug: new_id is not replaced by a random id when generatingon a new formula applet
   //TODO bug: getField('id') has a random id but gets a new random id
@@ -253,13 +253,9 @@ async function afterAppend(obj) {
       obj.parent.params['data_b64'] = b64;
       console.log("obj.parent.params['data_b64']=" + obj.parent.params['data_b64']);
     }
-    if (event.data[0] == 'initIdEvent') {
-      console.log('RECEIVE message initIdEvent');
-      // should be done by H5P system:
-      // var idField = getField('id');
-      // // synchronize DOM
-      // idField.$input[0].value = obj.parent.params['id'];
-    }
+    // if (event.data[0] == 'initIdEvent') {
+    //   console.log('RECEIVE message initIdEvent and do nothing');
+    // }
   }
 
   function getField(name) {
@@ -323,8 +319,8 @@ async function afterAppend(obj) {
 
   function sendModeTofApp() {
     var mode = obj.parent.params['formulaAppletMode'];
-    console.log('post setModeEvent ' + mode);
-    postEvent(['setModeEvent', mode]);
+    console.log('post setMode ' + mode);
+    H5Pbridge.editorAction('setMode', mode);
   }
 
   // hide field-name-id
@@ -343,7 +339,7 @@ async function afterAppend(obj) {
 function postEvent(message) {
   // message may be an array of [messageType, data]
   // window.parent.parent.postMessage(message, window.parent.parent.document.URL);
-  H5Pbridge.editorMessageHandler(message);
+  H5Pbridge.editorAction(message);
 }
 
 // Start of waitForMain mechanism
@@ -364,9 +360,6 @@ function waitForMainThenDo(cont) {
     cont();
   } else {
     try_counter++;
-    // postEvent("SignalToMainEvent");
-    // // send another echo to main.js. If echo comes back, mainIsLoaded = true
-    // console.info('(1) post message SignalToMainEvent (formulaapplet-editor.js) try=' + try_counter);
     console.info(`waitFarMain try_counter=${try_counter}`);
     if (try_counter < try_counter_limit) {
       setTimeout(function () {
@@ -382,16 +375,6 @@ function waitForMainThenDo(cont) {
 }
 // End of waitForMain mechanism
 
-
-// function randomId(length) {
-//   var result = 'fa';
-//   var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-//   var numOfChars = characters.length;
-//   for (var i = 2; i < length; i++) {
-//     result += characters.charAt(Math.floor(Math.random() * numOfChars));
-//   }
-//   return result;
-// }
 
 function getSelectorID(selectorName) {
   var result = '';

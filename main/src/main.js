@@ -12,7 +12,7 @@ import {
 } from "./js/dom.js";
 import {
     randomId,
-    editorMessageHandler
+    editorAction
 } from "./js/editor.js";
 import decode from "./js/decode.js";
 
@@ -22,7 +22,7 @@ export {
     mathQuillify,
     randomId,
     decode,
-    editorMessageHandler
+    editorAction
 };
 
 // debugger;
