@@ -17,10 +17,10 @@ console.log("PRODUCTION", production, "(env: " + process.env.PRODUCTION + ")");
 const serveWanted = process.env.SERVE === "true";
 
 const h5pCopy = process.env.H5PCOPY === "true";
-const h5pBase = "../h5p/development/H5P.FormulaApplet-2.8/";
+const h5pBase = "../h5p/development/H5P.FormulaApplet-2.10/";
 const h5pScriptsFolder = h5pBase + "scripts/";
 const h5pStylesFolder = h5pBase + "styles/";
-const h5pEditorBase = "../h5p/development/H5PEditor.FormulaAppletEditor-1.0/"
+const h5pEditorBase = "../h5p/development/H5PEditor.FormulaAppletEditor-1.1/"
 const h5pEditorScriptsFolder = h5pEditorBase + "scripts/";
 const h5pEditorStylesFolder = h5pEditorBase + "styles/";
 
@@ -59,8 +59,7 @@ function getCopyTargets(filename) {
 export default [{
 	input: 'src/main.js',
 	output: {
-		// sourcemap: !production,
-		sourcemap: true,
+		sourcemap: !production,
 		format: 'iife',
 		name: 'H5Pbridge',
 		file: 'public/build/bundle.js'
@@ -87,13 +86,18 @@ export default [{
 		commonjs({
 			preferBuiltins: false
 		}),
-		// production && babel({ babelHelpers: 'bundled' }),
+		production && babel({
+			babelHelpers: 'bundled'
+		}),
 
 		serveWanted && serve(),
 
 		// Watch the `public` directory and refresh the
 		// browser on changes when serving
-		!production && livereload("public"),
+		// temporarily disable livereload
+		!production && livereload("public", {
+			port: 5001
+		}),
 
 		// If we're building for production, minify
 		production && terser(),

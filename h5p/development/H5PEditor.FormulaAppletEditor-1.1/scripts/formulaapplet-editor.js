@@ -7,6 +7,7 @@
 
 var H5P = H5P || {};
 console.log('Here is formulaapplet-editor.js 1.1 - window.name = ' + window.name);
+console.log('Test of DOCKER');
 console.log(H5P);
 console.log(H5PEditor);
 console.log(H5Pbridge);

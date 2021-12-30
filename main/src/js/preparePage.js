@@ -43,7 +43,7 @@ import {
   checkIfEquality
 } from "./checkIfEqual.js";
 
-console.log('preparePage.js: window.name = ' + window.name);
+console.log('preparePage.js - DOCKER: window.name = ' + window.name);
 //TODO hide global vars
 var activeMathfieldId = 0;
 var FAList = {};
