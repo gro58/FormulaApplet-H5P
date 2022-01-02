@@ -62,21 +62,23 @@ var newLatex = 'new'; //TODO get rid of global vars
 export async function editorAction() {
     var actionType = arguments[0];
     var data = arguments[1];
+    //TODO maybe editor_fApp is undefined!
+    console.log(editor_fApp.id + ' receives actionType=' + actionType + ' with data=' + data);
+    
     // var editor_fApp = await get_editorFapp();
     if (typeof editor_fApp !== 'undefined') {
         // H5P 
-        console.log(editor_fApp.id + ' action(editor.js): ' + actionType);
         var editorMf = editor_fApp.mathField;
-        console.log(editorMf);
+        // console.log(editorMf);
         if (actionType == 'idChanged') {
             var newId = data;
             console.info('*** idChanged data=' + newId);
             editor_fApp.id = newId;
             refreshResultField(editorMf.latex(), editor_fApp);
         }
-        if (actionType == 'testAction') {
-            console.info('*** testAction data=' + data);
-        }
+        // if (actionType == 'testAction') {
+        //     console.info('*** testAction data=' + data);
+        // }
         if (actionType == 'setInputFieldMouseoverEvent') {
             console.info('*** setInputFieldMouseoverEvent');
             var latex = setInput(editorMf);
@@ -86,27 +88,25 @@ export async function editorAction() {
             newLatex = latex.new; //prepare for setInputField
         }
 
-        if (actionType == 'refreshEvent') {
-            console.info('*** RECEIVE message refreshEvent (editor.js)');
-            try {
-                refreshResultField(editor_fApp.mathField.latex(), editor_fApp);
-            } catch (error) {
-                console.error('ERROR: ' + error);
-            }
-            // var la = editorMf.latex();
-            // console.log(la);
-            // editorMf.latex(la);
-        }
-
         // setInputFieldMouseoverEvent precedes setInputField
         // global var newLatex is renewed by function setInput() 
         if (actionType == 'setInputField') {
             console.info('*** setInputField');
             editorMf.latex(newLatex);
         }
+
+        if (actionType == 'refreshEvent') {
+            console.info('*** refreshEvent');
+            try {
+                refreshResultField(editor_fApp.mathField.latex(), editor_fApp);
+            } catch (error) {
+                console.error('ERROR: ' + error);
+            }
+        }
+
         if (actionType == 'setMode') {
             var auto_or_manu = data;
-            console.info('***setMode ' + auto_or_manu);
+            console.info('*** setMode ' + auto_or_manu);
             if (auto_or_manu == 'auto') {
                 editor_fApp.hasSolution = false;
                 refreshResultField(editorMf.latex(), editor_fApp)
@@ -123,18 +123,13 @@ export async function editorAction() {
 export async function prepareEditorApplet(fApp) {
     // *** editor ***
     await initEditor();
-    console.log('editor.js: prepareEditorApplet');
+    console.log('prepareEditorApplet');
     var editorMf = mathQuillifyEditor(fApp);
-    // editorMf understands e.g. editorMf.latex('\\sqrt{2}') and var latextext = editorMf.latex();
+    // editorMf provides commands like editorMf.latex('\\sqrt{2}') and var latextext = editorMf.latex();
     fApp.mathField = editorMf;
     console.log('editorMf.latex=' + editorMf.latex());
     refreshResultField(editorMf.latex(), fApp);
     $.event.trigger("refreshLatexEvent"); //adjust \cdot versus \times
-
-    // H5P stuff
-    // window.addEventListener('message', editorAction(fApp), false); //bubbling phase
-    // window.parent.parent.addEventListener('message', editorAction(fApp), false); //bubbling phase
-
 
     $('#set-input-d, #set-input-e').on('mousedown', ev => {
         ev.preventDefault();
@@ -156,8 +151,8 @@ export async function prepareEditorApplet(fApp) {
     });
 
     $('#fa_name').on('input', ev => {
-        console.log(ev);
-        console.log('fa_name input ' + ev.target.value);
+        // console.log(ev);
+        console.log('fa_name input: ' + ev.target.value);
         changeId(ev.target.value);
     });
 

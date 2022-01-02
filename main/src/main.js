@@ -58,24 +58,6 @@ window.onload = function () {
     // This information is used by preparePage.js and translate.js/clickLanguage()
 };
 
-// function handleMessage(event) {
-//     // create echo
-//     if (event.data == 'SignalToMainEvent') {
-//         event.target.postMessage('echoFromMainEvent', event.origin);
-//     }
-// }
-
-// export function randomId(length) {
-//     var result = 'fa';
-//     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789____----';
-//     var numOfChars = characters.length;
-//     for (var i = 2; i < length; i++) {
-//         result += characters.charAt(Math.floor(Math.random() * numOfChars));
-//     }
-//     // result = '"' + result + '"';
-//     return result;
-// }
-
 export function mainIsLoaded() {
     return true;
 }

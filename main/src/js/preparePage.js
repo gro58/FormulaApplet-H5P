@@ -43,7 +43,7 @@ import {
   checkIfEquality
 } from "./checkIfEqual.js";
 
-console.log('preparePage.js - DOCKER: window.name = ' + window.name);
+console.log('preparePage.js');
 //TODO hide global vars
 var activeMathfieldId = 0;
 var FAList = {};
@@ -191,6 +191,7 @@ function mathQuillEditHandler(id) {
     var isEqual;
     if (hasSolution) {
       isEqual = checkIfEqual(mfLatexForParser, solution, dsList, precision);
+      console.log(mfLatexForParser + ' = ' + solution + ' ' + isEqual);
     } else {
       isEqual = checkIfEquality(mfContainer.latex(), dsList, precision);
       console.log(mfContainer.latex() + ' isEqual= ' + isEqual);
@@ -273,9 +274,7 @@ export async function mathQuillifyAll() {
   console.log('mathQuillifyAll');
 
   try {
-    // console.log(findDoc());
     $(".formula_applet:not(.mq-math-mode)").each(function () {
-      // console.log('to be mathquillified:' + this.id);
       mathQuillify(this.id);
     });
   } catch (error) {
@@ -285,7 +284,6 @@ export async function mathQuillifyAll() {
 
 export async function mathQuillify(id) {
   await domLoad;
-  // console.log('mathQuillify ' + id);
   var result = 'unknown result';
   var $el; //undefined
 
@@ -298,10 +296,8 @@ export async function mathQuillify(id) {
     result = id + ' not found';
   }
   var domElem = $el[0];
-  // var isEditor = $el.hasClass('edit');
   // H5P: applets should have different ids in view mode and in edit mode
   var isEditor = (id.slice(-5) == '-edit');
-  // var isEditor = (id == 'formulaappleteditor');
   console.log(id + ' isEditor=' + isEditor);
 
   if (typeof domElem !== 'undefined') {
@@ -317,13 +313,12 @@ export async function mathQuillify(id) {
     //TODO
     if (isEditor && isH5P()) {
       console.log('H5P & Editor');
-      // console.log(H5P['FAEditor']);
       var mf = document.getElementById('math-field');
       temp = mf.textContent;
       temp = temp.replace(/{{result}}/g, '\\class{inputfield}{}');
       mf.textContent = temp;
     } else {
-      domElem.innerHTML = temp; // funktioniert nicht bei H5P-Editor!!!
+      domElem.innerHTML = temp; // does not work with H5P-Editor!!!
     }
 
     // create new FApp object and store it in FAList
@@ -345,7 +340,7 @@ export async function mathQuillify(id) {
     if (typeof def !== 'undefined') {
       fApp.definitionsetList = unifyDefinitions(def);
     }
-    // retrieve math/physics mode
+    // determine math/physics mode
     var unitAttr = $el.attr('unit');
     var unitAuto = (typeof unitAttr !== 'undefined' && unitAttr == 'auto');
     var modeAttr = $el.attr('mode');
@@ -363,12 +358,7 @@ export async function mathQuillify(id) {
 
     // store FApp object in FAList and take id as key
     FAList[id] = fApp;
-    // if (isEditor) {
-    //   console.log('store editor: fApp -> editorFapp');
-    //   editorFapp = fApp;
-    //   console.log(editorFapp);
-    // }
-
+  
     // activate mouse clicks
     $el.on('click', clickHandler);
   } else {
@@ -529,14 +519,8 @@ function refreshLatex(lang) {
   var id;
   for (id in FAList) {
     var fApp = FAList[id];
-    // console.log(fApp);
-    // console.log(fApp.formulaApplet.outerHTML);
-
-    var isEditor = (id.slice(-5) == '-edit');
-    // every editor applet has the same id 'formulaappleteditor'
-    // only one editor applet per page is allowed
-    // var isEditor = (id == 'formulaappleteditor');
-    if (!isEditor) {
+     var isEditor = (id.slice(-5) == '-edit');
+      if (!isEditor) {
       var hasSolution = fApp.hasSolution || false;
       var oldLatex, newLatex;
       if (hasSolution) {

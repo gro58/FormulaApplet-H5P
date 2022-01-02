@@ -10,7 +10,7 @@ async function switchTo(lang) {
   if(lang == ''){
     lang = 'de';
   }
-  console.log('switch to ' + lang);
+  console.log('switchTo: ' + lang);
   formulaAppletLanguage.set(lang);
   $(".tr").css("display", "none");
   $(".tr." + lang).css("display", "inline");
