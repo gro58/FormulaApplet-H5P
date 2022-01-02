@@ -57,17 +57,51 @@ function mathQuillifyEditor(fApp) {
     return editorMf;
 }
 
+// Start of waitForEditorFApp mechanism
+//TODO get rid of global var
+var try_counter = 0;
+var try_counter_limit = 10;
+
+//TODO better solution then waitForEditorFAppThenDo
+function waitForEditorFAppThenDo(cont) {
+    var EditorFAppDefined = false;
+    try {
+        EditorFAppDefined = (typeof editor_fApp !== 'undefined');
+    } catch (error) {
+        console.log(try_counter);
+    }
+    if (EditorFAppDefined) {
+        // execute callback
+        cont();
+    } else {
+        try_counter++;
+        console.info(`waitForEditorFApp try_counter=${try_counter}`);
+        if (try_counter < try_counter_limit) {
+            setTimeout(function () {
+                // recurse
+                waitForEditorFAppThenDo(cont);
+            }, 300);
+        } else {
+            console.error('waitForEditorFAppThenDo: Timeout');
+        }
+    }
+}
+// End of waitForEditorFApp mechanism
+
+
 var newLatex = 'new'; //TODO get rid of global vars
 // this kind of messageHandler receives also messages intended to be received by other messageHandlers!
 export async function editorAction() {
     var actionType = arguments[0];
-    var data = arguments[1];
-    //TODO maybe editor_fApp is undefined!
-    console.log(editor_fApp.id + ' receives actionType=' + actionType + ' with data=' + data);
-    
-    // var editor_fApp = await get_editorFapp();
+    var data = arguments[1] || "dummy";
+    waitForEditorFAppThenDo(function(){editorActionDefined(actionType, data)});
+}
+
+function editorActionDefined(actionType, data) {
+    console.log('editorAction: ' + actionType + ' data=' + data);
     if (typeof editor_fApp !== 'undefined') {
-        // H5P 
+        // H5P
+        console.log('editor_fApp.id=' + editor_fApp.id);
         var editorMf = editor_fApp.mathField;
         // console.log(editorMf);
         if (actionType == 'idChanged') {
@@ -117,13 +151,13 @@ export async function editorAction() {
             }
         }
     }
-}
 
+}
 
 export async function prepareEditorApplet(fApp) {
     // *** editor ***
     await initEditor();
-    console.log('prepareEditorApplet');
+    console.log('prepareEditorApplet, define editor_fApp');
     var editorMf = mathQuillifyEditor(fApp);
     // editorMf provides commands like editorMf.latex('\\sqrt{2}') and var latextext = editorMf.latex();
     fApp.mathField = editorMf;
