@@ -3,6 +3,5 @@ public/build
 copyBundles.cmd
 docs
 package.bak
-src/js/config.json
 
 
