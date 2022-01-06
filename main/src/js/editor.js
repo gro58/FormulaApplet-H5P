@@ -90,8 +90,7 @@ function waitForEditorFAppThenDo(cont) {
 
 
 var newLatex = 'new'; //TODO get rid of global vars
-// this kind of messageHandler receives also messages intended to be received by other messageHandlers!
-export async function editorAction() {
+export async function editorAction() { //replaces messageHandler
     var actionType = arguments[0];
     var data = arguments[1] || "dummy";
     waitForEditorFAppThenDo(function(){editorActionDefined(actionType, data)});
@@ -519,6 +518,18 @@ function showEditorResults(parts, fApp) {
     } else {
         console.log('no TEX_expression found - probably no H5P');
     }
+    console.log('parts.tag=' + parts.tag);
+    // var b64 = $('div.field.field-name-data_b64.text input')[0];
+    // if (typeof b64 !== 'undefined') {
+    //     // value of data_b64 field is set to encoded solution
+    //     b64.value = parts.tag;
+    //     // trigger InputEvent. EventListener see formulaapplet-editor.js
+    //     b64.dispatchEvent(new InputEvent('input', {
+    //         bubbles: true
+    //     }))
+    // } else {
+    //     console.log('no solution field found - probably no H5P');
+    // }
     // maybe html editor
     var out = $('textarea#html-output');
     if (typeof out !== 'undefined') {

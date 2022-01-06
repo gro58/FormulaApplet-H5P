@@ -290,6 +290,7 @@ async function afterAppend(obj) {
     } else {
       msg = ' event caused by input to FormulaApplet';
       console.log(obj);
+      console.log(obj.parent.params['data_b64']);
       //event caused by JavaScript, especially input to FormulaApplet: let event be captured
     }
     console.log('TEX_expression changed: ' + event.target.value + msg);
@@ -322,20 +323,20 @@ async function afterAppend(obj) {
   }
 
   // hide field-name-id
-  // H5P.jQuery('.field-name-id').css('display', 'none');
+  H5P.jQuery('.field-name-id').css('display', 'none');
   // hide field-name-data_b64
-  // H5P.jQuery('.field-name-data_b64').css('display', 'none');
+  H5P.jQuery('.field-name-data_b64').css('display', 'none');
   var tex_expr = document.getElementById(getSelectorID('field-tex_expression'));
   // https://www.educba.com/jquery-disable-input/
   H5P.jQuery(tex_expr).attr('disabled', 'disabled');
 
 }  // end of afterAppend
 
-function postEvent(message) {
-  // message may be an array of [messageType, data]
-  // window.parent.parent.postMessage(message, window.parent.parent.document.URL);
-  H5Pbridge.editorAction(message);
-}
+// function postEvent(message) { //deprecated
+//   // message may be an array of [messageType, data]
+//   // window.parent.parent.postMessage(message, window.parent.parent.document.URL);
+//   H5Pbridge.editorAction(message);
+// }
 
 // Start of waitForMain mechanism
 //TODO get rid of global var

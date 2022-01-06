@@ -1,6 +1,6 @@
 // import $ from "jquery";
 import preparePage, {
-    mathQuillifyAll,
+    // mathQuillifyAll,
     mathQuillify,
 } from "./js/preparePage.js";
 import {
@@ -31,15 +31,14 @@ window.onload = function () {
     var lang;
     if (isH5P()) {
         // eslint-disable-next-line no-undef, no-unused-vars
-        H5P.jQuery(document).on('mathquillifyAllEvent', function (_ev) {
-            mathQuillifyAll();
-        });
+        // H5P.jQuery(document).on('mathquillifyAllEvent', function (_ev) {
+        //     mathQuillifyAll();
+        // });
         // eslint-disable-next-line no-undef
-        H5P.jQuery(document).on('mathquillifyEvent', function (_ev, id) {
-            mathQuillify(id);
-        });
+        // H5P.jQuery(document).on('mathquillifyEvent', function (_ev, id) {
+        //     mathQuillify(id);
+        // });
 
-        // window.addEventListener('message', handleMessage, false); //bubbling phase
         // TODO this code causes bugs:
         // eslint-disable-next-line no-undef
         lang = H5P.jQuery('html')[0].getAttribute('xml:lang');

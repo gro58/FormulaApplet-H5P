@@ -35,12 +35,12 @@ H5P.FormulaApplet = (function ($) {
     if (this.options.formulaAppletMode == 'manu') {
       html += ' data-b64="' + this.options.data_b64 + '"';
     } else {
-      this.options.data_b64 = 'automatic solution';
+      this.options.data_b64 = 'Automatic solution';
     }
     html += '>' + this.options.TEX_expression + '</p>'; //do not use fa_applet
     // debugging
-    html += '<p>' + this.options.id + '</p>';
-    html += '<p>' + this.options.data_b64 + '</p>';
+    // html += '<p>' + this.options.id + '</p>';
+    // html += '<p>' + this.options.data_b64 + '</p>';
 
     // console.log(html);
     $container.append(html, afterAppend(this.options.id));
