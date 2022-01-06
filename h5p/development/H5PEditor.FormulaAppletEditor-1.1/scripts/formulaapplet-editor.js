@@ -7,9 +7,6 @@
 
 var H5P = H5P || {};
 console.log('Here is formulaapplet-editor.js 1.1 (Docker)');
-// console.log(H5P);
-// console.log(H5PEditor);
-// console.log(H5Pbridge);
 
 //TODO get rid of global variables
 var selectionArray = [];
@@ -59,7 +56,6 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     if (typeof params.id == 'undefined') {
       params.id = 'new_id';
     }
-    // console.log('Assembling html. params.id=' + params.id);
     var html = '<p class="formula_applet" id="' + params.id + '-edit"';
     if (params.formulaAppletPhysics == true) {
       html += ' mode="physics"';
@@ -73,9 +69,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     if (typeof temp == 'undefined') {
       temp = '17 + {{result}} = 21';
     }
-    // console.log('temp=' + temp);
     temp = temp.replace(/{{result}}/g, '\\class{inputfield}{' + solution + '}');
-    // console.log('temp=' + temp);
     html += '>';
     var span = '<span id="math-field">' + temp + '</span>';
     html += span;
@@ -139,8 +133,6 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
   async function afterMainIsLoaded() {
     // this code is executed if main is loaded
     console.log('MAIN is loaded');
-    // console.log(H5Pbridge);
-    // console.log('before triggering preparePageEvent');
     await H5Pbridge.preparePage();
     var id = getputId.get();
     console.log('getputId.get: id=' + id);
@@ -332,11 +324,6 @@ async function afterAppend(obj) {
 
 }  // end of afterAppend
 
-// function postEvent(message) { //deprecated
-//   // message may be an array of [messageType, data]
-//   // window.parent.parent.postMessage(message, window.parent.parent.document.URL);
-//   H5Pbridge.editorAction(message);
-// }
 
 // Start of waitForMain mechanism
 //TODO get rid of global var

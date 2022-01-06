@@ -70,15 +70,6 @@ function FApp() {
   this.unitAuto = false;
 }
 
-// window.addEventListener('message', handleMessage, false); //bubbling phase
-
-// function handleMessage(event) {
-//   if (event.data == 'preparePageEvent') {
-//     console.info('RECEIVE MESSAGE preparePageEvent (preparePage.js)');
-//     preparePage();
-//   }
-// }
-
 export default async function preparePage() {
   await domLoad;
 
@@ -302,14 +293,11 @@ export async function mathQuillify(id) {
 
   if (typeof domElem !== 'undefined') {
     var temp = domElem.innerHTML;
-    // console.log('temp=' + temp);
     temp = temp.replace(/{{result}}/g, '\\MathQuillMathField{}');
     temp = temp.replace(/\\Ohm/g, '\\Omega');
     temp = temp.replace(/\\mathrm/g, '');
     temp = temp.replace(/\\unit{/g, config.unit_replacement);
     temp = temp.replace(/\\cdot/g, config.multiplicationSign);
-    // console.log('after replace:');
-    // console.log('temp=' + temp);
     //TODO
     if (isEditor && isH5P()) {
       console.log('H5P & Editor');

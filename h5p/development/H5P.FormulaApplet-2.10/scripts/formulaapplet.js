@@ -1,6 +1,5 @@
 ﻿var H5P = H5P || {};
 console.log('Here is formulaapplet.js 2.10');
-// console.log(H5P);
 
 H5P.FormulaApplet = (function ($) {
   /**

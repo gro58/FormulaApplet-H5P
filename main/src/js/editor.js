@@ -102,16 +102,12 @@ function editorActionDefined(actionType, data) {
         // H5P
         console.log('editor_fApp.id=' + editor_fApp.id);
         var editorMf = editor_fApp.mathField;
-        // console.log(editorMf);
         if (actionType == 'idChanged') {
             var newId = data;
             console.info('*** idChanged data=' + newId);
             editor_fApp.id = newId;
             refreshResultField(editorMf.latex(), editor_fApp);
         }
-        // if (actionType == 'testAction') {
-        //     console.info('*** testAction data=' + data);
-        // }
         if (actionType == 'setInputFieldMouseoverEvent') {
             console.info('*** setInputFieldMouseoverEvent');
             var latex = setInput(editorMf);
@@ -496,7 +492,6 @@ function eraseInputfieldClass(latex) {
 }
 
 function refreshResultField(latex, fApp) {
-    // console.log('refreshResultField latex=' + latex);
     var parts = separateInputfield(latex);
     showEditorResults(parts, fApp);
 }
