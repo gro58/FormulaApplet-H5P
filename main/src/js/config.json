@@ -2,5 +2,6 @@
     "defaultPrecision": 0.000001,
     "multiplicationCross": "&times;",
     "multiplicationDot": "\\cdot",
-    "unit_replacement": "\\textcolor{blue}{"
+    "unit_replacement": "\\textcolor{blue}{",
+	"commit_number": "707"
 }
