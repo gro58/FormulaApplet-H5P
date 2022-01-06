@@ -1,4 +1,5 @@
-export function h5pPrepare() {
-    var lang = H5P.jQuery('html')[0].getAttribute('xml:lang');
-    return { lang: lang };
-}
+// export function h5pPrepare() {
+//     // eslint-disable-next-line no-undef
+//     var lang = H5P.jQuery('html')[0].getAttribute('xml:lang');
+//     return { lang: lang };
+// }
