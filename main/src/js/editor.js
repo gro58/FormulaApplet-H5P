@@ -108,8 +108,8 @@ function editorActionDefined(actionType, data) {
             editor_fApp.id = newId;
             refreshResultField(editorMf.latex(), editor_fApp);
         }
-        if (actionType == 'setInputFieldMouseoverEvent') {
-            console.info('*** setInputFieldMouseoverEvent');
+        if (actionType == 'setInputFieldMouseover') {
+            console.info('*** setInputFieldMouseover');
             var latex = setInput(editorMf);
             console.log(latex);
             editorMf.latex(latex.old);
@@ -117,7 +117,7 @@ function editorActionDefined(actionType, data) {
             newLatex = latex.new; //prepare for setInputField
         }
 
-        // setInputFieldMouseoverEvent precedes setInputField
+        // setInputFieldMouseover precedes setInputField
         // global var newLatex is renewed by function setInput() 
         if (actionType == 'setInputField') {
             console.info('*** setInputField');

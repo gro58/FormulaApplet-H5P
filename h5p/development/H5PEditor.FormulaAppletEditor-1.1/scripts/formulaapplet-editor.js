@@ -74,6 +74,9 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     var span = '<span id="math-field">' + temp + '</span>';
     html += span;
     html += '<\p>';
+    var commit_number = H5Pbridge.getCommitNumber();
+    html += '<p>commit number:' + commit_number + '</p>';
+
     console.log('Assembled html: ' + html);
 
     var fieldMarkup = H5PEditor.createFieldMarkup(this.field, html, id);
@@ -114,8 +117,8 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     function buttonMouseoverHandler(ev) {
       ev.stopImmediatePropagation();
       ev.preventDefault();
-      console.log("H5Pbridge.editorAction setInputFieldMouseoverEvent");
-      H5Pbridge.editorAction("setInputFieldMouseoverEvent");
+      console.log("H5Pbridge.editorAction setInputFieldMouseover");
+      H5Pbridge.editorAction("setInputFieldMouseover");
       H5Pbridge.editorAction("testEvent 1");
       H5Pbridge.editorAction("testEvent 2", "dummy data");
 
@@ -228,9 +231,7 @@ async function afterAppend(obj) {
     console.error('ERROR: ' + error);
   }
 
-  //TODO bug: new_id is not replaced by a random id when generatingon a new formula applet
-  //TODO bug: getField('id') has a random id but gets a new random id
-
+  //TODO get rid of setSolutionEvent
   window.addEventListener('message', function (ev) {
     setSolutionMessageHandler(ev, obj);
   }, false); //bubbling phase
