@@ -5,7 +5,7 @@
 * Use apps.zum.de and unterrichten.zum.de
 * Ask H5P Forum:
    *  <del>Create Button using semantics.json</del>
-   *  <del>Is there a PageLoad event? Wait for PageLoad, then mathQuillify<del> Use afterAppend and mathQuillify(id).
+   *  <del>Is there a PageLoad event? Wait for PageLoad, then mathQuillify</del> Use afterAppend and mathQuillify(id).
 * Use H5P-standalone or Lumi for editor
 ## Coding
 * semantic versioning
