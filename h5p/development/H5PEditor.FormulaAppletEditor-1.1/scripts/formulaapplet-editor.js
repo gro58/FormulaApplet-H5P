@@ -125,7 +125,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       //code that needs to be executed when DOM is ready, after manipulation, goes here
       var texinputparent = H5P.jQuery('div.field.field-name-TEX_expression.text input').parent();
       texinputparent.append('<br><br><textarea id="html-output" rows="4" cols="150" disabled>output</textarea>');
-      texinputparent.append('<br><p id="data_b64_tricky"></p>');
+      texinputparent.append('<br><p id="data_b64_click"></p>');
       afterAppend(self);
       waitForMainThenDo(afterMainIsLoaded);
     });
@@ -229,20 +229,24 @@ async function afterAppend(obj) {
     console.error('ERROR: ' + error);
   }
 
-  // htmloutput is updated by editor.js: showEditorResults
-  // https://stackoverflow.com/questions/27541004/detect-paragraph-element-change-with-jquery
-  // TODO use Mutation Observer instead of DOMSubtreeModified
+  // https://stackoverflow.com/questions/27541004/detect-paragraph-element-change-with-jquery 'change' doesn't work
+  
+  // H5P.jQuery('#data_b64_click').on('DOMSubtreeModified', function (ev) {
+  //   // TODO use Mutation Observer instead of DOMSubtreeModified
+  //   console.log(ev);
+  // });
 
-  H5P.jQuery(document).on('DOMSubtreeModified', '#data_b64_tricky', function (ev) {
-    // console.log('#data_b64_tricky: DOMSubtreeModified');
+  H5P.jQuery('#data_b64_click').on('click', function (ev) {
+    // console.log('#data_b64_click: click');
+    // console.log(ev);
     var b64 = ev.target.innerHTML;
     // get DOM object by name
     var data_b64 = getField('data_b64');
     // synchronize DOM
     data_b64.$input[0].value = b64;
-    // set value of data_b64 field
+    // set value of data_b64 field. Is there a better way?
     obj.parent.params['data_b64'] = b64;
-    console.log("obj.parent.params['data_b64']=" + obj.parent.params['data_b64']);
+    console.log("obj.parent.params['data_b64']= " + obj.parent.params['data_b64']);
   });
 
   function getField(name) {
@@ -312,8 +316,8 @@ async function afterAppend(obj) {
   H5P.jQuery('.field-name-id').css('display', 'none');
   // hide field-name-data_b64
   H5P.jQuery('.field-name-data_b64').css('display', 'none');
-  // console.log('make data_b64_tricky invisible');
-  H5P.jQuery('#data_b64_tricky').css('display', 'none');
+  // console.log('make data_b64_click invisible');
+  H5P.jQuery('#data_b64_click').css('display', 'none');
   var tex_expr = document.getElementById(getSelectorID('field-tex_expression'));
   // https://www.educba.com/jquery-disable-input/
   H5P.jQuery(tex_expr).attr('disabled', 'disabled');
@@ -374,7 +378,6 @@ function getSelectorID(selectorName) {
     });
   }
   return result;
-
 }
 
 //TODO get rid of global vars

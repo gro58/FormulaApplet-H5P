@@ -541,13 +541,17 @@ function getHTML(tex, tag, fApp) {
     if (fApp.hasSolution) {
         var enc = encode(tag);
         common_result += '" data-b64="' + enc;
-        var b64 = document.getElementById('data_b64_tricky') || '';
-        // If no H5P, then b64 element does not exist (null). Set b64 to empty string, then b64.innerHTML is undefined.
-        // console.log(b64.innerHTML);
-        if (typeof b64.innerHTML !== 'undefined') {
-            // H5P editor
-            console.log('data_b64_tricky: set innerHTML=' + enc);
-            b64.innerHTML = enc;
+        if (isH5P()) {
+            var $b64 = $('#data_b64_click');
+            // console.log($b64);
+            // console.log($b64.length);
+            if ($b64.length > 0) {
+                // H5P editor
+                console.log('data_b64_click: set value=' + enc + ' and trigger click event ');
+                $b64.text(enc);
+                // console.log($b64);
+                $b64.trigger("click");
+            }
         }
     }
     common_result += '">';
