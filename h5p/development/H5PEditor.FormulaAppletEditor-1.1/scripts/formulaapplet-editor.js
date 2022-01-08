@@ -119,15 +119,13 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       ev.preventDefault();
       console.log("H5Pbridge.editorAction setInputFieldMouseover");
       H5Pbridge.editorAction("setInputFieldMouseover");
-      H5Pbridge.editorAction("testEvent 1");
-      H5Pbridge.editorAction("testEvent 2", "dummy data");
-
     };
 
     $(function () {
       //code that needs to be executed when DOM is ready, after manipulation, goes here
       var texinputparent = H5P.jQuery('div.field.field-name-TEX_expression.text input').parent();
       texinputparent.append('<br><br><textarea id="html-output" rows="4" cols="150" disabled>output</textarea>');
+      texinputparent.append('<br><p id="data_b64_tricky"></p>');
       afterAppend(self);
       waitForMainThenDo(afterMainIsLoaded);
     });
@@ -154,8 +152,8 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       H5P.jQuery(elem).attr('id', id)
       console.log(elem);
     }
-    console.log('H5Pbridge.editorAction refreshEvent');
-    H5Pbridge.editorAction("refreshEvent");
+    console.log('H5Pbridge.editorAction refresh');
+    H5Pbridge.editorAction("refresh");
   }
 
   /**
@@ -232,25 +230,40 @@ async function afterAppend(obj) {
   }
 
   //TODO get rid of setSolutionEvent
-  window.addEventListener('message', function (ev) {
-    setSolutionMessageHandler(ev, obj);
-  }, false); //bubbling phase
+  // window.addEventListener('message', function (ev) {
+  //   setSolutionMessageHandler(ev, obj);
+  // }, false); //bubbling phase
 
-  function setSolutionMessageHandler(event, obj) {
-    if (event.data[0] == 'setSolutionEvent') {
-      console.log('RECEIVE message setSolutionEvent');
-      var b64 = event.data[1];
-      // get DOM object by name
-      var data_b64 = getField('data_b64');
-      // does not work: data_b64.value = b64;
-      // synchronize DOM
-      data_b64.$input[0].value = b64;
-      // set value of data_b64 field
-      console.log("obj.parent.params['data_b64']=" + obj.parent.params['data_b64']);
-      obj.parent.params['data_b64'] = b64;
-      console.log("obj.parent.params['data_b64']=" + obj.parent.params['data_b64']);
-    }
-  }
+  // function setSolutionMessageHandler(event, obj) {
+  //   if (event.data[0] == 'setSolutionEvent') {
+  //     console.log('RECEIVE message setSolutionEvent');
+  //     var b64 = event.data[1];
+  //     // get DOM object by name
+  //     var data_b64 = getField('data_b64');
+  //     // does not work: data_b64.value = b64;
+  //     // synchronize DOM
+  //     data_b64.$input[0].value = b64;
+  //     // set value of data_b64 field
+  //     console.log("obj.parent.params['data_b64']=" + obj.parent.params['data_b64']);
+  //     obj.parent.params['data_b64'] = b64;
+  //     console.log("obj.parent.params['data_b64']=" + obj.parent.params['data_b64']);
+  //   }
+  // }
+
+  // htmloutput is updated by editor.js: showEditorResults
+  // https://stackoverflow.com/questions/27541004/detect-paragraph-element-change-with-jquery
+  H5P.jQuery(document).on('DOMSubtreeModified', '#data_b64_tricky', function (ev) {
+    console.log('#data_b64_tricky: DOMSubtreeModified');
+    var b64 = ev.target.innerHTML;
+    // get DOM object by name
+    var data_b64 = getField('data_b64');
+    // synchronize DOM
+    data_b64.$input[0].value = b64;
+    // set value of data_b64 field
+    console.log("obj.parent.params['data_b64']=" + obj.parent.params['data_b64']);
+    obj.parent.params['data_b64'] = b64;
+    console.log("obj.parent.params['data_b64']=" + obj.parent.params['data_b64']);
+  });
 
   function getField(name) {
     var children = obj.parent.children;
@@ -270,7 +283,7 @@ async function afterAppend(obj) {
   console.log(obj.parent.params);
   console.log('obj.parent.params.TEX_expression=' + obj.parent.params.TEX_expression);
 
-  // teximput is updated by editor.js: showEditorResults
+  // texinput is updated by editor.js: showEditorResults
   var texinput = H5P.jQuery('div.field.field-name-TEX_expression.text input')[0];
   texinput.addEventListener('input', updateTexinputEventHandler);
 
@@ -291,6 +304,11 @@ async function afterAppend(obj) {
     // cannot update formulaAppletEditor widget , because editorMf and editorMf.latex() is not available
   }
 
+  // data_b64.addEventListener('change', function (_ev) {
+  //   console.log('data_b64 changed');
+  //   console.log(_ev);
+  // });
+
   var checkbox = document.getElementById(getSelectorID('field-formulaappletphysics'));
   checkbox.addEventListener('change', function () {
     if (this.checked) {
@@ -306,7 +324,7 @@ async function afterAppend(obj) {
     sendModeTofApp();
   });
 
-   // first time at init
+  // first time at init
   sendModeTofApp();
 
   function sendModeTofApp() {
@@ -323,7 +341,7 @@ async function afterAppend(obj) {
   // https://www.educba.com/jquery-disable-input/
   H5P.jQuery(tex_expr).attr('disabled', 'disabled');
 
-}  // end of afterAppend
+} // end of afterAppend
 
 
 // Start of waitForMain mechanism

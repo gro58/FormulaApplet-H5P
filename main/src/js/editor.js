@@ -93,7 +93,9 @@ var newLatex = 'new'; //TODO get rid of global vars
 export async function editorAction() { //replaces messageHandler
     var actionType = arguments[0];
     var data = arguments[1] || "dummy";
-    waitForEditorFAppThenDo(function(){editorActionDefined(actionType, data)});
+    waitForEditorFAppThenDo(function () {
+        editorActionDefined(actionType, data)
+    });
 }
 
 function editorActionDefined(actionType, data) {
@@ -124,8 +126,8 @@ function editorActionDefined(actionType, data) {
             editorMf.latex(newLatex);
         }
 
-        if (actionType == 'refreshEvent') {
-            console.info('*** refreshEvent');
+        if (actionType == 'refresh') {
+            console.info('*** refresh');
             try {
                 refreshResultField(editor_fApp.mathField.latex(), editor_fApp);
             } catch (error) {
@@ -540,8 +542,18 @@ function getHTML(tex, tag, fApp) {
         var enc = encode(tag);
         common_result += '" data-b64="' + enc;
         //H5P stuff OMG
-        document.defaultView.postMessage(['setSolutionEvent', enc], document.URL);
-        console.log('postMessage setSolutionEvent enc=' + enc);
+        // document.defaultView.postMessage(['setSolutionEvent', enc], document.URL);
+        // console.log('postMessage setSolutionEvent enc=' + enc);
+        console.log('data_b64_tricky: innerHTML=' + enc);
+        var b64 = document.getElementById('data_b64_tricky') || '';
+        // No H5P: b64 element does not exist. Set b64 to empty string. Then b64.innerHTML is undefined.
+        // console.log(typeof b64);
+        // console.log(b64);
+        // console.log(typeof b64.innerHTML);
+        console.log(b64.innerHTML);
+        if (typeof b64.innerHTML !== 'undefined') {  
+            b64.innerHTML = enc; //H5P
+        }
     }
     common_result += '">';
     common_result += tex;
