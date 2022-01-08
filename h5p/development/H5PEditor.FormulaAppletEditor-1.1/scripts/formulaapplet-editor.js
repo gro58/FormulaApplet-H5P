@@ -229,38 +229,18 @@ async function afterAppend(obj) {
     console.error('ERROR: ' + error);
   }
 
-  //TODO get rid of setSolutionEvent
-  // window.addEventListener('message', function (ev) {
-  //   setSolutionMessageHandler(ev, obj);
-  // }, false); //bubbling phase
-
-  // function setSolutionMessageHandler(event, obj) {
-  //   if (event.data[0] == 'setSolutionEvent') {
-  //     console.log('RECEIVE message setSolutionEvent');
-  //     var b64 = event.data[1];
-  //     // get DOM object by name
-  //     var data_b64 = getField('data_b64');
-  //     // does not work: data_b64.value = b64;
-  //     // synchronize DOM
-  //     data_b64.$input[0].value = b64;
-  //     // set value of data_b64 field
-  //     console.log("obj.parent.params['data_b64']=" + obj.parent.params['data_b64']);
-  //     obj.parent.params['data_b64'] = b64;
-  //     console.log("obj.parent.params['data_b64']=" + obj.parent.params['data_b64']);
-  //   }
-  // }
-
   // htmloutput is updated by editor.js: showEditorResults
   // https://stackoverflow.com/questions/27541004/detect-paragraph-element-change-with-jquery
+  // TODO use Mutation Observer instead of DOMSubtreeModified
+
   H5P.jQuery(document).on('DOMSubtreeModified', '#data_b64_tricky', function (ev) {
-    console.log('#data_b64_tricky: DOMSubtreeModified');
+    // console.log('#data_b64_tricky: DOMSubtreeModified');
     var b64 = ev.target.innerHTML;
     // get DOM object by name
     var data_b64 = getField('data_b64');
     // synchronize DOM
     data_b64.$input[0].value = b64;
     // set value of data_b64 field
-    console.log("obj.parent.params['data_b64']=" + obj.parent.params['data_b64']);
     obj.parent.params['data_b64'] = b64;
     console.log("obj.parent.params['data_b64']=" + obj.parent.params['data_b64']);
   });
@@ -304,11 +284,6 @@ async function afterAppend(obj) {
     // cannot update formulaAppletEditor widget , because editorMf and editorMf.latex() is not available
   }
 
-  // data_b64.addEventListener('change', function (_ev) {
-  //   console.log('data_b64 changed');
-  //   console.log(_ev);
-  // });
-
   var checkbox = document.getElementById(getSelectorID('field-formulaappletphysics'));
   checkbox.addEventListener('change', function () {
     if (this.checked) {
@@ -337,6 +312,8 @@ async function afterAppend(obj) {
   H5P.jQuery('.field-name-id').css('display', 'none');
   // hide field-name-data_b64
   H5P.jQuery('.field-name-data_b64').css('display', 'none');
+  // console.log('make data_b64_tricky invisible');
+  H5P.jQuery('#data_b64_tricky').css('display', 'none');
   var tex_expr = document.getElementById(getSelectorID('field-tex_expression'));
   // https://www.educba.com/jquery-disable-input/
   H5P.jQuery(tex_expr).attr('disabled', 'disabled');
