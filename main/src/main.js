@@ -30,6 +30,7 @@ window.onload = function () {
         // TODO this code causes bugs:
         // eslint-disable-next-line no-undef
         lang = H5P.jQuery('html')[0].getAttribute('xml:lang');
+        preparePage();
     } else {
         //no H5P
         lang = getCookie('lang');

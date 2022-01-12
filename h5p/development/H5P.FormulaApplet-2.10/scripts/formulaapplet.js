@@ -41,7 +41,7 @@ H5P.FormulaApplet = (function ($) {
     // html += '<p>' + this.options.id + '</p>';
     // html += '<p>' + this.options.data_b64 + '</p>';
     var commit_number = H5Pbridge.getCommitNumber();
-    html += '<p>commit number: ' + commit_number + '</p>';
+    html += '<p>commit #=' + commit_number + '</p>';
 
     // console.log(html);
     $container.append(html, afterAppend(this.options.id));
@@ -53,5 +53,5 @@ function afterAppend(id) {
   console.log(id + ' appended');
   // self.$.trigger('resize');
   H5P.jQuery(document).trigger('resize');
-  H5Pbridge.mathQuillify(id);
+  // H5Pbridge.mathQuillify(id); //replaced by preparePage() in main.js
 }

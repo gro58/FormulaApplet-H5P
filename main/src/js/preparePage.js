@@ -289,7 +289,7 @@ export async function mathQuillify(id) {
   var domElem = $el[0];
   // H5P: applets should have different ids in view mode and in edit mode
   var isEditor = (id.slice(-5) == '-edit');
-  console.log(id + ' isEditor=' + isEditor);
+  // console.log(id + ' isEditor=' + isEditor);
 
   if (typeof domElem !== 'undefined') {
     var temp = domElem.innerHTML;
@@ -371,7 +371,7 @@ export async function mathQuillify(id) {
         if ($el.attr('data-b64') !== undefined) {
           fApp.hasSolution = true;
           var zip = $el.attr('data-b64');
-          console.log('zip=' + zip);
+          // console.log('zip=' + zip);
           fApp.solution = decode(zip);
         } else {
           fApp.hasSolution = false;
@@ -439,7 +439,7 @@ function clickHandler(ev) {
           virtualKeyboardEventHandler(_evnt, cmd);
         });
         $("button.keyb_button").removeClass('selected');
-        if ($('#virtualKeyboard').css('display') == 'none') {
+        if (($('#virtualKeyboard').css('display') || 'none') == 'none') {
           // if virtual keyboard is hidden, select keyboard button
           $(fApp.formulaApplet).nextAll("button.keyb_button:first").addClass('selected');
         }
