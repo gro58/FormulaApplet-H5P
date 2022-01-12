@@ -4,3 +4,4 @@ node_modules
 package.json
 README.md
 ./scripts/*.js.map
+library.json.ori
