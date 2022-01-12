@@ -3,4 +3,5 @@ node_modules
 .h5pignore
 package.json
 README.md
-scripts/*.map
+scripts/*.js.map
+library.json.ori
