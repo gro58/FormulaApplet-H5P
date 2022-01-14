@@ -90,11 +90,7 @@ export default async function preparePage() {
   });
   initTranslation();
   initVirtualKeyboard();
-  if (window.name == '>>> Editor Window <<<') {
-    // do nothing
-  } else {
-    mathQuillifyAll();
-  }
+  mathQuillifyAll();
 }
 
 function nthroot() {
@@ -346,7 +342,7 @@ export async function mathQuillify(id) {
 
     // store FApp object in FAList and take id as key
     FAList[id] = fApp;
-  
+
     // activate mouse clicks
     $el.on('click', clickHandler);
   } else {
@@ -405,19 +401,20 @@ export async function mathQuillify(id) {
     } catch (error) {
       result = 'ERROR ' + error;
     }
-    try {
-      // make virtual keyboard show/hide by mouseclick
-      ($('<button class="keyb_button">\u2328</button>')).insertAfter($el);
-      $('button.keyb_button').on('mousedown', function () {
-        showVirtualKeyboard();
-        $("button.keyb_button").removeClass('selected');
-      });
-      // insert span for right/wrong tag
-      $('<span class="mod">&nbsp;</span>').insertAfter($el);
-    } catch (error) {
-      result = 'ERROR ' + error;
-    }
   } // end of *** no editor ***
+  try {
+    // make virtual keyboard show/hide by mouseclick
+    ($('<button class="keyb_button">\u2328</button>')).insertAfter($el);
+    $('button.keyb_button').on('mousedown', function () {
+      showVirtualKeyboard();
+      $("button.keyb_button").removeClass('selected');
+    });
+    // insert span for right/wrong tag
+    $('<span class="mod">&nbsp;</span>').insertAfter($el);
+  } catch (error) {
+    result = 'ERROR ' + error;
+    console.error(result);
+  }
   if ($('#' + id).hasClass('mq-math-mode')) {
     result = 'mathquillifying ' + id + ': SUCCESS';
   }
@@ -507,8 +504,8 @@ function refreshLatex(lang) {
   var id;
   for (id in FAList) {
     var fApp = FAList[id];
-     var isEditor = (id.slice(-5) == '-edit');
-      if (!isEditor) {
+    var isEditor = (id.slice(-5) == '-edit');
+    if (!isEditor) {
       var hasSolution = fApp.hasSolution || false;
       var oldLatex, newLatex;
       if (hasSolution) {
