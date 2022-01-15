@@ -2,7 +2,7 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import builtins from 'rollup-plugin-node-builtins';
-import livereload from 'rollup-plugin-livereload';
+// import livereload from 'rollup-plugin-livereload';
 import copy from 'rollup-plugin-copy';
 import {
 	terser
@@ -95,9 +95,9 @@ export default [{
 		// Watch the `public` directory and refresh the
 		// browser on changes when serving
 		// temporarily disable livereload
-		!production && livereload("public", {
-			port: 5001
-		}),
+		// !production && livereload("public", {
+		// 	port: 5001
+		// }),
 
 		// If we're building for production, minify
 		production && terser(),

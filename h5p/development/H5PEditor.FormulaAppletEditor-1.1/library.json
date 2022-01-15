@@ -2,7 +2,7 @@
   "title": "H5PEditor.FormulaAppletEditor",
   "majorVersion": 1,
   "minorVersion": 1,
-  "patchVersion": 725,
+  "patchVersion": 726,
   "runnable": 0,
   "machineName": "H5PEditor.FormulaAppletEditor",
   "author": "Rudolf Grossmann",
@@ -33,5 +33,5 @@
     {
       "path": "styles/MathQuill/mathquill.css"
     }
-  ]
+   ]
 }
