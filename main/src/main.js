@@ -13,7 +13,7 @@ import {
     editorAction
 } from "./js/editor.js";
 import decode from "./js/decode.js";
-import config from "./js/config.json";
+// import config from "./js/config.json";
 
 // H5Pbridge
 export {
@@ -47,8 +47,4 @@ window.onload = function () {
 
 export function mainIsLoaded() {
     return true;
-}
-
-export function getCommitNumber(){
-    return config.commit_number;
 }

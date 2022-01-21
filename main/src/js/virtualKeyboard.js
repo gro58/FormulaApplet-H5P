@@ -2,6 +2,8 @@
 
 import $ from "jquery";
 import Hammer from "@egjs/hammerjs";
+import config from "./config.json";
+
 // replace call of keyboardEvent by triggering a custonKeyboardEvent
 //import { keyboardEvent } from "./preparePage.js";
 
@@ -379,10 +381,10 @@ function getVirtualKeyboard() {
     tabs.id = "virtualKeyboard_tab";
     tabs.classList.add("virtualKeyboard_tab");
     const tabButtons = {
-        "mixed": "123&radic;+-&nbsp;&nbsp;&nbsp;", 
-        "function": "&nbsp;f(x)&nbsp;", 
-        "abc": "abc", 
-        "greek": "\u03b1\u03b2\u03b3", 
+        "mixed": "123&radic;+-&nbsp;&nbsp;&nbsp;",
+        "function": "&nbsp;f(x)&nbsp;",
+        "abc": "abc",
+        "greek": "\u03b1\u03b2\u03b3",
         "off": "&nbsp;\u2716"
     };
     for (let tabId of Object.keys(tabButtons)) {
@@ -391,6 +393,11 @@ function getVirtualKeyboard() {
         button.id = "button-table_" + tabId;
         button.onclick = evt => tabClick(evt, tabId);
         button.innerHTML = tabButtons[tabId];
+        if (tabId == 'off') {
+            var commit_number = config.commit_number;
+            console.log('commit_number=' + commit_number);
+            button.title = 'commit #=' + commit_number;
+        }
         tabs.append(button);
     }
     result.append(tabs);
@@ -398,7 +405,7 @@ function getVirtualKeyboard() {
     for (let tabId of ["abc", "abc_caps", "mixed", "function", "greek", "greek_caps"]) {
         result.append(createTable(tabId));
     }
-    
+
     return result;
 }
 
@@ -407,7 +414,7 @@ function createTable(tableId) {
     result.id = "table_" + tableId;
     let tbody = document.createElement("tbody");
     result.append(tbody);
-    for (let rowNumber = 0; rowNumber < keys[tableId].length; rowNumber ++) {
+    for (let rowNumber = 0; rowNumber < keys[tableId].length; rowNumber++) {
         var keylist = keys[tableId][rowNumber];
         let tr = document.createElement("tr");
         tr.classList.add("virtualKeyboard-row" + rowNumber);

@@ -40,9 +40,6 @@ H5P.FormulaApplet = (function ($) {
     // debugging
     // html += '<p>' + this.options.id + '</p>';
     // html += '<p>' + this.options.data_b64 + '</p>';
-    // var commit_number = H5Pbridge.getCommitNumber();
-    // html += '<p>commit #=' + commit_number + '</p>';
-
     // console.log(html);
     $container.append(html, afterAppend(this.options.id));
   };
