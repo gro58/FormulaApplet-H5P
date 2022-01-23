@@ -120,6 +120,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     };
 
     $(function () {
+      console.log('?co 1 $(function () {...})');
       //code that needs to be executed when DOM is ready, after manipulation, goes here
       var texinputparent = H5P.jQuery('div.field.field-name-TEX_expression.text input').parent();
       texinputparent.append('<br><br><textarea id="html-output" rows="4" cols="150" disabled>output</textarea>');
@@ -131,7 +132,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
 
   async function afterMainIsLoaded() {
     // this code is executed if main is loaded
-    console.log('MAIN is loaded');
+    console.log('?co 3 MAIN is loaded');
     await H5Pbridge.preparePage();
     var id = getputId.get();
     console.log('getputId.get: id=' + id);
@@ -202,7 +203,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
 })(H5P.jQuery);
 
 async function afterAppend(obj) {
-  console.log('afterAppend');
+  console.log('?co 2 afterAppend');
 
   // generate new id if necessary (new applet), and spread it
   try {
