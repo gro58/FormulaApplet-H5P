@@ -8,7 +8,7 @@
    *  <del>Is there a PageLoad event? Wait for PageLoad, then mathQuillify</del> Use afterAppend and mathQuillify(id).
 * Use H5P-standalone or Lumi for editor
 ## Coding
-* semantic versioning
+* semantic versioning. Change version numbers 2.8 and 2.10 to 0.x.y
 * refactoring of fApp object
 * 'missing input field' bug at 'addition theorem' example (index.html)
 * translate.js uses localStore
