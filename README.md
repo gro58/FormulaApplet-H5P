@@ -1,3 +1,5 @@
+# This is a project still in development.
+* Version numbers will probably be changed to 0.x.y soon (semantic versioning)
 # FormulaApplet
 * lets you create math or physics exercises on HTML pages or in Wikis. 
 * You can provide an expression as solution, and FormulaApplet checks if your solution is right or wrong.
