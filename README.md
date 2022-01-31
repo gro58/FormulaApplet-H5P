@@ -1,4 +1,4 @@
-## The H5P part of this project is still in development.
+## The H5P part of this project is still under development.
 * Version number of FormulaAppletEditor has been changed from -1.1.x to 0.11.x to express the development state (semantic versioning).
 # FormulaApplet
 * lets you create math or physics exercises on HTML pages or in Wikis. 
