@@ -3,7 +3,7 @@
   "description": "Displays a Formula Applet",
   "majorVersion": 2,
   "minorVersion": 10,
-  "patchVersion": 734,
+  "patchVersion": 735,
   "runnable": 1,
   "author": "Rudolf Grossmann",
   "license": "MIT",
@@ -31,8 +31,8 @@
   ],
   "editorDependencies": [{
       "machineName": "H5PEditor.FormulaAppletEditor",
-      "majorVersion": 1,
-      "minorVersion": 1
+      "majorVersion": 0,
+      "minorVersion": 11
     },
     {
       "machineName": "H5P.JoubelUI",
