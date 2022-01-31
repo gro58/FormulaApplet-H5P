@@ -31,8 +31,8 @@
   ],
   "editorDependencies": [{
       "machineName": "H5PEditor.FormulaAppletEditor",
-      "majorVersion": 1,
-      "minorVersion": 1
+      "majorVersion": 0,
+      "minorVersion": 11
     },
     {
       "machineName": "H5P.JoubelUI",

@@ -6,7 +6,7 @@
 
 
 var H5P = H5P || {};
-console.log('Here is formulaapplet-editor.js 1.1 (Docker)');
+console.log('Here is formulaapplet-editor.js 0.11');
 
 //TODO get rid of global variables
 var selectionArray = [];
