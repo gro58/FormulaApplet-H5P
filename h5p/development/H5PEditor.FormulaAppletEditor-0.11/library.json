@@ -1,8 +1,8 @@
 {
   "title": "H5PEditor.FormulaAppletEditor",
-  "majorVersion": 1,
-  "minorVersion": 1,
-  "patchVersion": 734,
+  "majorVersion": 0,
+  "minorVersion": 11,
+  "patchVersion": 736,
   "runnable": 0,
   "machineName": "H5PEditor.FormulaAppletEditor",
   "author": "Rudolf Grossmann",

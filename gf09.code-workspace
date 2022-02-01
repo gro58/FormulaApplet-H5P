@@ -7,9 +7,6 @@
         {
             "name": "Bundle Development",
             "path": "./main"
-        },
-        {
-            "path": "h5p/development/H5PEditor.FormulaAppletEditor-0.11"
         }
     ],
     "settings": {}
