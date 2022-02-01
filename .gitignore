@@ -17,5 +17,5 @@ h5p/development/H5P.JoubelUI-1.3/
 main/src/js/config.json
 h5p/development/H5P.FormulaApplet-2.10/library.json
 h5p/development/H5PEditor.FormulaAppletEditor-0.11/library.json
-nextpatchnumber.txt
-patch-*.txt
+./nextpatchnumber.txt
+./patch-*.txt
