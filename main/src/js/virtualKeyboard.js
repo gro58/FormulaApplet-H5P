@@ -394,9 +394,9 @@ function getVirtualKeyboard() {
         button.onclick = evt => tabClick(evt, tabId);
         button.innerHTML = tabButtons[tabId];
         if (tabId == 'off') {
-            var commit_number = config.commit_number;
-            console.log('commit_number=' + commit_number);
-            button.title = 'commit #=' + commit_number;
+            var patchversion = config.patchversion;
+            console.log('patchversion=' + patchversion);
+            button.title = 'patch #=' + patchversion;
         }
         tabs.append(button);
     }

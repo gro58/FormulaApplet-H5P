@@ -3,5 +3,5 @@
     "multiplicationCross": "&times;",
     "multiplicationDot": "\\cdot",
     "unit_replacement": "\\textcolor{blue}{",
-	"commit_number": "__PATCHVERSION__"
+	"patchversion": "__PATCHVERSION__"
 }
