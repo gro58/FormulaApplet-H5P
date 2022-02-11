@@ -672,9 +672,8 @@ export function showVirtualKeyboard() {
 
 export function virtualKeyboardEventHandler(_event, cmd, mf) {
     if (typeof mf !== 'undefined') {
-        var endsWithSpace = false;
-        if ((cmd.substr(cmd.length - 1)) == ' ') {
-            endsWithSpace = true;
+        var endsWithSpace = (cmd.substr(-1) === ' ');
+        if (endsWithSpace) {
             // remove space from end of cmd
             cmd = cmd.substring(0, cmd.length - 1);
         }
@@ -686,7 +685,7 @@ export function virtualKeyboardEventHandler(_event, cmd, mf) {
                 // console.log(' TODO ' + cmd + ' ' + _event.currentTarget.id);
                 // mathQuillEditHandler(activeMathfieldId, 'enter');
             } else if (cmd == 'setUnit') {
-                setUnit(mf);  //import from editor.js
+                setUnit(mf); //import from editor.js
             } else if (cmd == 'eraseUnit') {
                 eraseUnit(mf); //import from editor.js
             } else if (cmd == 'nthroot') {
