@@ -3,6 +3,11 @@
 import $ from "jquery";
 import Hammer from "@egjs/hammerjs";
 import config from "./config.json";
+import {
+    setUnit,
+    eraseUnit,
+} from "./editor.js";
+
 
 // replace call of keyboardEvent by triggering a custonKeyboardEvent
 //import { keyboardEvent } from "./preparePage.js";
@@ -656,4 +661,59 @@ export function showVirtualKeyboard() {
     $('#virtualKeyboard table').css('display', 'none');
     keyboardActivate('mixed');
     $('#virtualKeyboard table#table_' + activeKeyboard).css('display', 'table');
+}
+
+// export function virtualKeyboardEventHandlerDebugging(_event, cmd, mf) {
+//     console.log(cmd);
+//     // console.log(_event);
+//     console.log(_event.currentTarget.id);
+//     console.log(mf);
+// }
+
+export function virtualKeyboardEventHandler(_event, cmd, mf) {
+    if (typeof mf !== 'undefined') {
+        var endsWithSpace = false;
+        if ((cmd.substr(cmd.length - 1)) == ' ') {
+            endsWithSpace = true;
+            // remove space from end of cmd
+            cmd = cmd.substring(0, cmd.length - 1);
+        }
+        if (cmd.startsWith('#')) {
+            // remove # from start of cmd
+            cmd = cmd.substring(1);
+            if (cmd == 'Enter') {
+                // done in preparePage.js
+                // console.log(' TODO ' + cmd + ' ' + _event.currentTarget.id);
+                // mathQuillEditHandler(activeMathfieldId, 'enter');
+            } else if (cmd == 'setUnit') {
+                setUnit(mf);  //import from editor.js
+            } else if (cmd == 'eraseUnit') {
+                eraseUnit(mf); //import from editor.js
+            } else if (cmd == 'nthroot') {
+                nthroot(mf);
+            } else if (cmd == 'square') {
+                mf.keystroke('Up');
+                mf.typedtext('2');
+            } else {
+                mf.keystroke(cmd);
+            }
+        } else {
+            // no #
+            mf.typedText(cmd);
+        }
+        if (endsWithSpace) {
+            mf.typedText(' ');
+            mf.keystroke('Backspace');
+        }
+    }
+}
+
+function nthroot(mf) {
+    mf.cmd('\\nthroot');
+    mf.typedText(' ');
+    mf.keystroke('Tab');
+    mf.typedText(' ');
+    mf.keystroke('Left');
+    mf.keystroke('Left');
+    mf.keystroke('Shift-Left');
 }

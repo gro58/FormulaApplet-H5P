@@ -16,8 +16,6 @@ import {
 import config from "./config.json";
 import {
   prepareEditorApplet,
-  setUnit,
-  eraseUnit,
   sanitizeInputfieldTag
 } from "./editor.js";
 
@@ -35,7 +33,8 @@ import {
 } from "./translate.js";
 
 import initVirtualKeyboard, {
-  showVirtualKeyboard
+  showVirtualKeyboard,
+  virtualKeyboardEventHandler
 } from "./virtualKeyboard.js";
 
 import {
@@ -45,6 +44,7 @@ import {
 
 console.log('preparePage.js');
 //TODO hide global vars
+// eslint-disable-next-line no-unused-vars
 var activeMathfieldId = 0;
 var FAList = {};
 var editHandlerActive = true;
@@ -91,17 +91,6 @@ export default async function preparePage() {
   initTranslation();
   initVirtualKeyboard();
   mathQuillifyAll();
-}
-
-function nthroot() {
-  var mf = FAList[activeMathfieldId].mathField;
-  mf.cmd('\\nthroot');
-  mf.typedText(' ');
-  mf.keystroke('Tab');
-  mf.typedText(' ');
-  mf.keystroke('Left');
-  mf.keystroke('Left');
-  mf.keystroke('Shift-Left');
 }
 
 function makeAutoUnitstring(mf) {
@@ -197,45 +186,6 @@ function mathQuillEditHandler(id) {
         "font-size": "30pt"
       });
       mod.innerHTML = "&nbsp;&#x21AF;";
-    }
-  }
-}
-
-function virtualKeyboardEventHandler(_event, cmd) {
-  var fApp = FAList[activeMathfieldId];
-  var mf = fApp.mathField;
-
-  if (typeof mf !== 'undefined') {
-    var endsWithSpace = false;
-    if ((cmd.substr(cmd.length - 1)) == ' ') {
-      endsWithSpace = true;
-      // remove space from end of cmd
-      cmd = cmd.substring(0, cmd.length - 1);
-    }
-    if (cmd.startsWith('#')) {
-      // remove # from start of cmd
-      cmd = cmd.substring(1);
-      if (cmd == 'Enter') {
-        mathQuillEditHandler(activeMathfieldId, 'enter');
-      } else if (cmd == 'setUnit') {
-        setUnit(mf);
-      } else if (cmd == 'eraseUnit') {
-        eraseUnit(mf);
-      } else if (cmd == 'nthroot') {
-        nthroot();
-      } else if (cmd == 'square') {
-        mf.keystroke('Up');
-        mf.typedtext('2');
-      } else {
-        mf.keystroke(cmd);
-      }
-    } else {
-      // no #
-      mf.typedText(cmd);
-    }
-    if (endsWithSpace) {
-      mf.typedText(' ');
-      mf.keystroke('Backspace');
     }
   }
 }
@@ -433,7 +383,12 @@ function clickHandler(ev) {
         $(".formula_applet").off('virtualKeyboardEvent');
         $(fApp.formulaApplet).addClass('selected');
         $(fApp.formulaApplet).on('virtualKeyboardEvent', function (_evnt, cmd) {
-          virtualKeyboardEventHandler(_evnt, cmd);
+          if (cmd === '#Enter') {
+            // mathQuillEditHandler cannot be outsourced to virtualKeyboard (circular dependency)
+            mathQuillEditHandler(_evnt.currentTarget.id, 'enter'); //activeMathfieldId
+          } else {
+            virtualKeyboardEventHandler(_evnt, cmd, fApp.mathField);
+          }
         });
         $("button.keyb_button").removeClass('selected');
         if (($('#virtualKeyboard').css('display') || 'none') == 'none') {
