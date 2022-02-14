@@ -56,6 +56,10 @@ function getCopyTargets(filename) {
 	return targets;
 }
 
+function myTest(){
+	console.log('here is myTest');
+}
+
 export default [{
 	input: 'src/main.js',
 	output: {
@@ -82,6 +86,7 @@ export default [{
 			dedupe: importee => importee === 'svelte' || importee.startsWith('svelte/'),
 			mainFields: ['main', 'module']
 		}),
+		// myTest(),
 		builtins(),
 		commonjs({
 			preferBuiltins: false
