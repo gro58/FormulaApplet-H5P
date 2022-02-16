@@ -56,9 +56,22 @@ function getCopyTargets(filename) {
 	return targets;
 }
 
-function myTest(){
-	console.log('here is myTest');
+function resolveAfter2Seconds(x) {
+	return new Promise(resolve => {
+		setTimeout(() => {
+			resolve(x);
+		}, 2000);
+	});
 }
+
+async function myTest() {
+	console.log('before await');
+	var y = await resolveAfter2Seconds('after 2 seconds');
+	console.log(y);
+}
+
+myTest();
+console.log('after start of myTest');
 
 export default [{
 	input: 'src/main.js',

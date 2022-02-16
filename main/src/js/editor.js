@@ -487,7 +487,7 @@ function separateInputfield(latex) {
 
 function eraseInputfieldClass(latex) {
     // latex = 'abc\\class{inputfield}{def}ghi';
-    // temp = {before: 'abc+', tag: 'def', after: 'ghi'};
+    // temp = {before: 'abc', tag: 'def', after: 'ghi'};
     // return 'abcdefghi';
     var temp = separateInputfield(latex);
     return temp.before + temp.tag + temp.after;

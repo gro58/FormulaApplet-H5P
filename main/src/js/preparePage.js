@@ -132,6 +132,7 @@ export async function mathQuillify(id) {
       console.log('H5P & Editor');
       var mf = document.getElementById('math-field');
       temp = mf.textContent;
+      console.log('editor & H5P: replace {{result}} with \\class{inputfield}{} - does this ever happen?');
       temp = temp.replace(/{{result}}/g, '\\class{inputfield}{}');
       mf.textContent = temp;
     } else {
@@ -188,6 +189,7 @@ export async function mathQuillify(id) {
     // *** no editor ***
     try {
       MQ.StaticMath(domElem);
+      // MQ.StaticMath seems to generate a mqEditableField
     } catch (err) {
       console.error('Error using MQ.StaticMath: ' + err);
       console.trace();
