@@ -31,16 +31,6 @@
     "description": "Use this field if you are familiar with LATEX"
   },
   {
-    "label": "Text for \"Check\" button",
-    "importance": "low",
-    "name": "checkAnswer",
-    "type": "text",
-    "default": "Check",
-    "common": true,
-    "optional": true,
-    "info": "dummy (not used)"
-  },
-  {
     "name": "formulaAppletPhysics",
     "type": "boolean",
     "label": "Physics Mode",
