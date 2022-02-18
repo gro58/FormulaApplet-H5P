@@ -2,14 +2,14 @@
     "name": "formulaAppletMode",
     "type": "select",
     "label": "Automatic/Manual Mode",
-    "description": "Result is computed automatically or has to be specified by the author.",
+    "description": "",
     "options": [{
         "value": "auto",
-        "label": "Result is computed by the Formula Applet"
+        "label": "Automatic: Result is computed by the Formula Applet"
       },
       {
         "value": "manu",
-        "label": "You have to specify a result"
+        "label": "Manual: You have to specify a result"
       }
     ],
     "default": "auto"
@@ -17,7 +17,7 @@
   {
     "name": "fa_applet",
     "type": "text",
-    "label": "Expression (Formula Applet Editor)",
+    "label": "Formula Applet Editor",
     "description": " ",
     "optional": true,
     "default": "default",
@@ -28,7 +28,7 @@
     "name": "TEX_expression",
     "type": "text",
     "default": "7 +\\class{inputfield}{x} = 11",
-    "description": "Use this field if you are familiar with LATEX"
+    "description": "Use this field only if you are familiar with LATEX"
   },
   {
     "name": "formulaAppletPhysics",
