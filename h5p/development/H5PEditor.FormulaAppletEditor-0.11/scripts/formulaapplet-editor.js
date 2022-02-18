@@ -48,7 +48,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
    */
   FormulaAppletEditor.prototype.appendTo = function ($wrapper) {
     var self = this;
-    const id = ns.getNextFieldId(this.field);
+    const nextFieldId = ns.getNextFieldId(this.field);
     var params = self.parent.params;
     // params.TEX_expression = params.fa_applet;
 
@@ -74,10 +74,10 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     var span = '<span id="math-field">' + temp + '</span>';
     html += span;
     html += '<\p>';
-    
+
     console.log('Assembled html: ' + html);
 
-    var fieldMarkup = H5PEditor.createFieldMarkup(this.field, html, id);
+    var fieldMarkup = H5PEditor.createFieldMarkup(this.field, html, nextFieldId);
     self.$item = H5PEditor.$(fieldMarkup);
     self.$formulaApplet = self.$item.find('.formula_applet');
 
@@ -123,6 +123,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       console.log('?co 1 $(function () {...})');
       //code that needs to be executed when DOM is ready, after manipulation, goes here
       var texinputparent = H5P.jQuery('div.field.field-name-TEX_expression.text input').parent();
+      // disabled: read-only
       texinputparent.append('<br><br><textarea id="html-output" rows="4" cols="150" disabled>output</textarea>');
       texinputparent.append('<br><p id="data_b64_click"></p>');
       afterAppend(self);
@@ -207,7 +208,7 @@ async function afterAppend(obj) {
 
   // generate new id if necessary (new applet), and spread it
   try {
-    var idField = getField('id');
+    var idField = getField(obj, 'id');
     console.log('idField.value=' + idField.value);
     if (idField.value == 'new_id') {
       var newId = H5Pbridge.randomId(12);
@@ -229,37 +230,25 @@ async function afterAppend(obj) {
   }
 
   // https://stackoverflow.com/questions/27541004/detect-paragraph-element-change-with-jquery 'change' doesn't work
-  
+
   // H5P.jQuery('#data_b64_click').on('DOMSubtreeModified', function (ev) {
   //   // TODO use Mutation Observer instead of DOMSubtreeModified
   //   console.log(ev);
   // });
 
+  // data transfer with invisible HTML element. OMG!
   H5P.jQuery('#data_b64_click').on('click', function (ev) {
     // console.log('#data_b64_click: click');
     // console.log(ev);
     var b64 = ev.target.innerHTML;
     // get DOM object by name
-    var data_b64 = getField('data_b64');
+    var data_b64 = getField(obj, 'data_b64');
     // synchronize DOM
     data_b64.$input[0].value = b64;
     // set value of data_b64 field. Is there a better way?
     obj.parent.params['data_b64'] = b64;
     console.log("obj.parent.params['data_b64']= " + obj.parent.params['data_b64']);
   });
-
-  function getField(name) {
-    var children = obj.parent.children;
-    var result;
-    for (var i = 0; i < children.length; i++) {
-      var child = children[i];
-      if (child.field.name == name) {
-        result = child;
-        i = children.length; //short circuit
-      }
-    }
-    return result;
-  }
 
   // still afterAppend...
   console.log('obj.parent.params');
@@ -312,17 +301,61 @@ async function afterAppend(obj) {
   }
 
   // hide field-name-id
-  H5P.jQuery('.field-name-id').css('display', 'none');
+  // H5P.jQuery('.field-name-id').css('display', 'none');
   // hide field-name-data_b64
-  H5P.jQuery('.field-name-data_b64').css('display', 'none');
+  // H5P.jQuery('.field-name-data_b64').css('display', 'none');
   // console.log('make data_b64_click invisible');
-  H5P.jQuery('#data_b64_click').css('display', 'none');
+
+  // ???
+  // H5P.jQuery('#data_b64_click').css('display', 'none');
+
+  // make tex_expr read-only
   var tex_expr = document.getElementById(getSelectorID('field-tex_expression'));
   // https://www.educba.com/jquery-disable-input/
   H5P.jQuery(tex_expr).attr('disabled', 'disabled');
 
+  // simplify: use jQuery, not getField
+  // get H5P fields
+  // var data_b64 = getField(obj, 'data_b64');
+  // var dom_id = getField(obj, 'id');
+  // var tex_output = getField(obj, 'tex_output');
+  // console.log(data_b64);
+
+  // read values from semantics.json
+  // console.log('tex_output = ' + obj.field['tex_output']);
+  if (obj.field['debug'] === 'true') {
+    // data_b64.$item.css('display', '');
+    // dom_id.$item.css('display', '');
+    H5P.jQuery('.field-name-data_b64').css('display', '');
+    H5P.jQuery('.field-name-id').css('display', '');
+  } else {
+    // data_b64.$item.css('display', 'none');
+    // dom_id.$item.css('display', 'none');
+    H5P.jQuery('.field-name-data_b64').css('display', 'none');
+    H5P.jQuery('.field-name-id').css('display', 'none');
+  }
+  if (obj.field['tex_output'] === 'true') {
+    // html-output is not a H5P field
+    H5P.jQuery('#html-output').css('display', '');
+  } else {
+    H5P.jQuery('#html-output').css('display', 'none');
+  }
+
+
 } // end of afterAppend
 
+function getField(obj, name) {
+  var children = obj.parent.children;
+  var result;
+  for (var i = 0; i < children.length; i++) {
+    var child = children[i];
+    if (child.field.name == name) {
+      result = child;
+      i = children.length; //short circuit
+    }
+  }
+  return result;
+}
 
 // Start of waitForMain mechanism
 //TODO get rid of global var

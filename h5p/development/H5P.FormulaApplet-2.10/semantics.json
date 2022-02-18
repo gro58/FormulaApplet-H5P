@@ -21,7 +21,9 @@
     "description": " ",
     "optional": true,
     "default": "default",
-    "widget": "formulaAppletEditor"
+    "widget": "formulaAppletEditor",
+    "debug": "false",
+    "tex_output": "true"
   },
   {
     "label": "Expression (LATEX)",
