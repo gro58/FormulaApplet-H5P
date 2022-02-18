@@ -124,7 +124,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       //code that needs to be executed when DOM is ready, after manipulation, goes here
       var texinputparent = H5P.jQuery('div.field.field-name-TEX_expression.text input').parent();
       // disabled: read-only
-      texinputparent.append('<br><br><textarea id="html-output" rows="4" cols="150" disabled>output</textarea>');
+      texinputparent.append('<br><br><textarea id="html-output-debug" rows="4" cols="150" disabled>output</textarea>');
       texinputparent.append('<br><p id="data_b64_click"></p>');
       afterAppend(self);
       waitForMainThenDo(afterMainIsLoaded);
@@ -314,13 +314,27 @@ async function afterAppend(obj) {
   // https://www.educba.com/jquery-disable-input/
   H5P.jQuery(tex_expr).attr('disabled', 'disabled');
 
-  // simplify: use jQuery, not getField
+  var debug = '';
+  debug += 'formulaAppletMode: ' + getField(obj, 'formulaAppletMode').value + '\n';
+  debug += 'TEX_expression: ' + getField(obj, 'TEX_expression').value + '\n';
+  debug += 'formulaAppletPhysics: ' + getField(obj, 'formulaAppletPhysics').value + '\n';
+  debug += 'data_b64: ' + getField(obj, 'data_b64').value + '\n';
+  debug += 'id: ' + getField(obj, 'id').value + '\n';
+  var out = document.getElementById('html-output-debug');
+  console.log(out);
+  if (typeof out !== 'undefined') {
+      out.value = debug;
+  }
+
+  console.log(getField(obj, 'fa_applet'));
+
   // get H5P fields
   // var data_b64 = getField(obj, 'data_b64');
   // var dom_id = getField(obj, 'id');
   // var tex_output = getField(obj, 'tex_output');
   // console.log(data_b64);
 
+  // simplify: use jQuery, not getField
   // read values from semantics.json
   // console.log('tex_output = ' + obj.field['tex_output']);
   if (obj.field['debug'] === 'true') {
@@ -335,13 +349,11 @@ async function afterAppend(obj) {
     H5P.jQuery('.field-name-id').css('display', 'none');
   }
   if (obj.field['tex_output'] === 'true') {
-    // html-output is not a H5P field
-    H5P.jQuery('#html-output').css('display', '');
+    // html-output-debug is not a H5P field
+    H5P.jQuery('#html-output-debug').css('display', '');
   } else {
-    H5P.jQuery('#html-output').css('display', 'none');
+    H5P.jQuery('#html-output-debug').css('display', 'none');
   }
-
-
 } // end of afterAppend
 
 function getField(obj, name) {

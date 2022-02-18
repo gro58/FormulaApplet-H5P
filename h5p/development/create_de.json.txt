@@ -1,0 +1,3 @@
+in E:\gut\gf09\h5p\development\H5P.FormulaApplet-2.10 Verzeichnis language
+in E:\gut\gf09\h5p\development
+h5p create-language-file ./H5P.FormulaApplet-2.10 de

@@ -1,0 +1,40 @@
+{
+  "semantics": [
+    {
+      "label": "Automatic/Manual Mode",
+      "description": "",
+      "options": [
+        {
+          "label": "Automatic: Result is computed by the Formula Applet"
+        },
+        {
+          "label": "Manual: You have to specify a result"
+        }
+      ]
+    },
+    {
+      "label": "Formula Applet Editor",
+      "description": " ",
+      "default": "default"
+    },
+    {
+      "label": "Expression (LATEX)",
+      "default": "7 +\\class{inputfield}{x} = 11",
+      "description": "Use this field only if you are familiar with LATEX"
+    },
+    {
+      "label": "Physics Mode",
+      "description": "Check if result is a <b>physical quantity</b> (value and unit). <br>Uncheck if result is a <b>mathematical expression</b>."
+    },
+    {
+      "label": "Solution (encoded)",
+      "default": "default-solution",
+      "description": "Solution (TEX), encoded"
+    },
+    {
+      "label": "Formula Applet Id",
+      "default": "new_id",
+      "description": "Id of the Formula Applet - has to be unique"
+    }
+  ]
+}
