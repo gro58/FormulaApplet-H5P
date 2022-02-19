@@ -63,7 +63,12 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     var solution = '';
     if (hasSolution) {
       html += ' data-b64="' + params.data_b64 + '"';
-      solution = H5Pbridge.decode(params.data_b64);
+      try {
+        solution = H5Pbridge.decode(params.data_b64);
+      } catch (error) {
+        console.log(error);
+        solution = '';
+      }
     }
     var temp = params.TEX_expression;
     if (typeof temp == 'undefined') {
@@ -314,16 +319,18 @@ async function afterAppend(obj) {
   // https://www.educba.com/jquery-disable-input/
   H5P.jQuery(tex_expr).attr('disabled', 'disabled');
 
-  var debug = '';
-  debug += 'formulaAppletMode: ' + getField(obj, 'formulaAppletMode').value + '\n';
-  debug += 'TEX_expression: ' + getField(obj, 'TEX_expression').value + '\n';
-  debug += 'formulaAppletPhysics: ' + getField(obj, 'formulaAppletPhysics').value + '\n';
-  debug += 'data_b64: ' + getField(obj, 'data_b64').value + '\n';
-  debug += 'id: ' + getField(obj, 'id').value + '\n';
-  var out = document.getElementById('html-output-debug');
-  console.log(out);
-  if (typeof out !== 'undefined') {
+  function print_debug() {
+    var debug = '';
+    debug += 'formulaAppletMode: ' + getField(obj, 'formulaAppletMode').value + '\n';
+    debug += 'TEX_expression: ' + getField(obj, 'TEX_expression').value + '\n';
+    debug += 'formulaAppletPhysics: ' + getField(obj, 'formulaAppletPhysics').value + '\n';
+    debug += 'data_b64: ' + getField(obj, 'data_b64').value + '\n';
+    debug += 'id: ' + getField(obj, 'id').value + '\n';
+    var out = document.getElementById('html-output-debug');
+    console.log(out);
+    if (typeof out !== 'undefined') {
       out.value = debug;
+    }
   }
 
   console.log(getField(obj, 'fa_applet'));
@@ -354,6 +361,56 @@ async function afterAppend(obj) {
   } else {
     H5P.jQuery('#html-output-debug').css('display', 'none');
   }
+
+  // attach eventHandlers
+  // https://www.codegrepper.com/code-examples/javascript/javascript+pass+parameter+to+event+listener
+  const myEventHandler = (obsField) => {
+    return (ev) => {
+      var result;
+      if (obsField.field.type === 'boolean') {
+        result = obsField.value;
+      } else {
+        result = ev.target.value;
+      }
+      console.log(obsField.field.name + ": " + result);
+      print_debug();
+      //actions
+      // if (obsField.field.name === 'inputfield') {
+      //   var upper = result.toUpperCase();
+      //   setField(parent, 'outputfield', upper);
+      // }
+      // if (obsField.field.name === 'outputfield') {
+      //   var added = result + ' add';
+      //   setField(parent, 'inputfield', added);
+      // }
+    }
+  }
+
+  // attach eventHandler to fields
+  var observedField = getField(obj, 'formulaAppletMode');
+  // console.log(observedField);
+  var element = observedField.$item[0];
+  element.addEventListener('change', myEventHandler(observedField));
+
+  var observedField = getField(obj, 'TEX_expression');
+  // console.log(observedField);
+  var element = observedField.$item[0];
+  element.addEventListener('input', myEventHandler(observedField));
+
+  var observedField = getField(obj, 'formulaAppletPhysics');
+  // console.log(observedField);
+  var element = observedField.$item[0];
+  element.addEventListener('change', myEventHandler(observedField));
+
+  var observedField = getField(obj, 'data_b64');
+  // console.log(observedField);
+  var element = observedField.$item[0];
+  element.addEventListener('input', myEventHandler(observedField));
+
+  var observedField = getField(obj, 'id');
+  // console.log(observedField);
+  var element = observedField.$item[0];
+  element.addEventListener('input', myEventHandler(observedField));
 } // end of afterAppend
 
 function getField(obj, name) {

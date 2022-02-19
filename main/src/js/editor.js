@@ -241,7 +241,7 @@ function getSelection(mf, options) {
     // if options.erase is undefined, erase defaults to false
     var erase = options.erase || false;
     console.log('getSelection: erase=' + erase);
-    // typof mf = mathField
+    // typeof mf = mathField
     var ori = mf.latex();
     console.log('ori= ' + ori);
     var erased = ori;
