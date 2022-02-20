@@ -129,7 +129,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       //code that needs to be executed when DOM is ready, after manipulation, goes here
       var texinputparent = H5P.jQuery('div.field.field-name-TEX_expression.text input').parent();
       // disabled: read-only
-      texinputparent.append('<br><br><textarea id="html-output-debug" rows="4" cols="150" disabled>output</textarea>');
+      texinputparent.append('<br><br><textarea id="html-output-debug" rows="10" cols="150" disabled>output</textarea>');
       texinputparent.append('<br><p id="data_b64_click"></p>');
       afterAppend(self);
       waitForMainThenDo(afterMainIsLoaded);
@@ -213,13 +213,12 @@ async function afterAppend(obj) {
 
   // generate new id if necessary (new applet), and spread it
   try {
-    var idField = getField(obj, 'id');
-    console.log('idField.value=' + idField.value);
-    if (idField.value == 'new_id') {
+    var idInput = getValue(obj, 'id');
+    console.log('idInput=' + idInput);
+    if (idInput == 'new_id') {
       var newId = H5Pbridge.randomId(12);
       console.log('new_id -> ' + newId);
-      idField.value = newId;
-      idField.$input[0].value = newId;
+      idInput = newId;
       console.log('obj.parent.params.id=' + obj.parent.params.id);
       obj.parent.params.id = newId;
       console.log('obj.parent.params.id=' + obj.parent.params.id);
@@ -234,22 +233,23 @@ async function afterAppend(obj) {
     console.error('ERROR: ' + error);
   }
 
-  // https://stackoverflow.com/questions/27541004/detect-paragraph-element-change-with-jquery 'change' doesn't work
+  // compare field retrieve methods
+  var targetField_1 = H5PEditor.findField('data_b64', parent);
+  var targetField_2 = getField(obj, 'data_b64');
+  console.log(targetField_1);
+  console.log(targetField_2);
 
-  // H5P.jQuery('#data_b64_click').on('DOMSubtreeModified', function (ev) {
-  //   // TODO use Mutation Observer instead of DOMSubtreeModified
-  //   console.log(ev);
-  // });
+  // https://stackoverflow.com/questions/27541004/detect-paragraph-element-change-with-jquery 'change' doesn't work
 
   // data transfer with invisible HTML element. OMG!
   H5P.jQuery('#data_b64_click').on('click', function (ev) {
-    // console.log('#data_b64_click: click');
-    // console.log(ev);
+    console.log('#data_b64_click: click');
+    console.log(ev);
     var b64 = ev.target.innerHTML;
     // get DOM object by name
-    var data_b64 = getField(obj, 'data_b64');
+    var data_b64_field = getField(obj, 'data_b64');
     // synchronize DOM
-    data_b64.$input[0].value = b64;
+    data_b64_field.value = b64;
     // set value of data_b64 field. Is there a better way?
     obj.parent.params['data_b64'] = b64;
     console.log("obj.parent.params['data_b64']= " + obj.parent.params['data_b64']);
@@ -321,11 +321,16 @@ async function afterAppend(obj) {
 
   function print_debug() {
     var debug = '';
-    debug += 'formulaAppletMode: ' + getField(obj, 'formulaAppletMode').value + '\n';
-    debug += 'TEX_expression: ' + getField(obj, 'TEX_expression').value + '\n';
-    debug += 'formulaAppletPhysics: ' + getField(obj, 'formulaAppletPhysics').value + '\n';
-    debug += 'data_b64: ' + getField(obj, 'data_b64').value + '\n';
-    debug += 'id: ' + getField(obj, 'id').value + '\n';
+    debug += 'formulaAppletMode: ' + getValue(obj, 'formulaAppletMode') + '\n';
+    debug += 'TEX_expression: ' + getValue(obj, 'TEX_expression') + '\n';
+    debug += 'formulaAppletPhysics: ' + getValue(obj, 'formulaAppletPhysics') + '\n';
+    debug += 'data_b64 (1): ' + getValue(obj, 'data_b64') + '\n';
+    debug += 'decoded: ' + H5Pbridge.decode(getValue(obj, 'data_b64')) + '\n';
+    var temp = getValue(obj, 'data_b64');
+    debug += 'data_b64 (2): ' + temp + '\n';
+    debug += 'decoded: ' + H5Pbridge.decode(temp) + '\n';
+    debug += 'id: ' + getValue(obj, 'id') + '\n';
+
     var out = document.getElementById('html-output-debug');
     console.log(out);
     if (typeof out !== 'undefined') {
@@ -423,7 +428,30 @@ function getField(obj, name) {
       i = children.length; //short circuit
     }
   }
+  console.log('getField: ' + result.field.type);
+  console.log(result);
   return result;
+}
+
+function getValue(obj, name) {
+  var field = getField(obj, name);
+  if (field.field.type === 'text') {
+    return field.$input[0].value;
+  } else {
+    return field.value;
+  }
+}
+
+// setValue() sucks if field "name" has a widget attached
+function setValue(parent, name, value) {
+  // H5P
+  parent.params[name] = value;
+  // synchronize DOM
+  var targetField = H5PEditor.findField(name, parent);
+  var $targetField = targetField.$input;
+  if (typeof $targetField !== 'undefined') {
+    $targetField[0].value = value;
+  }
 }
 
 // Start of waitForMain mechanism
