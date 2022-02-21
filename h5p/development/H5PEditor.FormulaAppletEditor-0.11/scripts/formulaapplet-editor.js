@@ -92,12 +92,12 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       expression: self.getExpression(),
       change: function (expression) {
         self.setExpression(expression);
-        console.log('change: ' + expression);
+        console.log('self.config.change: ' + expression);
       },
       hide: function (expression) {
         // Need this to get expression if cancel is clicked
         self.setExpression(expression);
-        console.log('hide: ' + expression);
+        console.log('self.config.hide: ' + expression);
       }
     };
 
@@ -125,7 +125,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     };
 
     $(function () {
-      console.log('?co 1 $(function () {...})');
+      console.log('co(1)');
       //code that needs to be executed when DOM is ready, after manipulation, goes here
       var texinputparent = H5P.jQuery('div.field.field-name-TEX_expression.text input').parent();
       // disabled: read-only
@@ -138,7 +138,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
 
   async function afterMainIsLoaded() {
     // this code is executed if main is loaded
-    console.log('?co 3 MAIN is loaded');
+    console.log('co(3)');
     await H5Pbridge.preparePage();
     var id = getputId.get();
     console.log('getputId.get: id=' + id);
@@ -153,9 +153,9 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     var elem = document.getElementById('new_id-edit');
     if (elem !== null) {
       console.log('change id of element "new_id-edit"');
-      console.log(elem);
+      // console.log(elem);
       H5P.jQuery(elem).attr('id', id)
-      console.log(elem);
+      // console.log(elem);
     }
     console.log('H5Pbridge.editorAction refresh');
     H5Pbridge.editorAction("refresh");
@@ -191,8 +191,8 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
   FormulaAppletEditor.prototype.getparentParams = function () {
     var pp = this.parent.params;
     var isEmpty = (pp === null || pp === "");
-    console.log('parent parameters:');
-    console.log(pp);
+    // console.log('parent parameters:');
+    // console.log(pp);
     return isEmpty ? 'null' : pp;
   };
 
@@ -209,21 +209,21 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
 })(H5P.jQuery);
 
 async function afterAppend(obj) {
-  console.log('?co 2 afterAppend');
+  console.log('co(2)');
 
   // generate new id if necessary (new applet), and spread it
   try {
     var idInput = getValue(obj, 'id');
-    console.log('idInput=' + idInput);
+    // console.log('idInput=' + idInput);
     if (idInput == 'new_id') {
       var newId = H5Pbridge.randomId(12);
       console.log('new_id -> ' + newId);
       idInput = newId;
-      console.log('obj.parent.params.id=' + obj.parent.params.id);
+      // console.log('obj.parent.params.id=' + obj.parent.params.id);
       obj.parent.params.id = newId;
-      console.log('obj.parent.params.id=' + obj.parent.params.id);
+      // console.log('obj.parent.params.id=' + obj.parent.params.id);
       // H5Pbridge.editorAction(["idChanged", newId]); //wait for main to be loaded
-      console.log('getputId.put ' + newId);
+      // console.log('getputId.put ' + newId);
       getputId.put(newId);
     } else {
       console.log('getputId.put nothingToDo');
@@ -234,31 +234,22 @@ async function afterAppend(obj) {
   }
 
   // compare field retrieve methods
-  var targetField_1 = H5PEditor.findField('data_b64', parent);
-  var targetField_2 = getField(obj, 'data_b64');
-  console.log(targetField_1);
-  console.log(targetField_2);
+  // var targetField_1 = H5PEditor.findField('data_b64', obj.parent);
+  // var targetField_2 = getField(obj, 'data_b64');
 
   // https://stackoverflow.com/questions/27541004/detect-paragraph-element-change-with-jquery 'change' doesn't work
-
   // data transfer with invisible HTML element. OMG!
   H5P.jQuery('#data_b64_click').on('click', function (ev) {
-    console.log('#data_b64_click: click');
-    console.log(ev);
+    // console.log('#data_b64_click: click');
+    // console.log(ev);
     var b64 = ev.target.innerHTML;
-    // get DOM object by name
-    var data_b64_field = getField(obj, 'data_b64');
-    // synchronize DOM
-    data_b64_field.value = b64;
-    // set value of data_b64 field. Is there a better way?
-    obj.parent.params['data_b64'] = b64;
-    console.log("obj.parent.params['data_b64']= " + obj.parent.params['data_b64']);
+    setValue(obj, 'data_b64', b64);
   });
 
   // still afterAppend...
-  console.log('obj.parent.params');
-  console.log(obj.parent.params);
-  console.log('obj.parent.params.TEX_expression=' + obj.parent.params.TEX_expression);
+  // console.log('obj.parent.params');
+  // console.log(obj.parent.params);
+  // console.log('obj.parent.params.TEX_expression=' + obj.parent.params.TEX_expression);
 
   // texinput is updated by editor.js: showEditorResults
   var texinput = H5P.jQuery('div.field.field-name-TEX_expression.text input')[0];
@@ -271,24 +262,24 @@ async function afterAppend(obj) {
       msg = ' event caused by keyboard input';
       event.preventDefault();
     } else {
-      msg = ' event caused by input to FormulaApplet';
-      console.log(obj);
-      console.log(obj.parent.params['data_b64']);
-      //event caused by JavaScript, especially input to FormulaApplet: let event be captured
+      msg = ' event caused by JavaScript input to FormulaApplet';
+      // console.log(obj);
+      // console.log(obj.parent.params['data_b64']);
+      // event caused by JavaScript, especially input to FormulaApplet: let event be captured
     }
     console.log('TEX_expression changed: ' + event.target.value + msg);
     //TODO update formulaAppletEditor widget
     // cannot update formulaAppletEditor widget , because editorMf and editorMf.latex() is not available
   }
 
-  var checkbox = document.getElementById(getSelectorID('field-formulaappletphysics'));
-  checkbox.addEventListener('change', function () {
-    if (this.checked) {
-      console.log("Physics Mode");
-    } else {
-      console.log("Math Mode");
-    }
-  });
+  // var checkbox = document.getElementById(getSelectorID('field-formulaappletphysics'));
+  // checkbox.addEventListener('change', function () {
+  //   if (this.checked) {
+  //     console.log("Physics Mode");
+  //   } else {
+  //     console.log("Math Mode");
+  //   }
+  // });
 
   var formulaAppletMode = document.getElementById(getSelectorID('field-formulaappletmode'));
   formulaAppletMode.addEventListener('change', function (_e) {
@@ -305,13 +296,7 @@ async function afterAppend(obj) {
     H5Pbridge.editorAction('setMode', mode);
   }
 
-  // hide field-name-id
-  // H5P.jQuery('.field-name-id').css('display', 'none');
-  // hide field-name-data_b64
-  // H5P.jQuery('.field-name-data_b64').css('display', 'none');
   // console.log('make data_b64_click invisible');
-
-  // ???
   // H5P.jQuery('#data_b64_click').css('display', 'none');
 
   // make tex_expr read-only
@@ -324,15 +309,12 @@ async function afterAppend(obj) {
     debug += 'formulaAppletMode: ' + getValue(obj, 'formulaAppletMode') + '\n';
     debug += 'TEX_expression: ' + getValue(obj, 'TEX_expression') + '\n';
     debug += 'formulaAppletPhysics: ' + getValue(obj, 'formulaAppletPhysics') + '\n';
-    debug += 'data_b64 (1): ' + getValue(obj, 'data_b64') + '\n';
-    debug += 'decoded: ' + H5Pbridge.decode(getValue(obj, 'data_b64')) + '\n';
-    var temp = getValue(obj, 'data_b64');
-    debug += 'data_b64 (2): ' + temp + '\n';
-    debug += 'decoded: ' + H5Pbridge.decode(temp) + '\n';
+    var b64 = getValue(obj, 'data_b64');
+    debug += 'data_b64: ' + b64 + ' -> ' + H5Pbridge.decode(b64) + '\n';
     debug += 'id: ' + getValue(obj, 'id') + '\n';
 
     var out = document.getElementById('html-output-debug');
-    console.log(out);
+    // console.log(out);
     if (typeof out !== 'undefined') {
       out.value = debug;
     }
@@ -340,34 +322,20 @@ async function afterAppend(obj) {
 
   console.log(getField(obj, 'fa_applet'));
 
-  // get H5P fields
-  // var data_b64 = getField(obj, 'data_b64');
-  // var dom_id = getField(obj, 'id');
-  // var tex_output = getField(obj, 'tex_output');
-  // console.log(data_b64);
-
-  // simplify: use jQuery, not getField
-  // read values from semantics.json
-  // console.log('tex_output = ' + obj.field['tex_output']);
-  if (obj.field['debug'] === 'true') {
-    // data_b64.$item.css('display', '');
-    // dom_id.$item.css('display', '');
+    if (obj.field['debug'] === 'true') {
     H5P.jQuery('.field-name-data_b64').css('display', '');
     H5P.jQuery('.field-name-id').css('display', '');
   } else {
-    // data_b64.$item.css('display', 'none');
-    // dom_id.$item.css('display', 'none');
     H5P.jQuery('.field-name-data_b64').css('display', 'none');
     H5P.jQuery('.field-name-id').css('display', 'none');
   }
   if (obj.field['tex_output'] === 'true') {
-    // html-output-debug is not a H5P field
     H5P.jQuery('#html-output-debug').css('display', '');
   } else {
     H5P.jQuery('#html-output-debug').css('display', 'none');
   }
 
-  // attach eventHandlers
+  // define eventHandler
   // https://www.codegrepper.com/code-examples/javascript/javascript+pass+parameter+to+event+listener
   const myEventHandler = (obsField) => {
     return (ev) => {
@@ -379,45 +347,34 @@ async function afterAppend(obj) {
       }
       console.log(obsField.field.name + ": " + result);
       print_debug();
-      //actions
-      // if (obsField.field.name === 'inputfield') {
-      //   var upper = result.toUpperCase();
-      //   setField(parent, 'outputfield', upper);
-      // }
-      // if (obsField.field.name === 'outputfield') {
-      //   var added = result + ' add';
-      //   setField(parent, 'inputfield', added);
-      // }
+      //TODO actions
+      // ...
     }
   }
 
   // attach eventHandler to fields
   var observedField = getField(obj, 'formulaAppletMode');
-  // console.log(observedField);
   var element = observedField.$item[0];
   element.addEventListener('change', myEventHandler(observedField));
 
   var observedField = getField(obj, 'TEX_expression');
-  // console.log(observedField);
   var element = observedField.$item[0];
   element.addEventListener('input', myEventHandler(observedField));
 
   var observedField = getField(obj, 'formulaAppletPhysics');
-  // console.log(observedField);
   var element = observedField.$item[0];
   element.addEventListener('change', myEventHandler(observedField));
 
   var observedField = getField(obj, 'data_b64');
-  // console.log(observedField);
   var element = observedField.$item[0];
   element.addEventListener('input', myEventHandler(observedField));
 
   var observedField = getField(obj, 'id');
-  // console.log(observedField);
   var element = observedField.$item[0];
   element.addEventListener('input', myEventHandler(observedField));
 } // end of afterAppend
 
+// getField is used by getValue
 function getField(obj, name) {
   var children = obj.parent.children;
   var result;
@@ -428,8 +385,8 @@ function getField(obj, name) {
       i = children.length; //short circuit
     }
   }
-  console.log('getField: ' + result.field.type);
-  console.log(result);
+  // console.log('getField: ' + result.field.type);
+  // console.log(result);
   return result;
 }
 
@@ -443,11 +400,11 @@ function getValue(obj, name) {
 }
 
 // setValue() sucks if field "name" has a widget attached
-function setValue(parent, name, value) {
+function setValue(obj, name, value) {
   // H5P
-  parent.params[name] = value;
+  obj.parent.params[name] = value;
   // synchronize DOM
-  var targetField = H5PEditor.findField(name, parent);
+  var targetField = H5PEditor.findField(name, obj.parent);
   var $targetField = targetField.$input;
   if (typeof $targetField !== 'undefined') {
     $targetField[0].value = value;
@@ -465,14 +422,14 @@ function waitForMainThenDo(cont) {
     mainIsLoaded = H5Pbridge.mainIsLoaded();
   } catch (error) {
     console.log(try_counter);
-    console.log(H5Pbridge);
+    // console.log(H5Pbridge);
   }
   if (mainIsLoaded) {
     // execute callback
     cont();
   } else {
     try_counter++;
-    console.info(`waitFarMain try_counter=${try_counter}`);
+    console.info(`waitForMain try_counter=${try_counter}`);
     if (try_counter < try_counter_limit) {
       setTimeout(function () {
         // recurse

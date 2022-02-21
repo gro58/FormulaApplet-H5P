@@ -43,7 +43,7 @@
     "label": "Solution (encoded)",
     "name": "data_b64",
     "type": "text",
-    "default": "default-solution",
+    "default": "L7Lwb",
     "description": "Solution (TEX), encoded"
   },
   {
