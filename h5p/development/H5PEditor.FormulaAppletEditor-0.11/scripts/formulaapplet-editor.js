@@ -121,6 +121,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       ev.stopImmediatePropagation();
       ev.preventDefault();
       console.log("H5Pbridge.editorAction setInputFieldMouseover");
+      test_setValue(self);
       H5Pbridge.editorAction("setInputFieldMouseover");
     };
 
@@ -135,6 +136,15 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       waitForMainThenDo(afterMainIsLoaded);
     });
   };
+
+  function test_setValue(obj){
+    console.log('test_setValue');
+    setValue(obj, 'formulaAppletMode', 'manu');
+    setValue(obj, 'TEX_expression', '\\frac{8 + {{result}}}{12}=2');
+    setValue(obj, 'formulaAppletPhysics', 'true');
+    setValue(obj, 'data_b64', 'i2OmjhP33');
+    setValue(obj, 'id', 'faMyOwnIdentity');
+  }
 
   async function afterMainIsLoaded() {
     // this code is executed if main is loaded
@@ -243,6 +253,7 @@ async function afterAppend(obj) {
     // console.log('#data_b64_click: click');
     // console.log(ev);
     var b64 = ev.target.innerHTML;
+    console.log('data_b64_click: ' + b64);
     setValue(obj, 'data_b64', b64);
   });
 
@@ -405,10 +416,21 @@ function setValue(obj, name, value) {
   obj.parent.params[name] = value;
   // synchronize DOM
   var targetField = H5PEditor.findField(name, obj.parent);
-  var $targetField = targetField.$input;
-  if (typeof $targetField !== 'undefined') {
+  var type = targetField.field.type;
+  if (type === 'select'){
+    var $targetField = targetField.$select;
     $targetField[0].value = value;
-  }
+  };
+  if (type === 'text'){
+    var $targetField = targetField.$input;
+    $targetField[0].value = value;
+  };
+  if (type === 'boolean'){
+    var $targetField = targetField.$input;
+    $targetField[0].checked = value;  };
+  // if (typeof $targetField !== 'undefined') {
+  //   $targetField[0].value = value;
+  // }
 }
 
 // Start of waitForMain mechanism
