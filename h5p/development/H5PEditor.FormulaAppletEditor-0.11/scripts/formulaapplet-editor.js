@@ -121,7 +121,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       ev.stopImmediatePropagation();
       ev.preventDefault();
       console.log("H5Pbridge.editorAction setInputFieldMouseover");
-      test_setValue(self);
+      // test_setValue(self);
       H5Pbridge.editorAction("setInputFieldMouseover");
     };
 
@@ -137,38 +137,19 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     });
   };
 
-  function test_setValue(obj){
-    console.log('test_setValue');
-    setValue(obj, 'formulaAppletMode', 'manu');
-    setValue(obj, 'TEX_expression', '\\frac{8 + {{result}}}{12}=2');
-    setValue(obj, 'formulaAppletPhysics', 'true');
-    setValue(obj, 'data_b64', 'i2OmjhP33');
-    setValue(obj, 'id', 'faMyOwnIdentity');
-  }
+  // function test_setValue(obj){
+  //   console.log('test_setValue');
+  //   setValue(obj, 'formulaAppletMode', 'manu');
+  //   setValue(obj, 'TEX_expression', '\\frac{8 + {{result}}}{12}=2');
+  //   setValue(obj, 'formulaAppletPhysics', 'true');
+  //   setValue(obj, 'data_b64', 'i2OmjhP33');
+  //   setValue(obj, 'id', 'faMyOwnIdentity');
+  // }
 
   async function afterMainIsLoaded() {
     // this code is executed if main is loaded
     console.log('co(3)');
     await H5Pbridge.preparePage();
-    var id = getputId.get();
-    console.log('getputId.get: id=' + id);
-    // debugger;
-    if (id !== 'nothingToDo') {
-      console.log('H5Pbridge.editorAction idChanged with id=' + id);
-      H5Pbridge.editorAction("idChanged", id);
-      // var editorFapp = H5Pbridge.get_editorFapp();
-      // editorFapp.id = id;
-    }
-    // H5Pbridge.editorAction("testAction", "dummy data");
-    var elem = document.getElementById('new_id-edit');
-    if (elem !== null) {
-      console.log('change id of element "new_id-edit"');
-      // console.log(elem);
-      H5P.jQuery(elem).attr('id', id)
-      // console.log(elem);
-    }
-    console.log('H5Pbridge.editorAction refresh');
-    H5Pbridge.editorAction("refresh");
   }
 
   /**
@@ -225,23 +206,24 @@ async function afterAppend(obj) {
   try {
     var idInput = getValue(obj, 'id');
     // console.log('idInput=' + idInput);
-    if (idInput == 'new_id') {
+    if (idInput === 'new_id') {
       var newId = H5Pbridge.randomId(12);
+      setValue(obj, 'id', newId);
       console.log('new_id -> ' + newId);
-      idInput = newId;
-      // console.log('obj.parent.params.id=' + obj.parent.params.id);
-      obj.parent.params.id = newId;
-      // console.log('obj.parent.params.id=' + obj.parent.params.id);
-      // H5Pbridge.editorAction(["idChanged", newId]); //wait for main to be loaded
-      // console.log('getputId.put ' + newId);
-      getputId.put(newId);
-    } else {
-      console.log('getputId.put nothingToDo');
-      getputId.put('nothingToDo');
     }
   } catch (error) {
     console.error('ERROR: ' + error);
   }
+
+  var elem = document.getElementById('new_id-edit');
+  if (elem !== null) {
+    console.log('change id of element "new_id-edit"');
+    var new_id = getValue(obj, 'id') + '-edit';
+    H5P.jQuery(elem).attr('id', new_id);
+  }
+  console.log('H5Pbridge.editorAction refresh');
+  H5Pbridge.editorAction("refresh");
+
 
   // compare field retrieve methods
   // var targetField_1 = H5PEditor.findField('data_b64', obj.parent);
@@ -333,7 +315,7 @@ async function afterAppend(obj) {
 
   console.log(getField(obj, 'fa_applet'));
 
-    if (obj.field['debug'] === 'true') {
+  if (obj.field['debug'] === 'true') {
     H5P.jQuery('.field-name-data_b64').css('display', '');
     H5P.jQuery('.field-name-id').css('display', '');
   } else {
@@ -417,17 +399,18 @@ function setValue(obj, name, value) {
   // synchronize DOM
   var targetField = H5PEditor.findField(name, obj.parent);
   var type = targetField.field.type;
-  if (type === 'select'){
+  if (type === 'select') {
     var $targetField = targetField.$select;
     $targetField[0].value = value;
   };
-  if (type === 'text'){
+  if (type === 'text') {
     var $targetField = targetField.$input;
     $targetField[0].value = value;
   };
-  if (type === 'boolean'){
+  if (type === 'boolean') {
     var $targetField = targetField.$input;
-    $targetField[0].checked = value;  };
+    $targetField[0].checked = value;
+  };
   // if (typeof $targetField !== 'undefined') {
   //   $targetField[0].value = value;
   // }
@@ -487,14 +470,3 @@ function getSelectorID(selectorName) {
   }
   return result;
 }
-
-//TODO get rid of global vars
-const getputId = {
-  idStore: '',
-  get: function () {
-    return idStore;
-  },
-  put: function (id) {
-    idStore = id
-  }
-};
