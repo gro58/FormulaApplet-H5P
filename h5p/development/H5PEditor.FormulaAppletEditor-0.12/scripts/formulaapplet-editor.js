@@ -130,7 +130,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       //code that needs to be executed when DOM is ready, after manipulation, goes here
       var texinputparent = H5P.jQuery('div.field.field-name-TEX_expression.text input').parent();
       // disabled: read-only
-      texinputparent.append('<br><br><textarea id="html-output-debug" rows="10" cols="150" disabled>output</textarea>');
+      texinputparent.append('<br><br><textarea id="html-output" rows="10" cols="150" disabled>output</textarea>');
       texinputparent.append('<br><p id="data_b64_click"></p>');
       afterAppend(self);
       waitForMainThenDo(afterMainIsLoaded);
@@ -240,25 +240,20 @@ async function afterAppend(obj) {
   });
 
   // still afterAppend...
-  // console.log('obj.parent.params');
-  // console.log(obj.parent.params);
-  // console.log('obj.parent.params.TEX_expression=' + obj.parent.params.TEX_expression);
 
   // texinput is updated by editor.js: showEditorResults
   var texinput = H5P.jQuery('div.field.field-name-TEX_expression.text input')[0];
   texinput.addEventListener('input', updateTexinputEventHandler);
 
   function updateTexinputEventHandler(event) {
-    obj.parent.params['TEX_expression'] = event.target.value;
+    setValue(obj,'TEX_expression', event.target.value );
+    // obj.parent.params['TEX_expression'] = event.target.value;
     var msg;
     if (event.isTrusted) {
       msg = ' event caused by keyboard input';
       event.preventDefault();
     } else {
-      msg = ' event caused by JavaScript input to FormulaApplet';
-      // console.log(obj);
-      // console.log(obj.parent.params['data_b64']);
-      // event caused by JavaScript, especially input to FormulaApplet: let event be captured
+      msg = ' event caused by JavaScript';
     }
     console.log('TEX_expression changed: ' + event.target.value + msg);
     //TODO update formulaAppletEditor widget
@@ -298,19 +293,19 @@ async function afterAppend(obj) {
   H5P.jQuery(tex_expr).attr('disabled', 'disabled');
 
   function print_debug() {
-    var debug = '';
-    debug += 'formulaAppletMode: ' + getValue(obj, 'formulaAppletMode') + '\n';
-    debug += 'TEX_expression: ' + getValue(obj, 'TEX_expression') + '\n';
-    debug += 'formulaAppletPhysics: ' + getValue(obj, 'formulaAppletPhysics') + '\n';
-    var b64 = getValue(obj, 'data_b64');
-    debug += 'data_b64: ' + b64 + ' -> ' + H5Pbridge.decode(b64) + '\n';
-    debug += 'id: ' + getValue(obj, 'id') + '\n';
+    // var debug = '';
+    // debug += 'formulaAppletMode: ' + getValue(obj, 'formulaAppletMode') + '\n';
+    // debug += 'TEX_expression: ' + getValue(obj, 'TEX_expression') + '\n';
+    // debug += 'formulaAppletPhysics: ' + getValue(obj, 'formulaAppletPhysics') + '\n';
+    // var b64 = getValue(obj, 'data_b64');
+    // debug += 'data_b64: ' + b64 + ' -> ' + H5Pbridge.decode(b64) + '\n';
+    // debug += 'id: ' + getValue(obj, 'id') + '\n';
 
-    var out = document.getElementById('html-output-debug');
-    // console.log(out);
-    if (typeof out !== 'undefined') {
-      out.value = debug;
-    }
+    // var out = document.getElementById('html-output');
+    // // console.log(out);
+    // // if (typeof out !== 'undefined') {
+    // //   out.value = debug;
+    // // }
   }
 
   console.log(getField(obj, 'fa_applet'));
@@ -323,9 +318,9 @@ async function afterAppend(obj) {
     H5P.jQuery('.field-name-id').css('display', 'none');
   }
   if (obj.field['tex_output'] === 'true') {
-    H5P.jQuery('#html-output-debug').css('display', '');
+    H5P.jQuery('#html-output').css('display', '');
   } else {
-    H5P.jQuery('#html-output-debug').css('display', 'none');
+    H5P.jQuery('#html-output').css('display', 'none');
   }
 
   // define eventHandler

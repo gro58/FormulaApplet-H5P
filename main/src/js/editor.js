@@ -12,7 +12,7 @@ import {
 //   clickLanguage
 // } from "./translate.js";
 
-import {
+import decode, {
     encode
 } from "./decode.js";
 
@@ -45,7 +45,7 @@ function mathQuillifyEditor(fApp) {
                 try {
                     if (mathQuillEditHandlerActive) {
                         var latex = mathField.latex();
-                        console.log('** mathQuillEditHandler latex=' + latex);
+                        // console.log('** mathQuillEditHandler latex=' + latex);
                         refreshResultField(latex, fApp);
                     }
                 } catch (error) {
@@ -480,8 +480,8 @@ function separateInputfield(latex) {
         tag: tag,
         after: afterTag
     };
-    console.info(latex);
-    console.info(beforeTag + '|' + tag + '|' + afterTag);
+    // console.info(latex);
+    // console.info(beforeTag + '|' + tag + '|' + afterTag);
     return result;
 }
 
@@ -494,69 +494,48 @@ function eraseInputfieldClass(latex) {
 }
 
 function refreshResultField(latex, fApp) {
+    // tex = tex.replace(/\\textcolor{blue}{/g, '\\unit{');
+    latex = latex.replaceAll(config.unit_replacement, '\\unit{');
     var parts = separateInputfield(latex);
-    showEditorResults(parts, fApp);
-}
-
-function showEditorResults(parts, fApp) {
     var tex = parts.before + '{{result}}' + parts.after;
-    tex = tex.replace(/\\textcolor{blue}{/g, '\\unit{');
+    var enc = encode(parts.tag);
+    console.log(tex + ' enc=' + enc + ' -> ' + decode(enc));
+    // latexHandler(tex, enc);
     // $(document).trigger('texevent');
 
-    // maybe H5P editor
-    var texinput = $('div.field.field-name-TEX_expression.text input')[0];
-    if (typeof texinput !== 'undefined') {
-        // value of TEX_expression field is set to EditorResult
-        texinput.value = tex;
-        // trigger InputEvent. EventListener see formulaapplet-editor.js
-        texinput.dispatchEvent(new InputEvent('input', {
-            bubbles: true
-        }))
-    } else {
-        console.log('no TEX_expression found - probably no H5P');
+    // H5P editor: send data tex, enc using dispatchEvent and trigger('click')
+    if (isH5P()) {
+        var texinput = $('div.field.field-name-TEX_expression.text input')[0];
+        if (typeof texinput !== 'undefined') {
+            // value of TEX_expression field is set to EditorResult
+            texinput.value = tex;
+            // trigger InputEvent. EventListener see formulaapplet-editor.js
+            texinput.dispatchEvent(new InputEvent('input', {
+                bubbles: true
+            }))
+        }
+        var $b64 = $('#data_b64_click');
+        if ($b64.length > 0) {
+            console.log('data_b64_click: set value=' + enc + ' and trigger click event ');
+            $b64.text(enc);
+            $b64.trigger("click");
+        }
     }
-    console.log('parts.tag=' + parts.tag);
-    // var b64 = $('div.field.field-name-data_b64.text input')[0];
-    // if (typeof b64 !== 'undefined') {
-    //     // value of data_b64 field is set to encoded solution
-    //     b64.value = parts.tag;
-    //     // trigger InputEvent. EventListener see formulaapplet-editor.js
-    //     b64.dispatchEvent(new InputEvent('input', {
-    //         bubbles: true
-    //     }))
-    // } else {
-    //     console.log('no solution field found - probably no H5P');
-    // }
-    // maybe html editor
+    var html = getHTML(tex, enc, fApp);
+    console.log(html);
     var out = $('textarea#html-output');
     if (typeof out !== 'undefined') {
-        out.text(getHTML(tex, parts.tag, fApp));
+        out.text(html);
     }
 }
 
-function getHTML(tex, tag, fApp) {
-    var result = '<p class="formula_applet"';
+function getHTML(tex, enc, fApp) {
+    var result = '<p class="formula_applet" id="' + fApp.id;
     // var editable = $('p#editor span.mq-class.inputfield').prop('contentEditable');
-    var common_result = ' id="' + fApp.id;
     if (fApp.hasSolution) {
-        var enc = encode(tag);
-        common_result += '" data-b64="' + enc;
-        if (isH5P()) {
-            var $b64 = $('#data_b64_click');
-            // console.log($b64);
-            // console.log($b64.length);
-            if ($b64.length > 0) {
-                // H5P editor
-                console.log('data_b64_click: set value=' + enc + ' and trigger click event ');
-                $b64.text(enc);
-                // console.log($b64);
-                $b64.trigger("click");
-            }
-        }
+        result += '" data-b64="' + enc;
     }
-    common_result += '">';
-    common_result += tex;
-    result += common_result + '</p>';
+    result += '">' + tex + '</p>';
     return result;
 }
 
@@ -567,7 +546,6 @@ export function randomId(length) {
     for (var i = 2; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * numOfChars));
     }
-    // result = '"' + result + '"';
     return result;
 }
 
