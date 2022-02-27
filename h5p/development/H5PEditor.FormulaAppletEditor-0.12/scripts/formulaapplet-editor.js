@@ -265,11 +265,14 @@ async function afterAppend(obj) {
     if (event.isTrusted) {
       msg = ' event caused by keyboard input';
       event.preventDefault();
+      H5Pbridge.editorAction('TEX_changed', event.target.value);
     } else {
       msg = ' event caused by JavaScript';
+      // no editorAction ->  avoid infinite loop
     }
     console.log('TEX_expression changed: ' + event.target.value + msg);
     //TODO update formulaAppletEditor widget
+  
     // cannot update formulaAppletEditor widget , because editorMf and editorMf.latex() is not available
   }
 
@@ -313,7 +316,7 @@ async function afterAppend(obj) {
   // make tex_expr read-only
   var tex_expr = document.getElementById(getSelectorID('field-tex_expression'));
   // https://www.educba.com/jquery-disable-input/
-  H5P.jQuery(tex_expr).attr('disabled', 'disabled');
+  // H5P.jQuery(tex_expr).attr('disabled', 'disabled');
 
   //TODO use getField instead of getSelectorID. getField sucks.
 
@@ -344,6 +347,10 @@ async function afterAppend(obj) {
       }
       console.log(obsField.field.name + ": " + result);
       //TODO actions
+      // if (obsField.field.name === 'TEX_expression') {
+      //   console.log('TEX: ' + result);
+      // }
+
       // ...
 
       // "save" necessary

@@ -106,12 +106,12 @@ function editorActionDefined(actionType, data) {
         var editorMf = editor_fApp.mathField;
         if (actionType == 'idChanged') {
             var newId = data;
-            console.info('*** idChanged data=' + newId);
+            console.info('idChanged data=' + newId);
             editor_fApp.id = newId;
             refreshResultField(editorMf.latex(), editor_fApp);
         }
         if (actionType == 'setInputFieldMouseover') {
-            console.info('*** setInputFieldMouseover');
+            console.info('setInputFieldMouseover');
             var latex = setInput(editorMf);
             console.log(latex);
             editorMf.latex(latex.old);
@@ -122,12 +122,12 @@ function editorActionDefined(actionType, data) {
         // setInputFieldMouseover precedes setInputField
         // global var newLatex is renewed by function setInput() 
         if (actionType == 'setInputField') {
-            console.info('*** setInputField');
+            console.info('setInputField');
             editorMf.latex(newLatex);
         }
 
         if (actionType == 'refresh') {
-            console.info('*** refresh');
+            console.info('refresh');
             try {
                 refreshResultField(editor_fApp.mathField.latex(), editor_fApp);
             } catch (error) {
@@ -137,7 +137,7 @@ function editorActionDefined(actionType, data) {
 
         if (actionType == 'setMode') {
             var auto_or_manu = data;
-            console.info('*** setMode ' + auto_or_manu);
+            console.info('setMode ' + auto_or_manu);
             if (auto_or_manu == 'auto') {
                 editor_fApp.hasSolution = false;
                 refreshResultField(editorMf.latex(), editor_fApp)
@@ -147,8 +147,8 @@ function editorActionDefined(actionType, data) {
                 refreshResultField(editorMf.latex(), editor_fApp)
             }
         }
-        if (actionType == 'setPhysics') {
-            console.info('*** setPhysics ' + data);
+        if (actionType === 'setPhysics') {
+            console.info('setPhysics ' + data);
             if (data === 'true') {
                 editor_fApp.unitAuto = true;
                 refreshResultField(editorMf.latex(), editor_fApp);
@@ -157,6 +157,18 @@ function editorActionDefined(actionType, data) {
                 editor_fApp.unitAuto = false;
                 refreshResultField(editorMf.latex(), editor_fApp);
             }
+        }
+        if (actionType === 'TEX_changed') {
+            console.info('*** TEX_changed ' + data);
+            var temp = data.replace(/{{result}}/g, '\\class{inputfield}{' + editor_fApp.solution + '}');
+            //avoid XSS
+            temp = temp.replace(/</g, '');
+            temp = temp.replace(/>/g, '');
+            temp = temp.replace(/"/g, '');
+            temp = temp.replace(/'/g, '');
+            temp = temp.replace(/&/g, '');
+            temp = temp.replace(/ /g, '_');
+            editorMf.latex(temp);
         }
     }
 
@@ -224,14 +236,14 @@ export async function prepareEditorApplet(fApp) {
 
     $('input[type="radio"]').on('click', ev => {
         var resultMode = ev.target.id;
-        if (resultMode == 'auto') {
+        if (resultMode === 'auto') {
             // $('p#editor span.mq-class.inputfield').prop('contentEditable', 'false');
             $('p.edit span.mq-class.inputfield').prop('contentEditable', 'false');
             fApp.hasSolution = false;
             // autoMode.set(true);
             refreshResultField(editorMf.latex(), fApp)
         }
-        if (resultMode == 'manu') {
+        if (resultMode === 'manu') {
             // $('p#editor span.mq-class.inputfield').prop('contentEditable', 'true');
             $('p.edit span.mq-class.inputfield').prop('contentEditable', 'true');
             // autoMode.set(false);
@@ -260,7 +272,7 @@ function getSelection(mf, options) {
         erased = eraseInputfieldClass(ori);
     }
     var replacementCharacter = createreplacementCharacter(ori);
-    if (ori.indexOf(replacementCharacter) == -1) {
+    if (ori.indexOf(replacementCharacter) === -1) {
         // replacement has to be done before erase of class{...
         // Do replacement!
         mathQuillEditHandlerActive = false;
