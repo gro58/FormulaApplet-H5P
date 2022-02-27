@@ -71,7 +71,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     var html = '<p class="formula_applet" id="' + params.id + '-edit"';
     console.log(params);
     if (params.formulaAppletPhysics === true) {
-        html += ' mode="physics"';
+      html += ' mode="physics"';
     }
     var solution = '';
     if (hasSolution) {
@@ -259,7 +259,7 @@ async function afterAppend(obj) {
   texinput.addEventListener('input', updateTexinputEventHandler);
 
   function updateTexinputEventHandler(event) {
-    setValue(obj,'TEX_expression', event.target.value );
+    setValue(obj, 'TEX_expression', event.target.value);
     // obj.parent.params['TEX_expression'] = event.target.value;
     var msg;
     if (event.isTrusted) {
@@ -283,16 +283,16 @@ async function afterAppend(obj) {
   // });
 
   // TODO replace by getField, addEventListener
-  var formulaAppletMode = document.getElementById(getSelectorID('field-formulaappletmode'));
-  formulaAppletMode.addEventListener('change', function (_e) {
-    // mode=auto means hasSolution=false  mode=manu means hasSolution=true
-    sendModeTofApp();
-  });
-  var formulaAppletPhysics = document.getElementById(getSelectorID('field-formulaappletphysics'));
-  formulaAppletPhysics.addEventListener('change', function (_e) {
-    // mode=auto means hasSolution=false  mode=manu means hasSolution=true
-    sendModeTofApp();
-  });
+  // var formulaAppletMode = document.getElementById(getSelectorID('field-formulaappletmode'));
+  // formulaAppletMode.addEventListener('change', function (_e) {
+  //   // mode=auto means hasSolution=false  mode=manu means hasSolution=true
+  //   sendModeTofApp();
+  // });
+  // var formulaAppletPhysics = document.getElementById(getSelectorID('field-formulaappletphysics'));
+  // formulaAppletPhysics.addEventListener('change', function (_e) {
+  //   // mode=auto means hasSolution=false  mode=manu means hasSolution=true
+  //   sendModeTofApp();
+  // });
 
   // first time at init
   sendModeTofApp();
@@ -314,6 +314,8 @@ async function afterAppend(obj) {
   var tex_expr = document.getElementById(getSelectorID('field-tex_expression'));
   // https://www.educba.com/jquery-disable-input/
   H5P.jQuery(tex_expr).attr('disabled', 'disabled');
+
+  //TODO use getField instead of getSelectorID. getField sucks.
 
   console.log(getField(obj, 'fa_applet'));
 
@@ -349,6 +351,12 @@ async function afterAppend(obj) {
       //   setValue(obj, 'formulaAppletPhysics', result);
       //   H5Pbridge.editorAction("refresh");
       // }
+      if (obsField.field.name === 'formulaAppletMode') {
+        sendModeTofApp();
+      }
+      if (obsField.field.name === 'formulaAppletPhysics') {
+        sendModeTofApp();
+      }
     }
   }
 
