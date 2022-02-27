@@ -147,6 +147,17 @@ function editorActionDefined(actionType, data) {
                 refreshResultField(editorMf.latex(), editor_fApp)
             }
         }
+        if (actionType == 'setPhysics') {
+            console.info('*** setPhysics ' + data);
+            if (data === 'true') {
+                editor_fApp.unitAuto = true;
+                refreshResultField(editorMf.latex(), editor_fApp);
+            }
+            if (data === 'false') {
+                editor_fApp.unitAuto = false;
+                refreshResultField(editorMf.latex(), editor_fApp);
+            }
+        }
     }
 
 }
@@ -503,7 +514,7 @@ function refreshResultField(latex, fApp) {
     // latexHandler(tex, enc);
     // $(document).trigger('texevent');
 
-    // H5P editor: send data tex, enc using dispatchEvent and trigger('click')
+    // H5P editor: send tex and enc using dispatchEvent and trigger('click')
     if (isH5P()) {
         var texinput = $('div.field.field-name-TEX_expression.text input')[0];
         if (typeof texinput !== 'undefined') {
@@ -534,6 +545,9 @@ function getHTML(tex, enc, fApp) {
     // var editable = $('p#editor span.mq-class.inputfield').prop('contentEditable');
     if (fApp.hasSolution) {
         result += '" data-b64="' + enc;
+    }
+    if (fApp.unitAuto) {
+        result += '" mode="physics';
     }
     result += '">' + tex + '</p>';
     return result;

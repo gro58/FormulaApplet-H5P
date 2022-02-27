@@ -5,6 +5,12 @@
  * npm run doc
  */
 
+/**
+ * read <p class="formula_applet" ...>TEX with {{result}}</p>,
+ * assemble fApp objects, store in FAList. MathQuillify(id)
+ * Install mathQuillEditHandler, clickHandler, hammer (doubletap)
+ * if isEditor: prepareEditorApplet from editor.js
+ */
 import $ from "jquery";
 import Hammer from "@egjs/hammerjs";
 import MQ from "./lib/mathquillWrapper.js";

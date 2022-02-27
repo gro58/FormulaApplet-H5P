@@ -4,6 +4,18 @@
  * @param {H5P.jQuery} $
  */
 
+/**
+ * Use params to assemble HTML <p class="formula_applet" ...>TEX with {{result}}</p>
+ * createFieldMarkup, $wrapper.append(self.$item);
+ * afterMainIsLoaded: await H5Pbridge.preparePage(), causes MathQuillify
+ * mathQuillifyEditor (editor.js) causes refreshResultField.
+ * getHTML -> textarea#html-output (substitute for HTML editor output, H5P version)
+ * 
+ * Send data from formulaapplet widget to editor params:
+ * Send "tex" and "enc" using dispatchEvent and trigger('click')
+ * Received by formulaapplet-editor.js, setValue(obj, 'data_b64', b64);
+ * Workaround. Better solution?
+ */
 
 var H5P = H5P || {};
 console.log('Here is formulaapplet-editor.js 0.12');
@@ -57,8 +69,9 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       params.id = 'new_id';
     }
     var html = '<p class="formula_applet" id="' + params.id + '-edit"';
-    if (params.formulaAppletPhysics == true) {
-      html += ' mode="physics"';
+    console.log(params);
+    if (params.formulaAppletPhysics === true) {
+        html += ' mode="physics"';
     }
     var solution = '';
     if (hasSolution) {
@@ -71,7 +84,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       }
     }
     var temp = params.TEX_expression;
-    if (typeof temp == 'undefined') {
+    if (typeof temp === 'undefined') {
       temp = '17 + {{result}} = 21';
     }
     temp = temp.replace(/{{result}}/g, '\\class{inputfield}{' + solution + '}');
@@ -269,8 +282,14 @@ async function afterAppend(obj) {
   //   }
   // });
 
+  // TODO replace by getField, addEventListener
   var formulaAppletMode = document.getElementById(getSelectorID('field-formulaappletmode'));
   formulaAppletMode.addEventListener('change', function (_e) {
+    // mode=auto means hasSolution=false  mode=manu means hasSolution=true
+    sendModeTofApp();
+  });
+  var formulaAppletPhysics = document.getElementById(getSelectorID('field-formulaappletphysics'));
+  formulaAppletPhysics.addEventListener('change', function (_e) {
     // mode=auto means hasSolution=false  mode=manu means hasSolution=true
     sendModeTofApp();
   });
@@ -282,6 +301,10 @@ async function afterAppend(obj) {
     var mode = obj.parent.params['formulaAppletMode'];
     console.log('H5Pbridge.editorAction setMode: ' + mode);
     H5Pbridge.editorAction('setMode', mode);
+    var physics = obj.parent.params['formulaAppletPhysics'];
+    physics = '' + physics;
+    console.log('H5Pbridge.editorAction setPhysics: ' + physics);
+    H5Pbridge.editorAction('setPhysics', physics);
   }
 
   // console.log('make data_b64_click invisible');
@@ -291,22 +314,6 @@ async function afterAppend(obj) {
   var tex_expr = document.getElementById(getSelectorID('field-tex_expression'));
   // https://www.educba.com/jquery-disable-input/
   H5P.jQuery(tex_expr).attr('disabled', 'disabled');
-
-  function print_debug() {
-    // var debug = '';
-    // debug += 'formulaAppletMode: ' + getValue(obj, 'formulaAppletMode') + '\n';
-    // debug += 'TEX_expression: ' + getValue(obj, 'TEX_expression') + '\n';
-    // debug += 'formulaAppletPhysics: ' + getValue(obj, 'formulaAppletPhysics') + '\n';
-    // var b64 = getValue(obj, 'data_b64');
-    // debug += 'data_b64: ' + b64 + ' -> ' + H5Pbridge.decode(b64) + '\n';
-    // debug += 'id: ' + getValue(obj, 'id') + '\n';
-
-    // var out = document.getElementById('html-output');
-    // // console.log(out);
-    // // if (typeof out !== 'undefined') {
-    // //   out.value = debug;
-    // // }
-  }
 
   console.log(getField(obj, 'fa_applet'));
 
@@ -334,9 +341,14 @@ async function afterAppend(obj) {
         result = ev.target.value;
       }
       console.log(obsField.field.name + ": " + result);
-      print_debug();
       //TODO actions
       // ...
+
+      // "save" necessary
+      // if(obsField.field.name === 'formulaAppletPhysics'){
+      //   setValue(obj, 'formulaAppletPhysics', result);
+      //   H5Pbridge.editorAction("refresh");
+      // }
     }
   }
 
