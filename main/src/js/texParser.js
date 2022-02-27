@@ -84,22 +84,22 @@ function createNode(type, content, tree) {
 
 // define class FaTree using function syntax
 export function FaTree() {
-        this.listOfFree = [];
-        this.nodelist = [];
-        this.nodelist[0] = new node();
-        this.root = this.nodelist[0];
-        this.root.type = 'root';
-        this.root.id = 0;
-        this.root.parent = -1;
-        this.leaf = new node();
-        this.leaf.type = 'leaf';
-        this.leaf.content = 'my first leaf';
-        this.nodelist[1] = this.leaf;
-        this.leaf.id = 1;
-        this.leaf.parent = this.root.id;
-        this.root.children = [this.leaf.id];
-        this.hasValue = false;
-        this.variableValueList = [];
+    this.listOfFree = [];
+    this.nodelist = [];
+    this.nodelist[0] = new node();
+    this.root = this.nodelist[0];
+    this.root.type = 'root';
+    this.root.id = 0;
+    this.root.parent = -1;
+    this.leaf = new node();
+    this.leaf.type = 'leaf';
+    this.leaf.content = 'my first leaf';
+    this.nodelist[1] = this.leaf;
+    this.leaf.id = 1;
+    this.leaf.parent = this.root.id;
+    this.root.children = [this.leaf.id];
+    this.hasValue = false;
+    this.variableValueList = [];
 }
 
 function withEachNode(tree, f) {
@@ -514,7 +514,7 @@ export function parseTreeByIndex(tree) {
     parseTreeCounter.inc();
     var endParse = false;
     var message = '';
-   // var listOfFree;
+    // var listOfFree;
     switch (parseTreeCounter.getCounter()) {
         case 1:
             message = 'delete spaces and remove backslash at \\min';
@@ -649,7 +649,7 @@ export default function parse(texstring) {
 
 /**
  * deletes spaces and removes backslashes before 'min' or 'max'<br>
-* 
+ * 
  * @param {string} text latex string to be parsed 
  * @returns {string} beautified latex string
  * @example text = 'abc  def' returns 'abc def'
@@ -657,7 +657,7 @@ export default function parse(texstring) {
  * @example text = '\min' returns 'min'
  * @example text = '\cdot' (no trailing space) returns '\cdot ' (1 space)
  * @example text = '\cdot  ' (2 spaces) returns '\cdot ' (1 space)
-  */
+ */
 function deleteSpaceAndRemoveBackslash(text) {
     // https://stackoverflow.com/questions/4025482/cant-escape-the-backslash-with-regex#4025505
     // http://www.javascripter.net/faq/backslashinregularexpressions.htm
@@ -1205,19 +1205,22 @@ function parseMixedNumbers(tree) {
                     if (denomBracket.type == 'bracket-{') {
                         var denom = tree.nodelist[denomBracket.children[0]];
                     }
-                    // TODO: try/catch
-                    if (nom.type == 'number' && denom.type == 'number') {
-                        var mixedNum = createNode('mixedNumber', '', tree);
-                        // leaf node has one child less and is parent of mixedNum
-                        node.content = node.content.substr(1);
-                        node.children.shift();
-                        node.children[0] = mixedNum.id;
-                        mixedNum.parent = node.id;
-                        // children of mixedNum are old child0 and child1 of node
-                        mixedNum.children.push(child0.id);
-                        child0.parent = mixedNum.id;
-                        mixedNum.children.push(child1.id);
-                        child1.parent = mixedNum.id;
+                    try {
+                        if (nom.type == 'number' && denom.type == 'number') {
+                            var mixedNum = createNode('mixedNumber', '', tree);
+                            // leaf node has one child less and is parent of mixedNum
+                            node.content = node.content.substr(1);
+                            node.children.shift();
+                            node.children[0] = mixedNum.id;
+                            mixedNum.parent = node.id;
+                            // children of mixedNum are old child0 and child1 of node
+                            mixedNum.children.push(child0.id);
+                            child0.parent = mixedNum.id;
+                            mixedNum.children.push(child1.id);
+                            child1.parent = mixedNum.id;
+                        }
+                    } catch (error) {
+                        console.log(error);
                     }
                 }
             }

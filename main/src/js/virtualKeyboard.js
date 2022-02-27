@@ -510,7 +510,7 @@ function virtualKeyboardBindEvents() {
 
     function clickEvent(ev) {
         var cmd = $(ev.target).attr('cmd');
-        if (typeof cmd == 'undefined') {
+        if (typeof cmd === 'undefined') {
             var temp = $(ev.target).parents().filter('.virtualKeyboardButton');
             cmd = $(temp).attr('cmd');
         }
@@ -680,17 +680,14 @@ export function virtualKeyboardEventHandler(_event, cmd, mf) {
         if (cmd.startsWith('#')) {
             // remove # from start of cmd
             cmd = cmd.substring(1);
-            if (cmd == 'Enter') {
-                // done in preparePage.js
-                // console.log(' TODO ' + cmd + ' ' + _event.currentTarget.id);
-                // mathQuillEditHandler(activeMathfieldId, 'enter');
-            } else if (cmd == 'setUnit') {
+            // 'Enter' is done in preparePage.js
+            if (cmd === 'setUnit') {
                 setUnit(mf); //import from editor.js
-            } else if (cmd == 'eraseUnit') {
+            } else if (cmd === 'eraseUnit') {
                 eraseUnit(mf); //import from editor.js
-            } else if (cmd == 'nthroot') {
+            } else if (cmd === 'nthroot') {
                 nthroot(mf);
-            } else if (cmd == 'square') {
+            } else if (cmd === 'square') {
                 mf.keystroke('Up');
                 mf.typedtext('2');
             } else {

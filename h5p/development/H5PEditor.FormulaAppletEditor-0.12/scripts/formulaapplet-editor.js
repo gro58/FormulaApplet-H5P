@@ -20,8 +20,7 @@
 var H5P = H5P || {};
 console.log('Here is formulaapplet-editor.js 0.12');
 
-//TODO get rid of global variables
-var selectionArray = [];
+// var selectionArray = []; //DELETE
 
 H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (function ($) {
 
@@ -150,15 +149,6 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     });
   };
 
-  // function test_setValue(obj){
-  //   console.log('test_setValue');
-  //   setValue(obj, 'formulaAppletMode', 'manu');
-  //   setValue(obj, 'TEX_expression', '\\frac{8 + {{result}}}{12}=2');
-  //   setValue(obj, 'formulaAppletPhysics', 'true');
-  //   setValue(obj, 'data_b64', 'i2OmjhP33');
-  //   setValue(obj, 'id', 'faMyOwnIdentity');
-  // }
-
   async function afterMainIsLoaded() {
     // this code is executed if main is loaded
     console.log('co(3)');
@@ -245,8 +235,6 @@ async function afterAppend(obj) {
   // https://stackoverflow.com/questions/27541004/detect-paragraph-element-change-with-jquery 'change' doesn't work
   // data transfer with invisible HTML element. OMG!
   H5P.jQuery('#data_b64_click').on('click', function (ev) {
-    // console.log('#data_b64_click: click');
-    // console.log(ev);
     var b64 = ev.target.innerHTML;
     console.log('data_b64_click: ' + b64);
     setValue(obj, 'data_b64', b64);
@@ -271,9 +259,6 @@ async function afterAppend(obj) {
       // no editorAction ->  avoid infinite loop
     }
     console.log('TEX_expression changed: ' + event.target.value + msg);
-    //TODO update formulaAppletEditor widget
-  
-    // cannot update formulaAppletEditor widget , because editorMf and editorMf.latex() is not available
   }
 
   // var checkbox = document.getElementById(getSelectorID('field-formulaappletphysics'));
@@ -310,9 +295,6 @@ async function afterAppend(obj) {
     H5Pbridge.editorAction('setPhysics', physics);
   }
 
-  // console.log('make data_b64_click invisible');
-  // H5P.jQuery('#data_b64_click').css('display', 'none');
-
   // make tex_expr read-only
   var tex_expr = document.getElementById(getSelectorID('field-tex_expression'));
   // https://www.educba.com/jquery-disable-input/
@@ -321,19 +303,6 @@ async function afterAppend(obj) {
   //TODO use getField instead of getSelectorID. getField sucks.
 
   console.log(getField(obj, 'fa_applet'));
-
-  if (obj.field['debug'] === 'true') {
-    H5P.jQuery('.field-name-data_b64').css('display', '');
-    H5P.jQuery('.field-name-id').css('display', '');
-  } else {
-    H5P.jQuery('.field-name-data_b64').css('display', 'none');
-    H5P.jQuery('.field-name-id').css('display', 'none');
-  }
-  if (obj.field['tex_output'] === 'true') {
-    H5P.jQuery('#html-output').css('display', '');
-  } else {
-    H5P.jQuery('#html-output').css('display', 'none');
-  }
 
   // define eventHandler
   // https://www.codegrepper.com/code-examples/javascript/javascript+pass+parameter+to+event+listener
@@ -346,18 +315,6 @@ async function afterAppend(obj) {
         result = ev.target.value;
       }
       console.log(obsField.field.name + ": " + result);
-      //TODO actions
-      // if (obsField.field.name === 'TEX_expression') {
-      //   console.log('TEX: ' + result);
-      // }
-
-      // ...
-
-      // "save" necessary
-      // if(obsField.field.name === 'formulaAppletPhysics'){
-      //   setValue(obj, 'formulaAppletPhysics', result);
-      //   H5Pbridge.editorAction("refresh");
-      // }
       if (obsField.field.name === 'formulaAppletMode') {
         sendModeTofApp();
       }
@@ -387,6 +344,22 @@ async function afterAppend(obj) {
   var observedField = getField(obj, 'id');
   var element = observedField.$item[0];
   element.addEventListener('input', myEventHandler(observedField));
+
+  // console.log('make data_b64_click invisible');
+  H5P.jQuery('#data_b64_click').css('display', 'none');
+
+  if (obj.field['debug'] === 'true') {
+    H5P.jQuery('.field-name-data_b64').css('display', '');
+    H5P.jQuery('.field-name-id').css('display', '');
+  } else {
+    H5P.jQuery('.field-name-data_b64').css('display', 'none');
+    H5P.jQuery('.field-name-id').css('display', 'none');
+  }
+  if (obj.field['tex_output'] === 'true') {
+    H5P.jQuery('#html-output').css('display', '');
+  } else {
+    H5P.jQuery('#html-output').css('display', 'none');
+  }
 } // end of afterAppend
 
 // getField is used by getValue
@@ -400,8 +373,6 @@ function getField(obj, name) {
       i = children.length; //short circuit
     }
   }
-  // console.log('getField: ' + result.field.type);
-  // console.log(result);
   return result;
 }
 

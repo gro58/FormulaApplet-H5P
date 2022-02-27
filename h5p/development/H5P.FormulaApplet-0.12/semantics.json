@@ -22,7 +22,7 @@
     "optional": true,
     "default": "default",
     "widget": "formulaAppletEditor",
-    "debug": "true",
+    "debug": "false",
     "tex_output": "true"
   },
   {
