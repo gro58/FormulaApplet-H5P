@@ -295,12 +295,9 @@ async function afterAppend(obj) {
     H5Pbridge.editorAction('setPhysics', physics);
   }
 
-  // make tex_expr read-only
-  var tex_expr = document.getElementById(getSelectorID('field-tex_expression'));
-  // https://www.educba.com/jquery-disable-input/
+  // make tex_expr read-only: https://www.educba.com/jquery-disable-input/
+  // var tex_expr = document.getElementById(getSelectorID('field-tex_expression'));
   // H5P.jQuery(tex_expr).attr('disabled', 'disabled');
-
-  //TODO use getField instead of getSelectorID. getField sucks.
 
   console.log(getField(obj, 'fa_applet'));
 
