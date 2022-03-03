@@ -57,45 +57,50 @@ function mathQuillifyEditor(fApp) {
     return editorMf;
 }
 
-// Start of waitForEditorFApp mechanism
-//TODO get rid of global var
-var try_counter = 0;
-var try_counter_limit = 10;
-
-//TODO better solution then waitForEditorFAppThenDo
-function waitForEditorFAppThenDo(cont) {
-    var EditorFAppDefined = false;
-    try {
-        EditorFAppDefined = (typeof editor_fApp !== 'undefined');
-    } catch (error) {
-        console.log(try_counter);
-    }
-    if (EditorFAppDefined) {
-        // execute callback
-        cont();
-    } else {
-        try_counter++;
-        console.info(`waitForEditorFApp try_counter=${try_counter}`);
-        if (try_counter < try_counter_limit) {
-            setTimeout(function () {
-                // recurse
-                waitForEditorFAppThenDo(cont);
-            }, 300);
-        } else {
-            console.error('waitForEditorFAppThenDo: Timeout');
+function sensorTimer(interval, max_count, sensor) {
+    return new Promise(function (resolve, reject) {
+        function timer(counter) {
+            if (counter > max_count) {
+                reject('max count exceeded');
+            } else {
+                if (sensor()) {
+                    resolve('success');
+                } else {
+                    setTimeout(() => {
+                        timer(counter + 1);
+                    }, interval);
+                }
+            }
         }
-    }
+        // start sensorTimer
+        timer(0);
+    });
 }
-// End of waitForEditorFApp mechanism
 
+// let EditorFAppDefined = new Promise(function (myResolve, myReject) {
+//     if (typeof editor_fApp !== 'undefined') {
+//         console.log('EditorFApp defined');
+//         myResolve('EditorFApp defined');
+//     } else {
+//         console.log('EditorFApp undefined');
+//     }
+// });
+
+async function waitForEditorFAppThenDo(cont) {
+    await sensorTimer(500, 20, function(){return (typeof editor_fApp !== 'undefined')});
+    // await sensorTimer(500, 20, function(){return (false)});
+    cont;
+}
 
 var newLatex = 'new'; //TODO get rid of global vars
+
 export async function editorAction() { //replaces messageHandler
     var actionType = arguments[0];
     var data = arguments[1] || "dummy";
-    waitForEditorFAppThenDo(function () {
+    console.log('actionType=' + actionType + ' data=' + data);
+    waitForEditorFAppThenDo(
         editorActionDefined(actionType, data)
-    });
+    );
 }
 
 function editorActionDefined(actionType, data) {
@@ -168,6 +173,7 @@ function editorActionDefined(actionType, data) {
             temp = temp.replace(/'/g, '');
             temp = temp.replace(/&/g, '');
             temp = temp.replace(/ /g, '_');
+            console.log('editorMf.latex(temp) ' + temp);
             editorMf.latex(temp);
         }
     }
@@ -258,6 +264,8 @@ export async function prepareEditorApplet(fApp) {
         $('input[type="radio"]#auto').trigger('click');
     }
     editor_fApp = fApp;
+    console.log('editor_fApp');
+    console.log(editor_fApp);
 } // end of prepareEditorApplet
 
 function getSelection(mf, options) {
