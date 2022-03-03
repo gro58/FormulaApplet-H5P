@@ -17,6 +17,7 @@
  * Workaround. Better solution?
  */
 
+
 var H5P = H5P || {};
 console.log('Here is formulaapplet-editor.js 0.12');
 
@@ -405,6 +406,17 @@ function setValue(obj, name, value) {
   //   $targetField[0].value = value;
   // }
 }
+
+
+// async function waitForMainThenDo(cont) {
+//   await H5Pbridge.sensorTimer(800, 40, function () {
+//     var sensor = H5Pbridge.mainIsLoaded();
+//     console.log('Main Sensor=' + sensor);
+//     return sensor
+//   });
+//   cont;
+// }
+
 
 // Start of waitForMain mechanism
 //TODO get rid of global var

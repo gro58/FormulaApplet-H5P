@@ -57,7 +57,7 @@ function mathQuillifyEditor(fApp) {
     return editorMf;
 }
 
-function sensorTimer(interval, max_count, sensor) {
+export function sensorTimer(interval, max_count, sensor) {
     return new Promise(function (resolve, reject) {
         function timer(counter) {
             if (counter > max_count) {
@@ -77,17 +77,13 @@ function sensorTimer(interval, max_count, sensor) {
     });
 }
 
-// let EditorFAppDefined = new Promise(function (myResolve, myReject) {
-//     if (typeof editor_fApp !== 'undefined') {
-//         console.log('EditorFApp defined');
-//         myResolve('EditorFApp defined');
-//     } else {
-//         console.log('EditorFApp undefined');
-//     }
-// });
-
 async function waitForEditorFAppThenDo(cont) {
-    await sensorTimer(500, 20, function(){return (typeof editor_fApp !== 'undefined')});
+    console.log(editor_fApp);
+    await sensorTimer(500, 20, function () {
+        var sensor = (typeof editor_fApp !== 'undefined');
+        console.log('EditorFApp Sensor=' + sensor);
+        return sensor
+    });
     // await sensorTimer(500, 20, function(){return (false)});
     cont;
 }

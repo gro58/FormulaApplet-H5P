@@ -10,7 +10,8 @@ import {
 } from "./js/dom.js";
 import {
     randomId,
-    editorAction
+    editorAction,
+    sensorTimer
 } from "./js/editor.js";
 import decode from "./js/decode.js";
 // import config from "./js/config.json";
@@ -22,6 +23,7 @@ export {
     mathQuillify,
     preparePage,
     randomId,
+    sensorTimer
 };
 
 window.onload = function () {
