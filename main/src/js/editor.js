@@ -8,10 +8,6 @@ import {
     isH5P
 } from "./dom.js";
 
-// import {
-//   clickLanguage
-// } from "./translate.js";
-
 import decode, {
     encode
 } from "./decode.js";
@@ -21,9 +17,6 @@ import {
 } from "./texParser.js";
 
 import MQ from "./lib/mathquillWrapper.js";
-// import {
-//     get_editorFapp
-// } from "./preparePage";
 
 export async function initEditor() {
     await domLoad;

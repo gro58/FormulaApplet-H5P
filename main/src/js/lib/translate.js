@@ -3,15 +3,18 @@
 import $ from "jquery";
 import {
   domLoad
-} from "./dom.js";
+} from "../../src/js/dom.js";
+
+var translate = {
+  init: false
+};
 
 async function switchTo(lang) {
   await domLoad;
-  if(lang == ''){
+  if(lang === ''){
     lang = 'de';
   }
   console.log('switchTo: ' + lang);
-  formulaAppletLanguage.set(lang);
   $(".tr").css("display", "none");
   $(".tr." + lang).css("display", "inline");
   // save lang
@@ -22,28 +25,8 @@ async function switchTo(lang) {
     domElem.click();
   }
 
-  $.event.trigger("refreshLatexEvent");
+  // $.event.trigger("refreshLatexEvent");
 }
-
-/**
- * formulaAppletLanguage hides _lang: no global variable
- * TODO use 
- */
-export let formulaAppletLanguage = (function () {
-  let _lang = "de";
-  return {
-    set: function (lang) {
-      _lang = lang;
-    },
-    get: function () {
-      return _lang;
-    }
-  }
-})();
-
-var translate = {
-  init: false
-};
 
 function clickListener(event) {
   var lang = this.id;
@@ -63,17 +46,14 @@ function addClickListener(lang) {
 }
 
 export async function initTranslation() {
-
   if (!translate.init) {
     // make buttons with id=de and id=en clickable
     addClickListener('de');
     addClickListener('en');
     translate.init = true;
-    var lang = formulaAppletLanguage.get();
+    var lang = getCookie('lang');
     switchTo(lang);
-  } else {
-    // console.log('translate.init SKIPPED');
-  }
+  } 
 }
 
 /**

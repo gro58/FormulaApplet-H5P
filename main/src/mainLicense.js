@@ -1,2 +1,2 @@
-import { initTranslation } from "./js/translate.js";
+import { initTranslation } from "../public/build/translate.js";
 initTranslation();
