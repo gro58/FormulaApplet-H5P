@@ -52,5 +52,12 @@
     "type": "text",
     "default": "new_id",
     "description": "Id of the Formula Applet - has to be unique"
+  },
+  {
+    "label": "Selected Language",
+    "name": "sel_lang",
+    "type": "text",
+    "default": "en",
+    "description": "language selected by user"
   }
 ]

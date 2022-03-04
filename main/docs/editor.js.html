@@ -40,7 +40,7 @@ import {
 //   clickLanguage
 // } from "./translate.js";
 
-import {
+import decode, {
     encode
 } from "./decode.js";
 
@@ -73,7 +73,7 @@ function mathQuillifyEditor(fApp) {
                 try {
                     if (mathQuillEditHandlerActive) {
                         var latex = mathField.latex();
-                        console.log('** mathQuillEditHandler latex=' + latex);
+                        // console.log('** mathQuillEditHandler latex=' + latex);
                         refreshResultField(latex, fApp);
                     }
                 } catch (error) {
@@ -85,45 +85,46 @@ function mathQuillifyEditor(fApp) {
     return editorMf;
 }
 
-// Start of waitForEditorFApp mechanism
-//TODO get rid of global var
-var try_counter = 0;
-var try_counter_limit = 10;
-
-//TODO better solution then waitForEditorFAppThenDo
-function waitForEditorFAppThenDo(cont) {
-    var EditorFAppDefined = false;
-    try {
-        EditorFAppDefined = (typeof editor_fApp !== 'undefined');
-    } catch (error) {
-        console.log(try_counter);
-    }
-    if (EditorFAppDefined) {
-        // execute callback
-        cont();
-    } else {
-        try_counter++;
-        console.info(`waitForEditorFApp try_counter=${try_counter}`);
-        if (try_counter &lt; try_counter_limit) {
-            setTimeout(function () {
-                // recurse
-                waitForEditorFAppThenDo(cont);
-            }, 300);
-        } else {
-            console.error('waitForEditorFAppThenDo: Timeout');
+export function sensorTimer(interval, max_count, sensor) {
+    return new Promise(function (resolve, reject) {
+        function timer(counter) {
+            if (counter > max_count) {
+                reject('max count exceeded');
+            } else {
+                if (sensor()) {
+                    resolve('success');
+                } else {
+                    setTimeout(() => {
+                        timer(counter + 1);
+                    }, interval);
+                }
+            }
         }
-    }
+        // start sensorTimer
+        timer(0);
+    });
 }
-// End of waitForEditorFApp mechanism
 
+async function waitForEditorFAppThenDo(cont) {
+    console.log(editor_fApp);
+    await sensorTimer(500, 20, function () {
+        var sensor = (typeof editor_fApp !== 'undefined');
+        console.log('EditorFApp Sensor=' + sensor);
+        return sensor
+    });
+    // await sensorTimer(500, 20, function(){return (false)});
+    cont;
+}
 
 var newLatex = 'new'; //TODO get rid of global vars
+
 export async function editorAction() { //replaces messageHandler
     var actionType = arguments[0];
     var data = arguments[1] || "dummy";
-    waitForEditorFAppThenDo(function () {
+    console.log('actionType=' + actionType + ' data=' + data);
+    waitForEditorFAppThenDo(
         editorActionDefined(actionType, data)
-    });
+    );
 }
 
 function editorActionDefined(actionType, data) {
@@ -134,12 +135,12 @@ function editorActionDefined(actionType, data) {
         var editorMf = editor_fApp.mathField;
         if (actionType == 'idChanged') {
             var newId = data;
-            console.info('*** idChanged data=' + newId);
+            console.info('idChanged data=' + newId);
             editor_fApp.id = newId;
             refreshResultField(editorMf.latex(), editor_fApp);
         }
         if (actionType == 'setInputFieldMouseover') {
-            console.info('*** setInputFieldMouseover');
+            console.info('setInputFieldMouseover');
             var latex = setInput(editorMf);
             console.log(latex);
             editorMf.latex(latex.old);
@@ -150,12 +151,12 @@ function editorActionDefined(actionType, data) {
         // setInputFieldMouseover precedes setInputField
         // global var newLatex is renewed by function setInput() 
         if (actionType == 'setInputField') {
-            console.info('*** setInputField');
+            console.info('setInputField');
             editorMf.latex(newLatex);
         }
 
         if (actionType == 'refresh') {
-            console.info('*** refresh');
+            console.info('refresh');
             try {
                 refreshResultField(editor_fApp.mathField.latex(), editor_fApp);
             } catch (error) {
@@ -165,7 +166,7 @@ function editorActionDefined(actionType, data) {
 
         if (actionType == 'setMode') {
             var auto_or_manu = data;
-            console.info('*** setMode ' + auto_or_manu);
+            console.info('setMode ' + auto_or_manu);
             if (auto_or_manu == 'auto') {
                 editor_fApp.hasSolution = false;
                 refreshResultField(editorMf.latex(), editor_fApp)
@@ -174,6 +175,30 @@ function editorActionDefined(actionType, data) {
                 editor_fApp.hasSolution = true;
                 refreshResultField(editorMf.latex(), editor_fApp)
             }
+        }
+        if (actionType === 'setPhysics') {
+            console.info('setPhysics ' + data);
+            if (data === 'true') {
+                editor_fApp.unitAuto = true;
+                refreshResultField(editorMf.latex(), editor_fApp);
+            }
+            if (data === 'false') {
+                editor_fApp.unitAuto = false;
+                refreshResultField(editorMf.latex(), editor_fApp);
+            }
+        }
+        if (actionType === 'TEX_changed') {
+            console.info('*** TEX_changed ' + data);
+            var temp = data.replace(/{{result}}/g, '\\class{inputfield}{' + editor_fApp.solution + '}');
+            //avoid XSS
+            temp = temp.replace(/&lt;/g, '');
+            temp = temp.replace(/>/g, '');
+            temp = temp.replace(/"/g, '');
+            temp = temp.replace(/'/g, '');
+            temp = temp.replace(/&amp;/g, '');
+            temp = temp.replace(/ /g, '_');
+            console.log('editorMf.latex(temp) ' + temp);
+            editorMf.latex(temp);
         }
     }
 
@@ -241,14 +266,14 @@ export async function prepareEditorApplet(fApp) {
 
     $('input[type="radio"]').on('click', ev => {
         var resultMode = ev.target.id;
-        if (resultMode == 'auto') {
+        if (resultMode === 'auto') {
             // $('p#editor span.mq-class.inputfield').prop('contentEditable', 'false');
             $('p.edit span.mq-class.inputfield').prop('contentEditable', 'false');
             fApp.hasSolution = false;
             // autoMode.set(true);
             refreshResultField(editorMf.latex(), fApp)
         }
-        if (resultMode == 'manu') {
+        if (resultMode === 'manu') {
             // $('p#editor span.mq-class.inputfield').prop('contentEditable', 'true');
             $('p.edit span.mq-class.inputfield').prop('contentEditable', 'true');
             // autoMode.set(false);
@@ -263,13 +288,15 @@ export async function prepareEditorApplet(fApp) {
         $('input[type="radio"]#auto').trigger('click');
     }
     editor_fApp = fApp;
+    console.log('editor_fApp');
+    console.log(editor_fApp);
 } // end of prepareEditorApplet
 
 function getSelection(mf, options) {
     // if options.erase is undefined, erase defaults to false
     var erase = options.erase || false;
     console.log('getSelection: erase=' + erase);
-    // typof mf = mathField
+    // typeof mf = mathField
     var ori = mf.latex();
     console.log('ori= ' + ori);
     var erased = ori;
@@ -277,7 +304,7 @@ function getSelection(mf, options) {
         erased = eraseInputfieldClass(ori);
     }
     var replacementCharacter = createreplacementCharacter(ori);
-    if (ori.indexOf(replacementCharacter) == -1) {
+    if (ori.indexOf(replacementCharacter) === -1) {
         // replacement has to be done before erase of class{...
         // Do replacement!
         mathQuillEditHandlerActive = false;
@@ -508,83 +535,65 @@ function separateInputfield(latex) {
         tag: tag,
         after: afterTag
     };
-    console.info(latex);
-    console.info(beforeTag + '|' + tag + '|' + afterTag);
+    // console.info(latex);
+    // console.info(beforeTag + '|' + tag + '|' + afterTag);
     return result;
 }
 
 function eraseInputfieldClass(latex) {
     // latex = 'abc\\class{inputfield}{def}ghi';
-    // temp = {before: 'abc+', tag: 'def', after: 'ghi'};
+    // temp = {before: 'abc', tag: 'def', after: 'ghi'};
     // return 'abcdefghi';
     var temp = separateInputfield(latex);
     return temp.before + temp.tag + temp.after;
 }
 
 function refreshResultField(latex, fApp) {
+    // tex = tex.replace(/\\textcolor{blue}{/g, '\\unit{');
+    latex = latex.replaceAll(config.unit_replacement, '\\unit{');
     var parts = separateInputfield(latex);
-    showEditorResults(parts, fApp);
-}
-
-function showEditorResults(parts, fApp) {
     var tex = parts.before + '{{result}}' + parts.after;
-    tex = tex.replace(/\\textcolor{blue}{/g, '\\unit{');
+    var enc = encode(parts.tag);
+    console.log(tex + ' enc=' + enc + ' -> ' + decode(enc));
+    // latexHandler(tex, enc);
     // $(document).trigger('texevent');
 
-    // maybe H5P editor
-    var texinput = $('div.field.field-name-TEX_expression.text input')[0];
-    if (typeof texinput !== 'undefined') {
-        // value of TEX_expression field is set to EditorResult
-        texinput.value = tex;
-        // trigger InputEvent. EventListener see formulaapplet-editor.js
-        texinput.dispatchEvent(new InputEvent('input', {
-            bubbles: true
-        }))
-    } else {
-        console.log('no TEX_expression found - probably no H5P');
+    // H5P editor: send tex and enc using dispatchEvent and trigger('click')
+    if (isH5P()) {
+        var texinput = $('div.field.field-name-TEX_expression.text input')[0];
+        if (typeof texinput !== 'undefined') {
+            // value of TEX_expression field is set to EditorResult
+            texinput.value = tex;
+            // trigger InputEvent. EventListener see formulaapplet-editor.js
+            texinput.dispatchEvent(new InputEvent('input', {
+                bubbles: true
+            }))
+        }
+        var $b64 = $('#data_b64_click');
+        if ($b64.length > 0) {
+            console.log('data_b64_click: set value=' + enc + ' and trigger click event ');
+            $b64.text(enc);
+            $b64.trigger("click");
+        }
     }
-    console.log('parts.tag=' + parts.tag);
-    // var b64 = $('div.field.field-name-data_b64.text input')[0];
-    // if (typeof b64 !== 'undefined') {
-    //     // value of data_b64 field is set to encoded solution
-    //     b64.value = parts.tag;
-    //     // trigger InputEvent. EventListener see formulaapplet-editor.js
-    //     b64.dispatchEvent(new InputEvent('input', {
-    //         bubbles: true
-    //     }))
-    // } else {
-    //     console.log('no solution field found - probably no H5P');
-    // }
-    // maybe html editor
+    var html = getHTML(tex, enc, fApp);
+    console.log(html);
     var out = $('textarea#html-output');
     if (typeof out !== 'undefined') {
-        out.text(getHTML(tex, parts.tag, fApp));
+        out.text(html);
     }
 }
 
-function getHTML(tex, tag, fApp) {
-    var result = '&lt;p class="formula_applet"';
+function getHTML(tex, enc, fApp) {
+    var result = '&lt;p class="formula_applet" id="' + fApp.id;
     // var editable = $('p#editor span.mq-class.inputfield').prop('contentEditable');
-    var common_result = ' id="' + fApp.id;
     if (fApp.hasSolution) {
-        var enc = encode(tag);
-        common_result += '" data-b64="' + enc;
-        if (isH5P()) {
-            var $b64 = $('#data_b64_click');
-            // console.log($b64);
-            // console.log($b64.length);
-            if ($b64.length > 0) {
-                // H5P editor
-                console.log('data_b64_click: set value=' + enc + ' and trigger click event ');
-                $b64.text(enc);
-                // console.log($b64);
-                $b64.trigger("click");
-            }
-        }
+        result += '" data-b64="' + enc;
     }
-    common_result += '">';
-    common_result += tex;
-    result += common_result + '&lt;/p>';
+    if (fApp.unitAuto) {
+        result += '" mode="physics';
+    }
+    result += '">' + tex + '&lt;/p>';
     return result;
 }
 
@@ -595,7 +604,6 @@ export function randomId(length) {
     for (var i = 2; i &lt; length; i++) {
         result += characters.charAt(Math.floor(Math.random() * numOfChars));
     }
-    // result = '"' + result + '"';
     return result;
 }
 
@@ -630,7 +638,7 @@ function createreplacementCharacter(latexstring) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Wed Feb 09 2022 09:50:33 GMT+0100 (GMT+01:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Mar 03 2022 22:06:31 GMT+0100 (GMT+01:00)
 </footer>
 
 <script> prettyPrint(); </script>

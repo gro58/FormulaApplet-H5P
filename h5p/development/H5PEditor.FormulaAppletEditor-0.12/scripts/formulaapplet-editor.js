@@ -22,6 +22,7 @@ var H5P = H5P || {};
 console.log('Here is formulaapplet-editor.js 0.12');
 
 // var selectionArray = []; //DELETE
+var $button;
 
 H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (function ($) {
 
@@ -53,7 +54,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
   //   return self.parent.params;
   // }
 
-  /**
+   /**
    * Append the field to the wrapper. 
    * @public
    * @param {H5P.jQuery} $wrapper
@@ -117,7 +118,8 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     self.config.change('formula applet changed');
     $wrapper.append(self.$item);
 
-    var $button = H5P.JoubelUI.createButton({
+    // var $button = H5P.JoubelUI.createButton({
+    $button = H5P.JoubelUI.createButton({
       title: 'set_input_field',
       text: 'Set input field',
       click: function (event) {
@@ -126,7 +128,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
         H5Pbridge.editorAction("setInputField");
       }
     });
-    $button.attr('id', '#set-input-h5p');
+    $button.attr('id', 'set-input-h5p');
     $wrapper.append($button);
     $button.on('mouseover', buttonMouseoverHandler);
 
@@ -147,12 +149,18 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       texinputparent.append('<br><p id="data_b64_click"></p>');
       afterAppend(self);
       waitForMainThenDo(afterMainIsLoaded);
+      // waitForMainThenDo2(afterMainIsLoaded2);
     });
   };
 
   async function afterMainIsLoaded() {
     // this code is executed if main is loaded
     console.log('co(3)');
+    await H5Pbridge.preparePage();
+  }
+  async function afterMainIsLoaded2() {
+    // this code is executed if main is loaded
+    console.log('co(4)');
     await H5Pbridge.preparePage();
   }
 
@@ -349,15 +357,25 @@ async function afterAppend(obj) {
   if (obj.field['debug'] === 'true') {
     H5P.jQuery('.field-name-data_b64').css('display', '');
     H5P.jQuery('.field-name-id').css('display', '');
+    H5P.jQuery('.field-name-sel_lang').css('display', '');
   } else {
     H5P.jQuery('.field-name-data_b64').css('display', 'none');
     H5P.jQuery('.field-name-id').css('display', 'none');
+    H5P.jQuery('.field-name-sel_lang').css('display', 'none');
   }
   if (obj.field['tex_output'] === 'true') {
     H5P.jQuery('#html-output').css('display', '');
   } else {
     H5P.jQuery('#html-output').css('display', 'none');
   }
+  var lang = getValue(obj, 'sel_lang');
+  console.log('lang=' + lang);
+  if (lang === 'de') {
+    // Translation of "Set input field"
+    $button.html("Eingabe-Feld setzen");
+  }
+
+
 } // end of afterAppend
 
 // getField is used by getValue
@@ -407,15 +425,14 @@ function setValue(obj, name, value) {
   // }
 }
 
-
-// async function waitForMainThenDo(cont) {
-//   await H5Pbridge.sensorTimer(800, 40, function () {
-//     var sensor = H5Pbridge.mainIsLoaded();
-//     console.log('Main Sensor=' + sensor);
-//     return sensor
-//   });
-//   cont;
-// }
+async function waitForMainThenDo2(cont) {
+  await H5Pbridge.sensorTimer(800, 40, function () {
+    var sensor = H5Pbridge.mainIsLoaded();
+    console.log('Main Sensor=' + sensor);
+    return sensor
+  });
+  cont;
+}
 
 
 // Start of waitForMain mechanism

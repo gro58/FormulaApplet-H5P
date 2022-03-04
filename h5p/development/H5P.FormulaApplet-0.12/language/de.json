@@ -1,40 +1,45 @@
 {
   "semantics": [
     {
-      "label": "Automatic/Manual Mode",
+      "label": "Automatik-Modus/Manueller Modus",
       "description": "",
       "options": [
         {
-          "label": "Automatic: Result is computed by the Formula Applet"
+          "label": "Automatisch: Das Ergebnis wird vom Formel-Applet berechnet"
         },
         {
-          "label": "Manual: You have to specify a result"
+          "label": "Manuell: Das Ergebnis muss vom Aufgaben-Autor angegeben werden"
         }
       ]
     },
     {
-      "label": "Formula Applet Editor",
+      "label": "Formel-Applet-Editor",
       "description": " ",
       "default": "default"
     },
     {
       "label": "Expression (LATEX)",
       "default": "7 +\\class{inputfield}{x} = 11",
-      "description": "Use this field only if you are familiar with LATEX"
+      "description": "Benutze dieses Eingabe-Feld, wenn du vertraut mit LATEX bist"
     },
     {
       "label": "Physics Mode",
-      "description": "Check if result is a <b>physical quantity</b> (value and unit). <br>Uncheck if result is a <b>mathematical expression</b>."
+      "description": "Haken, wen das Ergebnis eine <b>physikalische Größe</b> (Maßzahl und Einheit) ist. <br>Kein Haken, falls das Ergebnis ein <b>mathematischer Ausdruck</b> ist."
     },
     {
       "label": "Solution (encoded)",
       "default": "default-solution",
-      "description": "Solution (TEX), encoded"
+      "description": "Ergebnis (TEX), codiert"
     },
     {
       "label": "Formula Applet Id",
       "default": "new_id",
-      "description": "Id of the Formula Applet - has to be unique"
+      "description": "eindeutige Id des Formel-Applets"
+    },
+    {
+      "label": "Selected Language",
+      "default": "de",
+      "description": "vom Benutzer ausgewählte Sprache"
     }
   ]
 }

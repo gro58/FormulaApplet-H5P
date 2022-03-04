@@ -60,6 +60,7 @@ function mathQuillifyEditor(fApp) {
 export function sensorTimer(interval, max_count, sensor) {
     return new Promise(function (resolve, reject) {
         function timer(counter) {
+            console.log('counter=' + counter + ' sensor=' + sensor());
             if (counter > max_count) {
                 reject('max count exceeded');
             } else {
@@ -99,7 +100,7 @@ export async function editorAction() { //replaces messageHandler
     );
 }
 
-function editorActionDefined(actionType, data) {
+async function editorActionDefined(actionType, data) {
     console.log('editorAction: ' + actionType + ' data=' + data);
     if (typeof editor_fApp !== 'undefined') {
         // H5P
