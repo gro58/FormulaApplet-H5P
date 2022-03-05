@@ -21,8 +21,8 @@ import {
 
 import config from "./config.json";
 import {
-  prepareEditorApplet,
-  sanitizeInputfieldTag
+  prepareEditorApplet
+  // sanitizeInputfieldTag
 } from "./editor.js";
 
 import decode from "./decode.js";
@@ -32,10 +32,9 @@ import {
 }
 from "./texParser.js";
 
-import {
-  initTranslation,
-  formulaAppletLanguage
-} from "./translate.js";
+// import {
+//   initTranslation
+// } from "../../public/build/translate.js";
 
 import initVirtualKeyboard, {
   showVirtualKeyboard,
@@ -84,7 +83,7 @@ export default async function preparePage() {
       fa.trigger('click');
     }
   });
-  initTranslation();
+  // initTranslation(); //not for H5P. Call manually for HTML
   initVirtualKeyboard();
   mathQuillifyAll();
 }
@@ -442,51 +441,46 @@ function unifyDefinitions(def) {
   return dsList;
 }
 
-$(document).on("refreshLatexEvent",
-  function () {
-    var lang = formulaAppletLanguage.get();
-    refreshLatex(lang);
-  });
 
-function refreshLatex(lang) {
-  var id;
-  for (id in FAList) {
-    var fApp = FAList[id];
-    var isEditor = (id.slice(-5) == '-edit');
-    if (!isEditor) {
-      var hasSolution = fApp.hasSolution || false;
-      var oldLatex, newLatex;
-      if (hasSolution) {
-        var mf = fApp.mathField;
-        oldLatex = mf.latex();
-      } else {
-        try {
-          var mfContainer = MQ.StaticMath(fApp.formulaApplet);
-          oldLatex = mfContainer.latex();
-        } catch (error) {
-          console.log('ERROR ' + error);
-        }
-      }
-      if (lang == 'de') {
-        newLatex = oldLatex.replace(/\\times/g, '\\cdot');
-        newLatex = newLatex.replace(/[.]/g, ',');
-      }
-      if (lang == 'en') {
-        newLatex = oldLatex.replace(/\\cdot/g, '\\times');
-        newLatex = newLatex.replace(/,/g, '.');
-      }
-      newLatex = sanitizeInputfieldTag(newLatex);
-      if (oldLatex !== newLatex) {
-        console.log('oldLatex=' + oldLatex);
-        console.log('newLatex=' + newLatex);
-        editHandlerActive = false;
-        if (fApp.hasSolution) {
-          mf.latex(newLatex);
-        } else {
-          mfContainer.latex(newLatex);
-        }
-        editHandlerActive = true;
-      }
-    }
-  }
-}
+// function refreshLatex(lang) {
+//   var id;
+//   for (id in FAList) {
+//     var fApp = FAList[id];
+//     var isEditor = (id.slice(-5) == '-edit');
+//     if (!isEditor) {
+//       var hasSolution = fApp.hasSolution || false;
+//       var oldLatex, newLatex;
+//       if (hasSolution) {
+//         var mf = fApp.mathField;
+//         oldLatex = mf.latex();
+//       } else {
+//         try {
+//           var mfContainer = MQ.StaticMath(fApp.formulaApplet);
+//           oldLatex = mfContainer.latex();
+//         } catch (error) {
+//           console.log('ERROR ' + error);
+//         }
+//       }
+//       if (lang == 'de') {
+//         newLatex = oldLatex.replace(/\\times/g, '\\cdot');
+//         newLatex = newLatex.replace(/[.]/g, ',');
+//       }
+//       if (lang == 'en') {
+//         newLatex = oldLatex.replace(/\\cdot/g, '\\times');
+//         newLatex = newLatex.replace(/,/g, '.');
+//       }
+//       newLatex = sanitizeInputfieldTag(newLatex);
+//       if (oldLatex !== newLatex) {
+//         console.log('oldLatex=' + oldLatex);
+//         console.log('newLatex=' + newLatex);
+//         editHandlerActive = false;
+//         if (fApp.hasSolution) {
+//           mf.latex(newLatex);
+//         } else {
+//           mfContainer.latex(newLatex);
+//         }
+//         editHandlerActive = true;
+//       }
+//     }
+//   }
+// }

@@ -11,9 +11,6 @@
       "path": "scripts/bundle.js"
     },
     {
-      "path": "scripts/bundleLicense.js"
-    },
-    {
       "path": "scripts/formulaapplet-editor.js"
     }
   ],

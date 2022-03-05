@@ -128,6 +128,40 @@ export default [{
 				.concat(getCopyTargets("MathQuill/mathquill.css"))
 		})
 	]
+}, {
+	// license bundle does not have live reload
+	input: 'src/mainLicense.js',
+	output: {
+		sourcemap: !production,
+		format: 'iife',
+		name: 'app',
+		file: 'public/build/bundleLicense.js'
+	},
+	plugins: [
+		replace({
+			'process.env.NODE_ENV': JSON.stringify(production ? 'production' : 'development'),
+			preventAssignment: true
+		}),
+		json(),
+		resolve({
+			browser: true,
+			dedupe: importee => importee === 'svelte' || importee.startsWith('svelte/'),
+			mainFields: ['main', 'module']
+		}),
+		builtins(),
+		commonjs({
+			preferBuiltins: false
+		}),
+		babel({
+			babelHelpers: 'bundled'
+		}),
+		// minify
+		terser(),
+
+		h5pCopy && copy({
+			targets: getCopyTargets("build/bundleLicense.js")
+		})
+	]
 }];
 
 function serve() {
