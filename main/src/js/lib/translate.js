@@ -1,9 +1,9 @@
 "use strict";
 
-import $ from "jquery";
+// import $ from "jquery";
 import {
   domLoad
-} from "../../src/js/dom.js";
+} from "./src/js/dom.js";
 
 var translate = {
   init: false

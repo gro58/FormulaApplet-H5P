@@ -32,9 +32,9 @@ import {
 }
 from "./texParser.js";
 
-import {
-  initTranslation
-} from "../../public/build/translate.js";
+// import {
+//   initTranslation
+// } from "../../public/build/translate.js";
 
 import initVirtualKeyboard, {
   showVirtualKeyboard,
@@ -83,7 +83,7 @@ export default async function preparePage() {
       fa.trigger('click');
     }
   });
-  initTranslation();
+  // initTranslation(); //not for H5P. Call manually for HTML
   initVirtualKeyboard();
   mathQuillifyAll();
 }
