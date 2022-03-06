@@ -32,10 +32,6 @@ import {
 }
 from "./texParser.js";
 
-// import {
-//   initTranslation
-// } from "../../public/build/translate.js";
-
 import initVirtualKeyboard, {
   showVirtualKeyboard,
   virtualKeyboardEventHandler
