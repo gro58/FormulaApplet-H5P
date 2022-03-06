@@ -1,6 +1,6 @@
 "use strict";
 
-// import $ from "jquery";
+c;
 import {
   domLoad
 } from "./src/js/dom.js";

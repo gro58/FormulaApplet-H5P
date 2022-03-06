@@ -1,9 +1,9 @@
 import preparePage, {
     mathQuillify,
 } from "./js/preparePage.js";
-import {
-    getCookie
-} from "../public/build/translate.js";
+// import {
+//     getCookie
+// } from "../public/build/translate.js";
 // import {
 //     isH5P
 // } from "./js/dom.js";
