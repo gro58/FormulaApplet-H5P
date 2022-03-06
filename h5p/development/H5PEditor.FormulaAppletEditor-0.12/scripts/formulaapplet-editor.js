@@ -54,7 +54,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
   //   return self.parent.params;
   // }
 
-   /**
+  /**
    * Append the field to the wrapper. 
    * @public
    * @param {H5P.jQuery} $wrapper
