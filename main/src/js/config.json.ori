@@ -3,5 +3,6 @@
     "multiplicationCross": "&times;",
     "multiplicationDot": "\\cdot",
     "unit_replacement": "\\textcolor{blue}{",
-	"patchversion": "__PATCHVERSION__"
+	"patchversion": "__PATCHVERSION__",
+    "debug": "false"
 }

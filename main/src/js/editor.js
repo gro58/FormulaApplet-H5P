@@ -173,7 +173,7 @@ async function editorActionDefined(actionType, data) {
 export async function prepareEditorApplet(fApp) {
     // *** editor ***
     await initEditor();
-    console.log('prepareEditorApplet, define editor_fApp');
+    console.log('prepareEditorApplet: define editor_fApp');
     var editorMf = mathQuillifyEditor(fApp);
     // editorMf provides commands like editorMf.latex('\\sqrt{2}') and var latextext = editorMf.latex();
     fApp.mathField = editorMf;
@@ -181,81 +181,22 @@ export async function prepareEditorApplet(fApp) {
     refreshResultField(editorMf.latex(), fApp);
     $.event.trigger("refreshLatexEvent"); //adjust \cdot versus \times
 
-    $('#set-input-d, #set-input-e').on('mousedown', ev => {
-        ev.preventDefault();
-        var newLatex = setInput(editorMf).new;
-        editorMf.latex(newLatex);
-    });
 
-    $('#set-unit-d, #set-unit-e').on('mousedown', ev => {
-        ev.preventDefault();
-        setUnit(editorMf);
-    });
-    $('#erase-unit-d, #erase-unit-e').on('mousedown', ev => {
-        ev.preventDefault();
-        eraseUnit(editorMf);
-    });
-    $('#random-id-d, #random-id-e').on('mousedown', ev => {
-        ev.preventDefault();
-        changeId(randomId(8));
-    });
-
-    $('#fa_name').on('input', ev => {
-        // console.log(ev);
-        console.log('fa_name input: ' + ev.target.value);
-        changeId(ev.target.value);
-    });
-
-    var old_id = 'start';
-    //TODO get rid of global vars
-    function changeId(id) {
-        id = id.replace(/</g, '');
-        id = id.replace(/>/g, '');
-        id = id.replace(/"/g, '');
-        id = id.replace(/'/g, '');
-        id = id.replace(/&/g, '');
-        id = id.replace(/ /g, '_');
-        if (4 <= id.length && id.length <= 20) {
-            // id meets the conditions
-            if (old_id !== id) {
-                console.log(old_id + ' -> ' + id);
-                fApp.id = id;
-                if (!isH5P()) {
-                    $('#fa_name').val(id);
-                }
-                old_id = id;
-                // update HTML
-                refreshResultField(editorMf.latex(), fApp)
-            }
-        }
-    }
-
-    $('input[type="radio"]').on('click', ev => {
-        var resultMode = ev.target.id;
-        if (resultMode === 'auto') {
-            // $('p#editor span.mq-class.inputfield').prop('contentEditable', 'false');
-            $('p.edit span.mq-class.inputfield').prop('contentEditable', 'false');
-            fApp.hasSolution = false;
-            // autoMode.set(true);
-            refreshResultField(editorMf.latex(), fApp)
-        }
-        if (resultMode === 'manu') {
-            // $('p#editor span.mq-class.inputfield').prop('contentEditable', 'true');
-            $('p.edit span.mq-class.inputfield').prop('contentEditable', 'true');
-            // autoMode.set(false);
-            fApp.hasSolution = true;
-            refreshResultField(editorMf.latex(), fApp)
-        }
-    });
-
-    if (!isH5P()) {
-        // generate a new random ID
-        changeId(randomId(8));
-        $('input[type="radio"]#auto').trigger('click');
-    }
     editor_fApp = fApp;
     console.log('editor_fApp');
     console.log(editor_fApp);
+
+    if (config.debug === 'true') {
+        // if debug, show three fields
+        $('.field-name-data_b64').css('display', '');
+        $('.field-name-id').css('display', '');
+        $('.field-name-sel_lang').css('display', '');
+    } else {
+        $('.field-name-data_b64').css('display', 'none');
+        $('.field-name-id').css('display', 'none');
+        $('.field-name-sel_lang').css('display', 'none');
+    }
+
 } // end of prepareEditorApplet
 
 function getSelection(mf, options) {

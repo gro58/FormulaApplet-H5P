@@ -97,6 +97,60 @@ textarea#wiki-text {
 	background-color: midnightblue;
 }
 
+/*
+#lang_select input[type="radio"] {
+	display:none;
+}
+*/
+
+#lang_select input[type="radio"]+label {
+	color: #000;
+	font-family: Arial, sans-serif;
+	font-size: 18px;
+}
+
+#lang_select input[type="radio"]+label span {
+	content: \u9678;
+	display: inline-block;
+	width: 19px;
+	height: 19px;
+	/* margin:-1px 4px 0 0; */
+	vertical-align: middle;
+	/* background:url(http://webdesigntutsplus.s3.amazonaws.com/tuts/391_checkboxes/check_radio_sheet.png) -38px top no-repeat; */
+	cursor: pointer;
+}
+
+#lang_select input[type="radio"]:checked+label span {
+	content: \u9673;
+	/* background:url(http://webdesigntutsplus.s3.amazonaws.com/tuts/391_checkboxes/check_radio_sheet.png) -57px top no-repeat; */
+}
+
+.mode_select-headline {
+	font-family: Arial, sans-serif;
+	font-size: 24px;
+}
+
+#mode_select input[type="radio"]+label {
+	color: #000;
+	font-family: Arial, sans-serif;
+	font-size: 18px;
+}
+
+#mode_select input[type="radio"]+label span {
+	content: \u9678;
+	display: inline-block;
+	/* width:19px; */
+	height: 19px;
+	/* margin:-1px 4px 0 0; */
+	vertical-align: middle;
+	/* background:url(http://webdesigntutsplus.s3.amazonaws.com/tuts/391_checkboxes/check_radio_sheet.png) -38px top no-repeat; */
+	cursor: pointer;
+}
+
+#input_id input#fa_name {
+	margin: 1em;
+}
+
 button.problemeditor {
 	color: #f0f0f0;
 	background-color: #0084c1;
@@ -121,6 +175,11 @@ span.mq-textcolor {
 	/* background-color:lightgoldenrodyellow; #fafad2 */
 	/* background-color:rgba(150, 230, 230, 0.6); */
 	/* border:darkgreen dotted 2px; */
+}
+
+#input_id label{
+	font-family: Arial, sans-serif;
+	font-size: 18px;
 }
 
 /* .mq-math-mode,
