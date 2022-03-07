@@ -6,7 +6,7 @@ import config from "./config.json";
 import {
     setUnit,
     eraseUnit,
-} from "./editor.js";
+} from "./inputfield_unit.js";
 
 
 // replace call of keyboardEvent by triggering a custonKeyboardEvent
