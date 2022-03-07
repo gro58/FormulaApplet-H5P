@@ -5,5 +5,5 @@
     "unit_replacement": "\\textcolor{blue}{",
 	"patchversion": "__PATCHVERSION__",
     "debug": "false",
-    "html-output": "true"
+    "htmloutput": "true"
 }

@@ -9,7 +9,7 @@
  * createFieldMarkup, $wrapper.append(self.$item);
  * afterMainIsLoaded: await H5Pbridge.preparePage(), causes MathQuillify
  * mathQuillifyEditor (editor.js) causes refreshResultField.
- * getHTML -> textarea#html-output (substitute for HTML editor output, H5P version)
+ * getHTML -> textarea#html_output (substitute for HTML editor output, H5P version)
  * 
  * Send data from formulaapplet widget to editor params:
  * Send "tex" and "enc" using dispatchEvent and trigger('click')
@@ -145,7 +145,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       //code that needs to be executed when DOM is ready, after manipulation, goes here
       var texinputparent = H5P.jQuery('div.field.field-name-TEX_expression.text input').parent();
       // disabled: read-only
-      texinputparent.append('<br><br><textarea id="html-output" rows="10" cols="150" disabled>output</textarea>');
+      texinputparent.append('<br><br><textarea id="html_output" rows="10" cols="150" disabled>output</textarea>');
       texinputparent.append('<br><p id="data_b64_click"></p>');
       afterAppend(self);
       waitForMainThenDo(afterMainIsLoaded);
@@ -364,9 +364,9 @@ async function afterAppend(obj) {
   //   H5P.jQuery('.field-name-sel_lang').css('display', 'none');
   // }
   // if (obj.field['tex_output'] === 'true') {
-  //   H5P.jQuery('#html-output').css('display', '');
+  //   H5P.jQuery('#html_output').css('display', '');
   // } else {
-  //   H5P.jQuery('#html-output').css('display', 'none');
+  //   H5P.jQuery('#html_output').css('display', 'none');
   // }
   var lang = getValue(obj, 'sel_lang');
   console.log('lang=' + lang);

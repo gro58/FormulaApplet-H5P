@@ -146,7 +146,7 @@ async function editorActionDefined(actionType, data) {
             console.info('setPhysics ' + data);
             if (data === 'true') {
                 editor_fApp.unitAuto = true;
-                refreshResultField(editorMf.latex(), editor_fApp);
+                ResultField(editorMf.latex(), editor_fApp);
             }
             if (data === 'false') {
                 editor_fApp.unitAuto = false;
@@ -197,10 +197,10 @@ export async function prepareEditorApplet(fApp) {
         $('.field-name-id').css('display', 'none');
         $('.field-name-sel_lang').css('display', 'none');
     }
-    if (config.html - output === 'true') {
-        $('#html-output').css('display', '');
+    if (config.htmloutput === 'true') {
+        $('#html_output').css('display', '');
     } else {
-        $('#html-output').css('display', 'none');
+        $('#html_output').css('display', 'none');
     }
 
 
@@ -492,7 +492,7 @@ function refreshResultField(latex, fApp) {
     }
     var html = getHTML(tex, enc, fApp);
     console.log(html);
-    var out = $('textarea#html-output');
+    var out = $('textarea#html_output');
     if (typeof out !== 'undefined') {
         out.text(html);
     }
