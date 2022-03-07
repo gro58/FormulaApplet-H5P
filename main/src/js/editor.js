@@ -175,6 +175,7 @@ export async function prepareEditorApplet(fApp) {
     await initEditor();
     console.log('prepareEditorApplet: define editor_fApp');
     var editorMf = mathQuillifyEditor(fApp);
+    console.log(editorMf);
     // editorMf provides commands like editorMf.latex('\\sqrt{2}') and var latextext = editorMf.latex();
     fApp.mathField = editorMf;
     console.log('editorMf.latex=' + editorMf.latex());
@@ -196,6 +197,12 @@ export async function prepareEditorApplet(fApp) {
         $('.field-name-id').css('display', 'none');
         $('.field-name-sel_lang').css('display', 'none');
     }
+    if (config.html - output === 'true') {
+        $('#html-output').css('display', '');
+    } else {
+        $('#html-output').css('display', 'none');
+    }
+
 
 } // end of prepareEditorApplet
 

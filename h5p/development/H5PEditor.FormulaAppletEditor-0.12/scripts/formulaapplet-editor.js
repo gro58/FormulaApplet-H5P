@@ -354,20 +354,20 @@ async function afterAppend(obj) {
   // console.log('make data_b64_click invisible');
   H5P.jQuery('#data_b64_click').css('display', 'none');
 
-  if (obj.field['debug'] === 'true') {
-    H5P.jQuery('.field-name-data_b64').css('display', '');
-    H5P.jQuery('.field-name-id').css('display', '');
-    H5P.jQuery('.field-name-sel_lang').css('display', '');
-  } else {
-    H5P.jQuery('.field-name-data_b64').css('display', 'none');
-    H5P.jQuery('.field-name-id').css('display', 'none');
-    H5P.jQuery('.field-name-sel_lang').css('display', 'none');
-  }
-  if (obj.field['tex_output'] === 'true') {
-    H5P.jQuery('#html-output').css('display', '');
-  } else {
-    H5P.jQuery('#html-output').css('display', 'none');
-  }
+  // if (obj.field['debug'] === 'true') {
+  //   H5P.jQuery('.field-name-data_b64').css('display', '');
+  //   H5P.jQuery('.field-name-id').css('display', '');
+  //   H5P.jQuery('.field-name-sel_lang').css('display', '');
+  // } else {
+  //   H5P.jQuery('.field-name-data_b64').css('display', 'none');
+  //   H5P.jQuery('.field-name-id').css('display', 'none');
+  //   H5P.jQuery('.field-name-sel_lang').css('display', 'none');
+  // }
+  // if (obj.field['tex_output'] === 'true') {
+  //   H5P.jQuery('#html-output').css('display', '');
+  // } else {
+  //   H5P.jQuery('#html-output').css('display', 'none');
+  // }
   var lang = getValue(obj, 'sel_lang');
   console.log('lang=' + lang);
   if (lang === 'de') {
