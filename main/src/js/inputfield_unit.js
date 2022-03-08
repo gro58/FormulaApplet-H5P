@@ -190,7 +190,8 @@ function sanitizeInputfieldTag(latex) {
 }
 
 export function eraseUnit(mf) {
-    var unitTag = '\\textcolor{blue}{';
+    // var unitTag = '\\textcolor{blue}{';
+    var unitTag = config.unit_replacement;
     var temp = getSelection(mf, {
         erase: false
     });

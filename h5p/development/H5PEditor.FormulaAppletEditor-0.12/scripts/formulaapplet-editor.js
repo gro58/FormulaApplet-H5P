@@ -211,6 +211,16 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
   return FormulaAppletEditor;
 })(H5P.jQuery);
 
+function randomId(length) {
+  var result = 'fa';
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+  var numOfChars = characters.length;
+  for (var i = 2; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * numOfChars));
+  }
+  return result;
+}
+
 async function afterAppend(obj) {
   console.log('co(2)');
 
@@ -219,7 +229,7 @@ async function afterAppend(obj) {
     var idInput = getValue(obj, 'id');
     // console.log('idInput=' + idInput);
     if (idInput === 'new_id') {
-      var newId = H5Pbridge.randomId(12);
+      var newId = randomId(12);
       setValue(obj, 'id', newId);
       console.log('new_id -> ' + newId);
     }
@@ -262,7 +272,7 @@ async function afterAppend(obj) {
     if (event.isTrusted) {
       msg = ' event caused by keyboard input';
       event.preventDefault();
-      H5Pbridge.editorAction('TEX_changed', event.target.value);
+      ('TEX_changed', event.target.value);
     } else {
       msg = ' event caused by JavaScript';
       // no editorAction ->  avoid infinite loop
@@ -297,7 +307,7 @@ async function afterAppend(obj) {
   function sendModeTofApp() {
     var mode = obj.parent.params['formulaAppletMode'];
     console.log('H5Pbridge.editorAction setMode: ' + mode);
-    H5Pbridge.editorAction('setMode', mode);
+    ('setMode', mode);
     var physics = obj.parent.params['formulaAppletPhysics'];
     physics = '' + physics;
     console.log('H5Pbridge.editorAction setPhysics: ' + physics);

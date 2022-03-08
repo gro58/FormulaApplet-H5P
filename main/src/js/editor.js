@@ -19,11 +19,6 @@ import {
     separateInputfield,
 } from "./inputfield_unit.js";
 
-export async function initEditor() {
-    await domLoad;
-    $.event.trigger("clickLanguageEvent"); //TODO never received?
-}
-
 var mathQuillEditHandlerActive = true;
 var editor_fApp;
 //TODO get rid of global vars
@@ -173,7 +168,8 @@ async function editorActionDefined(actionType, data) {
 
 export async function prepareEditorApplet(fApp) {
     // *** editor ***
-    await initEditor();
+    await domLoad;
+    // await initEditor();
     console.log('prepareEditorApplet: define editor_fApp');
     var editorMf = mathQuillifyEditor(fApp);
     console.log(editorMf);
@@ -208,7 +204,6 @@ export async function prepareEditorApplet(fApp) {
 } // end of prepareEditorApplet
 
 function refreshResultField(latex, fApp) {
-    // tex = tex.replace(/\\textcolor{blue}{/g, '\\unit{');
     latex = latex.replaceAll(config.unit_replacement, '\\unit{');
     var parts = separateInputfield(latex);
     var tex = parts.before + '{{result}}' + parts.after;
@@ -235,33 +230,18 @@ function refreshResultField(latex, fApp) {
             $b64.trigger("click");
         }
     }
-    var html = getHTML(tex, enc, fApp);
+    // getHTML
+    var html = '<p class="formula_applet" id="' + fApp.id;
+    if (fApp.hasSolution) {
+        html += '" data-b64="' + enc;
+    }
+    if (fApp.unitAuto) {
+        html += '" mode="physics';
+    }
+    html += '">' + tex + '</p>';
     console.log(html);
     var out = $('textarea#html_output');
     if (typeof out !== 'undefined') {
         out.text(html);
     }
-}
-
-function getHTML(tex, enc, fApp) {
-    var result = '<p class="formula_applet" id="' + fApp.id;
-    // var editable = $('p#editor span.mq-class.inputfield').prop('contentEditable');
-    if (fApp.hasSolution) {
-        result += '" data-b64="' + enc;
-    }
-    if (fApp.unitAuto) {
-        result += '" mode="physics';
-    }
-    result += '">' + tex + '</p>';
-    return result;
-}
-
-export function randomId(length) {
-    var result = 'fa';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
-    var numOfChars = characters.length;
-    for (var i = 2; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * numOfChars));
-    }
-    return result;
 }
