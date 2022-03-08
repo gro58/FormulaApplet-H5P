@@ -6,6 +6,8 @@
 
 
 "use strict";
+import config from "./config.json";
+
 // Klasse als Funktion in JS
 function node() {
     this.id = -1;
@@ -769,7 +771,9 @@ function makeDegreeUnit(text) {
         }
     }
     // var unit = "\\unit{";
-    var unit = "\\textcolor{blue}{";
+    // var unit = "\\textcolor{blue}{";
+    var unit = config.unit_replacement;
+
     var temp = textWithBracketsAndPlus.replace(/'/g, unit + "'}");
     temp = temp.replace(/°/g, unit + "°}");
     temp = temp.replace(/↟/g, unit + "''}");

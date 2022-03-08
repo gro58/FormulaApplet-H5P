@@ -250,7 +250,9 @@ function makeAutoUnitstring(mf) {
   // mf = MathField
   var str = mf.latex();
   var mfLatexForParser = str;
-  var unitTag = '\\textcolor{blue}{';
+  // var unitTag = '\\textcolor{blue}{';
+  var unitTag = config.unit_replacement;
+
   var pos = str.indexOf(unitTag);
   if (pos >= 0) {
     var left = str.substr(0, pos);

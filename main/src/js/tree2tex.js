@@ -1,5 +1,5 @@
-"use strict"; 
-// not needed for actual lib?
+"use strict";
+import config from "./config.json";
 
 export function tree2TEX(tree) {
     // eslint-disable-next-line no-unused-vars
@@ -8,7 +8,7 @@ export function tree2TEX(tree) {
 
     function recurse(node) {
         var numberOfChildren = (node.children || []).length;
-        depth ++;
+        depth++;
         var res = [];
         for (var i = 0; i < numberOfChildren; i++) {
             var child = tree.nodelist[node.children[i]];
@@ -50,7 +50,8 @@ export function tree2TEX(tree) {
                 done = true;
             }
             if (node.type.startsWith('unit')) {
-                result = '\\textcolor{blue}{';
+                result = config.unit_replacement;
+                // result = '\\textcolor{blue}{';
                 result += node.content;
                 result += '}';
                 result += res[0];
@@ -163,12 +164,12 @@ export function tree2TEX(tree) {
                     temp = left;
                     temp += middle;
                     temp += right;
-                    count ++;
+                    count++;
                 }
             } while (pos > -1)
             result = temp;
         }
-        depth --;
+        depth--;
         return result;
     }
 }
