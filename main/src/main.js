@@ -3,10 +3,23 @@ import preparePage, {
 } from "./js/preparePage.js";
 import {
     // editorAction,
-    sensorTimer
+    // sensorTimer,
+    editor_fApp
 } from "./js/editor.js";
-import decode, {encode} from "./js/decode.js";
-// import config from "./js/config.json";
+import decode, {
+    encode
+} from "./js/decode.js";
+import config from "./js/config.json";
+import {
+    setInput,
+    separateInputfield,
+} from "./js/inputfield_unit.js";
+import {
+    // domLoad,
+    isH5P
+} from "./js/dom.js";
+
+
 
 // H5Pbridge
 export {
@@ -15,12 +28,16 @@ export {
     // editorAction,
     mathQuillify,
     preparePage,
-    sensorTimer
+    editor_fApp,
+    config,
+    setInput,
+    separateInputfield,
+    isH5P
 };
 
 window.onload = function () {
-        preparePage();
- };
+    preparePage();
+};
 
 export function mainIsLoaded() {
     return true;

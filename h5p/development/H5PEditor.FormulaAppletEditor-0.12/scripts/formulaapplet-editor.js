@@ -124,8 +124,8 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       text: 'Set input field',
       click: function (event) {
         event.preventDefault();
-        console.log("H5Pbridge.editorAction setInputField");
-        H5Pbridge.editorAction("setInputField");
+        console.log("editorAction setInputField");
+        editorAction("setInputField");
       }
     });
     $button.attr('id', 'set-input-h5p');
@@ -135,9 +135,9 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     function buttonMouseoverHandler(ev) {
       ev.stopImmediatePropagation();
       ev.preventDefault();
-      console.log("H5Pbridge.editorAction setInputFieldMouseover");
+      console.log("editorAction setInputFieldMouseover");
       // test_setValue(self);
-      H5Pbridge.editorAction("setInputFieldMouseover");
+      editorAction("setInputFieldMouseover");
     };
 
     $(function () {
@@ -243,8 +243,8 @@ async function afterAppend(obj) {
     var new_id = getValue(obj, 'id') + '-edit';
     H5P.jQuery(elem).attr('id', new_id);
   }
-  console.log('H5Pbridge.editorAction refresh');
-  H5Pbridge.editorAction("refresh");
+  console.log('editorAction refresh');
+  editorAction("refresh");
 
 
   // compare field retrieve methods
@@ -306,12 +306,12 @@ async function afterAppend(obj) {
 
   function sendModeTofApp() {
     var mode = obj.parent.params['formulaAppletMode'];
-    console.log('H5Pbridge.editorAction setMode: ' + mode);
+    console.log('editorAction setMode: ' + mode);
     ('setMode', mode);
     var physics = obj.parent.params['formulaAppletPhysics'];
     physics = '' + physics;
-    console.log('H5Pbridge.editorAction setPhysics: ' + physics);
-    H5Pbridge.editorAction('setPhysics', physics);
+    console.log('editorAction setPhysics: ' + physics);
+    editorAction('setPhysics', physics);
   }
 
   // make tex_expr read-only: https://www.educba.com/jquery-disable-input/
@@ -436,7 +436,7 @@ function setValue(obj, name, value) {
 }
 
 async function waitForMainThenDo2(cont) {
-  await H5Pbridge.sensorTimer(800, 40, function () {
+  await sensorTimer(800, 40, function () {
     var sensor = H5Pbridge.mainIsLoaded();
     console.log('Main Sensor=' + sensor);
     return sensor
@@ -501,17 +501,17 @@ function getSelectorID(selectorName) {
 }
 
 function refreshResultField(latex, fApp) {
-  latex = latex.replaceAll(config.unit_replacement, '\\unit{');
-  var parts = separateInputfield(latex);
+  latex = latex.replaceAll(H5Pbridge.config.unit_replacement, '\\unit{');
+  var parts = H5Pbridge.separateInputfield(latex);
   var tex = parts.before + '{{result}}' + parts.after;
-  var enc = encode(parts.tag);
-  console.log(tex + ' enc=' + enc + ' -> ' + decode(enc));
+  var enc = H5Pbridge.encode(parts.tag);
+  console.log(tex + ' enc=' + enc + ' -> ' + H5Pbridge.decode(enc));
   // latexHandler(tex, enc);
   // $(document).trigger('texevent');
 
   // H5P editor: send tex and enc using dispatchEvent and trigger('click')
-  if (isH5P()) {
-    var texinput = $('div.field.field-name-TEX_expression.text input')[0];
+  if (H5Pbridge.isH5P()) {
+    var texinput = H5P.jQuery('div.field.field-name-TEX_expression.text input')[0];
     if (typeof texinput !== 'undefined') {
       // value of TEX_expression field is set to EditorResult
       texinput.value = tex;
@@ -520,7 +520,7 @@ function refreshResultField(latex, fApp) {
         bubbles: true
       }))
     }
-    var $b64 = $('#data_b64_click');
+    var $b64 = H5P.jQuery('#data_b64_click');
     if ($b64.length > 0) {
       console.log('data_b64_click: set value=' + enc + ' and trigger click event ');
       $b64.text(enc);
@@ -537,7 +537,7 @@ function refreshResultField(latex, fApp) {
   }
   html += '">' + tex + '</p>';
   console.log(html);
-  var out = $('textarea#html_output');
+  var out = H5P.jQuery('textarea#html_output');
   if (typeof out !== 'undefined') {
     out.text(html);
   }
@@ -545,47 +545,48 @@ function refreshResultField(latex, fApp) {
 
 function sensorTimer(interval, max_count, sensor) {
   return new Promise(function (resolve, reject) {
-      function timer(counter) {
-          console.log('counter=' + counter + ' sensor=' + sensor());
-          if (counter > max_count) {
-              reject('max count exceeded');
-          } else {
-              if (sensor()) {
-                  resolve('success');
-              } else {
-                  setTimeout(() => {
-                      timer(counter + 1);
-                  }, interval);
-              }
-          }
+    function timer(counter) {
+      console.log('counter=' + counter + ' sensor=' + sensor());
+      if (counter > max_count) {
+        reject('max count exceeded');
+      } else {
+        if (sensor()) {
+          resolve('success');
+        } else {
+          setTimeout(() => {
+            timer(counter + 1);
+          }, interval);
+        }
       }
-      // start sensorTimer
-      timer(0);
+    }
+    // start sensorTimer
+    timer(0);
   });
 }
 
 async function waitForEditorFAppThenDo(cont) {
-  console.log(editor_fApp);
   await sensorTimer(500, 20, function () {
-      var sensor = (typeof editor_fApp !== 'undefined');
-      console.log('EditorFApp Sensor=' + sensor);
-      return sensor
+    var sensor = (typeof editor_fApp !== 'undefined');
+    console.log('EditorFApp Sensor=' + sensor);
+    return sensor
   });
   // await sensorTimer(500, 20, function(){return (false)});
   cont;
 }
 
-export async function editorAction() { //replaces messageHandler
+async function editorAction() { //replaces messageHandler
   var actionType = arguments[0];
   var data = arguments[1] || "dummy";
   console.log('actionType=' + actionType + ' data=' + data);
-  waitForEditorFAppThenDo(
-    editorActionDefined(actionType, data)
-  );
+  // waitForEditorFAppThenDo(
+  //   editorActionDefined(actionType, data)
+  // );
+  editorActionDefined(actionType, data);
 }
 
 async function editorActionDefined(actionType, data) {
   console.log('editorAction: ' + actionType + ' data=' + data);
+  var editor_fApp = H5Pbridge.editor_fApp;
   if (typeof editor_fApp !== 'undefined') {
     // H5P
     console.log('editor_fApp.id=' + editor_fApp.id);
@@ -598,7 +599,7 @@ async function editorActionDefined(actionType, data) {
     }
     if (actionType == 'setInputFieldMouseover') {
       console.info('setInputFieldMouseover');
-      var latex = setInput(editorMf);
+      var latex = H5Pbridge.setInput(editorMf);
       console.log(latex);
       editorMf.latex(latex.old);
       //TODO get rid of global vars

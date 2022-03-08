@@ -20,7 +20,7 @@ import {
 } from "./inputfield_unit.js";
 
 var mathQuillEditHandlerActive = true;
-var editor_fApp;
+export var editor_fApp;
 //TODO get rid of global vars
 
 //TODO move to formulaapplet-editor to have access to refreshResultField
@@ -88,6 +88,7 @@ export async function prepareEditorApplet(fApp) {
 } // end of prepareEditorApplet
 
 function refreshResultFieldClone(latex, fApp) {
+    console.log("refreshResultFieldClone");
     latex = latex.replaceAll(config.unit_replacement, '\\unit{');
     var parts = separateInputfield(latex);
     var tex = parts.before + '{{result}}' + parts.after;
