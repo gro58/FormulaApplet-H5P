@@ -266,16 +266,6 @@ function eraseInputfieldClass(latex) {
     return temp.before + temp.tag + temp.after;
 }
 
-export function randomId(length) {
-    var result = 'fa';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
-    var numOfChars = characters.length;
-    for (var i = 2; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * numOfChars));
-    }
-    return result;
-}
-
 function createreplacementCharacter(latexstring) {
     const separators = '∀µ∉ö∋∐∔∝∤∮∱∸∺∽≀';
     var i = 0;
