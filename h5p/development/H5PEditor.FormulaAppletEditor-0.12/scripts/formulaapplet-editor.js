@@ -330,7 +330,7 @@ async function afterAppend(obj) {
   var element = observedField.$item[0];
   element.addEventListener('input', myEventHandler(observedField));
 
-  var lang = getValue(obj, 'sel_lang');
+  var lang = getValue(obj, 'selected_language');
   console.log('lang=' + lang);
   if (lang === 'de') {
     // Translation of "Set input field"

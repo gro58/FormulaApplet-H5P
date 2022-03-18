@@ -39,7 +39,7 @@ function mathQuillifyEditor(fApp) {
                 try {
                     if (mathQuillEditHandlerActive) {
                         var latex = mathField.latex();
-                        // console.log('** mathQuillEditHandler latex=' + latex);
+                        console.log('mathQuillEditHandler refreshResultFieldClone latex=' + latex);
                         refreshResultFieldClone(latex, fApp);
                     }
                 } catch (error) {
@@ -63,7 +63,7 @@ export async function prepareEditorApplet(fApp) {
     console.log(editorMf);
     // editorMf provides commands like editorMf.latex('\\sqrt{2}') and var latextext = editorMf.latex();
     fApp.mathField = editorMf;
-    console.log('editorMf.latex=' + editorMf.latex());
+    console.log('refreshResultFieldClone editorMf.latex=' + editorMf.latex());
     refreshResultFieldClone(editorMf.latex(), fApp);
     $.event.trigger("refreshLatexEvent"); //adjust \cdot versus \times
 
@@ -76,11 +76,11 @@ export async function prepareEditorApplet(fApp) {
         // if debug, show three fields
         $('.field-name-data_b64').css('display', '');
         $('.field-name-id').css('display', '');
-        $('.field-name-sel_lang').css('display', '');
+        $('.field-name-selected_language').css('display', '');
     } else {
         $('.field-name-data_b64').css('display', 'none');
         $('.field-name-id').css('display', 'none');
-        $('.field-name-sel_lang').css('display', 'none');
+        $('.field-name-selected_language').css('display', 'none');
     }
     if (config.htmloutput === 'true') {
         $('#html_output').css('display', '');
@@ -116,7 +116,7 @@ function refreshResultFieldClone(latex, fApp) {
         //     console.log('data_b64_click: set value=' + enc + ' and trigger click event ');
         //     $b64.text(enc);
         //     $b64.trigger("click");
-        }
+        // }
     }
     // getHTML
     var html = '<p class="formula_applet" id="' + fApp.id;

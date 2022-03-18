@@ -53,7 +53,7 @@
   },
   {
     "label": "Selected Language",
-    "name": "sel_lang",
+    "name": "selected_language",
     "type": "text",
     "default": "en",
     "description": "language selected by user"
