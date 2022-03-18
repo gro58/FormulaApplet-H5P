@@ -124,8 +124,8 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       text: 'Set input field',
       click: function (event) {
         event.preventDefault();
-        console.log("H5Pbridge.editorAction setInputField");
-        H5Pbridge.editorAction("setInputField");
+        console.log("editorAction setInputField");
+        editorAction("setInputField");
       }
     });
     $button.attr('id', 'set-input-h5p');
@@ -135,9 +135,9 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     function buttonMouseoverHandler(ev) {
       ev.stopImmediatePropagation();
       ev.preventDefault();
-      console.log("H5Pbridge.editorAction setInputFieldMouseover");
+      console.log("editorAction setInputFieldMouseover");
       // test_setValue(self);
-      H5Pbridge.editorAction("setInputFieldMouseover");
+      editorAction("setInputFieldMouseover");
     };
 
     $(function () {
@@ -146,7 +146,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       var texinputparent = H5P.jQuery('div.field.field-name-TEX_expression.text input').parent();
       // disabled: read-only
       texinputparent.append('<br><br><textarea id="html_output" rows="10" cols="150" disabled>output</textarea>');
-      texinputparent.append('<br><p id="data_b64_click"></p>');
+      // texinputparent.append('<br><p id="data_b64_click"></p>');
       afterAppend(self);
       waitForMainThenDo(afterMainIsLoaded);
       // waitForMainThenDo2(afterMainIsLoaded2);
@@ -157,6 +157,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     // this code is executed if main is loaded
     console.log('co(3)');
     await H5Pbridge.preparePage();
+    await H5Pbridge.editor_fApp;
   }
   async function afterMainIsLoaded2() {
     // this code is executed if main is loaded
@@ -221,8 +222,12 @@ function randomId(length) {
   return result;
 }
 
+var obj_global; //TODO avoid global vars
+var editor_fApp_global;
+
 async function afterAppend(obj) {
   console.log('co(2)');
+  obj_global = obj;
 
   // generate new id if necessary (new applet), and spread it
   try {
@@ -243,22 +248,8 @@ async function afterAppend(obj) {
     var new_id = getValue(obj, 'id') + '-edit';
     H5P.jQuery(elem).attr('id', new_id);
   }
-  console.log('H5Pbridge.editorAction refresh');
-  H5Pbridge.editorAction("refresh");
-
-
-  // compare field retrieve methods
-  // var targetField_1 = H5PEditor.findField('data_b64', obj.parent);
-  // var targetField_2 = getField(obj, 'data_b64');
-
-  // https://stackoverflow.com/questions/27541004/detect-paragraph-element-change-with-jquery 'change' doesn't work
-  // data transfer with invisible HTML element. OMG!
-  H5P.jQuery('#data_b64_click').on('click', function (ev) {
-    var b64 = ev.target.innerHTML;
-    console.log('data_b64_click: ' + b64);
-    setValue(obj, 'data_b64', b64);
-  });
-
+  // console.log('editorAction refresh');
+  editorAction("refresh");
   // still afterAppend...
 
   // texinput is updated by editor.js: showEditorResults
@@ -272,7 +263,7 @@ async function afterAppend(obj) {
     if (event.isTrusted) {
       msg = ' event caused by keyboard input';
       event.preventDefault();
-      ('TEX_changed', event.target.value);
+      editorAction('TEX_changed', event.target.value);
     } else {
       msg = ' event caused by JavaScript';
       // no editorAction ->  avoid infinite loop
@@ -280,38 +271,17 @@ async function afterAppend(obj) {
     console.log('TEX_expression changed: ' + event.target.value + msg);
   }
 
-  // var checkbox = document.getElementById(getSelectorID('field-formulaappletphysics'));
-  // checkbox.addEventListener('change', function () {
-  //   if (this.checked) {
-  //     console.log("Physics Mode");
-  //   } else {
-  //     console.log("Math Mode");
-  //   }
-  // });
-
-  // TODO replace by getField, addEventListener
-  // var formulaAppletMode = document.getElementById(getSelectorID('field-formulaappletmode'));
-  // formulaAppletMode.addEventListener('change', function (_e) {
-  //   // mode=auto means hasSolution=false  mode=manu means hasSolution=true
-  //   sendModeTofApp();
-  // });
-  // var formulaAppletPhysics = document.getElementById(getSelectorID('field-formulaappletphysics'));
-  // formulaAppletPhysics.addEventListener('change', function (_e) {
-  //   // mode=auto means hasSolution=false  mode=manu means hasSolution=true
-  //   sendModeTofApp();
-  // });
-
   // first time at init
   sendModeTofApp();
 
   function sendModeTofApp() {
     var mode = obj.parent.params['formulaAppletMode'];
-    console.log('H5Pbridge.editorAction setMode: ' + mode);
-    ('setMode', mode);
+    // console.log('editorAction setMode: ' + mode);
+    editorAction('setMode', mode);
     var physics = obj.parent.params['formulaAppletPhysics'];
     physics = '' + physics;
-    console.log('H5Pbridge.editorAction setPhysics: ' + physics);
-    H5Pbridge.editorAction('setPhysics', physics);
+    // console.log('editorAction setPhysics: ' + physics);
+    editorAction('setPhysics', physics);
   }
 
   // make tex_expr read-only: https://www.educba.com/jquery-disable-input/
@@ -362,30 +332,14 @@ async function afterAppend(obj) {
   element.addEventListener('input', myEventHandler(observedField));
 
   // console.log('make data_b64_click invisible');
-  H5P.jQuery('#data_b64_click').css('display', 'none');
+  // H5P.jQuery('#data_b64_click').css('display', 'none');
 
-  // if (obj.field['debug'] === 'true') {
-  //   H5P.jQuery('.field-name-data_b64').css('display', '');
-  //   H5P.jQuery('.field-name-id').css('display', '');
-  //   H5P.jQuery('.field-name-sel_lang').css('display', '');
-  // } else {
-  //   H5P.jQuery('.field-name-data_b64').css('display', 'none');
-  //   H5P.jQuery('.field-name-id').css('display', 'none');
-  //   H5P.jQuery('.field-name-sel_lang').css('display', 'none');
-  // }
-  // if (obj.field['tex_output'] === 'true') {
-  //   H5P.jQuery('#html_output').css('display', '');
-  // } else {
-  //   H5P.jQuery('#html_output').css('display', 'none');
-  // }
   var lang = getValue(obj, 'sel_lang');
   console.log('lang=' + lang);
   if (lang === 'de') {
     // Translation of "Set input field"
     $button.html("Eingabe-Feld setzen");
   }
-
-
 } // end of afterAppend
 
 // getField is used by getValue
@@ -430,13 +384,10 @@ function setValue(obj, name, value) {
     var $targetField = targetField.$input;
     $targetField[0].checked = value;
   };
-  // if (typeof $targetField !== 'undefined') {
-  //   $targetField[0].value = value;
-  // }
 }
 
 async function waitForMainThenDo2(cont) {
-  await H5Pbridge.sensorTimer(800, 40, function () {
+  await sensorTimer(800, 40, function () {
     var sensor = H5Pbridge.mainIsLoaded();
     console.log('Main Sensor=' + sensor);
     return sensor
@@ -498,4 +449,160 @@ function getSelectorID(selectorName) {
     });
   }
   return result;
+}
+
+function refreshResultField(latex, fApp) {
+  latex = latex.replaceAll(H5Pbridge.config.unit_replacement, '\\unit{');
+  var parts = H5Pbridge.separateInputfield(latex);
+  var tex = parts.before + '{{result}}' + parts.after;
+  var enc = H5Pbridge.encode(parts.tag);
+  console.log(tex + ' enc=' + enc + ' -> ' + H5Pbridge.decode(enc));
+
+  if (H5Pbridge.isH5P()) {
+    var texinput = H5P.jQuery('div.field.field-name-TEX_expression.text input')[0];
+    if (typeof texinput !== 'undefined') {
+      // value of TEX_expression field is set to EditorResult
+      texinput.value = tex;
+      // trigger InputEvent. EventListener see formulaapplet-editor.js
+      texinput.dispatchEvent(new InputEvent('input', {
+        bubbles: true
+      }))
+    }
+    // 'replacement for #data_b64_click';
+    setValue(obj_global, 'data_b64', enc);
+  }
+  // getHTML
+  var html = '<p class="formula_applet" id="' + fApp.id;
+  if (fApp.hasSolution) {
+    html += '" data-b64="' + enc;
+  }
+  if (fApp.unitAuto) {
+    html += '" mode="physics';
+  }
+  html += '">' + tex + '</p>';
+  console.log(html);
+  var out = H5P.jQuery('textarea#html_output');
+  if (typeof out !== 'undefined') {
+    out.text(html);
+  }
+}
+
+function sensorTimer(interval, max_count, sensor) {
+  return new Promise(function (resolve, reject) {
+    function timer(counter) {
+      // console.log('counter=' + counter + ' sensor=' + sensor());
+      if (counter > max_count) {
+        reject('max count exceeded');
+      } else {
+        if (sensor()) {
+          resolve('success');
+        } else {
+          setTimeout(() => {
+            timer(counter + 1);
+          }, interval);
+        }
+      }
+    }
+    // start sensorTimer
+    timer(0);
+  });
+}
+
+waitForEditorFAppThenDo(function () {
+  editor_fApp_global = H5Pbridge.editor_fApp;
+  console.log(editor_fApp_global);
+ // console.log('editor_fApp_global OK');
+})
+
+async function waitForEditorFAppThenDo(cont) {
+  y = await sensorTimer(500, 20, function () {
+    var sensor = (typeof H5Pbridge.editor_fApp !== 'undefined');
+    // console.log('editor_fApp_global sensor=' + sensor);
+    return sensor;
+  });
+  console.log(y);
+  cont();
+}
+
+async function editorAction() { //replaces messageHandler
+  var actionType = arguments[0];
+  var data = arguments[1] || "dummy";
+  // console.log('actionType=' + actionType + ' data=' + data);
+  editorActionDefined(actionType, data);
+}
+
+async function editorActionDefined(actionType, data) {
+  console.log('editorActionDefined: ' + actionType + ' data=' + data);
+  if (typeof editor_fApp_global !== 'undefined') {
+    // H5P
+    console.log('editor_fApp_global.id=' + editor_fApp_global.id);
+    var editorMf = editor_fApp_global.mathField;
+    if (actionType === 'idChanged') {
+      var newId = data;
+      console.info('idChanged data=' + newId);
+      editor_fApp_global.id = newId;
+      refreshResultField(editorMf.latex(), editor_fApp_global);
+    }
+    if (actionType === 'setInputFieldMouseover') {
+      console.info('setInputFieldMouseover');
+      var latex = H5Pbridge.setInput(editorMf);
+      console.log(latex);
+      editorMf.latex(latex.old);
+      //TODO get rid of global vars
+      newLatex = latex.new; //prepare for setInputField
+    }
+
+    // setInputFieldMouseover precedes setInputField
+    // global var newLatex is renewed by function setInput() 
+    if (actionType === 'setInputField') {
+      console.info('setInputField');
+      editorMf.latex(newLatex);
+    }
+
+    if (actionType === 'refresh') {
+      console.info('refresh');
+      try {
+        refreshResultField(editor_fApp_global.mathField.latex(), editor_fApp_global);
+      } catch (error) {
+        console.error('ERROR: ' + error);
+      }
+    }
+
+    if (actionType === 'setMode') {
+      var auto_or_manu = data;
+      console.info('setMode ' + auto_or_manu);
+      if (auto_or_manu == 'auto') {
+        editor_fApp_global.hasSolution = false;
+        refreshResultField(editorMf.latex(), editor_fApp_global)
+      }
+      if (auto_or_manu == 'manu') {
+        editor_fApp_global.hasSolution = true;
+        refreshResultField(editorMf.latex(), editor_fApp_global)
+      }
+    }
+    if (actionType === 'setPhysics') {
+      console.info('setPhysics ' + data);
+      if (data === 'true') {
+        editor_fApp_global.unitAuto = true;
+        refreshResultField(editorMf.latex(), editor_fApp_global);
+      }
+      if (data === 'false') {
+        editor_fApp_global.unitAuto = false;
+        refreshResultField(editorMf.latex(), editor_fApp_global);
+      }
+    }
+    if (actionType === 'TEX_changed') {
+      console.info('*** TEX_changed ' + data);
+      var temp = data.replace(/{{result}}/g, '\\class{inputfield}{' + editor_fApp_global.solution + '}');
+      //avoid XSS
+      temp = temp.replace(/</g, '');
+      temp = temp.replace(/>/g, '');
+      temp = temp.replace(/"/g, '');
+      temp = temp.replace(/'/g, '');
+      temp = temp.replace(/&/g, '');
+      temp = temp.replace(/ /g, '_');
+      console.log('editorMf.latex(temp) ' + temp);
+      editorMf.latex(temp);
+    }
+  }
 }

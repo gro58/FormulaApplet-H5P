@@ -1,27 +1,46 @@
 import preparePage, {
     mathQuillify,
 } from "./js/preparePage.js";
+// import {
+//     // editorAction,
+//     // sensorTimer,
+//     editor_fApp
+// } from "./js/editor.js";
 import {
-    randomId,
-    editorAction,
-    sensorTimer
-} from "./js/editor.js";
-import decode from "./js/decode.js";
-// import config from "./js/config.json";
+    editor_fApp
+} from "./js/preparePage.js";
+import decode, {
+    encode
+} from "./js/decode.js";
+import config from "./js/config.json";
+import {
+    setInput,
+    separateInputfield,
+} from "./js/inputfield_unit.js";
+import {
+    // domLoad,
+    isH5P
+} from "./js/dom.js";
+
+
 
 // H5Pbridge
 export {
     decode,
-    editorAction,
+    encode,
+    // editorAction,
     mathQuillify,
     preparePage,
-    randomId,
-    sensorTimer
+    editor_fApp,
+    config,
+    setInput,
+    separateInputfield,
+    isH5P
 };
 
 window.onload = function () {
-        preparePage();
- };
+    preparePage();
+};
 
 export function mainIsLoaded() {
     return true;

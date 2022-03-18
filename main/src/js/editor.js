@@ -15,14 +15,19 @@ import decode, {
 import MQ from "./lib/mathquillWrapper.js";
 
 import {
-    setInput,
+    // setInput,
     separateInputfield,
 } from "./inputfield_unit.js";
 
+// import {
+//     FAList
+// } from "./preparePage.js";
+
 var mathQuillEditHandlerActive = true;
-var editor_fApp;
+export var editor_fApp;
 //TODO get rid of global vars
 
+//TODO move to formulaapplet-editor to have access to refreshResultField
 function mathQuillifyEditor(fApp) {
     // make whole mathFieldSpan editable
     var mathFieldSpan = document.getElementById('math-field');
@@ -35,7 +40,7 @@ function mathQuillifyEditor(fApp) {
                     if (mathQuillEditHandlerActive) {
                         var latex = mathField.latex();
                         // console.log('** mathQuillEditHandler latex=' + latex);
-                        refreshResultField(latex, fApp);
+                        refreshResultFieldClone(latex, fApp);
                     }
                 } catch (error) {
                     console.error('ERROR in MQ.MathField: ' + error);
@@ -46,143 +51,26 @@ function mathQuillifyEditor(fApp) {
     return editorMf;
 }
 
-export function sensorTimer(interval, max_count, sensor) {
-    return new Promise(function (resolve, reject) {
-        function timer(counter) {
-            console.log('counter=' + counter + ' sensor=' + sensor());
-            if (counter > max_count) {
-                reject('max count exceeded');
-            } else {
-                if (sensor()) {
-                    resolve('success');
-                } else {
-                    setTimeout(() => {
-                        timer(counter + 1);
-                    }, interval);
-                }
-            }
-        }
-        // start sensorTimer
-        timer(0);
-    });
-}
+// var newLatex = 'new'; //TODO get rid of global vars
 
-async function waitForEditorFAppThenDo(cont) {
-    console.log(editor_fApp);
-    await sensorTimer(500, 20, function () {
-        var sensor = (typeof editor_fApp !== 'undefined');
-        console.log('EditorFApp Sensor=' + sensor);
-        return sensor
-    });
-    // await sensorTimer(500, 20, function(){return (false)});
-    cont;
-}
-
-var newLatex = 'new'; //TODO get rid of global vars
-
-export async function editorAction() { //replaces messageHandler
-    var actionType = arguments[0];
-    var data = arguments[1] || "dummy";
-    console.log('actionType=' + actionType + ' data=' + data);
-    waitForEditorFAppThenDo(
-        editorActionDefined(actionType, data)
-    );
-}
-
-async function editorActionDefined(actionType, data) {
-    console.log('editorAction: ' + actionType + ' data=' + data);
-    if (typeof editor_fApp !== 'undefined') {
-        // H5P
-        console.log('editor_fApp.id=' + editor_fApp.id);
-        var editorMf = editor_fApp.mathField;
-        if (actionType == 'idChanged') {
-            var newId = data;
-            console.info('idChanged data=' + newId);
-            editor_fApp.id = newId;
-            refreshResultField(editorMf.latex(), editor_fApp);
-        }
-        if (actionType == 'setInputFieldMouseover') {
-            console.info('setInputFieldMouseover');
-            var latex = setInput(editorMf);
-            console.log(latex);
-            editorMf.latex(latex.old);
-            //TODO get rid of global vars
-            newLatex = latex.new; //prepare for setInputField
-        }
-
-        // setInputFieldMouseover precedes setInputField
-        // global var newLatex is renewed by function setInput() 
-        if (actionType == 'setInputField') {
-            console.info('setInputField');
-            editorMf.latex(newLatex);
-        }
-
-        if (actionType == 'refresh') {
-            console.info('refresh');
-            try {
-                refreshResultField(editor_fApp.mathField.latex(), editor_fApp);
-            } catch (error) {
-                console.error('ERROR: ' + error);
-            }
-        }
-
-        if (actionType == 'setMode') {
-            var auto_or_manu = data;
-            console.info('setMode ' + auto_or_manu);
-            if (auto_or_manu == 'auto') {
-                editor_fApp.hasSolution = false;
-                refreshResultField(editorMf.latex(), editor_fApp)
-            }
-            if (auto_or_manu == 'manu') {
-                editor_fApp.hasSolution = true;
-                refreshResultField(editorMf.latex(), editor_fApp)
-            }
-        }
-        if (actionType === 'setPhysics') {
-            console.info('setPhysics ' + data);
-            if (data === 'true') {
-                editor_fApp.unitAuto = true;
-                refreshResultField(editorMf.latex(), editor_fApp);
-            }
-            if (data === 'false') {
-                editor_fApp.unitAuto = false;
-                refreshResultField(editorMf.latex(), editor_fApp);
-            }
-        }
-        if (actionType === 'TEX_changed') {
-            console.info('*** TEX_changed ' + data);
-            var temp = data.replace(/{{result}}/g, '\\class{inputfield}{' + editor_fApp.solution + '}');
-            //avoid XSS
-            temp = temp.replace(/</g, '');
-            temp = temp.replace(/>/g, '');
-            temp = temp.replace(/"/g, '');
-            temp = temp.replace(/'/g, '');
-            temp = temp.replace(/&/g, '');
-            temp = temp.replace(/ /g, '_');
-            console.log('editorMf.latex(temp) ' + temp);
-            editorMf.latex(temp);
-        }
-    }
-
-}
-
+//TODO move to formulaapplet-editor to have access to refreshResultField
 export async function prepareEditorApplet(fApp) {
     // *** editor ***
     await domLoad;
     // await initEditor();
-    console.log('prepareEditorApplet: define editor_fApp');
+    console.log('prepareEditorApplet: define editor_fApp_id');
     var editorMf = mathQuillifyEditor(fApp);
     console.log(editorMf);
     // editorMf provides commands like editorMf.latex('\\sqrt{2}') and var latextext = editorMf.latex();
     fApp.mathField = editorMf;
     console.log('editorMf.latex=' + editorMf.latex());
-    refreshResultField(editorMf.latex(), fApp);
+    refreshResultFieldClone(editorMf.latex(), fApp);
     $.event.trigger("refreshLatexEvent"); //adjust \cdot versus \times
 
 
-    editor_fApp = fApp;
-    console.log('editor_fApp');
-    console.log(editor_fApp);
+    // var editor_fApp = FAList[fApp.id];
+    // console.log('editor_fApp');
+    // console.log(editor_fApp);
 
     if (config.debug === 'true') {
         // if debug, show three fields
@@ -199,11 +87,11 @@ export async function prepareEditorApplet(fApp) {
     } else {
         $('#html_output').css('display', 'none');
     }
-
-
+    return fApp;
 } // end of prepareEditorApplet
 
-function refreshResultField(latex, fApp) {
+function refreshResultFieldClone(latex, fApp) {
+    console.log("refreshResultFieldClone");
     latex = latex.replaceAll(config.unit_replacement, '\\unit{');
     var parts = separateInputfield(latex);
     var tex = parts.before + '{{result}}' + parts.after;
