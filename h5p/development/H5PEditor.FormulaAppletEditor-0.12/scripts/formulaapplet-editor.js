@@ -495,7 +495,7 @@ function sensorTimer(interval, max_count, sensor) {
         reject('max count exceeded');
       } else {
         if (sensor()) {
-          resolve('success');
+          resolve('Timer: success (' + counter + ')');
         } else {
           setTimeout(() => {
             timer(counter + 1);
@@ -508,10 +508,11 @@ function sensorTimer(interval, max_count, sensor) {
   });
 }
 
-waitForEditorFAppThenDo(function () {
-  editor_fApp_global = H5Pbridge.editor_fApp;
-  console.log(editor_fApp_global);
- // console.log('editor_fApp_global OK');
+waitForEditorFAppThenDo(async function (x) {
+  // console.log(x);
+  editor_fApp_global = await x; //OMG
+  // console.log(editor_fApp_global.mathField);
+  // console.log('editor_fApp_global OK');
 })
 
 async function waitForEditorFAppThenDo(cont) {
@@ -521,22 +522,20 @@ async function waitForEditorFAppThenDo(cont) {
     return sensor;
   });
   console.log(y);
-  cont();
+  // console.log(H5Pbridge.editor_fApp);
+  cont(H5Pbridge.editor_fApp);
 }
 
-async function editorAction() { //replaces messageHandler
+async function editorAction() {
   var actionType = arguments[0];
-  var data = arguments[1] || "dummy";
-  // console.log('actionType=' + actionType + ' data=' + data);
-  editorActionDefined(actionType, data);
-}
-
-async function editorActionDefined(actionType, data) {
-  console.log('editorActionDefined: ' + actionType + ' data=' + data);
-  if (typeof editor_fApp_global !== 'undefined') {
+  var data = arguments[1] || "empty arg[1]";
+  console.log('editorAction: ' + actionType + ' data=' + data);
+  // if (typeof editor_fApp_global !== 'undefined') {
+  waitForEditorFAppThenDo(async function () {
     // H5P
-    console.log('editor_fApp_global.id=' + editor_fApp_global.id);
-    var editorMf = editor_fApp_global.mathField;
+    var editorMf = await editor_fApp_global.mathField;
+    console.log('editor_fApp_global.mathField');
+    console.log(editor_fApp_global.mathField);
     if (actionType === 'idChanged') {
       var newId = data;
       console.info('idChanged data=' + newId);
@@ -604,5 +603,6 @@ async function editorActionDefined(actionType, data) {
       console.log('editorMf.latex(temp) ' + temp);
       editorMf.latex(temp);
     }
-  }
+    // }
+  });
 }
