@@ -1,11 +1,14 @@
 import preparePage, {
     mathQuillify,
 } from "./js/preparePage.js";
+// import {
+//     // editorAction,
+//     // sensorTimer,
+//     editor_fApp
+// } from "./js/editor.js";
 import {
-    // editorAction,
-    // sensorTimer,
     editor_fApp
-} from "./js/editor.js";
+} from "./js/preparePage.js";
 import decode, {
     encode
 } from "./js/decode.js";

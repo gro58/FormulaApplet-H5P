@@ -19,6 +19,10 @@ import {
     separateInputfield,
 } from "./inputfield_unit.js";
 
+// import {
+//     FAList
+// } from "./preparePage.js";
+
 var mathQuillEditHandlerActive = true;
 export var editor_fApp;
 //TODO get rid of global vars
@@ -54,7 +58,7 @@ export async function prepareEditorApplet(fApp) {
     // *** editor ***
     await domLoad;
     // await initEditor();
-    console.log('prepareEditorApplet: define editor_fApp');
+    console.log('prepareEditorApplet: define editor_fApp_id');
     var editorMf = mathQuillifyEditor(fApp);
     console.log(editorMf);
     // editorMf provides commands like editorMf.latex('\\sqrt{2}') and var latextext = editorMf.latex();
@@ -64,9 +68,9 @@ export async function prepareEditorApplet(fApp) {
     $.event.trigger("refreshLatexEvent"); //adjust \cdot versus \times
 
 
-    editor_fApp = fApp;
-    console.log('editor_fApp');
-    console.log(editor_fApp);
+    // var editor_fApp = FAList[fApp.id];
+    // console.log('editor_fApp');
+    // console.log(editor_fApp);
 
     if (config.debug === 'true') {
         // if debug, show three fields
@@ -83,8 +87,7 @@ export async function prepareEditorApplet(fApp) {
     } else {
         $('#html_output').css('display', 'none');
     }
-
-
+    return fApp;
 } // end of prepareEditorApplet
 
 function refreshResultFieldClone(latex, fApp) {
@@ -96,38 +99,37 @@ function refreshResultFieldClone(latex, fApp) {
     console.log(tex + ' enc=' + enc + ' -> ' + decode(enc));
     // latexHandler(tex, enc);
     // $(document).trigger('texevent');
-  
+
     // H5P editor: send tex and enc using dispatchEvent and trigger('click')
     if (isH5P()) {
-      var texinput = $('div.field.field-name-TEX_expression.text input')[0];
-      if (typeof texinput !== 'undefined') {
-        // value of TEX_expression field is set to EditorResult
-        texinput.value = tex;
-        // trigger InputEvent. EventListener see formulaapplet-editor.js
-        texinput.dispatchEvent(new InputEvent('input', {
-          bubbles: true
-        }))
-      }
-      var $b64 = $('#data_b64_click');
-      if ($b64.length > 0) {
-        console.log('data_b64_click: set value=' + enc + ' and trigger click event ');
-        $b64.text(enc);
-        $b64.trigger("click");
-      }
+        var texinput = $('div.field.field-name-TEX_expression.text input')[0];
+        if (typeof texinput !== 'undefined') {
+            // value of TEX_expression field is set to EditorResult
+            texinput.value = tex;
+            // trigger InputEvent. EventListener see formulaapplet-editor.js
+            texinput.dispatchEvent(new InputEvent('input', {
+                bubbles: true
+            }))
+        }
+        var $b64 = $('#data_b64_click');
+        if ($b64.length > 0) {
+            console.log('data_b64_click: set value=' + enc + ' and trigger click event ');
+            $b64.text(enc);
+            $b64.trigger("click");
+        }
     }
     // getHTML
     var html = '<p class="formula_applet" id="' + fApp.id;
     if (fApp.hasSolution) {
-      html += '" data-b64="' + enc;
+        html += '" data-b64="' + enc;
     }
     if (fApp.unitAuto) {
-      html += '" mode="physics';
+        html += '" mode="physics';
     }
     html += '">' + tex + '</p>';
     console.log(html);
     var out = $('textarea#html_output');
     if (typeof out !== 'undefined') {
-      out.text(html);
+        out.text(html);
     }
-  }
-  
+}

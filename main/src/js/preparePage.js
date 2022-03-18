@@ -44,7 +44,8 @@ import {
 
 console.log('preparePage.js');
 //TODO hide global vars
-var FAList = {};
+export var FAList = {};
+export var editor_fApp;
 var editHandlerActive = true;
 
 var default_fApp = {
@@ -183,8 +184,8 @@ export async function mathQuillify(id) {
 
   var mqEditableField;
   if (isEditor) {
-    prepareEditorApplet(fApp);
-    // console.log('EditorApplet is prepared.');
+    editor_fApp = prepareEditorApplet(fApp);
+    console.log('EditorApplet is prepared.');
     // mqEditableField = $el.find('.mq-editable-field')[0]; // why? DELETE
   } else {
     // *** no editor ***
