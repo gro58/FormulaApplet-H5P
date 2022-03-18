@@ -111,11 +111,11 @@ function refreshResultFieldClone(latex, fApp) {
                 bubbles: true
             }))
         }
-        var $b64 = $('#data_b64_click');
-        if ($b64.length > 0) {
-            console.log('data_b64_click: set value=' + enc + ' and trigger click event ');
-            $b64.text(enc);
-            $b64.trigger("click");
+        // var $b64 = $('#data_b64_click');
+        // if ($b64.length > 0) {
+        //     console.log('data_b64_click: set value=' + enc + ' and trigger click event ');
+        //     $b64.text(enc);
+        //     $b64.trigger("click");
         }
     }
     // getHTML

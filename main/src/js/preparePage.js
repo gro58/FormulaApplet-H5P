@@ -155,9 +155,9 @@ export async function mathQuillify(id) {
     }
     // physics mode if unit=auto or mode=physics, else math mode
     var unitAttr = $el.attr('unit');
-    var unitAuto = (typeof unitAttr !== 'undefined' && unitAttr == 'auto');
+    var unitAuto = (typeof unitAttr !== 'undefined' && unitAttr === 'auto');
     var modeAttr = $el.attr('mode');
-    var modePhysics = (typeof modeAttr !== 'undefined' && modeAttr == 'physics');
+    var modePhysics = (typeof modeAttr !== 'undefined' && modeAttr === 'physics');
     fApp.unitAuto = unitAuto || modePhysics;
 
     // retrieve precision

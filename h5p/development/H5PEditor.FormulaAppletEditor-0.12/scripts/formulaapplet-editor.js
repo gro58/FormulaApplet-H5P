@@ -146,7 +146,6 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       var texinputparent = H5P.jQuery('div.field.field-name-TEX_expression.text input').parent();
       // disabled: read-only
       texinputparent.append('<br><br><textarea id="html_output" rows="10" cols="150" disabled>output</textarea>');
-      // texinputparent.append('<br><p id="data_b64_click"></p>');
       afterAppend(self);
       waitForMainThenDo(afterMainIsLoaded);
       // waitForMainThenDo2(afterMainIsLoaded2);
@@ -330,9 +329,6 @@ async function afterAppend(obj) {
   var observedField = getField(obj, 'id');
   var element = observedField.$item[0];
   element.addEventListener('input', myEventHandler(observedField));
-
-  // console.log('make data_b64_click invisible');
-  // H5P.jQuery('#data_b64_click').css('display', 'none');
 
   var lang = getValue(obj, 'sel_lang');
   console.log('lang=' + lang);
