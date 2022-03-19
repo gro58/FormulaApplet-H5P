@@ -19,10 +19,6 @@ import {
     separateInputfield,
 } from "./inputfield_unit.js";
 
-// import {
-//     FAList
-// } from "./preparePage.js";
-
 var mathQuillEditHandlerActive = true;
 export var editor_fApp;
 //TODO get rid of global vars
@@ -67,11 +63,6 @@ export async function prepareEditorApplet(fApp) {
     refreshResultFieldClone(editorMf.latex(), fApp);
     $.event.trigger("refreshLatexEvent"); //adjust \cdot versus \times
 
-
-    // var editor_fApp = FAList[fApp.id];
-    // console.log('editor_fApp');
-    // console.log(editor_fApp);
-
     if (config.debug === 'true') {
         // if debug, show three fields
         $('.field-name-data_b64').css('display', '');
@@ -111,12 +102,6 @@ function refreshResultFieldClone(latex, fApp) {
                 bubbles: true
             }))
         }
-        // var $b64 = $('#data_b64_click');
-        // if ($b64.length > 0) {
-        //     console.log('data_b64_click: set value=' + enc + ' and trigger click event ');
-        //     $b64.text(enc);
-        //     $b64.trigger("click");
-        // }
     }
     // getHTML
     var html = '<p class="formula_applet" id="' + fApp.id;
