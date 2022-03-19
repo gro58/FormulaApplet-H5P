@@ -148,7 +148,6 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       texinputparent.append('<br><br><textarea id="html_output" rows="10" cols="150" disabled>output</textarea>');
       afterAppend(self);
       waitForMainThenDo(afterMainIsLoaded);
-      // waitForMainThenDo2(afterMainIsLoaded2);
     });
   };
 
@@ -156,14 +155,9 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     // this code is executed if main is loaded
     console.log('co(3)');
     await H5Pbridge.preparePage();
-    await H5Pbridge.editor_fApp;
+    // await H5Pbridge.editor_fApp;
   }
-  async function afterMainIsLoaded2() {
-    // this code is executed if main is loaded
-    console.log('co(4)');
-    await H5Pbridge.preparePage();
-  }
-
+  
   /**
    * Hide expression selector
    * @method hide
@@ -382,49 +376,16 @@ function setValue(obj, name, value) {
   };
 }
 
-async function waitForMainThenDo2(cont) {
-  await sensorTimer(800, 40, function () {
+//TODO use .then() syntax
+async function waitForMainThenDo(cont) {
+  y = await sensorTimer(500, 20, function () {
     var sensor = H5Pbridge.mainIsLoaded();
     console.log('Main Sensor=' + sensor);
-    return sensor
+    return sensor;
   });
-  cont;
+  console.log(y);
+  cont();
 }
-
-
-// Start of waitForMain mechanism
-//TODO get rid of global var
-var try_counter = 0;
-var try_counter_limit = 10;
-
-function waitForMainThenDo(cont) {
-  var mainIsLoaded = false;
-  try {
-    mainIsLoaded = H5Pbridge.mainIsLoaded();
-  } catch (error) {
-    console.log(try_counter);
-    // console.log(H5Pbridge);
-  }
-  if (mainIsLoaded) {
-    // execute callback
-    cont();
-  } else {
-    try_counter++;
-    console.info(`waitForMain try_counter=${try_counter}`);
-    if (try_counter < try_counter_limit) {
-      setTimeout(function () {
-        // recurse
-        waitForMainThenDo(cont);
-      }, 300);
-    } else {
-      console.error('waitForMainThenDo: Timeout');
-      // optimistic approach
-      afterMainIsLoaded();
-    }
-  }
-}
-// End of waitForMain mechanism
-
 
 function getSelectorID(selectorName) {
   var result = '';
@@ -486,7 +447,7 @@ function refreshResultField(latex, fApp) {
 function sensorTimer(interval, max_count, sensor) {
   return new Promise(function (resolve, reject) {
     function timer(counter) {
-      // console.log('counter=' + counter + ' sensor=' + sensor());
+      console.log('counter=' + counter + ' sensor=' + sensor());
       if (counter > max_count) {
         reject('max count exceeded');
       } else {
