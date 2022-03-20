@@ -53,6 +53,7 @@ function getCopyTargets(filename) {
 			});
 		}
 	}
+	console.log(targets);
 	return targets;
 }
 
