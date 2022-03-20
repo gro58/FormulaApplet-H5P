@@ -6,7 +6,7 @@ import {
 } from "./texParser.js";
 
 // eslint-disable-next-line no-unused-vars
-var mathQuillEditHandlerActive = true;
+export var mathQuillEditHandlerActive = true;
 function getSelection(mf, options) {
     // if options.erase is undefined, erase defaults to false
     var erase = options.erase || false;

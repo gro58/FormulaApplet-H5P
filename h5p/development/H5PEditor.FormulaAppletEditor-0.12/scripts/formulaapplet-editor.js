@@ -155,6 +155,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     // this code is executed if main is loaded
     console.log('co(3)');
     await H5Pbridge.preparePage();
+    // this is where editor_fApp was generated in old version
     // await H5Pbridge.editor_fApp;
   }
   
@@ -221,6 +222,8 @@ var editor_fApp_global;
 async function afterAppend(obj) {
   console.log('co(2)');
   obj_global = obj;
+  // no success because prepareEditorApplet has to stay in preparePage.js
+  // editor_fApp_global = await prepareEditorApplet(fApp);
 
   // generate new id if necessary (new applet), and spread it
   try {
@@ -443,6 +446,44 @@ function refreshResultField(latex, fApp) {
     out.text(html);
   }
 }
+
+// function refreshResultFieldClone(latex, fApp) {
+//   console.log("refreshResultFieldClone");
+//   latex = latex.replaceAll(config.unit_replacement, '\\unit{');
+//   var parts = separateInputfield(latex);
+//   var tex = parts.before + '{{result}}' + parts.after;
+//   var enc = encode(parts.tag);
+//   console.log(tex + ' enc=' + enc + ' -> ' + decode(enc));
+//   // latexHandler(tex, enc);
+//   // $(document).trigger('texevent');
+
+//   // H5P editor: send tex and enc using dispatchEvent and trigger('click')
+//   if (isH5P()) {
+//       var texinput = $('div.field.field-name-TEX_expression.text input')[0];
+//       if (typeof texinput !== 'undefined') {
+//           // value of TEX_expression field is set to EditorResult
+//           texinput.value = tex;
+//           // trigger InputEvent. EventListener see formulaapplet-editor.js
+//           texinput.dispatchEvent(new InputEvent('input', {
+//               bubbles: true
+//           }))
+//       }
+//   }
+//   // getHTML
+//   var html = '<p class="formula_applet" id="' + fApp.id;
+//   if (fApp.hasSolution) {
+//       html += '" data-b64="' + enc;
+//   }
+//   if (fApp.unitAuto) {
+//       html += '" mode="physics';
+//   }
+//   html += '">' + tex + '</p>';
+//   console.log(html);
+//   var out = $('textarea#html_output');
+//   if (typeof out !== 'undefined') {
+//       out.text(html);
+//   }
+// }
 
 function sensorTimer(interval, max_count, sensor) {
   return new Promise(function (resolve, reject) {
