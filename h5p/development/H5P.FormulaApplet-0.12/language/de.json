@@ -23,7 +23,7 @@
       "description": "Benutze dieses Eingabe-Feld, wenn du vertraut mit LATEX bist"
     },
     {
-      "label": "Physics Mode",
+      "label": "Physik-Modus",
       "description": "Haken, wen das Ergebnis eine <b>physikalische Größe</b> (Maßzahl und Einheit) ist. <br>Kein Haken, falls das Ergebnis ein <b>mathematischer Ausdruck</b> ist."
     },
     {
