@@ -14,7 +14,7 @@ import {
     isH5P
 } from "./js/dom.js";
 
-H5Pbridge
+// H5Pbridge
 export {
     decode,
     encode,
