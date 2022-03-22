@@ -1,7 +1,5 @@
 import preparePage, {
     mathQuillify,
-} from "./js/preparePage.js";
-import {
     editor_fApp
 } from "./js/preparePage.js";
 import decode, {
@@ -13,17 +11,13 @@ import {
     separateInputfield,
 } from "./js/inputfield_unit.js";
 import {
-    // domLoad,
     isH5P
 } from "./js/dom.js";
 
-
-
-// H5Pbridge
+H5Pbridge
 export {
     decode,
     encode,
-    // editorAction,
     mathQuillify,
     preparePage,
     editor_fApp,
@@ -44,11 +38,3 @@ export function mainIsLoaded() {
 export let selected_language = {
     lang: "de"
 };
-
-// export function get_selected_language() {
-//     return selected_language || 'de';
-// }
-
-// export function set_selected_language(lang) {
-//     selected_language = lang;
-// }
