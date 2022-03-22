@@ -1,13 +1,15 @@
 "use strict";
 
-c;
+// import $ from "jquery";
 import {
   domLoad
-} from "./src/js/dom.js";
+} from "./dom.js";
 
 var translate = {
   init: false
 };
+
+initTranslation();
 
 async function switchTo(lang) {
   await domLoad;
