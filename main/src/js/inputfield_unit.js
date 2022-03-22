@@ -7,7 +7,7 @@ import {
 
 import {
     mathQuillEditHandlerActive
-} from "./preparePage.js";
+} from "./editHandler.js";
 
 function getSelection(mf, options) {
     // if options.erase is undefined, erase defaults to false

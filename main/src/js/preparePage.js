@@ -43,8 +43,6 @@ console.log('preparePage.js');
 //TODO hide global vars
 export var FAList = {};
 export var editor_fApp;
-// https://stackoverflow.com/questions/48168601/change-the-value-of-imported-variable-in-es6
-export let mathQuillEditHandlerActive = {flag: true};
 
 var default_fApp = {
   id: '',
