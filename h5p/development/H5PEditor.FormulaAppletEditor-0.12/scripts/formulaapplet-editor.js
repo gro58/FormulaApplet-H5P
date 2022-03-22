@@ -222,8 +222,8 @@ var editor_fApp_global;
 async function afterAppend(obj) {
   console.log('co(2)');
   obj_global = obj;
-  // no success because prepareEditorApplet has to stay in preparePage.js
   // editor_fApp_global = await prepareEditorApplet(fApp);
+  // no success because prepareEditorApplet has to stay in preparePage.js
 
   // generate new id if necessary (new applet), and spread it
   try {

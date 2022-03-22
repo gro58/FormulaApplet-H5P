@@ -693,9 +693,9 @@ export function virtualKeyboardEventHandler(_event, cmd, mf) {
             cmd = cmd.substring(1);
             // 'Enter' is done in preparePage.js
             if (cmd === 'setUnit') {
-                setUnit(mf); //import from editor.js
+                setUnit(mf);
             } else if (cmd === 'eraseUnit') {
-                eraseUnit(mf); //import from editor.js
+                eraseUnit(mf);
             } else if (cmd === 'nthroot') {
                 nthroot(mf);
             } else if (cmd === 'square') {
