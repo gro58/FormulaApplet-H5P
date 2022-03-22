@@ -5,8 +5,10 @@ import {
     findCorrespondingRightBracket
 } from "./texParser.js";
 
-// eslint-disable-next-line no-unused-vars
-export var mathQuillEditHandlerActive = true;
+import {
+    mathQuillEditHandlerActive
+} from "./preparePage.js";
+
 function getSelection(mf, options) {
     // if options.erase is undefined, erase defaults to false
     var erase = options.erase || false;
@@ -22,8 +24,10 @@ function getSelection(mf, options) {
     if (ori.indexOf(replacementCharacter) === -1) {
         // replacement has to be done before erase of class{...
         // Do replacement!
+        // eslint-disable-next-line no-import-assign
         mathQuillEditHandlerActive = false;
         mf.typedText(replacementCharacter);
+        // eslint-disable-next-line no-import-assign
         mathQuillEditHandlerActive = true;
         // erase class{inputfield}
         var replacedAndErased = mf.latex();

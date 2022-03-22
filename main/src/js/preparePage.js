@@ -14,15 +14,16 @@
 import $ from "jquery";
 import Hammer from "@egjs/hammerjs";
 import MQ from "./lib/mathquillWrapper.js";
+import mathQuillEditHandler from "./editHandler.js";
 import {
   domLoad,
   isH5P
 } from "./dom.js";
 
 import config from "./config.json";
-import {
-  mathQuillEditHandlerActive
-} from "./inputfield_unit.js";
+// import {
+//   mathQuillEditHandlerActive
+// } from "./inputfield_unit.js";
 import decode, {
   encode
 } from "./decode.js";
@@ -41,16 +42,11 @@ import initVirtualKeyboard, {
   virtualKeyboardEventHandler
 } from "./virtualKeyboard.js";
 
-import {
-  checkIfEqual,
-  checkIfEquality
-} from "./checkIfEqual.js";
-
 console.log('preparePage.js');
 //TODO hide global vars
 export var FAList = {};
 export var editor_fApp;
-var editHandlerActive = true;
+export var mathQuillEditHandlerActive;
 
 var default_fApp = {
   id: '',
@@ -210,10 +206,10 @@ export async function mathQuillify(id) {
           handlers: {
             edit: () => {
               mqEditableField.focus();
-              mathQuillEditHandler(fApp.id);
+              mathQuillEditHandler(fApp, MQ);
             },
             enter: () => {
-              mathQuillEditHandler(fApp.id);
+              mathQuillEditHandler(fApp, MQ);
             },
           }
         });
@@ -252,7 +248,7 @@ export async function mathQuillify(id) {
   return fApp;
 }
 
-function makeAutoUnitstring(mf) {
+export function makeAutoUnitstring(mf) {
   // mf = MathField
   var str = mf.latex();
   var mfLatexForParser = str;
@@ -273,10 +269,10 @@ function makeAutoUnitstring(mf) {
       var newLatex = left + unitTag + middle + right + '}';
       // mfLatexForParser = csn.repl + unitTag + middle + right + '}';
       mfLatexForParser = left + unitTag + middle + right + '}';
-      editHandlerActive = false;
+      mathQuillEditHandlerActive = false;
       mf.latex(newLatex);
       mf.keystroke('Left');
-      editHandlerActive = true;
+      mathQuillEditHandlerActive = true;
     }
   } else {
     // maybe create unit tag
@@ -294,61 +290,14 @@ function makeAutoUnitstring(mf) {
         newLatex = beginning + unitTag + rest + '}';
         // mfLatexForParser = csn.repl + unitTag + rest + '}';
         mfLatexForParser = beginning + unitTag + rest + '}';
-        editHandlerActive = false;
+        mathQuillEditHandlerActive = false;
         mf.latex(newLatex);
         mf.keystroke('Left');
-        editHandlerActive = true;
+        mathQuillEditHandlerActive = true;
       }
     }
   }
   return mfLatexForParser;
-}
-
-function mathQuillEditHandler(id) {
-  if (editHandlerActive == true) {
-    var fApp = FAList[id];
-    var mf = fApp.mathField;
-    var mfContainer = MQ.StaticMath(fApp.formulaApplet);
-    var solution = fApp.solution;
-    var hasSolution = fApp.hasSolution;
-    var unitAuto = fApp.unitAuto;
-    var precision = fApp.precision;
-    var dsList = fApp.definitionsetList;
-
-    var mfLatexForParser = '';
-    if (hasSolution) {
-      mfLatexForParser = mf.latex();
-    } else {
-      mfLatexForParser = mfContainer.latex();
-    }
-    if (unitAuto) {
-      mfLatexForParser = makeAutoUnitstring(mf);
-    }
-
-    var isEqual;
-    if (hasSolution) {
-      isEqual = checkIfEqual(mfLatexForParser, solution, dsList, precision);
-      console.log(mfLatexForParser + ' = ' + solution + ' ' + isEqual);
-    } else {
-      isEqual = checkIfEquality(mfContainer.latex(), dsList, precision);
-      console.log(mfContainer.latex() + ' isEqual= ' + isEqual);
-    }
-    var key = '#' + id + '.formula_applet + span.truefalse';
-    var truefalse = $(key)[0];
-    if (isEqual) {
-      $(truefalse).css({
-        "color": "green",
-        "font-size": "30pt"
-      });
-      truefalse.innerHTML = "&nbsp;&#x2714;";
-    } else {
-      $(truefalse).css({
-        "color": "red",
-        "font-size": "30pt"
-      });
-      truefalse.innerHTML = "&nbsp;&#x21AF;";
-    }
-  }
 }
 
 function sanitizePrecision(prec) {
@@ -381,7 +330,9 @@ function clickHandler(ev) {
         $(fApp.formulaApplet).on('virtualKeyboardEvent', function (_evnt, cmd) {
           if (cmd === '#Enter') {
             // mathQuillEditHandler cannot be outsourced to virtualKeyboard (circular dependency)
-            mathQuillEditHandler(_evnt.currentTarget.id, 'enter');
+            fApp = FAList[_evnt.currentTarget.id];
+            // mathQuillEditHandler(fApp, MQ, 'enter'); //TODO special syntax?
+            mathQuillEditHandler(fApp, MQ);
           } else {
             virtualKeyboardEventHandler(_evnt, cmd, fApp.mathField);
           }
