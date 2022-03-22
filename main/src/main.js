@@ -1,6 +1,7 @@
-import preparePage, {
-    mathQuillify,
-    editor_fApp
+import preparePage from "./js/preparePage.js";
+import {
+    editor_fApp,
+    mathQuillify
 } from "./js/preparePage.js";
 import decode, {
     encode

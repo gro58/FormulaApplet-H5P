@@ -44,7 +44,7 @@ import initVirtualKeyboard, {
 console.log('preparePage.js');
 //TODO hide global vars
 export var FAList = {};
-export var editor_fApp;
+export let editor_fApp = {};
 
 var default_fApp = {
   id: '',
