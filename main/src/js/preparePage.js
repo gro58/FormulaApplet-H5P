@@ -21,9 +21,6 @@ import {
 } from "./dom.js";
 
 import config from "./config.json";
-// import {
-//   mathQuillEditHandlerActive
-// } from "./inputfield_unit.js";
 import decode, {
   encode
 } from "./decode.js";
@@ -46,7 +43,8 @@ console.log('preparePage.js');
 //TODO hide global vars
 export var FAList = {};
 export var editor_fApp;
-export var mathQuillEditHandlerActive;
+// https://stackoverflow.com/questions/48168601/change-the-value-of-imported-variable-in-es6
+export let mathQuillEditHandlerActive = {flag: true};
 
 var default_fApp = {
   id: '',
@@ -269,10 +267,10 @@ export function makeAutoUnitstring(mf) {
       var newLatex = left + unitTag + middle + right + '}';
       // mfLatexForParser = csn.repl + unitTag + middle + right + '}';
       mfLatexForParser = left + unitTag + middle + right + '}';
-      mathQuillEditHandlerActive = false;
+      mathQuillEditHandler.flag = false;
       mf.latex(newLatex);
       mf.keystroke('Left');
-      mathQuillEditHandlerActive = true;
+      mathQuillEditHandler.flag = true;
     }
   } else {
     // maybe create unit tag
@@ -290,10 +288,10 @@ export function makeAutoUnitstring(mf) {
         newLatex = beginning + unitTag + rest + '}';
         // mfLatexForParser = csn.repl + unitTag + rest + '}';
         mfLatexForParser = beginning + unitTag + rest + '}';
-        mathQuillEditHandlerActive = false;
+        mathQuillEditHandler.flag = false;
         mf.latex(newLatex);
         mf.keystroke('Left');
-        mathQuillEditHandlerActive = true;
+        mathQuillEditHandler.flag = true;
       }
     }
   }
@@ -491,7 +489,7 @@ function mathQuillifyEditor(fApp) {
     handlers: {
       edit: function (mathField) { // useful event handlers
         try {
-          if (mathQuillEditHandlerActive) {
+          if (mathQuillEditHandler.flag) {
             var latex = mathField.latex();
             console.log('mathQuillEditHandler refreshResultFieldClone latex=' + latex);
             refreshResultFieldClone(latex, fApp);

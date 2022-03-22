@@ -25,10 +25,10 @@ function getSelection(mf, options) {
         // replacement has to be done before erase of class{...
         // Do replacement!
         // eslint-disable-next-line no-import-assign
-        mathQuillEditHandlerActive = false;
+        mathQuillEditHandlerActive.flag = false;
         mf.typedText(replacementCharacter);
         // eslint-disable-next-line no-import-assign
-        mathQuillEditHandlerActive = true;
+        mathQuillEditHandlerActive.flag = true;
         // erase class{inputfield}
         var replacedAndErased = mf.latex();
         if (erase) {

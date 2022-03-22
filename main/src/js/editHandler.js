@@ -12,7 +12,7 @@ import {
 } from "./checkIfEqual.js";
 
 export default function mathQuillEditHandler(fApp, MQ) {
-    if (mathQuillEditHandlerActive == true) {
+    if (mathQuillEditHandlerActive.flag == true) {
         // var fApp = FAList[id]; //deprecated
         var mf = fApp.mathField;
         var mfContainer = MQ.StaticMath(fApp.formulaApplet);
