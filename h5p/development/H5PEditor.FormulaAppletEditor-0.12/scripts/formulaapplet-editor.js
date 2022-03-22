@@ -328,6 +328,7 @@ async function afterAppend(obj) {
   element.addEventListener('input', myEventHandler(observedField));
 
   var lang = getValue(obj, 'selected_language');
+  H5Pbridge.selected_language['lang'] = lang; //store in main
   console.log('lang=' + lang);
   if (lang === 'de') {
     // Translation of "Set input field"

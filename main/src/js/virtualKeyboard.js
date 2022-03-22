@@ -7,6 +7,9 @@ import {
     setUnit,
     eraseUnit,
 } from "./inputfield_unit.js";
+import {
+    selected_language
+} from '../main.js';
 
 
 // replace call of keyboardEvent by triggering a custonKeyboardEvent
@@ -91,7 +94,8 @@ keys['function'] = [
         ['degree', '°'],
         ['minute', '\''],
         ['second', '\'\''],
-        ['setUnit', '<span class="tr de kunit">Einheit</span><span class="tr en kunit">Unit</span>', '#setUnit'],
+        // ['setUnit', '<span class="tr de kunit">Einheit</span><span class="tr en kunit">Unit</span>', '#setUnit'],
+        ['setUnit', 'unittext', '#setUnit'],
         // ['setUnit-en', 'Unit', '#setUnit'],
         // ['setUnit-de', 'Einheit', '#setUnit'],
         ['pi', '&pi;', '\\pi ']
@@ -661,6 +665,13 @@ export function showVirtualKeyboard() {
     $('#virtualKeyboard table').css('display', 'none');
     keyboardActivate('mixed');
     $('#virtualKeyboard table#table_' + activeKeyboard).css('display', 'table');
+    var lang = selected_language['lang'];
+    if (lang === 'de') {
+        $('.virtualKeyboard-setUnit')[0].innerHTML = 'Einheit';
+    }
+    if (lang === 'en') {
+        $('.virtualKeyboard-setUnit')[0].innerHTML = 'Unit';
+    }
 }
 
 // export function virtualKeyboardEventHandlerDebugging(_event, cmd, mf) {

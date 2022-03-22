@@ -28,6 +28,10 @@ H5P.FormulaApplet = (function ($) {
     $container.addClass("h5p-formulaapplet");
 
     var html = '<p class="formula_applet" id="' + this.options.id + '"';
+    console.log(this.options);
+    console.log(this.options.sel_lang);
+    H5Pbridge.selected_language['lang'] = this.options.sel_lang; //store in main
+    
     if (this.options.formulaAppletPhysics == true) {
       html += ' mode="physics"';
     }

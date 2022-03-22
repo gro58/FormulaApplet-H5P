@@ -45,3 +45,15 @@ window.onload = function () {
 export function mainIsLoaded() {
     return true;
 }
+
+export let selected_language = {
+    lang: "de"
+};
+
+// export function get_selected_language() {
+//     return selected_language || 'de';
+// }
+
+// export function set_selected_language(lang) {
+//     selected_language = lang;
+// }
