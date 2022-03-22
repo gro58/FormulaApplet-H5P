@@ -1,14 +1,17 @@
-import $ from "jquery";
-import {
-    makeAutoUnitstring
-} from "./preparePage.js";
-import {
-    checkIfEqual,
-    checkIfEquality
-} from "./checkIfEqual.js";
+// import $ from "jquery";
+// import {
+//     makeAutoUnitstring
+// } from "./preparePage.js";
+// import {
+//     checkIfEqual,
+//     checkIfEquality
+// } from "./checkIfEqual.js";
 
 // https://stackoverflow.com/questions/48168601/change-the-value-of-imported-variable-in-es6
-export let mathQuillEditHandlerActive = {flag: true};
+var mathQuillEditHandlerActive = {
+    flag: true
+};
+export { mathQuillEditHandlerActive }
 
 export default function mathQuillEditHandler(fApp, MQ) {
     if (mathQuillEditHandlerActive.flag === true) {

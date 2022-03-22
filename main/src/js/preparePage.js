@@ -14,7 +14,9 @@
 import $ from "jquery";
 import Hammer from "@egjs/hammerjs";
 import MQ from "./lib/mathquillWrapper.js";
-import mathQuillEditHandler from "./editHandler.js";
+import mathQuillEditHandler, {
+  mathQuillEditHandlerActive
+} from "./editHandler.js";
 import {
   domLoad,
   isH5P
@@ -265,10 +267,10 @@ export function makeAutoUnitstring(mf) {
       var newLatex = left + unitTag + middle + right + '}';
       // mfLatexForParser = csn.repl + unitTag + middle + right + '}';
       mfLatexForParser = left + unitTag + middle + right + '}';
-      mathQuillEditHandler.flag = false;
+      mathQuillEditHandlerActive.flag = false;
       mf.latex(newLatex);
       mf.keystroke('Left');
-      mathQuillEditHandler.flag = true;
+      mathQuillEditHandlerActive.flag = true;
     }
   } else {
     // maybe create unit tag
@@ -286,10 +288,10 @@ export function makeAutoUnitstring(mf) {
         newLatex = beginning + unitTag + rest + '}';
         // mfLatexForParser = csn.repl + unitTag + rest + '}';
         mfLatexForParser = beginning + unitTag + rest + '}';
-        mathQuillEditHandler.flag = false;
+        mathQuillEditHandlerActive.flag = false;
         mf.latex(newLatex);
         mf.keystroke('Left');
-        mathQuillEditHandler.flag = true;
+        mathQuillEditHandlerActive.flag = true;
       }
     }
   }
@@ -487,7 +489,7 @@ function mathQuillifyEditor(fApp) {
     handlers: {
       edit: function (mathField) { // useful event handlers
         try {
-          if (mathQuillEditHandler.flag) {
+          if (mathQuillEditHandlerActive.flag) {
             var latex = mathField.latex();
             console.log('mathQuillEditHandler refreshResultFieldClone latex=' + latex);
             refreshResultFieldClone(latex, fApp);
