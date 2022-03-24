@@ -74,9 +74,9 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       params.id = 'new_id';
     }
     var html = '<p class="formula_applet" id="' + params.id + '-edit"';
-    console.log(self);
-    console.log(params);
-    console.log(params.input_field_button_text);
+    // console.log(self);
+    // console.log(params);
+    // console.log(params.input_field_button_text);
     if (params.formulaAppletPhysics === true) {
       html += ' mode="physics"';
     }
@@ -127,8 +127,8 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     // var $button = H5P.JoubelUI.createButton({
     $button = H5P.JoubelUI.createButton({
       title: 'set_input_field',
-      // text: 'Set input field',
-      text: params['set_input_field'],
+      // text: 'S-I-F',
+      // text: params.input_field_button_text, //fails: params.input_field_button_text is undefined
       click: function (event) {
         event.preventDefault();
         console.log("editorAction setInputField");
@@ -337,10 +337,10 @@ async function afterAppend(obj) {
   var lang = getValue(obj, 'selected_language');
   H5Pbridge.selected_language['lang'] = lang; //store in main
   console.log('lang=' + lang);
-  if (lang === 'de') {
-    // Translation of "Set input field"
-    $button.html("Eingabe-Feld setzen");
-  }
+  // if (lang === 'de') {
+  //   // Translation of "Set input field"
+  //   $button.html("Eingabe-Feld setzen");
+  // }
   var button_text = getValue(obj, 'input_field_button_text');
   console.log('button_text=' + button_text);
   $button.html(button_text);

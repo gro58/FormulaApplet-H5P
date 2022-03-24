@@ -1,11 +1,11 @@
-// import $ from "jquery";
-// import {
-//     makeAutoUnitstring
-// } from "./preparePage.js";
-// import {
-//     checkIfEqual,
-//     checkIfEquality
-// } from "./checkIfEqual.js";
+import $ from "jquery";
+import {
+    makeAutoUnitstring
+} from "./preparePage.js";
+import {
+    checkIfEqual,
+    checkIfEquality
+} from "./checkIfEqual.js";
 
 // https://stackoverflow.com/questions/48168601/change-the-value-of-imported-variable-in-es6
 var mathQuillEditHandlerActive = {
@@ -44,7 +44,8 @@ export default function mathQuillEditHandler(fApp, MQ) {
         }
         var key = '#' + fApp.id + '.formula_applet + span.truefalse';
         var truefalse = $(key)[0];
-        if (isEqual) {
+        console.log(truefalse);
+            if (isEqual) {
             $(truefalse).css({
                 "color": "green",
                 "font-size": "30pt"
@@ -57,5 +58,6 @@ export default function mathQuillEditHandler(fApp, MQ) {
             });
             truefalse.innerHTML = "&nbsp;&#x21AF;";
         }
-    }
+        console.log(truefalse);
+     }
 }
