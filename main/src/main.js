@@ -1,11 +1,6 @@
 import preparePage, {
     mathQuillify,
 } from "./js/preparePage.js";
-// import {
-//     // editorAction,
-//     // sensorTimer,
-//     editor_fApp
-// } from "./js/editor.js";
 import {
     editor_fApp
 } from "./js/preparePage.js";

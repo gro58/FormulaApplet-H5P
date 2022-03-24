@@ -568,16 +568,20 @@ async function prepareEditorApplet(fApp) {
   refreshResultFieldClone(editorMf.latex(), fApp);
   $.event.trigger("refreshLatexEvent"); //adjust \cdot versus \times
 
+  var css_display_value;
+  // get config.debug value from js/config.json.ori
   if (config.debug === 'true') {
-    // if debug, show three fields
-    $('.field-name-data_b64').css('display', '');
-    $('.field-name-id').css('display', '');
-    $('.field-name-selected_language').css('display', '');
+    // if debug, show 4 fields
+    css_display_value = '';
   } else {
-    $('.field-name-data_b64').css('display', 'none');
-    $('.field-name-id').css('display', 'none');
-    $('.field-name-selected_language').css('display', 'none');
+    // if not debug, hide 4 fields
+    css_display_value = 'none';
   }
+  $('.field-name-data_b64').css('display', css_display_value);
+  $('.field-name-id').css('display', css_display_value);
+  $('.field-name-selected_language').css('display', css_display_value);
+  $('.field-name-input_field_button_text').css('display', css_display_value);
+
   if (config.htmloutput === 'true') {
     $('#html_output').css('display', '');
   } else {

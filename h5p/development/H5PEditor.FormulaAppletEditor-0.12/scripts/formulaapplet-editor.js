@@ -40,6 +40,8 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     this.field = field;
     this.params = params;
     this.setValue = setValue;
+    // console.log('params');
+    // console.log(params);
 
     this.changes = [];
   }
@@ -63,6 +65,8 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     var self = this;
     const nextFieldId = ns.getNextFieldId(this.field);
     var params = self.parent.params;
+    // console.log('self');
+    // console.log(self);
     // params.TEX_expression = params.fa_applet;
 
     var hasSolution = (params.formulaAppletMode == 'manu');
@@ -70,7 +74,9 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       params.id = 'new_id';
     }
     var html = '<p class="formula_applet" id="' + params.id + '-edit"';
+    console.log(self);
     console.log(params);
+    console.log(params.input_field_button_text);
     if (params.formulaAppletPhysics === true) {
       html += ' mode="physics"';
     }
@@ -121,7 +127,8 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     // var $button = H5P.JoubelUI.createButton({
     $button = H5P.JoubelUI.createButton({
       title: 'set_input_field',
-      text: 'Set input field',
+      // text: 'Set input field',
+      text: params['set_input_field'],
       click: function (event) {
         event.preventDefault();
         console.log("editorAction setInputField");
@@ -158,7 +165,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     // this is where editor_fApp was generated in old version
     // await H5Pbridge.editor_fApp;
   }
-  
+
   /**
    * Hide expression selector
    * @method hide
@@ -334,6 +341,9 @@ async function afterAppend(obj) {
     // Translation of "Set input field"
     $button.html("Eingabe-Feld setzen");
   }
+  var button_text = getValue(obj, 'input_field_button_text');
+  console.log('button_text=' + button_text);
+  $button.html(button_text);
 } // end of afterAppend
 
 // getField is used by getValue

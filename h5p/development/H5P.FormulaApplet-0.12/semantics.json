@@ -57,5 +57,12 @@
     "type": "text",
     "default": "en",
     "description": "language selected by user"
+  },
+  {
+    "label": "input field button text",
+    "name": "input_field_button_text",
+    "type": "text",
+    "default": "Set input field",
+    "description": "text of inputfield button"
   }
 ]

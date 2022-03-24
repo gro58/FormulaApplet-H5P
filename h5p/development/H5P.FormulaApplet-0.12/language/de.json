@@ -40,6 +40,11 @@
       "label": "Selected Language",
       "default": "de",
       "description": "vom Benutzer ausgewählte Sprache"
+    },
+    {
+      "label": "input field button text",
+      "default": "Eingabe-Feld setzen",
+      "description": "Text des Eingabefeld-Knopfes"
     }
   ]
 }
