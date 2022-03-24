@@ -1,8 +1,0 @@
-Folder FormelApplet -> Git Bash
-cd /e
-cd gut/gf09/h5p-repos
-
-curl "https://api.github.com/orgs/h5p/repos?page=1&per_page=100" | grep -e '\"url' | cut -d \" -f 4 > url-list.txt
-mit "Suchen und Ersetzen" alle Zeilen https://api.github.com/users/h5p löschen
-mit "Suchen und Ersetzen" alle https://api.github.com/repos/h5p in https://github.com/h5p ändern
-cat url-list.txt | xargs -L1 git clone
