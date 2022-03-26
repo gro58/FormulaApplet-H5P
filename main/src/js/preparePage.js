@@ -445,18 +445,20 @@ async function refreshResultFieldClone(latex, fApp) {
   latex = latex.replaceAll(config.unit_replacement, '\\unit{');
   var parts = separateInputfield(latex);
   var tex = parts.before + '{{result}}' + parts.after;
+  fApp.solution = parts.tag; //not encoded; used by formulaapplet-editor
   var enc = encode(parts.tag);
   console.log(tex + ' enc=' + enc + ' -> ' + decode(enc));
   // latexHandler(tex, enc);
   // $(document).trigger('texevent');
 
-  // H5P editor: send tex and enc using dispatchEvent and trigger('click')
+  // H5P editor: send tex to foemulaapplet-editor using dispatchEvent
   if (isH5P()) {
     var texinput = $('div.field.field-name-TEX_expression.text input')[0];
     if (typeof texinput !== 'undefined') {
       // value of TEX_expression field is set to EditorResult
       texinput.value = tex;
-      // trigger InputEvent. EventListener see formulaapplet-editor.js
+      // trigger InputEvent. 
+      // EventListener: updateTexinputEventHandler see formulaapplet-editor.js
       texinput.dispatchEvent(new InputEvent('input', {
         bubbles: true
       }))

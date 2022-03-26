@@ -242,7 +242,7 @@ async function afterAppend_inner(obj) {
   console.log('co(2-inner)');
   editor_fApp_global = await prepareEditorApplet(editor_fApp_global);
   console.log(editor_fApp_global.mathField);
-  
+
   // generate new id if necessary (new applet), and spread it
   try {
     var idInput = getValue(obj, 'id');
@@ -280,7 +280,9 @@ async function afterAppend_inner(obj) {
       editorAction('TEX_changed', event.target.value);
     } else {
       msg = ' event caused by JavaScript';
-      // no editorAction ->  avoid infinite loop
+      var enc = H5Pbridge.encode(editor_fApp_global.solution);
+      setValue(obj, 'data_b64', enc);
+      // no editorAction! ->  avoid infinite loop
     }
     console.log('TEX_expression changed: ' + event.target.value + msg);
   }
@@ -435,22 +437,28 @@ function getSelectorID(selectorName) {
 
 function refreshResultField(latex, fApp) {
   latex = latex.replaceAll(H5Pbridge.config.unit_replacement, '\\unit{');
+  console.log('latex=' + latex)
   var parts = H5Pbridge.separateInputfield(latex);
   var tex = parts.before + '{{result}}' + parts.after;
   var enc = H5Pbridge.encode(parts.tag);
   console.log(tex + ' enc=' + enc + ' -> ' + H5Pbridge.decode(enc));
 
   if (H5Pbridge.isH5P()) {
-    var texinput = H5P.jQuery('div.field.field-name-TEX_expression.text input')[0];
-    if (typeof texinput !== 'undefined') {
-      // value of TEX_expression field is set to EditorResult
-      texinput.value = tex;
-      // trigger InputEvent. EventListener see formulaapplet-editor.js
-      texinput.dispatchEvent(new InputEvent('input', {
-        bubbles: true
-      }))
-    }
-    // 'replacement for #data_b64_click';
+    // avoid infinite loop!
+    // var texinput = H5P.jQuery('div.field.field-name-TEX_expression.text input')[0];
+    // if (typeof texinput !== 'undefined') {
+    //   // value of TEX_expression field is set to EditorResult
+    //   texinput.value = tex;
+    //   // trigger InputEvent. EventListener see formulaapplet-editor.js
+    //   texinput.dispatchEvent(new InputEvent('input', {
+    //     bubbles: true
+    //   }))
+    // }
+
+    'replacement for #data_b64_click';
+    console.log('setValue(obj_global, data_b64, enc)');
+    console.log(obj_global);
+    console.log(enc);
     setValue(obj_global, 'data_b64', enc);
   }
   // getHTML
