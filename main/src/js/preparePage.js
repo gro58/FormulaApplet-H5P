@@ -182,7 +182,8 @@ export async function mathQuillify(id) {
 
   var mqEditableField;
   if (isEditor) {
-    editor_fApp = prepareEditorApplet(fApp);
+    editor_fApp = fApp;
+    // editor_fApp = prepareEditorApplet(fApp);
     // no success: call of prepareEditorApplet() move from preparePage.js to formulaapplet-editor.js
     // console.log('EditorApplet is prepared.');
     // mqEditableField = $el.find('.mq-editable-field')[0]; // why? DELETE
@@ -439,7 +440,7 @@ function unifyDefinitions(def) {
 // }
 
 
-function refreshResultFieldClone(latex, fApp) {
+async function refreshResultFieldClone(latex, fApp) {
   console.log("refreshResultFieldClone");
   latex = latex.replaceAll(config.unit_replacement, '\\unit{');
   var parts = separateInputfield(latex);
@@ -477,10 +478,7 @@ function refreshResultFieldClone(latex, fApp) {
   }
 }
 
-
-
-//TODO move to (formulaapplet-editor) better to preparePage.js to have access to refreshResultField
-function mathQuillifyEditor(fApp) {
+export function mathQuillifyEditor(fApp) {
   // make whole mathFieldSpan editable
   var mathFieldSpan = document.getElementById('math-field');
   if (!mathFieldSpan) throw new Error("Cannot find math-field. The math editor must provide one.");
@@ -502,39 +500,3 @@ function mathQuillifyEditor(fApp) {
   });
   return editorMf;
 }
-
-//TODO move to formulaapplet-editor to have access to refreshResultField
-async function prepareEditorApplet(fApp) {
-  // *** editor ***
-  await domLoad; //TODO use H5Pbridge?
-  // await initEditor();
-  console.log('prepareEditorApplet: define editor_fApp_id');
-  var editorMf = mathQuillifyEditor(fApp);
-  console.log(editorMf);
-  // editorMf provides commands like editorMf.latex('\\sqrt{2}') and var latextext = editorMf.latex();
-  fApp.mathField = editorMf;
-  console.log('editorMf.latex=' + editorMf.latex());
-  refreshResultFieldClone(editorMf.latex(), fApp);
-  $.event.trigger("refreshLatexEvent"); //adjust \cdot versus \times
-
-  var css_display_value;
-  // get config.debug value from js/config.json.ori
-  if (config.debug === 'true') {
-    // if debug, show 4 fields
-    css_display_value = '';
-  } else {
-    // if not debug, hide 4 fields
-    css_display_value = 'none';
-  }
-  $('.field-name-data_b64').css('display', css_display_value);
-  $('.field-name-id').css('display', css_display_value);
-  $('.field-name-selected_language').css('display', css_display_value);
-  $('.field-name-input_field_button_text').css('display', css_display_value);
-
-  if (config.htmloutput === 'true') {
-    $('#html_output').css('display', '');
-  } else {
-    $('#html_output').css('display', 'none');
-  }
-  return fApp;
-} // end of prepareEditorApplet

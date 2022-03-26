@@ -17,7 +17,6 @@
  * Workaround. Better solution?
  */
 
-
 var H5P = H5P || {};
 console.log('Here is formulaapplet-editor.js 0.12');
 
@@ -227,11 +226,23 @@ var obj_global; //TODO avoid global vars
 var editor_fApp_global;
 
 async function afterAppend(obj) {
-  console.log('co(2)');
+  console.log('co(2-outer)');
   obj_global = obj;
-  // editor_fApp_global = await prepareEditorApplet(fApp);
-  // no success because prepareEditorApplet has to stay in preparePage.js
+  // waitForEditorFAppThenDo waits for H5Pbridge.editor_fApp to be defined by bundle (preparePage.js)
+  // then calls anonymous function with argument x = H5Pbridge.editor_fApp
+  waitForEditorFAppThenDo(async function (x) {
+    console.log(x);
+    editor_fApp_global = await x; //OMG
+    console.log('editor_fApp_global OK');
+    afterAppend_inner(obj);
+  })
+}
 
+async function afterAppend_inner(obj) {
+  console.log('co(2-inner)');
+  editor_fApp_global = await prepareEditorApplet(editor_fApp_global);
+  console.log(editor_fApp_global.mathField);
+  
   // generate new id if necessary (new applet), and spread it
   try {
     var idInput = getValue(obj, 'id');
@@ -458,44 +469,6 @@ function refreshResultField(latex, fApp) {
   }
 }
 
-// function refreshResultFieldClone(latex, fApp) {
-//   console.log("refreshResultFieldClone");
-//   latex = latex.replaceAll(config.unit_replacement, '\\unit{');
-//   var parts = separateInputfield(latex);
-//   var tex = parts.before + '{{result}}' + parts.after;
-//   var enc = encode(parts.tag);
-//   console.log(tex + ' enc=' + enc + ' -> ' + decode(enc));
-//   // latexHandler(tex, enc);
-//   // $(document).trigger('texevent');
-
-//   // H5P editor: send tex and enc using dispatchEvent and trigger('click')
-//   if (isH5P()) {
-//       var texinput = $('div.field.field-name-TEX_expression.text input')[0];
-//       if (typeof texinput !== 'undefined') {
-//           // value of TEX_expression field is set to EditorResult
-//           texinput.value = tex;
-//           // trigger InputEvent. EventListener see formulaapplet-editor.js
-//           texinput.dispatchEvent(new InputEvent('input', {
-//               bubbles: true
-//           }))
-//       }
-//   }
-//   // getHTML
-//   var html = '<p class="formula_applet" id="' + fApp.id;
-//   if (fApp.hasSolution) {
-//       html += '" data-b64="' + enc;
-//   }
-//   if (fApp.unitAuto) {
-//       html += '" mode="physics';
-//   }
-//   html += '">' + tex + '</p>';
-//   console.log(html);
-//   var out = $('textarea#html_output');
-//   if (typeof out !== 'undefined') {
-//       out.text(html);
-//   }
-// }
-
 function sensorTimer(interval, max_count, sensor) {
   return new Promise(function (resolve, reject) {
     function timer(counter) {
@@ -517,21 +490,15 @@ function sensorTimer(interval, max_count, sensor) {
   });
 }
 
-waitForEditorFAppThenDo(async function (x) {
-  // console.log(x);
-  editor_fApp_global = await x; //OMG
-  // console.log(editor_fApp_global.mathField);
-  // console.log('editor_fApp_global OK');
-})
-
+// function definition
 async function waitForEditorFAppThenDo(cont) {
   y = await sensorTimer(500, 20, function () {
-    var sensor = (typeof H5Pbridge.editor_fApp !== 'undefined');
+    var sensor = (typeof H5Pbridge.editor_fApp !== 'undefined' && typeof H5Pbridge.editor_fApp.id !== 'undefined');
     // console.log('editor_fApp_global sensor=' + sensor);
     return sensor;
   });
   console.log(y);
-  // console.log(H5Pbridge.editor_fApp);
+  console.log(H5Pbridge.editor_fApp);
   cont(H5Pbridge.editor_fApp);
 }
 
@@ -615,3 +582,32 @@ async function editorAction() {
     // }
   });
 }
+
+async function prepareEditorApplet(fApp) {
+  // *** editor ***
+  await H5Pbridge.domLoad;
+  // await initEditor();
+  console.log('prepareEditorApplet: define editor_fApp_id');
+  var editorMf = H5Pbridge.mathQuillifyEditor(fApp);
+  console.log(editorMf);
+  // editorMf provides commands like editorMf.latex('\\sqrt{2}') and var latextext = editorMf.latex();
+  fApp.mathField = editorMf;
+  console.log('editorMf.latex=' + editorMf.latex());
+  refreshResultField(editorMf.latex(), fApp);
+  //TODO code replacement for refreshLatexEvent
+  // $.event.trigger("refreshLatexEvent"); //adjust \cdot versus \times
+
+  // get config.debug value from js/config.json.ori, show or hide 4 fields
+  var css_display_value = (H5Pbridge.config.debug === 'true' ? '' : 'none');
+  H5P.jQuery('.field-name-data_b64').css('display', css_display_value);
+  H5P.jQuery('.field-name-id').css('display', css_display_value);
+  H5P.jQuery('.field-name-selected_language').css('display', css_display_value);
+  H5P.jQuery('.field-name-input_field_button_text').css('display', css_display_value);
+
+  if (H5Pbridge.config.htmloutput === 'true') {
+    H5P.jQuery('#html_output').css('display', '');
+  } else {
+    H5P.jQuery('#html_output').css('display', 'none');
+  }
+  return fApp;
+} // end of prepareEditorApplet

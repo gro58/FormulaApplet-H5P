@@ -1,5 +1,6 @@
 import preparePage, {
     mathQuillify,
+    mathQuillifyEditor
 } from "./js/preparePage.js";
 import {
     editor_fApp,
@@ -13,6 +14,7 @@ import {
     separateInputfield,
 } from "./js/inputfield_unit.js";
 import {
+    domLoad,
     isH5P
 } from "./js/dom.js";
 
@@ -21,12 +23,14 @@ export {
     decode,
     encode,
     mathQuillify,
+    mathQuillifyEditor,
     preparePage,
     editor_fApp,
     config,
     setInput,
     separateInputfield,
-    isH5P
+    isH5P,
+    domLoad
 };
 
 window.onload = function () {
