@@ -10,3 +10,4 @@
 * npm run h5p wartet, bis bundle fertig und kopiert dann oder ruft ./copybundles
 * livereload auch für Drupal
 * Variante, die die *.map-Dateien in E:\gut\gf09\h5p\development\* löscht.
+* VSC merkt sich Window-Size nicht.
