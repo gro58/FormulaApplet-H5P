@@ -222,12 +222,12 @@ function randomId(length) {
   return result;
 }
 
-var obj_global; //TODO avoid global vars
+// var obj_global; //TODO avoid global vars
 var editor_fApp_global;
 
 async function afterAppend(obj) {
   console.log('co(2-outer)');
-  obj_global = obj;
+  // obj_global = obj;
   // waitForEditorFAppThenDo waits for H5Pbridge.editor_fApp to be defined by bundle (preparePage.js)
   // then calls anonymous function with argument x = H5Pbridge.editor_fApp
   waitForEditorFAppThenDo(async function (x) {
@@ -451,7 +451,7 @@ function refreshResultField(latex, fApp) {
       }))
     }
     // 'replacement for #data_b64_click';
-    setValue(obj_global, 'data_b64', enc);
+    // setValue(obj_global, 'data_b64', enc);
   }
   // getHTML
   var html = '<p class="formula_applet" id="' + fApp.id;
