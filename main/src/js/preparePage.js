@@ -151,9 +151,10 @@ export async function mathQuillify(id) {
     if (typeof def !== 'undefined') {
       fApp.definitionsetList = unifyDefinitions(def);
     }
-    // physics mode if unit=auto or mode=physics, else math mode
+    // physics mode or math mode
     var unitAttr = $el.attr('unit');
     var unitAuto = (typeof unitAttr !== 'undefined' && unitAttr === 'auto');
+    // mode="physics" is a synonym for "unit="auto"
     var modeAttr = $el.attr('mode');
     var modePhysics = (typeof modeAttr !== 'undefined' && modeAttr === 'physics');
     fApp.unitAuto = unitAuto || modePhysics;

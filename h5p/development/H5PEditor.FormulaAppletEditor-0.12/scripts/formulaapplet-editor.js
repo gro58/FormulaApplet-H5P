@@ -223,7 +223,7 @@ function randomId(length) {
 }
 
 var obj_global; //TODO avoid global vars
-var editor_fApp_global;
+var editor_fApp ;
 
 async function afterAppend(obj) {
   console.log('co(2-outer)');
@@ -232,16 +232,16 @@ async function afterAppend(obj) {
   // then calls anonymous function with argument x = H5Pbridge.editor_fApp
   waitForEditorFAppThenDo(async function (x) {
     console.log(x);
-    editor_fApp_global = await x; //OMG
-    console.log('editor_fApp_global OK');
+    editor_fApp  = await x; //OMG
+    console.log('editor_fApp  OK');
     afterAppend_inner(obj);
   })
 }
 
 async function afterAppend_inner(obj) {
   console.log('co(2-inner)');
-  editor_fApp_global = await prepareEditorApplet(editor_fApp_global);
-  console.log(editor_fApp_global.mathField);
+  editor_fApp  = await prepareEditorApplet(editor_fApp );
+  console.log(editor_fApp .mathField);
 
   // generate new id if necessary (new applet), and spread it
   try {
@@ -280,7 +280,7 @@ async function afterAppend_inner(obj) {
       editorAction('TEX_changed', event.target.value);
     } else {
       msg = ' event caused by JavaScript';
-      var enc = H5Pbridge.encode(editor_fApp_global.solution);
+      var enc = H5Pbridge.encode(editor_fApp .solution);
       setValue(obj, 'data_b64', enc);
       // no editorAction! ->  avoid infinite loop
     }
@@ -502,7 +502,7 @@ function sensorTimer(interval, max_count, sensor) {
 async function waitForEditorFAppThenDo(cont) {
   y = await sensorTimer(500, 20, function () {
     var sensor = (typeof H5Pbridge.editor_fApp !== 'undefined' && typeof H5Pbridge.editor_fApp.id !== 'undefined');
-    // console.log('editor_fApp_global sensor=' + sensor);
+    // console.log('editor_fApp  sensor=' + sensor);
     return sensor;
   });
   console.log(y);
@@ -514,17 +514,17 @@ async function editorAction() {
   var actionType = arguments[0];
   var data = arguments[1] || "empty arg[1]";
   console.log('editorAction: ' + actionType + ' data=' + data);
-  // if (typeof editor_fApp_global !== 'undefined') {
+  // if (typeof editor_fApp  !== 'undefined') {
   waitForEditorFAppThenDo(async function () {
     // H5P
-    var editorMf = await editor_fApp_global.mathField;
-    console.log('editor_fApp_global.mathField');
-    console.log(editor_fApp_global.mathField);
+    var editorMf = await editor_fApp .mathField;
+    console.log('editor_fApp .mathField');
+    console.log(editor_fApp .mathField);
     if (actionType === 'idChanged') {
       var newId = data;
       console.info('idChanged data=' + newId);
-      editor_fApp_global.id = newId;
-      refreshResultField(editorMf.latex(), editor_fApp_global);
+      editor_fApp .id = newId;
+      refreshResultField(editorMf.latex(), editor_fApp );
     }
     if (actionType === 'setInputFieldMouseover') {
       console.info('setInputFieldMouseover');
@@ -545,7 +545,7 @@ async function editorAction() {
     if (actionType === 'refresh') {
       console.info('refresh');
       try {
-        refreshResultField(editor_fApp_global.mathField.latex(), editor_fApp_global);
+        refreshResultField(editor_fApp .mathField.latex(), editor_fApp );
       } catch (error) {
         console.error('ERROR: ' + error);
       }
@@ -555,28 +555,28 @@ async function editorAction() {
       var auto_or_manu = data;
       console.info('setMode ' + auto_or_manu);
       if (auto_or_manu == 'auto') {
-        editor_fApp_global.hasSolution = false;
-        refreshResultField(editorMf.latex(), editor_fApp_global)
+        editor_fApp .hasSolution = false;
+        refreshResultField(editorMf.latex(), editor_fApp )
       }
       if (auto_or_manu == 'manu') {
-        editor_fApp_global.hasSolution = true;
-        refreshResultField(editorMf.latex(), editor_fApp_global)
+        editor_fApp .hasSolution = true;
+        refreshResultField(editorMf.latex(), editor_fApp )
       }
     }
     if (actionType === 'setPhysics') {
       console.info('setPhysics ' + data);
       if (data === 'true') {
-        editor_fApp_global.unitAuto = true;
-        refreshResultField(editorMf.latex(), editor_fApp_global);
+        editor_fApp .unitAuto = true;
+        refreshResultField(editorMf.latex(), editor_fApp );
       }
       if (data === 'false') {
-        editor_fApp_global.unitAuto = false;
-        refreshResultField(editorMf.latex(), editor_fApp_global);
+        editor_fApp .unitAuto = false;
+        refreshResultField(editorMf.latex(), editor_fApp );
       }
     }
     if (actionType === 'TEX_changed') {
       console.info('*** TEX_changed ' + data);
-      var temp = data.replace(/{{result}}/g, '\\class{inputfield}{' + editor_fApp_global.solution + '}');
+      var temp = data.replace(/{{result}}/g, '\\class{inputfield}{' + editor_fApp .solution + '}');
       //avoid XSS
       temp = temp.replace(/</g, '');
       temp = temp.replace(/>/g, '');
