@@ -132,7 +132,7 @@ export default [{
 }];
 
 function serve() {
-	console.log("serving...");
+	console.log("(run public) -> serving...");
 	let started = false;
 
 	return {
