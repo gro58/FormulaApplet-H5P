@@ -1,3 +1,4 @@
+"use strict"
 /**
  * FormulaAppletEditor widget module
  *
@@ -222,17 +223,16 @@ function randomId(length) {
   return result;
 }
 
-var obj_global; //TODO avoid global vars
-var editor_fApp ;
+//TODO avoid global var
+var editor_fApp;
 
 async function afterAppend(obj) {
   console.log('co(2-outer)');
-  obj_global = obj;
   // waitForEditorFAppThenDo waits for H5Pbridge.editor_fApp to be defined by bundle (preparePage.js)
   // then calls anonymous function with argument x = H5Pbridge.editor_fApp
   waitForEditorFAppThenDo(async function (x) {
     console.log(x);
-    editor_fApp  = await x; //OMG
+    editor_fApp = await x; //OMG
     console.log('editor_fApp  OK');
     afterAppend_inner(obj);
   })
@@ -240,8 +240,8 @@ async function afterAppend(obj) {
 
 async function afterAppend_inner(obj) {
   console.log('co(2-inner)');
-  editor_fApp  = await prepareEditorApplet(editor_fApp );
-  console.log(editor_fApp .mathField);
+  editor_fApp = await prepareEditorApplet(editor_fApp);
+  console.log(editor_fApp.mathField);
 
   // generate new id if necessary (new applet), and spread it
   try {
@@ -444,25 +444,9 @@ function refreshResultField(latex, fApp) {
   var enc = H5Pbridge.encode(parts.tag);
   console.log(tex + ' enc=' + enc + ' -> ' + H5Pbridge.decode(enc));
 
-  if (H5Pbridge.isH5P()) {
-    // avoid infinite loop!
-    // var texinput = H5P.jQuery('div.field.field-name-TEX_expression.text input')[0];
-    // if (typeof texinput !== 'undefined') {
-    //   // value of TEX_expression field is set to EditorResult
-    //   texinput.value = tex;
-    //   // trigger InputEvent. EventListener see formulaapplet-editor.js
-    //   texinput.dispatchEvent(new InputEvent('input', {
-    //     bubbles: true
-    //   }))
-    // }
+  // replacement for #data_b64_click: setValue(..., 'data_b64', enc);
+  // done in formulaapplet-editor.js/updateTexinputEventHandler
 
-    // replacement for #data_b64_click';
-    // now done in formulaapplet-editor.js/updateTexinputEventHandler
-    // console.log('setValue(obj_global, data_b64, enc)');
-    // console.log(obj_global);
-    // console.log(enc);
-    // setValue(obj_global, 'data_b64', enc);
-  }
   // getHTML
   var html = '<p class="formula_applet" id="' + fApp.id;
   if (fApp.hasSolution) {
@@ -519,14 +503,14 @@ async function editorAction() {
   // if (typeof editor_fApp  !== 'undefined') {
   waitForEditorFAppThenDo(async function () {
     // H5P
-    var editorMf = await editor_fApp .mathField;
+    var editorMf = await editor_fApp.mathField;
     console.log('editor_fApp .mathField');
-    console.log(editor_fApp .mathField);
+    console.log(editor_fApp.mathField);
     if (actionType === 'idChanged') {
       var newId = data;
       console.info('idChanged data=' + newId);
-      editor_fApp .id = newId;
-      refreshResultField(editorMf.latex(), editor_fApp );
+      editor_fApp.id = newId;
+      refreshResultField(editorMf.latex(), editor_fApp);
     }
     if (actionType === 'setInputFieldMouseover') {
       console.info('setInputFieldMouseover');
@@ -547,7 +531,7 @@ async function editorAction() {
     if (actionType === 'refresh') {
       console.info('refresh');
       try {
-        refreshResultField(editor_fApp .mathField.latex(), editor_fApp );
+        refreshResultField(editor_fApp.mathField.latex(), editor_fApp);
       } catch (error) {
         console.error('ERROR: ' + error);
       }
@@ -557,28 +541,28 @@ async function editorAction() {
       var auto_or_manu = data;
       console.info('setMode ' + auto_or_manu);
       if (auto_or_manu == 'auto') {
-        editor_fApp .hasSolution = false;
-        refreshResultField(editorMf.latex(), editor_fApp )
+        editor_fApp.hasSolution = false;
+        refreshResultField(editorMf.latex(), editor_fApp)
       }
       if (auto_or_manu == 'manu') {
-        editor_fApp .hasSolution = true;
-        refreshResultField(editorMf.latex(), editor_fApp )
+        editor_fApp.hasSolution = true;
+        refreshResultField(editorMf.latex(), editor_fApp)
       }
     }
     if (actionType === 'setPhysics') {
       console.info('setPhysics ' + data);
       if (data === 'true') {
-        editor_fApp .unitAuto = true;
-        refreshResultField(editorMf.latex(), editor_fApp );
+        editor_fApp.unitAuto = true;
+        refreshResultField(editorMf.latex(), editor_fApp);
       }
       if (data === 'false') {
-        editor_fApp .unitAuto = false;
-        refreshResultField(editorMf.latex(), editor_fApp );
+        editor_fApp.unitAuto = false;
+        refreshResultField(editorMf.latex(), editor_fApp);
       }
     }
     if (actionType === 'TEX_changed') {
       console.info('*** TEX_changed ' + data);
-      var temp = data.replace(/{{result}}/g, '\\class{inputfield}{' + editor_fApp .solution + '}');
+      var temp = data.replace(/{{result}}/g, '\\class{inputfield}{' + editor_fApp.solution + '}');
       //avoid XSS
       temp = temp.replace(/</g, '');
       temp = temp.replace(/>/g, '');
