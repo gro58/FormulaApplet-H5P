@@ -15,16 +15,14 @@
 
 var H5P = H5P || {};
 console.log('Here is formulaapplet-editor.js 0.12');
-//TODO get rid of global var obj_global
+//TODO get rid of globals var obj_global, var $button
 var obj_global = {}
-
-// var selectionArray = []; //DELETE
 var $button;
 
 H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (function ($) {
 
   /**
-   * Creates and edits a FormulaApplet.
+   * Creates an editor widget for a FormulaApplet.
    *
    * @class H5PEditor.FormulaAppletEditor
    * @param {Object} parent
@@ -230,134 +228,129 @@ async function afterAppend(obj) {
   // then calls anonymous function with argument x = H5Pbridge.editor_fApp
   waitForEditorFAppThenDo(async function (x) {
     console.log(x);
-    editor_fApp = await x; //OMG
+    editor_fApp = await x; //OMG. causes co(3)
     console.log('editor_fApp  OK');
     //TODO replace with code from afterAppend_inner
-    afterAppend_inner(obj);
+    // afterAppend_inner(obj);
+    console.log('co(4, was 2-inner)');
+    editor_fApp = await prepareEditorApplet(editor_fApp);
+    console.log(editor_fApp.mathField);
+
+    // generate new id if necessary (new applet), and spread it
+    try {
+      var idInput = getValue(obj, 'id');
+      // console.log('idInput=' + idInput);
+      if (idInput === 'new_id') {
+        var newId = randomId(12);
+        setValue(obj, 'id', newId);
+        console.log('new_id -> ' + newId);
+      }
+    } catch (error) {
+      console.error('ERROR: ' + error);
+    }
+
+    var elem = document.getElementById('new_id-edit');
+    if (elem !== null) {
+      console.log('change id of element "new_id-edit"');
+      var new_id = getValue(obj, 'id') + '-edit';
+      H5P.jQuery(elem).attr('id', new_id);
+    }
+    // console.log('editorAction refresh');
+    editorAction("refresh");
+    // still afterAppend...
+
+    // texinput is updated by editor.js: showEditorResults
+    var texinput = H5P.jQuery('div.field.field-name-TEX_expression.text input')[0];
+    texinput.addEventListener('input', updateTexinputEventHandler);
+
+    function updateTexinputEventHandler(event) {
+      setValue(obj, 'TEX_expression', event.target.value);
+      // obj.parent.params['TEX_expression'] = event.target.value;
+      var msg;
+      if (event.isTrusted) {
+        msg = ' event caused by keyboard input';
+        event.preventDefault();
+        editorAction('TEX_changed', event.target.value);
+      } else {
+        //do nothing (code moved to refreshResultFieldClone)
+      }
+      console.log('TEX_expression changed: ' + event.target.value + msg);
+    }
+
+    // first time at init
+    sendModeTofApp();
+
+    function sendModeTofApp() {
+      var mode = obj.parent.params['formulaAppletMode'];
+      // console.log('editorAction setMode: ' + mode);
+      editorAction('setMode', mode);
+      var physics = obj.parent.params['formulaAppletPhysics'];
+      physics = '' + physics;
+      // console.log('editorAction setPhysics: ' + physics);
+      editorAction('setPhysics', physics);
+    }
+
+    // make tex_expr read-only: https://www.educba.com/jquery-disable-input/
+    // var tex_expr = document.getElementById(getSelectorID('field-tex_expression'));
+    // H5P.jQuery(tex_expr).attr('disabled', 'disabled');
+
+    console.log(getField(obj, 'fa_applet'));
+
+    // define eventHandler
+    // https://www.codegrepper.com/code-examples/javascript/javascript+pass+parameter+to+event+listener
+    const myEventHandler = (obsField) => {
+      return (ev) => {
+        var result;
+        if (obsField.field.type === 'boolean') {
+          result = obsField.value;
+        } else {
+          result = ev.target.value;
+        }
+        console.log(obsField.field.name + ": " + result);
+        if (obsField.field.name === 'formulaAppletMode') {
+          sendModeTofApp();
+        }
+        if (obsField.field.name === 'formulaAppletPhysics') {
+          sendModeTofApp();
+        }
+      }
+    }
+
+    // attach eventHandler to fields
+    var observedField = getField(obj, 'formulaAppletMode');
+    var element = observedField.$item[0];
+    element.addEventListener('change', myEventHandler(observedField));
+
+    var observedField = getField(obj, 'TEX_expression');
+    var element = observedField.$item[0];
+    element.addEventListener('input', myEventHandler(observedField));
+
+    var observedField = getField(obj, 'formulaAppletPhysics');
+    var element = observedField.$item[0];
+    element.addEventListener('change', myEventHandler(observedField));
+
+    var observedField = getField(obj, 'data_b64');
+    var element = observedField.$item[0];
+    element.addEventListener('input', myEventHandler(observedField));
+
+    var observedField = getField(obj, 'id');
+    var element = observedField.$item[0];
+    element.addEventListener('input', myEventHandler(observedField));
+
+    var lang = getValue(obj, 'selected_language');
+    H5Pbridge.selected_language['lang'] = lang; //store in main
+    console.log('lang=' + lang);
+    // if (lang === 'de') {
+    //   // Translation of "Set input field"
+    //   $button.html("Eingabe-Feld setzen");
+    // }
+    var button_text = getValue(obj, 'input_field_button_text');
+    console.log('button_text=' + button_text);
+    $button.html(button_text);
   })
 }
 
-async function afterAppend_inner(obj) {
-  console.log('co(2-inner)');
-  editor_fApp = await prepareEditorApplet(editor_fApp);
-  console.log(editor_fApp.mathField);
-
-  // generate new id if necessary (new applet), and spread it
-  try {
-    var idInput = getValue(obj, 'id');
-    // console.log('idInput=' + idInput);
-    if (idInput === 'new_id') {
-      var newId = randomId(12);
-      setValue(obj, 'id', newId);
-      console.log('new_id -> ' + newId);
-    }
-  } catch (error) {
-    console.error('ERROR: ' + error);
-  }
-
-  var elem = document.getElementById('new_id-edit');
-  if (elem !== null) {
-    console.log('change id of element "new_id-edit"');
-    var new_id = getValue(obj, 'id') + '-edit';
-    H5P.jQuery(elem).attr('id', new_id);
-  }
-  // console.log('editorAction refresh');
-  editorAction("refresh");
-  // still afterAppend...
-
-  // texinput is updated by editor.js: showEditorResults
-  var texinput = H5P.jQuery('div.field.field-name-TEX_expression.text input')[0];
-  texinput.addEventListener('input', updateTexinputEventHandler);
-
-  function updateTexinputEventHandler(event) {
-    setValue(obj, 'TEX_expression', event.target.value);
-    // obj.parent.params['TEX_expression'] = event.target.value;
-    var msg;
-    if (event.isTrusted) {
-      msg = ' event caused by keyboard input';
-      event.preventDefault();
-      editorAction('TEX_changed', event.target.value);
-    } else {
-      //TODO move to refreshResultFieldClone, DELETE here
-      // msg = ' event caused by JavaScript';
-      // var enc = H5Pbridge.encode(editor_fApp.solution);
-      // 
-      // no editorAction! ->  avoid infinite loop
-    }
-    console.log('TEX_expression changed: ' + event.target.value + msg);
-  }
-
-  // first time at init
-  sendModeTofApp();
-
-  function sendModeTofApp() {
-    var mode = obj.parent.params['formulaAppletMode'];
-    // console.log('editorAction setMode: ' + mode);
-    editorAction('setMode', mode);
-    var physics = obj.parent.params['formulaAppletPhysics'];
-    physics = '' + physics;
-    // console.log('editorAction setPhysics: ' + physics);
-    editorAction('setPhysics', physics);
-  }
-
-  // make tex_expr read-only: https://www.educba.com/jquery-disable-input/
-  // var tex_expr = document.getElementById(getSelectorID('field-tex_expression'));
-  // H5P.jQuery(tex_expr).attr('disabled', 'disabled');
-
-  console.log(getField(obj, 'fa_applet'));
-
-  // define eventHandler
-  // https://www.codegrepper.com/code-examples/javascript/javascript+pass+parameter+to+event+listener
-  const myEventHandler = (obsField) => {
-    return (ev) => {
-      var result;
-      if (obsField.field.type === 'boolean') {
-        result = obsField.value;
-      } else {
-        result = ev.target.value;
-      }
-      console.log(obsField.field.name + ": " + result);
-      if (obsField.field.name === 'formulaAppletMode') {
-        sendModeTofApp();
-      }
-      if (obsField.field.name === 'formulaAppletPhysics') {
-        sendModeTofApp();
-      }
-    }
-  }
-
-  // attach eventHandler to fields
-  var observedField = getField(obj, 'formulaAppletMode');
-  var element = observedField.$item[0];
-  element.addEventListener('change', myEventHandler(observedField));
-
-  var observedField = getField(obj, 'TEX_expression');
-  var element = observedField.$item[0];
-  element.addEventListener('input', myEventHandler(observedField));
-
-  var observedField = getField(obj, 'formulaAppletPhysics');
-  var element = observedField.$item[0];
-  element.addEventListener('change', myEventHandler(observedField));
-
-  var observedField = getField(obj, 'data_b64');
-  var element = observedField.$item[0];
-  element.addEventListener('input', myEventHandler(observedField));
-
-  var observedField = getField(obj, 'id');
-  var element = observedField.$item[0];
-  element.addEventListener('input', myEventHandler(observedField));
-
-  var lang = getValue(obj, 'selected_language');
-  H5Pbridge.selected_language['lang'] = lang; //store in main
-  console.log('lang=' + lang);
-  // if (lang === 'de') {
-  //   // Translation of "Set input field"
-  //   $button.html("Eingabe-Feld setzen");
-  // }
-  var button_text = getValue(obj, 'input_field_button_text');
-  console.log('button_text=' + button_text);
-  $button.html(button_text);
-} // end of afterAppend
+async function afterAppend_inner(obj) {} // end of afterAppend
 
 // getField is used by getValue
 function getField(obj, name) {
@@ -466,32 +459,6 @@ function refreshResultField(latex, fApp, clone) {
   }
 }
 
-// function refreshResultFieldClone(latex, fApp) {
-//   console.log("refreshResultFieldClone");
-//   latex = latex.replaceAll(H5Pbridge.config.unit_replacement, '\\unit{');
-//   console.log('latex=' + latex);
-//   var parts = H5Pbridge.separateInputfield(latex);
-//   var tex = parts.before + '{{result}}' + parts.after;
-//   //TODO maybe necessary: fApp.solution = parts.tag
-//   var enc = H5Pbridge.encode(parts.tag);
-//   console.log(tex + ' enc=' + enc + ' -> ' + H5Pbridge.decode(enc));
-
-//   // getHTML
-//   var html = '<p class="formula_applet" id="' + fApp.id;
-//   if (fApp.hasSolution) {
-//     html += '" data-b64="' + enc;
-//   }
-//   if (fApp.unitAuto) {
-//     html += '" mode="physics';
-//   }
-//   html += '">' + tex + '</p>';
-//   console.log(html);
-//   var out = H5P.jQuery('textarea#html_output');
-//   if (typeof out !== 'undefined') {
-//     out.text(html);
-//   }
-// }
-
 function sensorTimer(interval, max_count, sensor) {
   return new Promise(function (resolve, reject) {
     function timer(counter) {
@@ -533,7 +500,7 @@ async function editorAction() {
   waitForEditorFAppThenDo(async function () {
     // H5P
     var editorMf = await editor_fApp.mathField;
-    console.log('editor_fApp .mathField');
+    console.log('editor_fApp.mathField');
     console.log(editor_fApp.mathField);
     if (actionType === 'idChanged') {
       var newId = data;
@@ -643,17 +610,16 @@ function mathQuillifyEditor(fApp) {
     spaceBehavesLikeTab: true, // configurable
     handlers: {
       edit: function (mathField) { // useful event handlers
-        //TODO activate try/catch
-        // try {
-        if (H5Pbridge.mathQuillEditHandlerActive.flag) {
-          var latex = mathField.latex();
-          console.log('mathQuillEditHandler refreshResultFieldClone latex=' + latex);
-          // refreshResultFieldClone(latex, fApp, true);
-          refreshResultField(latex, fApp, true);
+        try {
+          if (H5Pbridge.mathQuillEditHandlerActive.flag) {
+            var latex = mathField.latex();
+            console.log('mathQuillEditHandler refreshResultFieldClone latex=' + latex);
+            // refreshResultFieldClone(latex, fApp, true);
+            refreshResultField(latex, fApp, true);
+          }
+        } catch (error) {
+          console.error('ERROR in MQ.MathField: ' + error);
         }
-        // } catch (error) {
-        //   console.error('ERROR in MQ.MathField: ' + error);
-        // }
       }
     }
   });
