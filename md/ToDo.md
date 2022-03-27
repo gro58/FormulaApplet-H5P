@@ -8,7 +8,7 @@
    *  <del>Is there a PageLoad event? Wait for PageLoad, then mathQuillify</del> Use afterAppend and mathQuillify(id).
 * Use H5P-standalone or Lumi for editor
 ## Coding
-* get rid of editor_fApp_global
+* <del>get rid of editor_fApp_global</del>
 * avoid code doubling (preparePage.js/refreshResultFieldClone - formulaapplet-editor.js/refreshResultField)
 * move mathQuillifyEditor(fApp) from preparePage.js to formulaapplet-editor.js
 * delete console.logs of solution
@@ -49,7 +49,7 @@
 * ToDo (this file)
 ## [GIT Cheat Sheet](../../git-cheat.php "Spickzettel für GIT")
 ## www.formelapplet.de
-* Problem Editor
+* <del>Problem Editor</del>
 * GWK
 * Tree (Kategorienbaum)
 * Befreundete Seiten
