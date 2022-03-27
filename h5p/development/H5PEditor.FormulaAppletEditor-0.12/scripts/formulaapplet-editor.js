@@ -16,7 +16,7 @@
 var H5P = H5P || {};
 console.log('Here is formulaapplet-editor.js 0.12');
 //TODO get rid of global var obj_global
-var obj_global={}
+var obj_global = {}
 
 // var selectionArray = []; //DELETE
 var $button;
@@ -148,7 +148,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       console.log('co(1)');
       //code that needs to be executed when DOM is ready, after manipulation, goes here
       var texinputparent = H5P.jQuery('div.field.field-name-TEX_expression.text input').parent();
-      // disabled: read-only
+      // disabled means read-only
       texinputparent.append('<br><br><textarea id="html_output" rows="10" cols="150" disabled>output</textarea>');
       afterAppend(self);
       waitForMainThenDo(afterMainIsLoaded);
@@ -278,7 +278,7 @@ async function afterAppend_inner(obj) {
       event.preventDefault();
       editorAction('TEX_changed', event.target.value);
     } else {
-      //TODO move to refreshResultFieldClone
+      //TODO move to refreshResultFieldClone, DELETE here
       // msg = ' event caused by JavaScript';
       // var enc = H5Pbridge.encode(editor_fApp.solution);
       // 
@@ -435,64 +435,21 @@ function getSelectorID(selectorName) {
   return result;
 }
 
-function refreshResultField(latex, fApp) {
+function refreshResultField(latex, fApp, clone) {
   console.log("refreshResultField");
-  latex = latex.replaceAll(H5Pbridge.config.unit_replacement, '\\unit{');
-  console.log('latex=' + latex);
-  var parts = H5Pbridge.separateInputfield(latex);
-  var tex = parts.before + '{{result}}' + parts.after;
-  var enc = H5Pbridge.encode(parts.tag);
-  console.log(tex + ' enc=' + enc + ' -> ' + H5Pbridge.decode(enc));
-
-  // replacement for #data_b64_click: setValue(..., 'data_b64', enc);
-  // now done in formulaapplet-editor.js/updateTexinputEventHandler
-
-  // getHTML
-  var html = '<p class="formula_applet" id="' + fApp.id;
-  if (fApp.hasSolution) {
-    html += '" data-b64="' + enc;
-  }
-  if (fApp.unitAuto) {
-    html += '" mode="physics';
-  }
-  html += '">' + tex + '</p>';
-  console.log(html);
-  var out = H5P.jQuery('textarea#html_output');
-  if (typeof out !== 'undefined') {
-    out.text(html);
-  }
-}
-
-function refreshResultFieldClone(latex, fApp) {
-  console.log("refreshResultFieldClone");
   latex = latex.replaceAll(H5Pbridge.config.unit_replacement, '\\unit{');
   console.log('latex=' + latex);
   var parts = H5Pbridge.separateInputfield(latex);
   var tex = parts.before + '{{result}}' + parts.after;
   //TODO maybe necessary: fApp.solution = parts.tag
   var enc = H5Pbridge.encode(parts.tag);
-  console.log(tex + ' enc=' + enc + ' -> ' + H5Pbridge.decode(enc));
 
-  // H5P editor: send tex to formulaapplet-editor using dispatchEvent
-  if (H5Pbridge.isH5P()) {
-
-    //TODO replace by code in updateTexinputEventHandler, case event.isTrusted=false
-    
-    //  var texinput = H5P.jQuery('div.field.field-name-TEX_expression.text input')[0];
-    // if (typeof texinput !== 'undefined') {
-    //   fApp.solution = parts.tag; //not encoded; used by formulaapplet-editor
-    //   // value of TEX_expression field is set to EditorResult
-    //   texinput.value = tex;
-    //   // trigger InputEvent. EventListener: updateTexinputEventHandler see formulaapplet-editor.js
-    //   texinput.dispatchEvent(new InputEvent('input', {
-    //     bubbles: true
-    //   }))
-    // }
-
-    // var enc = H5Pbridge.encode(editor_fApp.solution);
-    //TODO: get rid of obj needed: setValue(obj, 'data_b64', data);
+  if (H5Pbridge.isH5P() && clone) {
     setValue(obj_global, 'data_b64', enc);
   }
+
+  console.log(tex + ' enc=' + enc + ' -> ' + H5Pbridge.decode(enc));
+
   // getHTML
   var html = '<p class="formula_applet" id="' + fApp.id;
   if (fApp.hasSolution) {
@@ -508,6 +465,32 @@ function refreshResultFieldClone(latex, fApp) {
     out.text(html);
   }
 }
+
+// function refreshResultFieldClone(latex, fApp) {
+//   console.log("refreshResultFieldClone");
+//   latex = latex.replaceAll(H5Pbridge.config.unit_replacement, '\\unit{');
+//   console.log('latex=' + latex);
+//   var parts = H5Pbridge.separateInputfield(latex);
+//   var tex = parts.before + '{{result}}' + parts.after;
+//   //TODO maybe necessary: fApp.solution = parts.tag
+//   var enc = H5Pbridge.encode(parts.tag);
+//   console.log(tex + ' enc=' + enc + ' -> ' + H5Pbridge.decode(enc));
+
+//   // getHTML
+//   var html = '<p class="formula_applet" id="' + fApp.id;
+//   if (fApp.hasSolution) {
+//     html += '" data-b64="' + enc;
+//   }
+//   if (fApp.unitAuto) {
+//     html += '" mode="physics';
+//   }
+//   html += '">' + tex + '</p>';
+//   console.log(html);
+//   var out = H5P.jQuery('textarea#html_output');
+//   if (typeof out !== 'undefined') {
+//     out.text(html);
+//   }
+// }
 
 function sensorTimer(interval, max_count, sensor) {
   return new Promise(function (resolve, reject) {
@@ -556,7 +539,7 @@ async function editorAction() {
       var newId = data;
       console.info('idChanged data=' + newId);
       editor_fApp.id = newId;
-      refreshResultField(editorMf.latex(), editor_fApp);
+      refreshResultField(editorMf.latex(), editor_fApp, false);
     }
     if (actionType === 'setInputFieldMouseover') {
       console.info('setInputFieldMouseover');
@@ -577,7 +560,7 @@ async function editorAction() {
     if (actionType === 'refresh') {
       console.info('refresh');
       try {
-        refreshResultField(editor_fApp.mathField.latex(), editor_fApp);
+        refreshResultField(editor_fApp.mathField.latex(), editor_fApp, false);
       } catch (error) {
         console.error('ERROR: ' + error);
       }
@@ -588,22 +571,22 @@ async function editorAction() {
       console.info('setMode ' + auto_or_manu);
       if (auto_or_manu == 'auto') {
         editor_fApp.hasSolution = false;
-        refreshResultField(editorMf.latex(), editor_fApp)
+        refreshResultField(editorMf.latex(), editor_fApp, false)
       }
       if (auto_or_manu == 'manu') {
         editor_fApp.hasSolution = true;
-        refreshResultField(editorMf.latex(), editor_fApp)
+        refreshResultField(editorMf.latex(), editor_fApp, false)
       }
     }
     if (actionType === 'setPhysics') {
       console.info('setPhysics ' + data);
       if (data === 'true') {
         editor_fApp.unitAuto = true;
-        refreshResultField(editorMf.latex(), editor_fApp);
+        refreshResultField(editorMf.latex(), editor_fApp, false);
       }
       if (data === 'false') {
         editor_fApp.unitAuto = false;
-        refreshResultField(editorMf.latex(), editor_fApp);
+        refreshResultField(editorMf.latex(), editor_fApp, false);
       }
     }
     if (actionType === 'TEX_changed') {
@@ -633,7 +616,7 @@ async function prepareEditorApplet(fApp) {
   // editorMf provides commands like editorMf.latex('\\sqrt{2}') and var latextext = editorMf.latex();
   fApp.mathField = editorMf;
   console.log('editorMf.latex=' + editorMf.latex());
-  refreshResultField(editorMf.latex(), fApp);
+  refreshResultField(editorMf.latex(), fApp, false);
   //TODO code replacement for refreshLatexEvent. Get rid of unused event types
   // $.event.trigger("refreshLatexEvent"); //adjust \cdot versus \times
 
@@ -662,11 +645,12 @@ function mathQuillifyEditor(fApp) {
       edit: function (mathField) { // useful event handlers
         //TODO activate try/catch
         // try {
-          if (H5Pbridge.mathQuillEditHandlerActive.flag) {
-            var latex = mathField.latex();
-            console.log('mathQuillEditHandler refreshResultFieldClone latex=' + latex);
-            refreshResultFieldClone(latex, fApp);
-          }
+        if (H5Pbridge.mathQuillEditHandlerActive.flag) {
+          var latex = mathField.latex();
+          console.log('mathQuillEditHandler refreshResultFieldClone latex=' + latex);
+          // refreshResultFieldClone(latex, fApp, true);
+          refreshResultField(latex, fApp, true);
+        }
         // } catch (error) {
         //   console.error('ERROR in MQ.MathField: ' + error);
         // }
