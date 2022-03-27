@@ -15,7 +15,6 @@ export { mathQuillEditHandlerActive }
 
 export default function mathQuillEditHandler(fApp, MQ) {
     if (mathQuillEditHandlerActive.flag === true) {
-        // var fApp = FAList[id]; //deprecated
         var mf = fApp.mathField;
         var mfContainer = MQ.StaticMath(fApp.formulaApplet);
         var solution = fApp.solution;

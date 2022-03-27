@@ -9,5 +9,10 @@
             "path": "./h5p/development"
         }
     ],
-    "settings": {}
+    "settings": {},
+    "extensions": {
+        "recommendations": [
+            "dbaeumer.vscode-eslint"
+        ]
+    }
 }
