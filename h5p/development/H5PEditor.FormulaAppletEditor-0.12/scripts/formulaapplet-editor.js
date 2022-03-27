@@ -280,7 +280,7 @@ async function afterAppend_inner(obj) {
       editorAction('TEX_changed', event.target.value);
     } else {
       msg = ' event caused by JavaScript';
-      var enc = H5Pbridge.encode(editor_fApp .solution);
+      var enc = H5Pbridge.encode(editor_fApp.solution);
       setValue(obj, 'data_b64', enc);
       // no editorAction! ->  avoid infinite loop
     }
@@ -436,6 +436,7 @@ function getSelectorID(selectorName) {
 }
 
 function refreshResultField(latex, fApp) {
+  console.log("refreshResultField");
   latex = latex.replaceAll(H5Pbridge.config.unit_replacement, '\\unit{');
   console.log('latex=' + latex)
   var parts = H5Pbridge.separateInputfield(latex);
@@ -455,11 +456,12 @@ function refreshResultField(latex, fApp) {
     //   }))
     // }
 
-    'replacement for #data_b64_click';
-    console.log('setValue(obj_global, data_b64, enc)');
-    console.log(obj_global);
-    console.log(enc);
-    setValue(obj_global, 'data_b64', enc);
+    // replacement for #data_b64_click';
+    // now done in formulaapplet-editor.js/updateTexinputEventHandler
+    // console.log('setValue(obj_global, data_b64, enc)');
+    // console.log(obj_global);
+    // console.log(enc);
+    // setValue(obj_global, 'data_b64', enc);
   }
   // getHTML
   var html = '<p class="formula_applet" id="' + fApp.id;

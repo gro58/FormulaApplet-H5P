@@ -447,12 +447,13 @@ async function refreshResultFieldClone(latex, fApp) {
   var parts = separateInputfield(latex);
   var tex = parts.before + '{{result}}' + parts.after;
   fApp.solution = parts.tag; //not encoded; used by formulaapplet-editor
+  // see updateTexinputEventHandler
   var enc = encode(parts.tag);
   console.log(tex + ' enc=' + enc + ' -> ' + decode(enc));
   // latexHandler(tex, enc);
   // $(document).trigger('texevent');
 
-  // H5P editor: send tex to foemulaapplet-editor using dispatchEvent
+  // H5P editor: send tex to formulaapplet-editor using dispatchEvent
   if (isH5P()) {
     var texinput = $('div.field.field-name-TEX_expression.text input')[0];
     if (typeof texinput !== 'undefined') {
