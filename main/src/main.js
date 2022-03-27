@@ -1,9 +1,7 @@
 import preparePage, {
     mathQuillify,
-    mathQuillifyEditor
-} from "./js/preparePage.js";
-import {
-    editor_fApp,
+    mathQuillifyEditor,
+    editor_fApp
 } from "./js/preparePage.js";
 import decode, {
     encode
@@ -17,6 +15,7 @@ import {
     domLoad,
     isH5P
 } from "./js/dom.js";
+
 
 // H5Pbridge
 export {

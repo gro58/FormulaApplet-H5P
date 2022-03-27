@@ -1,4 +1,4 @@
-"use strict"
+// "use strict"
 /**
  * FormulaAppletEditor widget module
  *
@@ -11,11 +11,6 @@
  * afterMainIsLoaded: await H5Pbridge.preparePage(), causes MathQuillify
  * mathQuillifyEditor (editor.js) causes refreshResultField.
  * getHTML -> textarea#html_output (substitute for HTML editor output, H5P version)
- * 
- * Send data from formulaapplet widget to editor params:
- * Send "tex" and "enc" using dispatchEvent and trigger('click')
- * Received by formulaapplet-editor.js, setValue(obj, 'data_b64', b64);
- * Workaround. Better solution?
  */
 
 var H5P = H5P || {};
@@ -405,7 +400,7 @@ function setValue(obj, name, value) {
 
 //TODO use .then() syntax
 async function waitForMainThenDo(cont) {
-  y = await sensorTimer(500, 20, function () {
+  var y = await sensorTimer(500, 20, function () {
     var sensor = H5Pbridge.mainIsLoaded();
     console.log('Main Sensor=' + sensor);
     return sensor;
@@ -445,7 +440,7 @@ function refreshResultField(latex, fApp) {
   console.log(tex + ' enc=' + enc + ' -> ' + H5Pbridge.decode(enc));
 
   // replacement for #data_b64_click: setValue(..., 'data_b64', enc);
-  // done in formulaapplet-editor.js/updateTexinputEventHandler
+  // now done in formulaapplet-editor.js/updateTexinputEventHandler
 
   // getHTML
   var html = '<p class="formula_applet" id="' + fApp.id;
@@ -486,7 +481,7 @@ function sensorTimer(interval, max_count, sensor) {
 
 // function definition
 async function waitForEditorFAppThenDo(cont) {
-  y = await sensorTimer(500, 20, function () {
+  var y = await sensorTimer(500, 20, function () {
     var sensor = (typeof H5Pbridge.editor_fApp !== 'undefined' && typeof H5Pbridge.editor_fApp.id !== 'undefined');
     // console.log('editor_fApp  sensor=' + sensor);
     return sensor;
