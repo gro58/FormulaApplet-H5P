@@ -15,6 +15,8 @@
 
 var H5P = H5P || {};
 console.log('Here is formulaapplet-editor.js 0.12');
+//TODO get rid of global var obj_global
+var obj_global={}
 
 // var selectionArray = []; //DELETE
 var $button;
@@ -218,17 +220,19 @@ function randomId(length) {
   return result;
 }
 
-//TODO avoid global var
+//TODO avoid global var editor_fApp
 var editor_fApp;
 
 async function afterAppend(obj) {
   console.log('co(2-outer)');
+  obj_global = obj;
   // waitForEditorFAppThenDo waits for H5Pbridge.editor_fApp to be defined by bundle (preparePage.js)
   // then calls anonymous function with argument x = H5Pbridge.editor_fApp
   waitForEditorFAppThenDo(async function (x) {
     console.log(x);
     editor_fApp = await x; //OMG
     console.log('editor_fApp  OK');
+    //TODO replace with code from afterAppend_inner
     afterAppend_inner(obj);
   })
 }
@@ -275,9 +279,9 @@ async function afterAppend_inner(obj) {
       editorAction('TEX_changed', event.target.value);
     } else {
       //TODO move to refreshResultFieldClone
-      msg = ' event caused by JavaScript';
-      var enc = H5Pbridge.encode(editor_fApp.solution);
-      setValue(obj, 'data_b64', enc);
+      // msg = ' event caused by JavaScript';
+      // var enc = H5Pbridge.encode(editor_fApp.solution);
+      // 
       // no editorAction! ->  avoid infinite loop
     }
     console.log('TEX_expression changed: ' + event.target.value + msg);
@@ -465,22 +469,29 @@ function refreshResultFieldClone(latex, fApp) {
   console.log('latex=' + latex);
   var parts = H5Pbridge.separateInputfield(latex);
   var tex = parts.before + '{{result}}' + parts.after;
+  //TODO maybe necessary: fApp.solution = parts.tag
   var enc = H5Pbridge.encode(parts.tag);
   console.log(tex + ' enc=' + enc + ' -> ' + H5Pbridge.decode(enc));
 
   // H5P editor: send tex to formulaapplet-editor using dispatchEvent
   if (H5Pbridge.isH5P()) {
+
     //TODO replace by code in updateTexinputEventHandler, case event.isTrusted=false
-    var texinput = H5P.jQuery('div.field.field-name-TEX_expression.text input')[0];
-    if (typeof texinput !== 'undefined') {
-      fApp.solution = parts.tag; //not encoded; used by formulaapplet-editor
-      // value of TEX_expression field is set to EditorResult
-      texinput.value = tex;
-      // trigger InputEvent. EventListener: updateTexinputEventHandler see formulaapplet-editor.js
-      texinput.dispatchEvent(new InputEvent('input', {
-        bubbles: true
-      }))
-    }
+    
+    //  var texinput = H5P.jQuery('div.field.field-name-TEX_expression.text input')[0];
+    // if (typeof texinput !== 'undefined') {
+    //   fApp.solution = parts.tag; //not encoded; used by formulaapplet-editor
+    //   // value of TEX_expression field is set to EditorResult
+    //   texinput.value = tex;
+    //   // trigger InputEvent. EventListener: updateTexinputEventHandler see formulaapplet-editor.js
+    //   texinput.dispatchEvent(new InputEvent('input', {
+    //     bubbles: true
+    //   }))
+    // }
+
+    // var enc = H5Pbridge.encode(editor_fApp.solution);
+    //TODO: get rid of obj needed: setValue(obj, 'data_b64', data);
+    setValue(obj_global, 'data_b64', enc);
   }
   // getHTML
   var html = '<p class="formula_applet" id="' + fApp.id;
