@@ -1,0 +1,27 @@
+function refreshResultField(latex, fApp) {
+  console.log("refreshResultField");
+  latex = latex.replaceAll(H5Pbridge.config.unit_replacement, '\\unit{');
+  console.log('latex=' + latex)
+  var parts = H5Pbridge.separateInputfield(latex);
+  var tex = parts.before + '{{result}}' + parts.after;
+  var enc = H5Pbridge.encode(parts.tag);
+  console.log(tex + ' enc=' + enc + ' -> ' + H5Pbridge.decode(enc));
+
+  // replacement for #data_b64_click: setValue(..., 'data_b64', enc);
+  // now done in formulaapplet-editor.js/updateTexinputEventHandler
+
+  // getHTML
+  var html = '<p class="formula_applet" id="' + fApp.id;
+  if (fApp.hasSolution) {
+    html += '" data-b64="' + enc;
+  }
+  if (fApp.unitAuto) {
+    html += '" mode="physics';
+  }
+  html += '">' + tex + '</p>';
+  console.log(html);
+  var out = H5P.jQuery('textarea#html_output');
+  if (typeof out !== 'undefined') {
+    out.text(html);
+  }
+}

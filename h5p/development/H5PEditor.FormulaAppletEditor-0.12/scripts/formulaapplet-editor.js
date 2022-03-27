@@ -274,6 +274,7 @@ async function afterAppend_inner(obj) {
       event.preventDefault();
       editorAction('TEX_changed', event.target.value);
     } else {
+      //TODO move to refreshResultFieldClone
       msg = ' event caused by JavaScript';
       var enc = H5Pbridge.encode(editor_fApp.solution);
       setValue(obj, 'data_b64', enc);
@@ -433,7 +434,7 @@ function getSelectorID(selectorName) {
 function refreshResultField(latex, fApp) {
   console.log("refreshResultField");
   latex = latex.replaceAll(H5Pbridge.config.unit_replacement, '\\unit{');
-  console.log('latex=' + latex)
+  console.log('latex=' + latex);
   var parts = H5Pbridge.separateInputfield(latex);
   var tex = parts.before + '{{result}}' + parts.after;
   var enc = H5Pbridge.encode(parts.tag);
@@ -442,6 +443,45 @@ function refreshResultField(latex, fApp) {
   // replacement for #data_b64_click: setValue(..., 'data_b64', enc);
   // now done in formulaapplet-editor.js/updateTexinputEventHandler
 
+  // getHTML
+  var html = '<p class="formula_applet" id="' + fApp.id;
+  if (fApp.hasSolution) {
+    html += '" data-b64="' + enc;
+  }
+  if (fApp.unitAuto) {
+    html += '" mode="physics';
+  }
+  html += '">' + tex + '</p>';
+  console.log(html);
+  var out = H5P.jQuery('textarea#html_output');
+  if (typeof out !== 'undefined') {
+    out.text(html);
+  }
+}
+
+function refreshResultFieldClone(latex, fApp) {
+  console.log("refreshResultFieldClone");
+  latex = latex.replaceAll(H5Pbridge.config.unit_replacement, '\\unit{');
+  console.log('latex=' + latex);
+  var parts = H5Pbridge.separateInputfield(latex);
+  var tex = parts.before + '{{result}}' + parts.after;
+  var enc = H5Pbridge.encode(parts.tag);
+  console.log(tex + ' enc=' + enc + ' -> ' + H5Pbridge.decode(enc));
+
+  // H5P editor: send tex to formulaapplet-editor using dispatchEvent
+  if (H5Pbridge.isH5P()) {
+    //TODO replace by code in updateTexinputEventHandler, case event.isTrusted=false
+    var texinput = H5P.jQuery('div.field.field-name-TEX_expression.text input')[0];
+    if (typeof texinput !== 'undefined') {
+      fApp.solution = parts.tag; //not encoded; used by formulaapplet-editor
+      // value of TEX_expression field is set to EditorResult
+      texinput.value = tex;
+      // trigger InputEvent. EventListener: updateTexinputEventHandler see formulaapplet-editor.js
+      texinput.dispatchEvent(new InputEvent('input', {
+        bubbles: true
+      }))
+    }
+  }
   // getHTML
   var html = '<p class="formula_applet" id="' + fApp.id;
   if (fApp.hasSolution) {
@@ -577,13 +617,13 @@ async function prepareEditorApplet(fApp) {
   await H5Pbridge.domLoad;
   // await initEditor();
   console.log('prepareEditorApplet: define editor_fApp_id');
-  var editorMf = H5Pbridge.mathQuillifyEditor(fApp);
+  var editorMf = mathQuillifyEditor(fApp);
   console.log(editorMf);
   // editorMf provides commands like editorMf.latex('\\sqrt{2}') and var latextext = editorMf.latex();
   fApp.mathField = editorMf;
   console.log('editorMf.latex=' + editorMf.latex());
   refreshResultField(editorMf.latex(), fApp);
-  //TODO code replacement for refreshLatexEvent
+  //TODO code replacement for refreshLatexEvent. Get rid of unused event types
   // $.event.trigger("refreshLatexEvent"); //adjust \cdot versus \times
 
   // get config.debug value from js/config.json.ori, show or hide 4 fields
@@ -600,3 +640,27 @@ async function prepareEditorApplet(fApp) {
   }
   return fApp;
 } // end of prepareEditorApplet
+
+function mathQuillifyEditor(fApp) {
+  // make whole mathFieldSpan editable
+  var mathFieldSpan = document.getElementById('math-field');
+  if (!mathFieldSpan) throw new Error("Cannot find math-field. The math editor must provide one.");
+  var editorMf = H5Pbridge.MQ.MathField(mathFieldSpan, {
+    spaceBehavesLikeTab: true, // configurable
+    handlers: {
+      edit: function (mathField) { // useful event handlers
+        //TODO activate try/catch
+        // try {
+          if (H5Pbridge.mathQuillEditHandlerActive.flag) {
+            var latex = mathField.latex();
+            console.log('mathQuillEditHandler refreshResultFieldClone latex=' + latex);
+            refreshResultFieldClone(latex, fApp);
+          }
+        // } catch (error) {
+        //   console.error('ERROR in MQ.MathField: ' + error);
+        // }
+      }
+    }
+  });
+  return editorMf;
+}

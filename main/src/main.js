@@ -1,6 +1,6 @@
 import preparePage, {
     mathQuillify,
-    mathQuillifyEditor,
+    // mathQuillifyEditor,
     editor_fApp
 } from "./js/preparePage.js";
 import decode, {
@@ -15,6 +15,10 @@ import {
     domLoad,
     isH5P
 } from "./js/dom.js";
+import MQ from "./js/lib/mathquillWrapper.js";
+import {
+    mathQuillEditHandlerActive
+} from "./js/editHandler.js";
 
 
 // H5Pbridge
@@ -22,14 +26,16 @@ export {
     decode,
     encode,
     mathQuillify,
-    mathQuillifyEditor,
+    // mathQuillifyEditor,
     preparePage,
     editor_fApp,
     config,
     setInput,
     separateInputfield,
     isH5P,
-    domLoad
+    domLoad,
+    MQ,
+    mathQuillEditHandlerActive
 };
 
 window.onload = function () {
