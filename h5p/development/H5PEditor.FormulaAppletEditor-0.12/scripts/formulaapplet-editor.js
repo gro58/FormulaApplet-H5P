@@ -329,9 +329,9 @@ async function afterAppend(obj) {
     var element = observedField.$item[0];
     element.addEventListener('change', myEventHandler(observedField));
 
-    var observedField = getField(obj, 'data_b64');
-    var element = observedField.$item[0];
-    element.addEventListener('input', myEventHandler(observedField));
+    // var observedField = getField(obj, 'data_b64');
+    // var element = observedField.$item[0];
+    // element.addEventListener('input', myEventHandler(observedField));
 
     var observedField = getField(obj, 'id');
     var element = observedField.$item[0];
@@ -428,7 +428,7 @@ function getSelectorID(selectorName) {
   return result;
 }
 
-function refreshResultField(latex, fApp, clone) {
+function refreshResultField(latex, fApp) {
   console.log("refreshResultField");
   latex = latex.replaceAll(H5Pbridge.config.unit_replacement, '\\unit{');
   console.log('latex=' + latex);
@@ -437,9 +437,10 @@ function refreshResultField(latex, fApp, clone) {
   //TODO maybe necessary: fApp.solution = parts.tag
   var enc = H5Pbridge.encode(parts.tag);
 
-  if (H5Pbridge.isH5P() && clone) {
+  //TODO DELETE
+  // if (H5Pbridge.isH5P() && clone) {
     setValue(obj_global, 'data_b64', enc);
-  }
+  // }
 
   console.log(tex + ' enc=' + enc + ' -> ' + H5Pbridge.decode(enc));
 
@@ -506,7 +507,7 @@ async function editorAction() {
       var newId = data;
       console.info('idChanged data=' + newId);
       editor_fApp.id = newId;
-      refreshResultField(editorMf.latex(), editor_fApp, false);
+      refreshResultField(editorMf.latex(), editor_fApp);
     }
     if (actionType === 'setInputFieldMouseover') {
       console.info('setInputFieldMouseover');
@@ -527,7 +528,7 @@ async function editorAction() {
     if (actionType === 'refresh') {
       console.info('refresh');
       try {
-        refreshResultField(editor_fApp.mathField.latex(), editor_fApp, false);
+        refreshResultField(editor_fApp.mathField.latex(), editor_fApp);
       } catch (error) {
         console.error('ERROR: ' + error);
       }
@@ -538,22 +539,22 @@ async function editorAction() {
       console.info('setMode ' + auto_or_manu);
       if (auto_or_manu == 'auto') {
         editor_fApp.hasSolution = false;
-        refreshResultField(editorMf.latex(), editor_fApp, false)
+        refreshResultField(editorMf.latex(), editor_fApp)
       }
       if (auto_or_manu == 'manu') {
         editor_fApp.hasSolution = true;
-        refreshResultField(editorMf.latex(), editor_fApp, false)
+        refreshResultField(editorMf.latex(), editor_fApp)
       }
     }
     if (actionType === 'setPhysics') {
       console.info('setPhysics ' + data);
       if (data === 'true') {
         editor_fApp.unitAuto = true;
-        refreshResultField(editorMf.latex(), editor_fApp, false);
+        refreshResultField(editorMf.latex(), editor_fApp);
       }
       if (data === 'false') {
         editor_fApp.unitAuto = false;
-        refreshResultField(editorMf.latex(), editor_fApp, false);
+        refreshResultField(editorMf.latex(), editor_fApp);
       }
     }
     if (actionType === 'TEX_changed') {
@@ -583,7 +584,7 @@ async function prepareEditorApplet(fApp) {
   // editorMf provides commands like editorMf.latex('\\sqrt{2}') and var latextext = editorMf.latex();
   fApp.mathField = editorMf;
   console.log('editorMf.latex=' + editorMf.latex());
-  refreshResultField(editorMf.latex(), fApp, false);
+  refreshResultField(editorMf.latex(), fApp);
   //TODO code replacement for refreshLatexEvent. Get rid of unused event types
   // $.event.trigger("refreshLatexEvent"); //adjust \cdot versus \times
 
@@ -614,8 +615,7 @@ function mathQuillifyEditor(fApp) {
           if (H5Pbridge.mathQuillEditHandlerActive.flag) {
             var latex = mathField.latex();
             console.log('mathQuillEditHandler refreshResultFieldClone latex=' + latex);
-            // refreshResultFieldClone(latex, fApp, true);
-            refreshResultField(latex, fApp, true);
+            refreshResultField(latex, fApp);
           }
         } catch (error) {
           console.error('ERROR in MQ.MathField: ' + error);
