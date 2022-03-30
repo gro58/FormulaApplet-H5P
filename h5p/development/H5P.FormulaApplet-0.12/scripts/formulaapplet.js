@@ -45,14 +45,14 @@ H5P.FormulaApplet = (function ($) {
     // html += '<p>' + this.options.id + '</p>';
     // html += '<p>' + this.options.data_b64 + '</p>';
     // console.log(html);
-    $container.append(html, afterAppend(this.options.id));
+    $container.append(html, afterAppend(this.options.id), self);
   };
   return C;
 })(H5P.jQuery);
 
-function afterAppend(id) {
+function afterAppend(id, instance) {
   console.log(id + ' appended');
-  // self.$.trigger('resize');
+  var success = true;
+  // H5P.XAPIEvent(2, 6, instance, false, success);
   H5P.jQuery(document).trigger('resize');
-  // H5Pbridge.mathQuillify(id); //replaced by preparePage() in main.js
 }

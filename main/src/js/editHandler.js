@@ -43,7 +43,7 @@ export default function mathQuillEditHandler(fApp, MQ) {
         }
         var key = '#' + fApp.id + '.formula_applet + span.truefalse';
         var truefalse = $(key)[0];
-        console.log(truefalse);
+        // console.log(truefalse);
             if (isEqual) {
             $(truefalse).css({
                 "color": "green",
@@ -57,6 +57,6 @@ export default function mathQuillEditHandler(fApp, MQ) {
             });
             truefalse.innerHTML = "&nbsp;&#x21AF;";
         }
-        console.log(truefalse);
+        // console.log(truefalse);
      }
 }

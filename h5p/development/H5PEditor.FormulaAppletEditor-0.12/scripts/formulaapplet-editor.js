@@ -122,7 +122,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     // var $button = H5P.JoubelUI.createButton({
     $button = H5P.JoubelUI.createButton({
       title: 'set_input_field',
-      // text: 'S-I-F',
+      text: 'S-I-F',
       // text: params.input_field_button_text, //fails: params.input_field_button_text is undefined
       click: function (event) {
         event.preventDefault();
@@ -230,8 +230,6 @@ async function afterAppend(obj) {
     console.log(x);
     editor_fApp = await x; //OMG. causes co(3)
     console.log('editor_fApp  OK');
-    //TODO replace with code from afterAppend_inner
-    // afterAppend_inner(obj);
     console.log('co(4, was 2-inner)');
     editor_fApp = await prepareEditorApplet(editor_fApp);
     console.log(editor_fApp.mathField);
@@ -337,20 +335,20 @@ async function afterAppend(obj) {
     var element = observedField.$item[0];
     element.addEventListener('input', myEventHandler(observedField));
 
-    var lang = getValue(obj, 'selected_language');
-    H5Pbridge.selected_language['lang'] = lang; //store in main
-    console.log('lang=' + lang);
+    // var lang = getValue(obj, 'selected_language');
+    // H5Pbridge.selected_language['lang'] = lang; //store in main
+    // console.log('lang=' + lang);
     // if (lang === 'de') {
     //   // Translation of "Set input field"
     //   $button.html("Eingabe-Feld setzen");
     // }
-    var button_text = getValue(obj, 'input_field_button_text');
-    console.log('button_text=' + button_text);
+    var button_field = getField(obj, 'input_field_button_text');
+    // do not use getValue  but use field default!
+    var button_text = button_field.field.default;
+    // console.log('button_text=' + button_text);
     $button.html(button_text);
-  })
+  })//
 }
-
-async function afterAppend_inner(obj) {} // end of afterAppend
 
 // getField is used by getValue
 function getField(obj, name) {
@@ -434,15 +432,11 @@ function refreshResultField(latex, fApp) {
   console.log('latex=' + latex);
   var parts = H5Pbridge.separateInputfield(latex);
   var tex = parts.before + '{{result}}' + parts.after;
-  //TODO maybe necessary: fApp.solution = parts.tag
   var enc = H5Pbridge.encode(parts.tag);
+  setValue(obj_global, 'data_b64', enc);
+  //TODO maybe necessary: fApp.solution = parts.tag
 
-  //TODO DELETE
-  // if (H5Pbridge.isH5P() && clone) {
-    setValue(obj_global, 'data_b64', enc);
-  // }
-
-  console.log(tex + ' enc=' + enc + ' -> ' + H5Pbridge.decode(enc));
+  // console.log(tex + ' enc=' + enc + ' -> ' + H5Pbridge.decode(enc));
 
   // getHTML
   var html = '<p class="formula_applet" id="' + fApp.id;
@@ -453,7 +447,7 @@ function refreshResultField(latex, fApp) {
     html += '" mode="physics';
   }
   html += '">' + tex + '</p>';
-  console.log(html);
+  // console.log(html);
   var out = H5P.jQuery('textarea#html_output');
   if (typeof out !== 'undefined') {
     out.text(html);
