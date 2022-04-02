@@ -253,8 +253,9 @@ async function afterAppend(obj) {
       var new_id = getValue(obj, 'id') + '-edit';
       H5P.jQuery(elem).attr('id', new_id);
     }
+    //TODO DELETE action refresh
     // console.log('editorAction refresh');
-    editorAction("refresh");
+    // editorAction("refresh");
     // still afterAppend...
 
     // texinput is updated by editor.js: showEditorResults
@@ -271,6 +272,7 @@ async function afterAppend(obj) {
         editorAction('TEX_changed', event.target.value);
       } else {
         //do nothing (code moved to refreshResultFieldClone)
+
       }
       console.log('TEX_expression changed: ' + event.target.value + msg);
     }
@@ -434,6 +436,7 @@ function refreshResultField(latex, fApp) {
   var tex = parts.before + '{{result}}' + parts.after;
   var enc = H5Pbridge.encode(parts.tag);
   setValue(obj_global, 'data_b64', enc);
+  setValue(obj_global, 'TEX_expression', tex);
   //TODO maybe necessary: fApp.solution = parts.tag
 
   // console.log(tex + ' enc=' + enc + ' -> ' + H5Pbridge.decode(enc));
@@ -519,14 +522,14 @@ async function editorAction() {
       editorMf.latex(newLatex);
     }
 
-    if (actionType === 'refresh') {
-      console.info('refresh');
-      try {
-        refreshResultField(editor_fApp.mathField.latex(), editor_fApp);
-      } catch (error) {
-        console.error('ERROR: ' + error);
-      }
-    }
+    // if (actionType === 'refresh') {
+    //   console.info('refresh');
+    //   try {
+    //     refreshResultField(editor_fApp.mathField.latex(), editor_fApp);
+    //   } catch (error) {
+    //     console.error('ERROR: ' + error);
+    //   }
+    // }
 
     if (actionType === 'setMode') {
       var auto_or_manu = data;
@@ -608,7 +611,7 @@ function mathQuillifyEditor(fApp) {
         try {
           if (H5Pbridge.mathQuillEditHandlerActive.flag) {
             var latex = mathField.latex();
-            console.log('mathQuillEditHandler refreshResultFieldClone latex=' + latex);
+            console.log('mathQuillEditHandler refreshResultField latex=' + latex);
             refreshResultField(latex, fApp);
           }
         } catch (error) {
