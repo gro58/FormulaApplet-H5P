@@ -54,22 +54,22 @@ function getSelection(mf, options) {
             console.error('Something went wrong with replacement of input field', check, postSelected);
         }
         selected = erased.substring(0, erased.length - postSelected.length);
-        //TODO use object syntax instead of array syntax
-        var result = [preSelected, selected, postSelected, ori];
+        // var result = [preSelected, selected, postSelected, ori]; old syntax, DELETE
+        var result = {preSelected:preSelected, selected:selected, postSelected:postSelected, ori:ori};
         return result;
     }
 }
 
 export function setInput(editorMf) {
-    var temp = getSelection(editorMf, {
+    var sel = getSelection(editorMf, {
         erase: true
     });
-    var preSelected = temp[0];
-    var selected = temp[1];
-    var postSelected = temp[2];
+    var preSelected = sel.preSelected;
+    var selected = sel.selected;
+    var postSelected = sel.postSelected;
     var result = {};
-    result['old'] = temp[3];
-    var newLatex = temp[3];
+    result['old'] = sel.ori;
+    var newLatex = sel.ori;
     if (selected.length > 0) {
         newLatex = preSelected + '\\class{inputfield}{' + selected + '}' + postSelected;
     } else {
@@ -105,14 +105,13 @@ function getPositionOfUnitTags(latex, unitTag) {
 export function setUnit(mf) {
     var i, k;
     var unitTag = config.unit_replacement;
-    // erase class inputfield = false
-    var temp = getSelection(mf, {
+    var sel = getSelection(mf, {
         erase: false
     });
-    var preSelected = temp[0];
-    var selected = temp[1];
-    var postSelected = temp[2];
-    var ori = temp[3];
+    var preSelected = sel.preSelected;
+    var selected = sel.selected;
+    var postSelected = sel.postSelected;
+    var ori = sel.ori;
 
     var start = preSelected.length;
     var end = start + selected.length;
@@ -196,17 +195,17 @@ function sanitizeInputfieldTag(latex) {
 export function eraseUnit(mf) {
     // var unitTag = '\\textcolor{blue}{';
     var unitTag = config.unit_replacement;
-    var temp = getSelection(mf, {
+    var sel = getSelection(mf, {
         erase: false
     });
-    var ori = temp[3];
+    var ori = sel.ori;
     // get position of unittags
     var posn = getPositionOfUnitTags(ori, unitTag);
     var startOfUnitTags = posn.sofUnitTags;
     var endOfUnitTags = posn.eofUnitTags;
 
     // delete unittag outside cursor (or left boundary of selection)
-    var cursorpos = temp[0].length;
+    var cursorpos = sel.preSelected.length;
     var ori_array = ori.split('');
     for (var i = 0; i < startOfUnitTags.length; i++) {
         if (startOfUnitTags[i] <= cursorpos && cursorpos <= endOfUnitTags[i]) {
