@@ -11,8 +11,8 @@ created public\build\bundle.js in 2.3s
 
 * Kopieren der bundle.js und bundle.map.js eventuell zu spät (vor dem bundling)?
 * provisorische Lösung:
- * !patchrun.ps1, ruft patch.sh und npm run h5p#
- * warten auf Rückmeldung des bundlers, dann Batch-Datei copybundles.cmd
+  * !patchrun.ps1, ruft patch.sh und npm run h5p#
+  * warten auf Rückmeldung des bundlers, dann Batch-Datei copybundles.cmd
 * Turnaround-Zeit 
  * bei Docker/Drupal7 OK.
  * Docker/WordPress nutzt das development-Verzeichnis nicht  
