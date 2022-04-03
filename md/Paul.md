@@ -14,14 +14,14 @@ created public\build\bundle.js in 2.3s
   * !patchrun.ps1, ruft patch.sh und npm run h5p#
   * warten auf Rückmeldung des bundlers, dann Batch-Datei copybundles.cmd
 * Turnaround-Zeit 
- * bei Docker/Drupal7 OK.
- * Docker/WordPress nutzt das development-Verzeichnis nicht  
+  * bei Docker/Drupal7 OK.
+  * Docker/WordPress nutzt das development-Verzeichnis nicht  
 * falls alles passt, commit, ab und zu push
 * bei größeren Änderungen vorher branch und danach, wenn alles passt, merge pull request
 * GIT: Wie macht man commit rückgängig?
 * WordPress: Theme "2021":
- * CSS für visual keyboard OK, fix am unteren Bildschirmrand
- * CSS bei Editor buggy, visual keyboard am unteren Seitenrand
+  * CSS für visual keyboard OK, fix am unteren Bildschirmrand
+  * CSS bei Editor buggy, visual keyboard am unteren Seitenrand
 * Sprache wechseln in Drupal7 OK. In WordPress: kein Erfolg
 ## Dies und Das
 * (function(){ ... })(); oder (function(){ ... }());
