@@ -1,3 +1,5 @@
+"use strict";
+
 import preparePage, {
     mathQuillify,
     // mathQuillifyEditor,

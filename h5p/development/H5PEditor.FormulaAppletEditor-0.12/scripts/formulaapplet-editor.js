@@ -349,6 +349,11 @@ async function afterAppend(obj) {
     var button_text = button_field.field.default;
     // console.log('button_text=' + button_text);
     $button.html(button_text);
+    var sel_lang_field = getField(obj, 'selected_language');
+    // do not use getValue  but use field default!
+    var lang = sel_lang_field.field.default;
+    // store in variable of main.js for use in virtual keyboard
+    H5Pbridge.selected_language['lang'] = lang;
   })//
 }
 

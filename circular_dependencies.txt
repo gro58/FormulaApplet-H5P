@@ -1,0 +1,6 @@
+bundles src/main.js ? public\build\bundle.js...
+after 2 seconds
+(!) Circular dependencies
+D:\Users\privat\Laufwerk_E\gut\gf09\main\src\js\preparePage.js -> D:\Users\privat\Laufwerk_E\gut\gf09\main\src\js\editHandler.js -> D:\Users\privat\Laufwerk_E\gut\gf09\main\src\js\preparePage.js
+D:\Users\privat\Laufwerk_E\gut\gf09\main\src\main.js -> D:\Users\privat\Laufwerk_E\gut\gf09\main\src\js\preparePage.js -> D:\Users\privat\Laufwerk_E\gut\gf09\main\src\js\virtualKeyboard.js -> D:\Users\privat\Laufwerk_E\gut\gf09\main\src\main.js
+created public\build\bundle.js in 2.3s
