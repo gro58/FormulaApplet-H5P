@@ -19,6 +19,12 @@ console.log('Here is formulaapplet-editor.js 0.12');
 var obj_global = {}
 var $button;
 
+H5PEditor.language['H5PEditor.FormulaAppletEditor'] = {
+  libraryStrings: {
+    inputFieldButton: 'Set input field'
+  }
+};
+
 H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (function ($) {
 
   /**
@@ -119,11 +125,13 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     self.config.change('formula applet changed');
     $wrapper.append(self.$item);
 
-    // var $button = H5P.JoubelUI.createButton({
+    // var translatedButtonText = H5PEditor.t('H5PEditor.FormulaAppletEditor', 'inputFieldButton');
+    // console.log('translatedButtonText=' + translatedButtonText);
+  
     $button = H5P.JoubelUI.createButton({
       title: 'set_input_field',
-      text: 'S-I-F',
-      // text: params.input_field_button_text, //fails: params.input_field_button_text is undefined
+      // text: 'S-I-F',
+      text: H5PEditor.t('H5PEditor.FormulaAppletEditor', 'inputFieldButton'),
       click: function (event) {
         event.preventDefault();
         console.log("editorAction setInputField");
@@ -344,11 +352,11 @@ async function afterAppend(obj) {
     //   // Translation of "Set input field"
     //   $button.html("Eingabe-Feld setzen");
     // }
-    var button_field = getField(obj, 'input_field_button_text');
-    // do not use getValue  but use field default!
-    var button_text = button_field.field.default;
-    // console.log('button_text=' + button_text);
-    $button.html(button_text);
+    // var button_field = getField(obj, 'input_field_button_text');
+    // // do not use getValue  but use field default!
+    // var button_text = button_field.field.default;
+    // // console.log('button_text=' + button_text);
+    // $button.html(button_text);
     var sel_lang_field = getField(obj, 'selected_language');
     // do not use getValue  but use field default!
     var lang = sel_lang_field.field.default;

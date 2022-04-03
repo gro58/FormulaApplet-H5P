@@ -18,3 +18,5 @@ main/src/js/config.json
 h5p/development/H5P.FormulaApplet-2.10/library.json
 h5p/development/H5PEditor.FormulaAppletEditor-0.11/library.json
 rollup_bak
+h5p.org_comment_45324
+circular_dependencies.txt
