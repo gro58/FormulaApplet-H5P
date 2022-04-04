@@ -31,6 +31,7 @@ H5P.FormulaApplet = (function ($) {
     console.log(this.options);
     // console.log(this.options.sel_lang);
     // H5Pbridge.selected_language['lang'] = this.options.sel_lang; //store in main
+    // demo
     
     if (this.options.formulaAppletPhysics == true) {
       html += ' mode="physics"';

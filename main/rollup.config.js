@@ -1,3 +1,5 @@
+// script definitions see package.json
+
 /* eslint-disable no-undef */
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
@@ -126,7 +128,8 @@ export default [{
 				.concat(getCopyTargets("css/gf09.css"))
 				.concat(getCopyTargets("css/table.css"))
 				.concat(getCopyTargets("css/virtualKeyboard.css"))
-				.concat(getCopyTargets("MathQuill/mathquill.css"))
+				.concat(getCopyTargets("MathQuill/mathquill.css")),
+			hook: "writeBundle"
 		})
 	]
 }];
@@ -139,7 +142,6 @@ function serve() {
 		writeBundle() {
 			if (!started) {
 				started = true;
-
 				require('child_process').spawn('npm', ['run', 'public', '--', '--dev'], {
 					env: process.env,
 					stdio: ['ignore', 'inherit', 'inherit'],

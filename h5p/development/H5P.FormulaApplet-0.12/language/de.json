@@ -37,11 +37,6 @@
       "description": "eindeutige Id des Formel-Applets"
     },
     {
-      "label": "input field button text",
-      "default": "Eingabe-Feld setzen",
-      "description": "Text des Eingabefeld-Knopfes"
-    },
-    {
       "label": "selected language",
       "default": "de",
       "description": "Feld wird von 'virtual keyboard' verwendet"

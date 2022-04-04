@@ -6,6 +6,7 @@
   "scripts": {
     "start": "cross-env PRODUCTION=\"false\" SERVE=\"true\" rollup -c -w",
     "h5p": "cross-env PRODUCTION=\"false\" H5PCOPY=\"true\" rollup -c -w",
+    "h5p-build": "cross-env PRODUCTION=\"true\" H5PCOPY=\"true\" rollup -c -w",
     "build": "cross-env PRODUCTION=\"true\" rollup -c",
     "public": "sirv public --port 5000",
     "doc": "jsdoc -d docs --configure jsconf.json src/js/"

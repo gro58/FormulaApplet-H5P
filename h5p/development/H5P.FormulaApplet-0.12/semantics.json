@@ -52,13 +52,6 @@
     "description": "Id of the Formula Applet - has to be unique"
   },
   {
-    "label": "input field button text",
-    "name": "input_field_button_text",
-    "type": "text",
-    "default": "Set input field",
-    "description": "text of inputfield button"
-  },
-  {
     "label": "selected language",
     "name": "selected_language",
     "type": "text",

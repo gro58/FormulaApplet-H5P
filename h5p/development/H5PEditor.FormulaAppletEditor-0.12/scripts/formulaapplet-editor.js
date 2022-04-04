@@ -15,13 +15,12 @@
 
 var H5P = H5P || {};
 console.log('Here is formulaapplet-editor.js 0.12');
-//TODO get rid of globals var obj_global, var $button
+//TODO get rid of var obj_global
 var obj_global = {}
-var $button;
 
 H5PEditor.language['H5PEditor.FormulaAppletEditor'] = {
   libraryStrings: {
-    inputFieldButton: 'Set input field'
+    inputFieldButtonText: 'Set input field'
   }
 };
 
@@ -77,7 +76,6 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     var html = '<p class="formula_applet" id="' + params.id + '-edit"';
     // console.log(self);
     // console.log(params);
-    // console.log(params.input_field_button_text);
     if (params.formulaAppletPhysics === true) {
       html += ' mode="physics"';
     }
@@ -125,13 +123,11 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     self.config.change('formula applet changed');
     $wrapper.append(self.$item);
 
-    // var translatedButtonText = H5PEditor.t('H5PEditor.FormulaAppletEditor', 'inputFieldButton');
-    // console.log('translatedButtonText=' + translatedButtonText);
-  
+
     $button = H5P.JoubelUI.createButton({
       title: 'set_input_field',
       // text: 'S-I-F',
-      text: H5PEditor.t('H5PEditor.FormulaAppletEditor', 'inputFieldButton'),
+      text: H5PEditor.t('H5PEditor.FormulaAppletEditor', 'inputFieldButtonText'),
       click: function (event) {
         event.preventDefault();
         console.log("editorAction setInputField");
@@ -345,24 +341,12 @@ async function afterAppend(obj) {
     var element = observedField.$item[0];
     element.addEventListener('input', myEventHandler(observedField));
 
-    // var lang = getValue(obj, 'selected_language');
-    // H5Pbridge.selected_language['lang'] = lang; //store in main
-    // console.log('lang=' + lang);
-    // if (lang === 'de') {
-    //   // Translation of "Set input field"
-    //   $button.html("Eingabe-Feld setzen");
-    // }
-    // var button_field = getField(obj, 'input_field_button_text');
-    // // do not use getValue  but use field default!
-    // var button_text = button_field.field.default;
-    // // console.log('button_text=' + button_text);
-    // $button.html(button_text);
     var sel_lang_field = getField(obj, 'selected_language');
     // do not use getValue  but use field default!
     var lang = sel_lang_field.field.default;
     // store in variable of main.js for use in virtual keyboard
     H5Pbridge.selected_language['lang'] = lang;
-  })//
+  }) //
 }
 
 // getField is used by getValue
@@ -603,7 +587,6 @@ async function prepareEditorApplet(fApp) {
   H5P.jQuery('.field-name-data_b64').css('display', css_display_value);
   H5P.jQuery('.field-name-id').css('display', css_display_value);
   H5P.jQuery('.field-name-selected_language').css('display', css_display_value);
-  H5P.jQuery('.field-name-input_field_button_text').css('display', css_display_value);
 
   if (H5Pbridge.config.htmloutput === 'true') {
     H5P.jQuery('#html_output').css('display', '');
