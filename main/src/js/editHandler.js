@@ -1,7 +1,5 @@
 import $ from "jquery";
-import {
-    makeAutoUnitstring
-} from "./preparePage.js";
+import makeAutoUnitstring from "./autoUnit.js";
 import {
     checkIfEqual,
     checkIfEquality
