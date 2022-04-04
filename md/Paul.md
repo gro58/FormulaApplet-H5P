@@ -29,6 +29,7 @@ created public\build\bundle.js in 2.3s
 * Ständig muss man manuell den Cache von Chrome löschen
   *  Es gibt eine Chrome-Einstellung "Disable cache (while DevTools is open)",
   die bewirkt aber nichts
+  Strg-Shift-R
 ## nice to have...
 * npm run h5p braucht keinen Abbruch der Batch-Datei
 * npm run h5p wartet, bis bundle fertig und kopiert dann oder ruft ./copybundles
