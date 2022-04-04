@@ -51,4 +51,3 @@ export function mainIsLoaded() {
 export let selected_language = {
     lang: "de"
 };
-// commit demo

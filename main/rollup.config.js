@@ -115,7 +115,8 @@ export default [{
 
 		// Watch the `public` directory and refresh the
 		// browser on changes when serving
-		// temporarily disable livereload
+
+		// enable/disable livereload here AND AT IMPORTS by uncommenting/commenting
 		// !production && livereload("public", {
 		// 	port: 5001
 		// }),
@@ -139,6 +140,7 @@ function serve() {
 	let started = false;
 
 	return {
+		//writeBundle calls script 'npm run public', see package.json
 		writeBundle() {
 			if (!started) {
 				started = true;
