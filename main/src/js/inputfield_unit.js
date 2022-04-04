@@ -5,9 +5,14 @@ import {
     findCorrespondingRightBracket
 } from "./texParser.js";
 
+// import {
+//     mathQuillEditHandlerActive
+// } from "./editHandler.js";
 import {
-    mathQuillEditHandlerActive
-} from "./editHandler.js";
+    setEditHandlerActive
+}
+from "./switchEditHandler.js";
+
 
 function getSelection(mf, options) {
     // if options.erase is undefined, erase defaults to false
@@ -25,10 +30,10 @@ function getSelection(mf, options) {
         // replacement has to be done before erase of class{...
         // Do replacement!
         // eslint-disable-next-line no-import-assign
-        mathQuillEditHandlerActive.flag = false;
+        setEditHandlerActive(false);
         mf.typedText(replacementCharacter);
         // eslint-disable-next-line no-import-assign
-        mathQuillEditHandlerActive.flag = true;
+        setEditHandlerActive(true);
         // erase class{inputfield}
         var replacedAndErased = mf.latex();
         if (erase) {
@@ -55,7 +60,12 @@ function getSelection(mf, options) {
         }
         selected = erased.substring(0, erased.length - postSelected.length);
         // var result = [preSelected, selected, postSelected, ori]; old syntax, DELETE
-        var result = {preSelected:preSelected, selected:selected, postSelected:postSelected, ori:ori};
+        var result = {
+            preSelected: preSelected,
+            selected: selected,
+            postSelected: postSelected,
+            ori: ori
+        };
         return result;
     }
 }

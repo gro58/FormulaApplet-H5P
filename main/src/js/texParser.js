@@ -1727,7 +1727,8 @@ export function checkScientificNotation(texstring) {
     if (repl.endsWith('*10')) {
         repl = repl.substr(0, repl.length - 3);
     }
-    // repl is used by preparePage.makeAutoUnitstring
+    // repl was used by preparePage.makeAutoUnitstring
+    // repl is used by autoUnit.makeAutoUnitstring
     var mantissa = repl;
     var exponent = ''; // default
     var pos = repl.indexOf('*10^');

@@ -6,13 +6,23 @@ import {
 } from "./checkIfEqual.js";
 
 // https://stackoverflow.com/questions/48168601/change-the-value-of-imported-variable-in-es6
-var mathQuillEditHandlerActive = {
-    flag: true
-};
-export { mathQuillEditHandlerActive }
+// var mathQuillEditHandlerActive = {
+//     flag: true
+// };
+// export { mathQuillEditHandlerActive }
+
+//TODO get rid of global var
+// var editHandlerActive = true;
+
+// export function setEditHandlerActive(truefalse) {
+    // editHandlerActive = truefalse;
+// }
+
+import isEditHandlerActive from "./switchEditHandler.js";
 
 export default function mathQuillEditHandler(fApp, MQ) {
-    if (mathQuillEditHandlerActive.flag === true) {
+    // if (mathQuillEditHandlerActive.flag === true) {
+    if (isEditHandlerActive()) {
         var mf = fApp.mathField;
         var mfContainer = MQ.StaticMath(fApp.formulaApplet);
         var solution = fApp.solution;
@@ -42,7 +52,7 @@ export default function mathQuillEditHandler(fApp, MQ) {
         var key = '#' + fApp.id + '.formula_applet + span.truefalse';
         var truefalse = $(key)[0];
         // console.log(truefalse);
-            if (isEqual) {
+        if (isEqual) {
             $(truefalse).css({
                 "color": "green",
                 "font-size": "30pt"
@@ -56,5 +66,5 @@ export default function mathQuillEditHandler(fApp, MQ) {
             truefalse.innerHTML = "&nbsp;&#x21AF;";
         }
         // console.log(truefalse);
-     }
+    }
 }

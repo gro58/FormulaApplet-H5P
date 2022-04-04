@@ -18,9 +18,9 @@ import {
     isH5P
 } from "./js/dom.js";
 import MQ from "./js/lib/mathquillWrapper.js";
-import {
-    mathQuillEditHandlerActive
-} from "./js/editHandler.js";
+// import {
+//     mathQuillEditHandlerActive
+// } from "./js/editHandler.js";
 
 
 // H5Pbridge
@@ -36,8 +36,8 @@ export {
     separateInputfield,
     isH5P,
     domLoad,
-    MQ,
-    mathQuillEditHandlerActive
+    MQ
+    // mathQuillEditHandlerActive
 };
 
 window.onload = function () {
