@@ -1,3 +1,5 @@
+"use strict";
+
 // import $ from "jquery";
 import parse, {
     FaTree,
@@ -32,7 +34,7 @@ export function checkIfEqual(leftside, rightside, dsList, precision) {
 
 export function checkIfEquality(equation, dsList, precision) {
     var temp = equation.replace(/\\times/g, '\\cdot');
-     var myTree = parse(temp);
+    var myTree = parse(temp);
     myTree = fillWithRandomValAndCheckDefSets(myTree, dsList);
     var almostOne = evaluateTree(myTree);
     var dif = Math.abs(almostOne - 1);

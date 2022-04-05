@@ -10,8 +10,7 @@ import {
 // } from "./editHandler.js";
 import {
     setEditHandlerActive
-}
-from "./switchEditHandler.js";
+} from "./switchEditHandler.js";
 
 
 function getSelection(mf, options) {

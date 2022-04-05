@@ -4,6 +4,7 @@ import {
     checkIfEqual,
     checkIfEquality
 } from "./checkIfEqual.js";
+import config from "./config.json";
 
 // https://stackoverflow.com/questions/48168601/change-the-value-of-imported-variable-in-es6
 // var mathQuillEditHandlerActive = {
@@ -43,6 +44,7 @@ export default function mathQuillEditHandler(fApp, MQ) {
 
         var isEqual;
         if (hasSolution) {
+            solution = solution.replace(/\\unit{/g, config.unit_replacement);
             isEqual = checkIfEqual(mfLatexForParser, solution, dsList, precision);
             console.log(mfLatexForParser + ' = ' + solution + ' ' + isEqual);
         } else {
