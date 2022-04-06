@@ -14,7 +14,7 @@ H5P.FormulaApplet = (function ($) {
     // Keep provided id.
     this.id = id;
     // this.options.TEX_expression = this.options.fa_applet;
-    console.log('Constructor #=' + id);
+    // console.log('Constructor #=' + id);
   };
 
   /**
@@ -28,10 +28,9 @@ H5P.FormulaApplet = (function ($) {
     $container.addClass("h5p-formulaapplet");
 
     var html = '<p class="formula_applet" id="' + this.options.id + '"';
-    console.log(this.options);
-    // console.log(this.options.sel_lang);
+    // console.log(this.options);
+    console.log(this.options.testname);
     // H5Pbridge.selected_language['lang'] = this.options.sel_lang; //store in main
-    // demo
     
     if (this.options.formulaAppletPhysics == true) {
       html += ' mode="physics"';
@@ -47,13 +46,15 @@ H5P.FormulaApplet = (function ($) {
     // html += '<p>' + this.options.data_b64 + '</p>';
     // console.log(html);
     $container.append(html, afterAppend(this.options.id), self);
+    console.log(self);
   };
   return C;
 })(H5P.jQuery);
 
-function afterAppend(id, instance) {
+function afterAppend(id) {
   console.log(id + ' appended');
-  var success = true;
+  console.log('patch version 0.12.' + H5Pbridge.config.patchversion);
+  // var success = true;
   // H5P.XAPIEvent(2, 6, instance, false, success);
   H5P.jQuery(document).trigger('resize');
 }

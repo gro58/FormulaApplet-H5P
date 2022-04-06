@@ -1,4 +1,5 @@
-// "use strict"
+"use strict"
+
 /**
  * FormulaAppletEditor widget module
  *
@@ -14,13 +15,19 @@
  */
 
 var H5P = H5P || {};
-console.log('Here is formulaapplet-editor.js 0.12');
-//TODO get rid of var obj_global
-var obj_global = {}
+console.log('Here is formulaapplet-editor.js 0.12.' + H5Pbridge.config.patchversion);
+// console.log(H5PEditor.t('H5P.FormulaAppletEditor', 'testname'));
+
+//TODO get rid of var obj_global and newLatex
+var obj_global = {};
+var newLatex;
 
 H5PEditor.language['H5PEditor.FormulaAppletEditor'] = {
   libraryStrings: {
-    inputFieldButtonText: 'Set input field'
+    inputFieldButtonText: 'Set input field',
+    setUnitButtonText: 'Set Unit',
+    eraseUnitButtonText: 'Clear Unit',
+    spaceButtonText: 'Space'
   }
 };
 
@@ -124,7 +131,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     $wrapper.append(self.$item);
 
 
-    $button = H5P.JoubelUI.createButton({
+    var $button = H5P.JoubelUI.createButton({
       title: 'set_input_field',
       // text: 'S-I-F',
       text: H5PEditor.t('H5PEditor.FormulaAppletEditor', 'inputFieldButtonText'),
@@ -137,6 +144,15 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     $button.attr('id', 'set-input-h5p');
     $wrapper.append($button);
     $button.on('mouseover', buttonMouseoverHandler);
+
+    // language, translations for virtualKeyboard
+    var buttonText;
+    buttonText = H5PEditor.t('H5PEditor.FormulaAppletEditor', 'setUnitButtonText');
+    H5Pbridge.setButtonText("setUnit", buttonText);
+    buttonText = H5PEditor.t('H5PEditor.FormulaAppletEditor', 'eraseUnitButtonText');
+    H5Pbridge.setButtonText("eraseUnit", buttonText);
+    buttonText = H5PEditor.t('H5PEditor.FormulaAppletEditor', 'spaceButtonText');
+    H5Pbridge.setButtonText("space", buttonText);
 
     function buttonMouseoverHandler(ev) {
       ev.stopImmediatePropagation();
@@ -341,11 +357,11 @@ async function afterAppend(obj) {
     var element = observedField.$item[0];
     element.addEventListener('input', myEventHandler(observedField));
 
-    var sel_lang_field = getField(obj, 'selected_language');
-    // do not use getValue  but use field default!
-    var lang = sel_lang_field.field.default;
-    // store in variable of main.js for use in virtual keyboard
-    H5Pbridge.selected_language['lang'] = lang;
+    // var sel_lang_field = getField(obj, 'selected_language');
+    // // do not use getValue  but use field default!
+    // var lang = sel_lang_field.field.default;
+    // // store in variable of main.js for use in virtual keyboard
+    // H5Pbridge.selected_language['lang'] = lang;
   }) //
 }
 
@@ -604,15 +620,16 @@ function mathQuillifyEditor(fApp) {
     spaceBehavesLikeTab: true, // configurable
     handlers: {
       edit: function (mathField) { // useful event handlers
-        try {
-          if (H5Pbridge.mathQuillEditHandlerActive.flag) {
-            var latex = mathField.latex();
-            console.log('mathQuillEditHandler refreshResultField latex=' + latex);
-            refreshResultField(latex, fApp);
-          }
-        } catch (error) {
-          console.error('ERROR in MQ.MathField: ' + error);
+        // try {
+        // if (H5Pbridge.mathQuillEditHandlerActive.flag) {
+        if (H5Pbridge.isEditHandlerActive()) {
+          var latex = mathField.latex();
+          console.log('mathQuillEditHandler refreshResultField latex=' + latex);
+          refreshResultField(latex, fApp);
         }
+        // } catch (error) {
+        //   console.error('ERROR in MQ.MathField: ' + error);
+        // }
       }
     }
   });

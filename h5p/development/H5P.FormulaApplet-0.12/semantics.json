@@ -1,9 +1,11 @@
-[{
+[
+  {
     "name": "formulaAppletMode",
     "type": "select",
     "label": "Automatic/Manual Mode",
     "description": "",
-    "options": [{
+    "options": [
+      {
         "value": "auto",
         "label": "Automatic: Result is computed by the Formula Applet"
       },
@@ -52,10 +54,10 @@
     "description": "Id of the Formula Applet - has to be unique"
   },
   {
-    "label": "selected language",
-    "name": "selected_language",
+    "label": "testlabel",
+    "name": "testname",
     "type": "text",
-    "default": "en",
-    "description": "field used by virtual keyboard"
+    "default": "test: en",
+    "description": "field used by translation"
   }
 ]

@@ -2,7 +2,6 @@
 
 import preparePage, {
     mathQuillify,
-    // mathQuillifyEditor,
     editor_fApp
 } from "./js/preparePage.js";
 import decode, {
@@ -17,10 +16,12 @@ import {
     domLoad,
     isH5P
 } from "./js/dom.js";
+import {
+    getButtonText,
+    setButtonText
+} from "./js/translateVirtualKeyboard.js";
 import MQ from "./js/lib/mathquillWrapper.js";
-// import {
-//     mathQuillEditHandlerActive
-// } from "./js/editHandler.js";
+import isEditHandlerActive from "./js/switchEditHandler.js";
 
 
 // H5Pbridge
@@ -28,7 +29,6 @@ export {
     decode,
     encode,
     mathQuillify,
-    // mathQuillifyEditor,
     preparePage,
     editor_fApp,
     config,
@@ -36,8 +36,10 @@ export {
     separateInputfield,
     isH5P,
     domLoad,
-    MQ
-    // mathQuillEditHandlerActive
+    MQ,
+    getButtonText,
+    setButtonText,
+    isEditHandlerActive
 };
 
 window.onload = function () {
@@ -48,6 +50,6 @@ export function mainIsLoaded() {
     return true;
 }
 
-export let selected_language = {
-    lang: "de"
-};
+// export let selected_language = {
+//     lang: "de"
+// };

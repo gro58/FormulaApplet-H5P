@@ -7,9 +7,12 @@ import {
     setUnit,
     eraseUnit,
 } from "./inputfield_unit.js";
+// import {
+//     selected_language
+// } from '../main.js';
 import {
-    selected_language
-} from '../main.js';
+    getButtonText
+} from './translateVirtualKeyboard.js';
 
 
 // replace call of keyboardEvent by triggering a custonKeyboardEvent
@@ -404,7 +407,7 @@ function getVirtualKeyboard() {
         button.innerHTML = tabButtons[tabId];
         if (tabId == 'off') {
             var patchversion = config.patchversion;
-            console.log('patchversion=' + patchversion);
+            // console.log('patchversion=' + patchversion);
             button.title = 'patch #=' + patchversion;
         }
         tabs.append(button);
@@ -665,13 +668,21 @@ export function showVirtualKeyboard() {
     $('#virtualKeyboard table').css('display', 'none');
     keyboardActivate('mixed');
     $('#virtualKeyboard table#table_' + activeKeyboard).css('display', 'table');
-    var lang = selected_language['lang'];
-    if (lang === 'de') {
-        $('.virtualKeyboard-setUnit')[0].innerHTML = 'Einheit';
-    }
-    if (lang === 'en') {
-        $('.virtualKeyboard-setUnit')[0].innerHTML = 'Unit';
-    }
+    // var lang = selected_language['lang'];
+    // if (lang === 'de') {
+    //     $('.virtualKeyboard-setUnit')[0].innerHTML = 'Einheit';
+    // }
+    // if (lang === 'en') {
+    //     $('.virtualKeyboard-setUnit')[0].innerHTML = 'Unit';
+    // }
+
+    var buttonText;
+    buttonText = getButtonText("setUnit");
+    $('.virtualKeyboard-setUnit')[0].innerHTML = buttonText;
+    buttonText = getButtonText("eraseUnit");
+    $('.virtualKeyboard-eraseUnit')[0].innerHTML = buttonText;
+    buttonText = getButtonText("space");
+    $('.virtualKeyboard-space')[0].innerHTML = buttonText;
 }
 
 // export function virtualKeyboardEventHandlerDebugging(_event, cmd, mf) {

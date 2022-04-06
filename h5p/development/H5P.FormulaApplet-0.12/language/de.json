@@ -37,10 +37,9 @@
       "description": "eindeutige Id des Formel-Applets"
     },
     {
-      "label": "selected language",
-      "default": "de",
-      "description": "Feld wird von 'virtual keyboard' verwendet"
-    }
-
+      "label": "testlabel",
+      "default": "test: de",
+      "description": "Feld für Übersetzung"
+     }  
   ]
 }

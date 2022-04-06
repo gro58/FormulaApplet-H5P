@@ -42,7 +42,7 @@ import initVirtualKeyboard, {
   virtualKeyboardEventHandler
 } from "./virtualKeyboard.js";
 
-console.log('preparePage.js');
+// console.log('preparePage.js');
 //TODO hide global vars
 var FAList = {};
 export let editor_fApp = {};
