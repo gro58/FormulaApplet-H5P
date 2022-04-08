@@ -1,8 +1,5 @@
 {
   "libraryStrings": {
-    "inputFieldButtonText": "Eingabe-Feld setzen",
-    "setUnitButtonText": "Einheit setzen",
-    "eraseUnitButtonText": "Einheit löschen",
-    "spaceButtonText": "Leerzeichen"
+    "inputFieldButtonText": "Eingabe-Feld setzen"
   }
 }

@@ -28,9 +28,17 @@ H5P.FormulaApplet = (function ($) {
     $container.addClass("h5p-formulaapplet");
 
     var html = '<p class="formula_applet" id="' + this.options.id + '"';
-    // console.log(this.options);
+    console.log(this.options);
+    console.log(H5PIntegration.l10n.H5P.language);
+    console.log(H5P.getLibraryConfig('H5P.FormulaApplet'));
     console.log(this.options.testname);
-    // H5Pbridge.selected_language['lang'] = this.options.sel_lang; //store in main
+    console.log(this.options.eraseUnitButton);
+    console.log(this.options.setUnitButton);
+    console.log(this.options.spaceButton);
+    H5Pbridge.setButtonText("space", this.options.spaceButton);
+    H5Pbridge.setButtonText("setUnit", this.options.setUnitButton);
+    H5Pbridge.setButtonText("eraseUnit", this.options.eraseUnitButton);
+
     
     if (this.options.formulaAppletPhysics == true) {
       html += ' mode="physics"';
@@ -42,7 +50,9 @@ H5P.FormulaApplet = (function ($) {
     }
     html += '>' + this.options.TEX_expression + '</p>'; //do not use fa_applet
     // debugging
-    // html += '<p>' + this.options.id + '</p>';
+    // var testname = this.options.testname; only for one applet
+    var testname = H5Pbridge.getButtonText('testname'); //same for all applets
+    html += '<p>' + "H5Pbridge.getButtonText('testname') = " + testname + '</p>';
     // html += '<p>' + this.options.data_b64 + '</p>';
     // console.log(html);
     $container.append(html, afterAppend(this.options.id), self);

@@ -24,10 +24,7 @@ var newLatex;
 
 H5PEditor.language['H5PEditor.FormulaAppletEditor'] = {
   libraryStrings: {
-    inputFieldButtonText: 'Set input field',
-    setUnitButtonText: 'Set Unit',
-    eraseUnitButtonText: 'Clear Unit',
-    spaceButtonText: 'Space'
+    inputFieldButtonText: 'Set input field'
   }
 };
 
@@ -145,14 +142,15 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     $wrapper.append($button);
     $button.on('mouseover', buttonMouseoverHandler);
 
-    // language, translations for virtualKeyboard
-    var buttonText;
-    buttonText = H5PEditor.t('H5PEditor.FormulaAppletEditor', 'setUnitButtonText');
-    H5Pbridge.setButtonText("setUnit", buttonText);
-    buttonText = H5PEditor.t('H5PEditor.FormulaAppletEditor', 'eraseUnitButtonText');
-    H5Pbridge.setButtonText("eraseUnit", buttonText);
-    buttonText = H5PEditor.t('H5PEditor.FormulaAppletEditor', 'spaceButtonText');
-    H5Pbridge.setButtonText("space", buttonText);
+    //TODO delete
+    // language, translations for virtualKeyboard - too late (after invoking of editor)
+    // var buttonText;
+    // buttonText = H5PEditor.t('H5PEditor.FormulaAppletEditor', 'setUnitButtonText');
+    // H5Pbridge.setButtonText("setUnit", buttonText);
+    // buttonText = H5PEditor.t('H5PEditor.FormulaAppletEditor', 'eraseUnitButtonText');
+    // H5Pbridge.setButtonText("eraseUnit", buttonText);
+    // buttonText = H5PEditor.t('H5PEditor.FormulaAppletEditor', 'spaceButtonText');
+    // H5Pbridge.setButtonText("space", buttonText);
 
     function buttonMouseoverHandler(ev) {
       ev.stopImmediatePropagation();
@@ -335,6 +333,13 @@ async function afterAppend(obj) {
         }
       }
     }
+
+    var testfield = getField(obj, 'testname');
+    console.log(testfield.field.default);
+    console.log(testfield);
+    setValue(obj, 'testname', testfield.field.default);
+    H5Pbridge.setButtonText('testname', testfield.field.default);
+    // testfield.value = testfield.field.default + ' from default';
 
     // attach eventHandler to fields
     var observedField = getField(obj, 'formulaAppletMode');

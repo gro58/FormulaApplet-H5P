@@ -38,8 +38,42 @@
     },
     {
       "label": "testlabel",
-      "default": "test: de",
-      "description": "Feld für Übersetzung"
-     }  
+      "default": "de-default",
+      "description": "de-description"
+    },
+    {
+      "label": "eraseUnitLabel",
+      "type": "text",
+      "default": "Einheit löschen"
+    },
+    {
+      "label": "setUnitLabel",
+      "type": "text",
+      "default": "Einheit setzen"
+    },
+    {
+      "label": "spaceUnitLabel",
+      "type": "text",
+      "default": "Leerzeichen"
+    },
+    {
+      "label": "Gruppen-Label",
+      "fields": [
+        {
+          "label": "Text1 Beschriftung",
+          "description": "Text1 Beschreibung"
+        },
+        {
+          "label": "Text2 Beschriftung",
+          "description": "https://h5p.org/semantics#type-group",
+          "default": "Text2 default (de)"
+        },
+        {
+          "label": "Text3 Beschriftung",
+          "description": "Text3 Beschreibung",
+          "default": "Text3 default (de)"
+        }
+      ]
+    }
   ]
 }
