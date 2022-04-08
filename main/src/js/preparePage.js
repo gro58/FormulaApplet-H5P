@@ -14,9 +14,6 @@
 import $ from "jquery";
 import MQ from "./lib/mathquillWrapper.js";
 import Hammer from "@egjs/hammerjs";
-// import mathQuillEditHandler, {
-//   mathQuillEditHandlerActive
-// } from "./editHandler.js";
 import mathQuillEditHandler from "./editHandler.js";
 import {
   domLoad,
@@ -24,18 +21,10 @@ import {
 } from "./dom.js";
 
 import config from "./config.json";
-import decode, {
-  encode
-} from "./decode.js";
-import {
-  separateInputfield
-} from "./inputfield_unit.js";
-
+import decode from "./decode.js";
 // import {
-//   findCorrespondingRightBracket,
-//   checkScientificNotation
-// }
-// from "./texParser.js";
+//   separateInputfield
+// } from "./inputfield_unit.js";
 
 import initVirtualKeyboard, {
   showVirtualKeyboard,
@@ -85,7 +74,7 @@ export default async function preparePage() {
 }
 
 export async function mathQuillifyAll() {
-  console.log('mathQuillifyAll');
+  // console.log('mathQuillifyAll');
   try {
     // if already mathquillified, class="formula_applet mq-math-mode ..."
     $(".formula_applet:not(.mq-math-mode)").each(function () {

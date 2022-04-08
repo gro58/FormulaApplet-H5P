@@ -16,10 +16,6 @@ import {
     domLoad,
     isH5P
 } from "./js/dom.js";
-import {
-    getButtonText,
-    setButtonText
-} from "./js/translateVirtualKeyboard.js";
 import MQ from "./js/lib/mathquillWrapper.js";
 import isEditHandlerActive from "./js/switchEditHandler.js";
 
@@ -37,8 +33,6 @@ export {
     isH5P,
     domLoad,
     MQ,
-    getButtonText,
-    setButtonText,
     isEditHandlerActive
 };
 

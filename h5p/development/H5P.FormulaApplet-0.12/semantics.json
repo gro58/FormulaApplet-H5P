@@ -52,57 +52,5 @@
     "type": "text",
     "default": "new_id",
     "description": "Id of the Formula Applet - has to be unique"
-  },
-  {
-    "label": "testlabel",
-    "name": "testname",
-    "type": "text",
-    "default": "en-default",
-    "description": "en-description"
-  },
-  {
-    "label": "eraseUnitLabel",
-    "name": "eraseUnitButton",
-    "type": "text",
-    "default": "Erase unit"
-    },
-  {
-    "label": "setUnitLabel",
-    "name": "setUnitButton",
-    "type": "text",
-    "default": "Set unit"
-  },
-  {
-    "label": "spaceUnitLabel",
-    "name": "spaceButton",
-    "type": "text",
-    "default": "Space"
-  },
-  {
-    "name": "groupname",
-    "label": "Group Label",
-    "type": "group",
-    "fields": [
-      {
-        "name": "text1",
-        "type": "text",
-        "label": "Text1 Label",
-        "description": "Text1 description"
-      },
-      {
-        "name": "text2",
-        "type": "text",
-        "label": "Text2 Label",
-        "description": "https://h5p.org/semantics#type-group",
-        "default": "Text2 default"
-      },
-      {
-        "name": "text3",
-        "type": "text",
-        "label": "Text3 Label",
-        "description": "Text3 description",
-        "default": "Text3 default"
-      }
-    ]
   }
 ]
