@@ -7,17 +7,6 @@ import {
     setUnit,
     eraseUnit,
 } from "./inputfield_unit.js";
-// import {
-//     selected_language
-// } from '../main.js';
-import {
-    getButtonText
-} from './translateVirtualKeyboard.js';
-
-
-// replace call of keyboardEvent by triggering a custonKeyboardEvent
-//import { keyboardEvent } from "./preparePage.js";
-
 
 const squareroot = '<span style="white-space: nowrap; font-size:larger">&radic;<span style="text-decoration:overline;">&nbsp;&#x2b1a;&nbsp;</span></span>';
 const nthRoot = '<sup style="position: relative; top: -0.5em; right: -0.5em;">\u2b1a</sup>' + squareroot;
@@ -62,7 +51,8 @@ keys['mixed'] = [
     [
         poweroften,
         ['lg', 'lg', 'lg('],
-        ['power', '\u2b1a<sup>\u2b1a</sup>', '^'],
+        // ['power', '\u2b1a<sup>\u2b1a</sup>', '^'],
+        ['setunsetUnit', 'Set/Unset Unit', '#setUnit'],
         ['nthRoot', nthRoot, '#nthroot'],
         ['smallgap-2', '', ''],
         ['1'],
@@ -98,7 +88,7 @@ keys['function'] = [
         ['minute', '\''],
         ['second', '\'\''],
         // ['setUnit', '<span class="tr de kunit">Einheit</span><span class="tr en kunit">Unit</span>', '#setUnit'],
-        ['setUnit', 'unittext', '#setUnit'],
+        ['setUnit', 'Set Unit', '#setUnit'],
         // ['setUnit-en', 'Unit', '#setUnit'],
         // ['setUnit-de', 'Einheit', '#setUnit'],
         ['pi', '&pi;', '\\pi ']
@@ -676,13 +666,9 @@ export function showVirtualKeyboard() {
     //     $('.virtualKeyboard-setUnit')[0].innerHTML = 'Unit';
     // }
 
-    var buttonText;
-    buttonText = getButtonText("setUnit");
-    $('.virtualKeyboard-setUnit')[0].innerHTML = buttonText;
-    buttonText = getButtonText("eraseUnit");
-    $('.virtualKeyboard-eraseUnit')[0].innerHTML = buttonText;
-    buttonText = getButtonText("space");
-    $('.virtualKeyboard-space')[0].innerHTML = buttonText;
+    // $('.virtualKeyboard-setUnit')[0].innerHTML = 'Set/Unset Unit';
+    $('.virtualKeyboard-space')[0].innerHTML = 'free1';
+    $('.virtualKeyboard-eraseUnit')[0].innerHTML = 'free2';
 }
 
 // export function virtualKeyboardEventHandlerDebugging(_event, cmd, mf) {

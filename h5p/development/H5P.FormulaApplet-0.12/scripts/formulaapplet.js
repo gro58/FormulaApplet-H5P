@@ -1,5 +1,6 @@
 ﻿var H5P = H5P || {};
-console.log('Here is formulaapplet.js 0.12');
+console.log(H5P);
+// console.log('Here is formulaapplet.js 0.12');
 
 H5P.FormulaApplet = (function ($) {
   /**
@@ -28,18 +29,10 @@ H5P.FormulaApplet = (function ($) {
     $container.addClass("h5p-formulaapplet");
 
     var html = '<p class="formula_applet" id="' + this.options.id + '"';
-    console.log(this.options);
-    console.log(H5PIntegration.l10n.H5P.language);
-    console.log(H5P.getLibraryConfig('H5P.FormulaApplet'));
-    console.log(this.options.testname);
-    console.log(this.options.eraseUnitButton);
-    console.log(this.options.setUnitButton);
-    console.log(this.options.spaceButton);
-    H5Pbridge.setButtonText("space", this.options.spaceButton);
-    H5Pbridge.setButtonText("setUnit", this.options.setUnitButton);
-    H5Pbridge.setButtonText("eraseUnit", this.options.eraseUnitButton);
-
-    
+    // console.log(this.options);
+    // console.log(H5PIntegration.l10n.H5P.language);
+    // console.log(H5P.getLibraryConfig('H5P.FormulaApplet'));
+   
     if (this.options.formulaAppletPhysics == true) {
       html += ' mode="physics"';
     }
@@ -50,9 +43,6 @@ H5P.FormulaApplet = (function ($) {
     }
     html += '>' + this.options.TEX_expression + '</p>'; //do not use fa_applet
     // debugging
-    // var testname = this.options.testname; only for one applet
-    var testname = H5Pbridge.getButtonText('testname'); //same for all applets
-    html += '<p>' + "H5Pbridge.getButtonText('testname') = " + testname + '</p>';
     // html += '<p>' + this.options.data_b64 + '</p>';
     // console.log(html);
     $container.append(html, afterAppend(this.options.id), self);
@@ -62,9 +52,12 @@ H5P.FormulaApplet = (function ($) {
 })(H5P.jQuery);
 
 function afterAppend(id) {
-  console.log(id + ' appended');
-  console.log('patch version 0.12.' + H5Pbridge.config.patchversion);
+  console.log(id + ' appended from formulaapplet.js version 0.12.' + H5Pbridge.config.patchversion);
+  console.log(H5PIntegration);
   // var success = true;
   // H5P.XAPIEvent(2, 6, instance, false, success);
   H5P.jQuery(document).trigger('resize');
 }
+
+// console.log(H5PIntegration);
+// console.log('The End');
