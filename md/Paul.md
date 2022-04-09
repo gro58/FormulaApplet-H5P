@@ -1,10 +1,6 @@
 ## 2022-04-04
 * <del>circular dependencies</del> Gelöst.
-* <del>Kopieren der bundle.js und bundle.map.js eventuell zu spät (vor dem bundling)?</del> Gelöst: Use	hook: "writeBundle" in rollup.config.js
-<del>
-* provisorische Lösung:
-  * !patchrun.ps1, ruft patch.sh und npm run h5p#
-  * warten auf Rückmeldung des bundlers, dann Batch-Datei copybundles.cmd.</del> Durch hook "writeBundle" überflüssig
+* <del>Kopieren der bundle.js und bundle.map.js eventuell zu spät (vor dem bundling)?</del> Gelöst: Use	hook: "writeBundle" in rollup.config.js<del>
 * Turnaround-Zeit 
   * Gelöst: Nur Drupal7/H5P zum Entwickeln nehmen, nicht Wordpress/H5P  
 * falls alles passt, commit, ab und zu push; bei größeren Änderungen vorher branch und danach, wenn alles passt, pull request und merge
