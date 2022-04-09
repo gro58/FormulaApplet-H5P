@@ -1,5 +1,5 @@
 ﻿var H5P = H5P || {};
-console.log(H5P);
+// console.log(H5P);
 // console.log('Here is formulaapplet.js 0.12');
 
 H5P.FormulaApplet = (function ($) {
@@ -44,16 +44,16 @@ H5P.FormulaApplet = (function ($) {
     html += '>' + this.options.TEX_expression + '</p>'; //do not use fa_applet
     // debugging
     // html += '<p>' + this.options.data_b64 + '</p>';
-    // console.log(html);
+    // console.log(html);    
+    // console.log(self);
     $container.append(html, afterAppend(this.options.id), self);
-    console.log(self);
   };
   return C;
 })(H5P.jQuery);
 
 function afterAppend(id) {
-  console.log(id + ' appended from formulaapplet.js version 0.12.' + H5Pbridge.config.patchversion);
-  console.log(H5PIntegration);
+  console.log(id + ' appended by formulaapplet.js 0.12.' + H5Pbridge.config.patchversion);
+  // console.log(H5PIntegration);
   // var success = true;
   // H5P.XAPIEvent(2, 6, instance, false, success);
   H5P.jQuery(document).trigger('resize');

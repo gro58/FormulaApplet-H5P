@@ -103,7 +103,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     html += span;
     html += '<\p>';
 
-    console.log('Assembled html: ' + html);
+    // console.log('Assembled html: ' + html);
 
     var fieldMarkup = H5PEditor.createFieldMarkup(this.field, html, nextFieldId);
     self.$item = H5PEditor.$(fieldMarkup);
@@ -151,7 +151,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     };
 
     $(function () {
-      console.log('co(1)');
+      console.log('DOM is ready');
       //code that needs to be executed when DOM is ready, after manipulation, goes here
       var texinputparent = H5P.jQuery('div.field.field-name-TEX_expression.text input').parent();
       // disabled means read-only
@@ -163,10 +163,8 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
 
   async function afterMainIsLoaded() {
     // this code is executed if main is loaded
-    console.log('co(3)');
+    console.log('afterMainIsLoaded');
     await H5Pbridge.preparePage();
-    // this is where editor_fApp was generated in old version
-    // await H5Pbridge.editor_fApp;
   }
 
   /**
@@ -230,7 +228,7 @@ function randomId(length) {
 var editor_fApp;
 
 async function afterAppend(obj) {
-  console.log('co(2-outer)');
+  console.log('afterAppend');
   obj_global = obj;
   // waitForEditorFAppThenDo waits for H5Pbridge.editor_fApp to be defined by bundle (preparePage.js)
   // then calls anonymous function with argument x = H5Pbridge.editor_fApp
@@ -238,7 +236,7 @@ async function afterAppend(obj) {
     console.log(x);
     editor_fApp = await x; //OMG. causes co(3)
     console.log('editor_fApp  OK');
-    console.log('co(4, was 2-inner)');
+    // console.log('co(4, was 2-inner)');
     editor_fApp = await prepareEditorApplet(editor_fApp);
     console.log(editor_fApp.mathField);
 
@@ -302,7 +300,7 @@ async function afterAppend(obj) {
     // var tex_expr = document.getElementById(getSelectorID('field-tex_expression'));
     // H5P.jQuery(tex_expr).attr('disabled', 'disabled');
 
-    console.log(getField(obj, 'fa_applet'));
+    // console.log(getField(obj, 'fa_applet'));
 
     // define eventHandler
     // https://www.codegrepper.com/code-examples/javascript/javascript+pass+parameter+to+event+listener
@@ -401,7 +399,7 @@ function setValue(obj, name, value) {
 async function waitForMainThenDo(cont) {
   var y = await sensorTimer(500, 20, function () {
     var sensor = H5Pbridge.mainIsLoaded();
-    console.log('Main Sensor=' + sensor);
+    console.log('mainIsLoaded Sensor=' + sensor);
     return sensor;
   });
   console.log(y);
@@ -430,9 +428,8 @@ function getSelectorID(selectorName) {
 }
 
 function refreshResultField(latex, fApp) {
-  console.log("refreshResultField");
   latex = latex.replaceAll(H5Pbridge.config.unit_replacement, '\\unit{');
-  console.log('latex=' + latex);
+  console.log('refreshResultField latex=' + latex);
   var parts = H5Pbridge.separateInputfield(latex);
   var tex = parts.before + '{{result}}' + parts.after;
   var enc = H5Pbridge.encode(parts.tag);
@@ -486,8 +483,8 @@ async function waitForEditorFAppThenDo(cont) {
     // console.log('editor_fApp  sensor=' + sensor);
     return sensor;
   });
-  console.log(y);
-  console.log(H5Pbridge.editor_fApp);
+  // console.log(y);
+  // console.log(H5Pbridge.editor_fApp);
   cont(H5Pbridge.editor_fApp);
 }
 
@@ -499,8 +496,8 @@ async function editorAction() {
   waitForEditorFAppThenDo(async function () {
     // H5P
     var editorMf = await editor_fApp.mathField;
-    console.log('editor_fApp.mathField');
-    console.log(editor_fApp.mathField);
+    // console.log('editor_fApp.mathField');
+    // console.log(editor_fApp.mathField);
     if (actionType === 'idChanged') {
       var newId = data;
       console.info('idChanged data=' + newId);
@@ -510,7 +507,7 @@ async function editorAction() {
     if (actionType === 'setInputFieldMouseover') {
       console.info('setInputFieldMouseover');
       var latex = H5Pbridge.setInput(editorMf);
-      console.log(latex);
+      // console.log(latex);
       editorMf.latex(latex.old);
       //TODO get rid of global vars
       newLatex = latex.new; //prepare for setInputField
@@ -565,7 +562,7 @@ async function editorAction() {
       temp = temp.replace(/'/g, '');
       temp = temp.replace(/&/g, '');
       temp = temp.replace(/ /g, '_');
-      console.log('editorMf.latex(temp) ' + temp);
+      // console.log('editorMf.latex(temp) ' + temp);
       editorMf.latex(temp);
     }
     // }
@@ -573,12 +570,12 @@ async function editorAction() {
 }
 
 async function prepareEditorApplet(fApp) {
+  console.log('prepareEditorApplet');
   // *** editor ***
   await H5Pbridge.domLoad;
   // await initEditor();
-  console.log('prepareEditorApplet: define editor_fApp_id');
   var editorMf = mathQuillifyEditor(fApp);
-  console.log(editorMf);
+  // console.log(editorMf);
   // editorMf provides commands like editorMf.latex('\\sqrt{2}') and var latextext = editorMf.latex();
   fApp.mathField = editorMf;
   console.log('editorMf.latex=' + editorMf.latex());
