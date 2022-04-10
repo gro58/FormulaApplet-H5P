@@ -116,7 +116,8 @@ export async function mathQuillify(id) {
     temp = temp.replace(/\\Ohm/g, '\\Omega');
     temp = temp.replace(/\\mathrm/g, '');
     temp = temp.replace(/\\unit{/g, config.unit_replacement);
-    temp = temp.replace(/\\cdot/g, config.multiplicationSign);
+    temp = temp.replace(/\\times/g, config.multiplicationDot);
+    // temp = temp.replace(/\\cdot/g, config.multiplicationCross);
     //TODO simplify code 
     if (isEditor && isH5P()) {
       console.log('H5P & Editor');
