@@ -103,7 +103,8 @@ keys['function'] = [
         ['subscript', '\u2b1a<sub style="font-size: 85%">\u2b1a</sub>'],
         // ['nthRoot', nthRoot, '#nthroot'],
         ['space', '<span class="tr de kspace">Leer</span><span class="tr en kspace">Space</span>', '\\ '],
-        ['eraseUnit', '<span class="tr de kclru">Einheit<br>l&ouml;schen</span><span class="tr en kclru">Clear<br>Unit</span>', '#eraseUnit'],
+        // ['eraseUnit', '<span class="tr de kclru">Einheit<br>l&ouml;schen</span><span class="tr en kclru">Clear<br>Unit</span>', '#eraseUnit'],
+        ['integral', '\u222b', '\\int_{}^{}'],
         ['infinity', '&infin;', '\\infinity ']
     ],
     // row 2
@@ -668,7 +669,7 @@ export function showVirtualKeyboard() {
 
     // $('.virtualKeyboard-setUnit')[0].innerHTML = 'Set/Unset Unit';
     $('.virtualKeyboard-space')[0].innerHTML = 'free1';
-    $('.virtualKeyboard-eraseUnit')[0].innerHTML = 'free2';
+    // $('.virtualKeyboard-eraseUnit')[0].innerHTML = 'free2';
 }
 
 // export function virtualKeyboardEventHandlerDebugging(_event, cmd, mf) {
