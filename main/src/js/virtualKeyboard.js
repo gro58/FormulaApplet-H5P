@@ -675,7 +675,7 @@ export function showVirtualKeyboard() {
 
 // export function virtualKeyboardEventHandlerDebugging(_event, cmd, mf) {
 //     console.log(cmd);
-//     // console.log(_event);
+//     console.log(_event);
 //     console.log(_event.currentTarget.id);
 //     console.log(mf);
 // }

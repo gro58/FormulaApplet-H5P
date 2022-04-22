@@ -22,16 +22,12 @@ import {
 
 import config from "./config.json";
 import decode from "./decode.js";
-// import {
-//   separateInputfield
-// } from "./inputfield_unit.js";
 
 import initVirtualKeyboard, {
   showVirtualKeyboard,
   virtualKeyboardEventHandler
 } from "./virtualKeyboard.js";
 
-// console.log('preparePage.js');
 //TODO hide global vars
 var FAList = {};
 export let editor_fApp = {};
@@ -74,9 +70,8 @@ export default async function preparePage() {
 }
 
 export async function mathQuillifyAll() {
-  // console.log('mathQuillifyAll');
   try {
-    // if already mathquillified, class="formula_applet mq-math-mode ..."
+    // if class="formula_applet mq-math-mode ...", then already mathquillified, 
     $(".formula_applet:not(.mq-math-mode)").each(function () {
       // retrieve ids of .formula_applet
       // if editor, id ends with -edit
@@ -175,11 +170,7 @@ export async function mathQuillify(id) {
   var mqEditableField;
   if (isEditor) {
     editor_fApp = fApp;
-    // editor_fApp = prepareEditorApplet(fApp);
-    // no success: call of prepareEditorApplet() move from preparePage.js to formulaapplet-editor.js
-    // console.log('EditorApplet is prepared.');
-    // mqEditableField = $el.find('.mq-editable-field')[0]; // why? DELETE
-  } else {
+    } else {
     // *** no editor ***
     try {
       MQ.StaticMath(domElem);
