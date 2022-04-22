@@ -1,18 +1,16 @@
 # *ToDo* #
 
-## FormulaApplet as a H5P package
+## FormulaApplet as an H5P package
 * Exercise how to deal with other H5P packages (math, physics)
 * Use apps.zum.de and unterrichten.zum.de
-* Ask H5P Forum:
-   *  <del>Create Button using semantics.json</del>
-   *  <del>Is there a PageLoad event? Wait for PageLoad, then mathQuillify</del> Use afterAppend and mathQuillify(id).
-* Use H5P-standalone or Lumi for editor
+* Ask H5P Forum
+* Use H5P-standalone or Lumi as an editor
 ## Coding
-* <del>get rid of editor_fApp_global</del>
-* avoid code doubling (preparePage.js/refreshResultFieldClone - formulaapplet-editor.js/refreshResultField)
-* move mathQuillifyEditor(fApp) from preparePage.js to formulaapplet-editor.js
+* get rid of WaitFor...ThenDo constructs and sensorTimer. Use async/await
+* avoid code doubling <del>(preparePage.js/refreshResultFieldClone - formulaapplet-editor.js/refreshResultField)</del>
+* <del>move mathQuillifyEditor(fApp) from preparePage.js to formulaapplet-editor.js</del>
 * delete console.logs of solution
-* semantic versioning. Change version numbers 2.8 and 2.10 to 0.x.y
+* semantic versioning. <del>Change version numbers 2.8 and 2.10 to 0.x.y</del>
 * refactoring of fApp object
 * 'missing input field' bug at 'addition theorem' example (index.html)
 * translate.js uses localStore
@@ -29,11 +27,13 @@
 * Tests using browsers like FireFox, IE, Edge, and using OS like Linux, Android, iOS
 
 ## Nice to have
+* Mobile devices: Get rid of virtual keyboard by expanding the system keyboard
 * Transfer this list (ToDo.md) to Issues (GitHub)
 * Integral, Limit (virtualKeyboard - editor mode)
 * Block trivial solutions
 * Random parameters for varying problems
 * condition = ...
+* number of significant digits
 * Natural constants like e, c,...
 * Contact Karl Kirst
 * Hammer as jQuery plugin. Why?
@@ -49,7 +49,6 @@
 * ToDo (this file)
 ## [GIT Cheat Sheet](../../git-cheat.php "Spickzettel für GIT")
 ## www.formelapplet.de
-* <del>Problem Editor</del>
 * GWK
 * Tree (Kategorienbaum)
 * Befreundete Seiten
