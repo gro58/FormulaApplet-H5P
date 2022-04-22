@@ -27,6 +27,7 @@
 * Tests using browsers like FireFox, IE, Edge, and using OS like Linux, Android, iOS
 
 ## Nice to have
+* Mobile devices: Get rid of virtual keyboard by expanding the system keyboard
 * Transfer this list (ToDo.md) to Issues (GitHub)
 * Integral, Limit (virtualKeyboard - editor mode)
 * Block trivial solutions
