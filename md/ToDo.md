@@ -8,7 +8,7 @@
 ## Coding
 * get rid of WaitFor...ThenDo constructs and sensorTimer. Use async/await
 * avoid code doubling <del>(preparePage.js/refreshResultFieldClone - formulaapplet-editor.js/refreshResultField)</del>
-* move mathQuillifyEditor(fApp) from preparePage.js to formulaapplet-editor.js
+* <del>move mathQuillifyEditor(fApp) from preparePage.js to formulaapplet-editor.js</del>
 * delete console.logs of solution
 * semantic versioning. <del>Change version numbers 2.8 and 2.10 to 0.x.y</del>
 * refactoring of fApp object
