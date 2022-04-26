@@ -517,6 +517,7 @@ async function editorAction() {
     if (actionType === 'TEX_changed') {
       console.info('*** TEX_changed ' + data);
       var temp = data.replace(/{{result}}/g, '\\class{inputfield}{' + editor_fApp.solution + '}');
+      temp = temp.replace(/\\unit{/g, H5Pbridge.config.unit_replacement);
       //avoid XSS
       temp = temp.replace(/</g, '');
       temp = temp.replace(/>/g, '');
@@ -524,7 +525,7 @@ async function editorAction() {
       temp = temp.replace(/'/g, '');
       temp = temp.replace(/&/g, '');
       temp = temp.replace(/ /g, '_');
-      // console.log('editorMf.latex(temp) ' + temp);
+      console.log('editorMf.latex(temp) ' + temp);
       editorMf.latex(temp);
     }
     // }
@@ -559,6 +560,11 @@ async function prepareEditorApplet(fApp) {
 function mathQuillifyEditor(fApp) {
   // make whole mathFieldSpan editable
   var mathFieldSpan = document.getElementById('math-field');
+  var temp = mathFieldSpan.innerHTML;
+  console.log(temp);
+  temp = temp.replace(/\\unit{/g, H5Pbridge.config.unit_replacement);
+  console.log(temp);
+  mathFieldSpan.innerHTML = temp;
   if (!mathFieldSpan) throw new Error("Cannot find math-field. The math editor must provide one.");
   var editorMf = H5Pbridge.MQ.MathField(mathFieldSpan, {
     spaceBehavesLikeTab: true, // configurable
