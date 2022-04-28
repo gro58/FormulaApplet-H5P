@@ -1,6 +1,14 @@
 ﻿var H5P = H5P || {};
+// https://stackoverflow.com/questions/8199760/how-to-get-the-browser-language-using-javascript#8199791
+var userLang = navigator.language || navigator.userLanguage || "unknown";
+console.log("userLang=" + userLang);
+// https://stackoverflow.com/questions/949341/how-to-obtain-lang-attribute-in-html-using-javascript#949578
+var docLang = document.getElementsByTagName('html')[0].getAttribute('lang');
+docLang = docLang || document.getElementsByTagName('html')[0].getAttribute('xml:lang') || "unknown";
+console.log("docLang=" + docLang);
 
 H5P.FormulaApplet = (function ($) {
+
   /**
    * Constructor function.
    */
@@ -26,7 +34,7 @@ H5P.FormulaApplet = (function ($) {
 
     var html = '<p class="formula_applet" id="' + this.options.id + '"';
     // console.log(H5PIntegration.l10n.H5P.language);
-    
+
     if (this.options.formulaAppletPhysics == true) {
       html += ' mode="physics"';
     }
@@ -43,8 +51,13 @@ H5P.FormulaApplet = (function ($) {
   return C;
 })(H5P.jQuery);
 
+var counter; //TODO get rid of global var counter
 function afterAppend(id) {
-  console.log(id + ' appended by formulaapplet.js 0.12.' + H5Pbridge.config.patchversion);
+  counter = counter || 0;
+  if (counter === 0) {
+    console.log('formulaapplet.js 0.12.' + H5Pbridge.config.patchversion);
+  }
+  counter++;
   // var success = true;
   // H5P.XAPIEvent(2, 6, instance, false, success);
   H5P.jQuery(document).trigger('resize');
