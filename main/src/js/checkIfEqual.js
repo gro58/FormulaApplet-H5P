@@ -17,7 +17,8 @@ import parse, {
  * @returns true if a = b, false if not<br>
  * 
  * assembles an equation a = b from left side a uns right side b, then checks if a = b is true<hr>
-  * @see checkIfEquality
+ * @augments checkIfEquality
+ * @see checkIfEquality
  */
 export function checkIfEqual(leftside, rightside, dsList, precision) {
     var equation = leftside + '=' + rightside;
