@@ -5,7 +5,7 @@
  * 
  * 
  */
-export function createWaiter() {
+export default function createWaiter() {
     var default_waiter = {
         name: 'defaultWaiter',
         interval: 200, // interval=200 means: check every 200ms

@@ -147,15 +147,27 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       // disabled means read-only
       texinputparent.append('<br><br><textarea id="html_output" rows="10" cols="150" disabled>output</textarea>');
       afterAppend(self);
-      waitForMainThenDo(afterMainIsLoaded);
+      // waitForMainThenDo(afterMainIsLoaded);
+      var waitForMain = H5Pbridge.createWaiter();
+      waitForMain.name = 'waiter for main ';
+      waitForMain.max_count = 100; // 100*200ms=100*0,2s= 20s
+      waitForMain.condition = function () {
+        // H5Pbridge does not exist => typeof H5Pbridge = 'undefined' => !(typeof H5Pbridge) = true
+        // H5Pbridge exists => typeof H5Pbridge = 'object' => !(typeof H5Pbridge) = false
+        if (!(typeof H5Pbridge)) {
+          // H5Pbridge does not exist
+          return false;
+        } else {
+          return H5Pbridge.mainIsLoaded;
+        }
+      };
+      waitForMain.doTheRest = async function () {
+        console.log('afterMainIsLoaded: call preparePage()');
+        await H5Pbridge.preparePage();
+      };
+      waitForMain.start();
     });
   };
-
-  async function afterMainIsLoaded() {
-    // this code is executed if main is loaded
-    console.log('afterMainIsLoaded');
-    await H5Pbridge.preparePage();
-  }
 
   /**
    * Hide expression selector
@@ -218,11 +230,17 @@ var editor_fApp;
 async function afterAppend(obj) {
   console.log('afterAppend');
   obj_global = obj;
-  // waitForEditorFAppThenDo waits for H5Pbridge.editor_fApp to be defined by bundle (preparePage.js)
-  // then calls anonymous function with argument x = H5Pbridge.editor_fApp
-  waitForEditorFAppThenDo(async function (x) {
-    console.log(x);
-    editor_fApp = await x; //OMG. causes co(3)
+  // waitForEditorFApp_1 waits for H5Pbridge.editor_fApp to be defined by bundle (preparePage.js)
+  var waitForEditorFApp_1 = H5Pbridge.createWaiter();
+  waitForEditorFApp_1.name = 'waiter for EditorFApp (1)';
+  waitForEditorFApp_1.max_count = 100; // 100*200ms=100*0,2s= 20s
+  waitForEditorFApp_1.condition = function () {
+    return (typeof H5Pbridge.editor_fApp !== 'undefined' && typeof H5Pbridge.editor_fApp.id !== 'undefined');
+  }
+  waitForEditorFApp_1.doTheRest = async function () {
+    console.log(H5Pbridge.editor_fApp);
+    //TODO avoid global var editor_fApp
+    editor_fApp = H5Pbridge.editor_fApp;
     console.log('editor_fApp  OK');
     editor_fApp = await prepareEditorApplet(editor_fApp);
     console.log(editor_fApp.mathField);
@@ -326,7 +344,8 @@ async function afterAppend(obj) {
     // var lang = sel_lang_field.field.default;
     // // store in variable of main.js for use in virtual keyboard
     // H5Pbridge.selected_language['lang'] = lang;
-  }) //
+  };
+  waitForEditorFApp_1.start();
 }
 
 // getField is used by getValue
@@ -374,15 +393,15 @@ function setValue(obj, name, value) {
 }
 
 //TODO use .then() syntax
-async function waitForMainThenDo(cont) {
-  var y = await sensorTimer(500, 20, function () {
-    var sensor = H5Pbridge.mainIsLoaded();
-    console.log('mainIsLoaded Sensor=' + sensor);
-    return sensor;
-  });
-  console.log(y);
-  cont();
-}
+// async function waitForMainThenDo(cont) {
+//   var y = await sensorTimer(500, 20, function () {
+//     var sensor = H5Pbridge.mainIsLoaded();
+//     console.log('mainIsLoaded Sensor=' + sensor);
+//     return sensor;
+//   });
+//   console.log(y);
+//   cont();
+// }
 
 function getSelectorID(selectorName) {
   var result = '';
@@ -430,47 +449,54 @@ function refreshResultField(latex, fApp) {
   }
 }
 
-function sensorTimer(interval, max_count, sensor) {
-  return new Promise(function (resolve, reject) {
-    function timer(counter) {
-      console.log('counter=' + counter + ' sensor=' + sensor());
-      if (counter > max_count) {
-        reject('max count exceeded');
-      } else {
-        if (sensor()) {
-          resolve('Timer: success (' + counter + ')');
-        } else {
-          setTimeout(() => {
-            timer(counter + 1);
-          }, interval);
-        }
-      }
-    }
-    // start sensorTimer
-    timer(0);
-  });
-}
+// function sensorTimer(interval, max_count, sensor) {
+//   return new Promise(function (resolve, reject) {
+//     function timer(counter) {
+//       console.log('counter=' + counter + ' sensor=' + sensor());
+//       if (counter > max_count) {
+//         reject('max count exceeded');
+//       } else {
+//         if (sensor()) {
+//           resolve('Timer: success (' + counter + ')');
+//         } else {
+//           setTimeout(() => {
+//             timer(counter + 1);
+//           }, interval);
+//         }
+//       }
+//     }
+//     // start sensorTimer
+//     timer(0);
+//   });
+// }
 
-// function definition
-async function waitForEditorFAppThenDo(cont) {
-  var y = await sensorTimer(500, 20, function () {
-    var sensor = (typeof H5Pbridge.editor_fApp !== 'undefined' && typeof H5Pbridge.editor_fApp.id !== 'undefined');
-    return sensor;
-  });
-  // console.log(y);
-  // console.log(H5Pbridge.editor_fApp);
-  cont(H5Pbridge.editor_fApp);
-}
+// // function definition
+// async function waitForEditorFAppThenDo(cont) {
+//   var y = await sensorTimer(500, 20, function () {
+//     var sensor = (typeof H5Pbridge.editor_fApp !== 'undefined' && typeof H5Pbridge.editor_fApp.id !== 'undefined');
+//     return sensor;
+//   });
+//   // console.log(y);
+//   // console.log(H5Pbridge.editor_fApp);
+//   cont(H5Pbridge.editor_fApp);
+// }
 
 async function editorAction() {
   var actionType = arguments[0];
   var data = arguments[1] || "empty arg[1]";
   console.log('editorAction: ' + actionType + ' data=' + data);
   // if (typeof editor_fApp  !== 'undefined') {
-  waitForEditorFAppThenDo(async function () {
+
+  var waitForEditorFApp_2 = H5Pbridge.createWaiter();
+  waitForEditorFApp_2.name = 'waiter for EditorFApp (2)';
+  waitForEditorFApp_2.max_count = 100; // 100*200ms=100*0,2s= 20s
+  waitForEditorFApp_2.condition = function () {
+    return (typeof H5Pbridge.editor_fApp !== 'undefined' && typeof H5Pbridge.editor_fApp.id !== 'undefined');
+  }
+  waitForEditorFApp_2.doTheRest = async function () {
     // H5P
     var editorMf = await editor_fApp.mathField;
-      if (actionType === 'idChanged') {
+    if (actionType === 'idChanged') {
       var newId = data;
       console.info('idChanged data=' + newId);
       editor_fApp.id = newId;
@@ -529,7 +555,8 @@ async function editorAction() {
       editorMf.latex(temp);
     }
     // }
-  });
+  };
+  waitForEditorFApp_2.start();
 }
 
 async function prepareEditorApplet(fApp) {

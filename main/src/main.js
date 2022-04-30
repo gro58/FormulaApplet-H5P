@@ -18,6 +18,7 @@ import {
 } from "./js/dom.js";
 import MQ from "./js/lib/mathquillWrapper.js";
 import isEditHandlerActive from "./js/switchEditHandler.js";
+import createWaiter from "./js/waiterFactory.js";
 
 
 // H5Pbridge
@@ -33,7 +34,8 @@ export {
     isH5P,
     domLoad,
     MQ,
-    isEditHandlerActive
+    isEditHandlerActive,
+    createWaiter
 };
 
 window.onload = function () {

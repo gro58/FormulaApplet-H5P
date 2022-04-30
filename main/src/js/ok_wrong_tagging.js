@@ -5,9 +5,9 @@ import {
 } from "./dom.js";
 
 export default function setOkWrongTag(key, isEqual, instance) {
-    if (isH5P()) {
-        H5P.setScoredResult(1,5,instance,false, false);
-    } else {
+    // if (isH5P()) {
+    //     H5P.setScoredResult(1,5,instance,false, false);
+    // } else {
         var truefalse = $(key)[0];
         if (isEqual) {
             $(truefalse).css({
@@ -22,5 +22,5 @@ export default function setOkWrongTag(key, isEqual, instance) {
             });
             truefalse.innerHTML = "&nbsp;&#x21AF;";
         }
-    }
+    // }
 }
