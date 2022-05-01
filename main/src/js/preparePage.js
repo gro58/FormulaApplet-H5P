@@ -274,17 +274,18 @@ function clickHandler(ev) {
           $(fApp.formulaApplet).nextAll("button.keyb_button:first").addClass('selected');
         }
       }
-      // else {
-      //   // fApp has no ResultField (static formula)
-      //   try {
-      //     var mfContainer = MQ.StaticMath(fApp.formulaApplet);
-      //     var mfLatexForParser = mfContainer.latex();
-      //     var myTree = new FaTree();
-      //     myTree.leaf.content = mfLatexForParser;
-      //   } catch (error) {
-      //     console.log('ERROR ' + error);
-      //   }
-      // }
+      else {
+        // fApp has no ResultField (static formula)
+        console.log(fApp.id + ' has no input field');
+        try {
+          var mfContainer = MQ.StaticMath(fApp.formulaApplet);
+          var mfLatexForParser = mfContainer.latex();
+          var myTree = new FaTree();
+          myTree.leaf.content = mfLatexForParser;
+        } catch (error) {
+          console.log('ERROR ' + error);
+        }
+      }
     }
   } catch (error) {
     console.log('ERROR ' + error);
