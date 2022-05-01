@@ -40,45 +40,25 @@
  * if isEditor: prepareEditorApplet from editor.js
  */
 import $ from "jquery";
-import Hammer from "@egjs/hammerjs";
 import MQ from "./lib/mathquillWrapper.js";
+import Hammer from "@egjs/hammerjs";
+import mathQuillEditHandler from "./editHandler.js";
 import {
   domLoad,
   isH5P
 } from "./dom.js";
 
 import config from "./config.json";
-import {
-  prepareEditorApplet,
-  sanitizeInputfieldTag
-} from "./editor.js";
-
 import decode from "./decode.js";
-import {
-  findCorrespondingRightBracket,
-  checkScientificNotation
-}
-from "./texParser.js";
-
-import {
-  initTranslation,
-  formulaAppletLanguage
-} from "./translate.js";
 
 import initVirtualKeyboard, {
   showVirtualKeyboard,
   virtualKeyboardEventHandler
 } from "./virtualKeyboard.js";
 
-import {
-  checkIfEqual,
-  checkIfEquality
-} from "./checkIfEqual.js";
-
-console.log('preparePage.js');
 //TODO hide global vars
 var FAList = {};
-var editHandlerActive = true;
+export let editor_fApp = {};
 
 var default_fApp = {
   id: '',
@@ -112,15 +92,14 @@ export default async function preparePage() {
       fa.trigger('click');
     }
   });
-  initTranslation();
+  // initTranslation(); //not for H5P. Call manually for HTML
   initVirtualKeyboard();
   mathQuillifyAll();
 }
 
 export async function mathQuillifyAll() {
-  console.log('mathQuillifyAll');
   try {
-    // if already mathquillified, class="formula_applet mq-math-mode ..."
+    // if class="formula_applet mq-math-mode ...", then already mathquillified, 
     $(".formula_applet:not(.mq-math-mode)").each(function () {
       // retrieve ids of .formula_applet
       // if editor, id ends with -edit
@@ -160,8 +139,9 @@ export async function mathQuillify(id) {
     temp = temp.replace(/\\Ohm/g, '\\Omega');
     temp = temp.replace(/\\mathrm/g, '');
     temp = temp.replace(/\\unit{/g, config.unit_replacement);
-    temp = temp.replace(/\\cdot/g, config.multiplicationSign);
-    //TODO
+    temp = temp.replace(/\\times/g, config.multiplicationDot);
+    // temp = temp.replace(/\\cdot/g, config.multiplicationCross);
+    //TODO simplify code 
     if (isEditor &amp;&amp; isH5P()) {
       console.log('H5P &amp; Editor');
       var mf = document.getElementById('math-field');
@@ -185,11 +165,12 @@ export async function mathQuillify(id) {
     if (typeof def !== 'undefined') {
       fApp.definitionsetList = unifyDefinitions(def);
     }
-    // physics mode if unit=auto or mode=physics, else math mode
+    // physics mode or math mode
     var unitAttr = $el.attr('unit');
-    var unitAuto = (typeof unitAttr !== 'undefined' &amp;&amp; unitAttr == 'auto');
+    var unitAuto = (typeof unitAttr !== 'undefined' &amp;&amp; unitAttr === 'auto');
+    // mode="physics" is a synonym for "unit="auto"
     var modeAttr = $el.attr('mode');
-    var modePhysics = (typeof modeAttr !== 'undefined' &amp;&amp; modeAttr == 'physics');
+    var modePhysics = (typeof modeAttr !== 'undefined' &amp;&amp; modeAttr === 'physics');
     fApp.unitAuto = unitAuto || modePhysics;
 
     // retrieve precision
@@ -216,10 +197,8 @@ export async function mathQuillify(id) {
 
   var mqEditableField;
   if (isEditor) {
-    prepareEditorApplet(fApp);
-    // console.log('EditorApplet is prepared.');
-    // mqEditableField = $el.find('.mq-editable-field')[0]; // why? DELETE
-  } else {
+    editor_fApp = fApp;
+    } else {
     // *** no editor ***
     try {
       MQ.StaticMath(domElem);
@@ -237,10 +216,10 @@ export async function mathQuillify(id) {
           handlers: {
             edit: () => {
               mqEditableField.focus();
-              mathQuillEditHandler(fApp.id);
+              mathQuillEditHandler(fApp, MQ);
             },
             enter: () => {
-              mathQuillEditHandler(fApp.id);
+              mathQuillEditHandler(fApp, MQ);
             },
           }
         });
@@ -279,103 +258,6 @@ export async function mathQuillify(id) {
   return fApp;
 }
 
-function makeAutoUnitstring(mf) {
-  // mf = MathField
-  var str = mf.latex();
-  var mfLatexForParser = str;
-  var unitTag = '\\textcolor{blue}{';
-  var pos = str.indexOf(unitTag);
-  if (pos >= 0) {
-    var left = str.substr(0, pos);
-    // rest has to start with {
-    var rest = str.substr(pos + unitTag.length - 1);
-    var bracket = findCorrespondingRightBracket(rest, '{');
-    var middle = rest.substring(1, bracket.rightPos);
-    var right = rest.substr(bracket.rightPos + 1);
-    var sci = checkScientificNotation(left).isScientific;
-    if (sci &amp;&amp; middle.length > 0) {
-      // expand the unit tag at the right side
-      var newLatex = left + unitTag + middle + right + '}';
-      // mfLatexForParser = csn.repl + unitTag + middle + right + '}';
-      mfLatexForParser = left + unitTag + middle + right + '}';
-      editHandlerActive = false;
-      mf.latex(newLatex);
-      mf.keystroke('Left');
-      editHandlerActive = true;
-    }
-  } else {
-    // maybe create unit tag
-    var beginning = '';
-    for (var i = str.length; i >= 0; i--) {
-      beginning = str.substr(0, i);
-      sci = checkScientificNotation(beginning).isScientific;
-      if (sci) {
-        break;
-      }
-    }
-    if (beginning.length > 0) {
-      rest = str.substr(beginning.length);
-      if (rest.length > 0) {
-        newLatex = beginning + unitTag + rest + '}';
-        // mfLatexForParser = csn.repl + unitTag + rest + '}';
-        mfLatexForParser = beginning + unitTag + rest + '}';
-        editHandlerActive = false;
-        mf.latex(newLatex);
-        mf.keystroke('Left');
-        editHandlerActive = true;
-      }
-    }
-  }
-  return mfLatexForParser;
-}
-
-function mathQuillEditHandler(id) {
-  if (editHandlerActive == true) {
-    var fApp = FAList[id];
-    var mf = fApp.mathField;
-    var mfContainer = MQ.StaticMath(fApp.formulaApplet);
-    var solution = fApp.solution;
-    var hasSolution = fApp.hasSolution;
-    var unitAuto = fApp.unitAuto;
-    var precision = fApp.precision;
-    var dsList = fApp.definitionsetList;
-
-    var mfLatexForParser = '';
-    if (hasSolution) {
-      mfLatexForParser = mf.latex();
-    } else {
-      mfLatexForParser = mfContainer.latex();
-    }
-    if (unitAuto) {
-      mfLatexForParser = makeAutoUnitstring(mf);
-    }
-
-    var isEqual;
-    if (hasSolution) {
-      isEqual = checkIfEqual(mfLatexForParser, solution, dsList, precision);
-      console.log(mfLatexForParser + ' = ' + solution + ' ' + isEqual);
-    } else {
-      isEqual = checkIfEquality(mfContainer.latex(), dsList, precision);
-      console.log(mfContainer.latex() + ' isEqual= ' + isEqual);
-    }
-    var key = '#' + id + '.formula_applet + span.truefalse';
-    var truefalse = $(key)[0];
-    if (isEqual) {
-      $(truefalse).css({
-        "color": "green",
-        "font-size": "30pt"
-      });
-      truefalse.innerHTML = "&amp;nbsp;&amp;#x2714;";
-    } else {
-      $(truefalse).css({
-        "color": "red",
-        "font-size": "30pt"
-      });
-      truefalse.innerHTML = "&amp;nbsp;&amp;#x21AF;";
-    }
-  }
-}
-
 function sanitizePrecision(prec) {
   if (typeof prec == 'undefined') {
     prec = config.defaultPrecision;
@@ -406,7 +288,10 @@ function clickHandler(ev) {
         $(fApp.formulaApplet).on('virtualKeyboardEvent', function (_evnt, cmd) {
           if (cmd === '#Enter') {
             // mathQuillEditHandler cannot be outsourced to virtualKeyboard (circular dependency)
-            mathQuillEditHandler(_evnt.currentTarget.id, 'enter');
+            fApp = FAList[_evnt.currentTarget.id];
+            //TODO see, if special syntax necessary? 
+            //TODO mathQuillEditHandler(fApp, MQ, 'enter'); 
+            mathQuillEditHandler(fApp, MQ);
           } else {
             virtualKeyboardEventHandler(_evnt, cmd, fApp.mathField);
           }
@@ -469,55 +354,50 @@ function unifyDefinitions(def) {
   }
   return dsList;
 }
-
-$(document).on("refreshLatexEvent",
-  function () {
-    var lang = formulaAppletLanguage.get();
-    refreshLatex(lang);
-  });
-
-function refreshLatex(lang) {
-  var id;
-  for (id in FAList) {
-    var fApp = FAList[id];
-    var isEditor = (id.slice(-5) == '-edit');
-    if (!isEditor) {
-      var hasSolution = fApp.hasSolution || false;
-      var oldLatex, newLatex;
-      if (hasSolution) {
-        var mf = fApp.mathField;
-        oldLatex = mf.latex();
-      } else {
-        try {
-          var mfContainer = MQ.StaticMath(fApp.formulaApplet);
-          oldLatex = mfContainer.latex();
-        } catch (error) {
-          console.log('ERROR ' + error);
-        }
-      }
-      if (lang == 'de') {
-        newLatex = oldLatex.replace(/\\times/g, '\\cdot');
-        newLatex = newLatex.replace(/[.]/g, ',');
-      }
-      if (lang == 'en') {
-        newLatex = oldLatex.replace(/\\cdot/g, '\\times');
-        newLatex = newLatex.replace(/,/g, '.');
-      }
-      newLatex = sanitizeInputfieldTag(newLatex);
-      if (oldLatex !== newLatex) {
-        console.log('oldLatex=' + oldLatex);
-        console.log('newLatex=' + newLatex);
-        editHandlerActive = false;
-        if (fApp.hasSolution) {
-          mf.latex(newLatex);
-        } else {
-          mfContainer.latex(newLatex);
-        }
-        editHandlerActive = true;
-      }
-    }
-  }
-}</code></pre>
+//TODO delete refreshLatex, replace with refreshTimesGlyph
+// function refreshLatex(lang) {
+//   var id;
+//   for (id in FAList) {
+//     var fApp = FAList[id];
+//     var isEditor = (id.slice(-5) == '-edit');
+//     if (!isEditor) {
+//       var hasSolution = fApp.hasSolution || false;
+//       var oldLatex, newLatex;
+//       if (hasSolution) {
+//         var mf = fApp.mathField;
+//         oldLatex = mf.latex();
+//       } else {
+//         try {
+//           var mfContainer = MQ.StaticMath(fApp.formulaApplet);
+//           oldLatex = mfContainer.latex();
+//         } catch (error) {
+//           console.log('ERROR ' + error);
+//         }
+//       }
+//       if (lang == 'de') {
+//         newLatex = oldLatex.replace(/\\times/g, '\\cdot');
+//         newLatex = newLatex.replace(/[.]/g, ',');
+//       }
+//       if (lang == 'en') {
+//         newLatex = oldLatex.replace(/\\cdot/g, '\\times');
+//         newLatex = newLatex.replace(/,/g, '.');
+//       }
+//       newLatex = sanitizeInputfieldTag(newLatex);
+//       if (oldLatex !== newLatex) {
+//         console.log('oldLatex=' + oldLatex);
+//         console.log('newLatex=' + newLatex);
+//         editHandlerActive = false;
+//         if (fApp.hasSolution) {
+//           mf.latex(newLatex);
+//         } else {
+//           mfContainer.latex(newLatex);
+//         }
+//         editHandlerActive = true;
+//       }
+//     }
+//   }
+// }
+</code></pre>
         </article>
     </section>
 
@@ -527,13 +407,13 @@ function refreshLatex(lang) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#checkIfEqual">checkIfEqual</a></li><li><a href="global.html#checkIfEquality">checkIfEquality</a></li><li><a href="global.html#deleteSpaceAndRemoveBackslash">deleteSpaceAndRemoveBackslash</a></li><li><a href="global.html#formulaAppletLanguage">formulaAppletLanguage</a></li><li><a href="global.html#getCookie">getCookie</a></li><li><a href="global.html#separateInputfield">separateInputfield</a></li><li><a href="global.html#setCookie">setCookie</a></li><li><a href="global.html#unifyDefinitions">unifyDefinitions</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#checkIfEqual">checkIfEqual</a></li><li><a href="global.html#checkIfEquality">checkIfEquality</a></li><li><a href="global.html#deleteSpaceAndRemoveBackslash">deleteSpaceAndRemoveBackslash</a></li><li><a href="global.html#separateInputfield">separateInputfield</a></li><li><a href="global.html#unifyDefinitions">unifyDefinitions</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Mar 03 2022 22:06:31 GMT+0100 (GMT+01:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Sun May 01 2022 11:44:58 GMT+0200 (GMT+02:00)
 </footer>
 
 <script> prettyPrint(); </script>
