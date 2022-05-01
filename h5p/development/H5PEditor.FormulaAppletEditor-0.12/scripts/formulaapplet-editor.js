@@ -236,14 +236,14 @@ async function afterAppend(obj) {
   waitForEditorFApp_1.max_count = 100; // 100*200ms=100*0,2s= 20s
   waitForEditorFApp_1.condition = function () {
     return (typeof H5Pbridge.editor_fApp !== 'undefined' && typeof H5Pbridge.editor_fApp.id !== 'undefined');
-  }
+  };
   waitForEditorFApp_1.doTheRest = async function () {
-    console.log(H5Pbridge.editor_fApp);
+    // console.log(H5Pbridge.editor_fApp);
     //TODO avoid global var editor_fApp
     editor_fApp = H5Pbridge.editor_fApp;
     console.log('editor_fApp  OK');
     editor_fApp = await prepareEditorApplet(editor_fApp);
-    console.log(editor_fApp.mathField);
+    // console.log(editor_fApp.mathField);
 
     // generate new id if necessary (new applet), and spread it
     try {
@@ -588,25 +588,24 @@ function mathQuillifyEditor(fApp) {
   // make whole mathFieldSpan editable
   var mathFieldSpan = document.getElementById('math-field');
   var temp = mathFieldSpan.innerHTML;
-  console.log(temp);
+  // console.log(temp);
   temp = temp.replace(/\\unit{/g, H5Pbridge.config.unit_replacement);
-  console.log(temp);
+  // console.log(temp);
   mathFieldSpan.innerHTML = temp;
   if (!mathFieldSpan) throw new Error("Cannot find math-field. The math editor must provide one.");
   var editorMf = H5Pbridge.MQ.MathField(mathFieldSpan, {
     spaceBehavesLikeTab: true, // configurable
     handlers: {
       edit: function (mathField) { // useful event handlers
-        // try {
-        // if (H5Pbridge.mathQuillEditHandlerActive.flag) {
-        if (H5Pbridge.isEditHandlerActive()) {
-          var latex = mathField.latex();
-          console.log('mathQuillEditHandler refreshResultField latex=' + latex);
-          refreshResultField(latex, fApp);
+        try {
+          if (H5Pbridge.isEditHandlerActive()) {
+            var latex = mathField.latex();
+            console.log('mathQuillEditHandler refreshResultField latex=' + latex);
+            refreshResultField(latex, fApp);
+          }
+        } catch (error) {
+          console.error('ERROR in MQ.MathField: ' + error);
         }
-        // } catch (error) {
-        //   console.error('ERROR in MQ.MathField: ' + error);
-        // }
       }
     }
   });
