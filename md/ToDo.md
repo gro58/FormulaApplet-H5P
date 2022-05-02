@@ -10,6 +10,7 @@
 * <del>get rid of WaitFor...ThenDo constructs and sensorTimer.</del> Replaced by waiterFactory, createWaiter().<br> 
 Maybe use of async/await is even better? Ask Sebastian Rettig?
 * accept e.g. .080 for 0.080
+* Virtual Keyboard: editor mode with Integral, Limit, no solution.
 * avoid code doubling <del>(preparePage.js/refreshResultFieldClone - formulaapplet-editor.js/refreshResultField)</del>
 * <del>move mathQuillifyEditor(fApp) from preparePage.js to formulaapplet-editor.js</del>
 * delete console.logs of solution
@@ -30,6 +31,7 @@ Maybe use of async/await is even better? Ask Sebastian Rettig?
 * Test using tree2tex.js
 * Tests using browsers like FireFox, IE, Edge, and using OS like Linux, Android, iOS
 * separate code for "replace"
+* if two solutions: The order should not matter.
 
 ## Nice to have
 * Mobile devices: Get rid of virtual keyboard by expanding the system keyboard
