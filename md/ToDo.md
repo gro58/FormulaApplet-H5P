@@ -6,7 +6,8 @@
 * Ask H5P Forum
 * Use H5P-standalone or Lumi as an editor
 ## Coding
-* <del>get rid of WaitFor...ThenDo constructs and sensorTimer.</del> Replaced by waiterFactory, createWaiter(). Maybe use of async/await is even better?
+* <del>get rid of WaitFor...ThenDo constructs and sensorTimer.</del> Replaced by waiterFactory, createWaiter().</br> 
+Maybe use of async/await is even better? Ask Sebastian Rettig?
 * accept e.g. .080 for 0.080
 * avoid code doubling <del>(preparePage.js/refreshResultFieldClone - formulaapplet-editor.js/refreshResultField)</del>
 * <del>move mathQuillifyEditor(fApp) from preparePage.js to formulaapplet-editor.js</del>
@@ -49,8 +50,11 @@
 * License (2nd)
 * ToDo (this file)
 ## [GIT Cheat Sheet](../../git-cheat.php "Spickzettel für GIT")
-## www.formelapplet.de
+## wp.formelapplet.de
+* Beispiele/Examples
 * GWK
+* rename to www.formelapplet.de
+## www.formelapplet.de
 * Tree (Kategorienbaum)
 * Befreundete Seiten
 * YouTube HowTo (stable Version of Formula Applet needed)
