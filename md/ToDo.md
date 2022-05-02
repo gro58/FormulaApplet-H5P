@@ -6,7 +6,8 @@
 * Ask H5P Forum
 * Use H5P-standalone or Lumi as an editor
 ## Coding
-* get rid of WaitFor...ThenDo constructs and sensorTimer. Use async/await
+* <del>get rid of WaitFor...ThenDo constructs and sensorTimer.</del> Replaced by waiterFactory, createWaiter(). Maybe use of async/await is even better?
+* accept e.g. .080 for 0.080
 * avoid code doubling <del>(preparePage.js/refreshResultFieldClone - formulaapplet-editor.js/refreshResultField)</del>
 * <del>move mathQuillifyEditor(fApp) from preparePage.js to formulaapplet-editor.js</del>
 * delete console.logs of solution
