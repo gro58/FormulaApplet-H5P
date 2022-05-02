@@ -5,15 +5,17 @@
 * Use apps.zum.de and unterrichten.zum.de
 * Ask H5P Forum
 * Use H5P-standalone or Lumi as an editor
+* make H5P take care of type <p class="formula_applet solution" id="bla">TEX code</p> - mathQuillify(id).
 ## Coding
-* <del>get rid of WaitFor...ThenDo constructs and sensorTimer.</del> Replaced by waiterFactory, createWaiter().</br> 
+* <del>get rid of WaitFor...ThenDo constructs and sensorTimer.</del> Replaced by waiterFactory, createWaiter().<br> 
 Maybe use of async/await is even better? Ask Sebastian Rettig?
 * accept e.g. .080 for 0.080
 * avoid code doubling <del>(preparePage.js/refreshResultFieldClone - formulaapplet-editor.js/refreshResultField)</del>
 * <del>move mathQuillifyEditor(fApp) from preparePage.js to formulaapplet-editor.js</del>
 * delete console.logs of solution
-* semantic versioning. <del>Change version numbers 2.8 and 2.10 to 0.x.y</del>
-* refactoring of fApp object
+* <del>semantic versioning. Change version numbers 2.8 and 2.10 to 0.x.y</del> patch number is increased by script pr.ps1<br/>
+  What about patching package.json?
+* refactoring of fApp object or even <b>get rid of fApp object</b>.
 * 'missing input field' bug at 'addition theorem' example (index.html)
 * translate.js uses localStore
 * VirtualKeyboard position
@@ -27,6 +29,7 @@ Maybe use of async/await is even better? Ask Sebastian Rettig?
 * Tests (https://developer.mozilla.org/en-US/docs/Web/API/console/assert), unit tests, jest
 * Test using tree2tex.js
 * Tests using browsers like FireFox, IE, Edge, and using OS like Linux, Android, iOS
+* separate code for "replace"
 
 ## Nice to have
 * Mobile devices: Get rid of virtual keyboard by expanding the system keyboard
@@ -46,14 +49,12 @@ Maybe use of async/await is even better? Ask Sebastian Rettig?
 * Check only after pressing Enter
 * GeoGebra as an H5P package. Why?
 ## GitHub
-* <del>Instruction: Install with PHP</del> 
 * License (2nd)
-* ToDo (this file)
 ## [GIT Cheat Sheet](../../git-cheat.php "Spickzettel für GIT")
 ## wp.formelapplet.de
-* Beispiele/Examples
-* GWK
-* rename to www.formelapplet.de
+1) Beispiele/Examples
+1) GWK
+1) rename to www.formelapplet.de
 ## www.formelapplet.de
 * Tree (Kategorienbaum)
 * Befreundete Seiten
