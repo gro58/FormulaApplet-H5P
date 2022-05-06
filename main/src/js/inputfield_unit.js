@@ -13,7 +13,7 @@ import {
 } from "./switchEditHandler.js";
 
 
-function getSelection(mf, options) {
+export function getSelection(mf, options) {
     // if options.erase is undefined, erase defaults to false
     var erase = options.erase || false;
     console.log('getSelection: erase=' + erase);
@@ -278,7 +278,7 @@ function eraseInputfieldClass(latex) {
     return temp.before + temp.tag + temp.after;
 }
 
-function createreplacementCharacter(latexstring) {
+export function createreplacementCharacter(latexstring) {
     const separators = '∀µ∉ö∋∐∔∝∤∮∱∸∺∽≀';
     var i = 0;
     sep = '';

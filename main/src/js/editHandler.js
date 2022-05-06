@@ -18,6 +18,9 @@ export default function mathQuillEditHandler(fApp, MQ) {
         var precision = fApp.precision;
         var dsList = fApp.definitionsetList;
 
+        // var sel = getSelection(mf, true);
+        // console.log('>> ' + sel.preSelected + '|' + sel.postSelected);
+    
         var mfLatexForParser = '';
         if (hasSolution) {
             mfLatexForParser = mf.latex();
