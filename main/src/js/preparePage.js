@@ -17,9 +17,12 @@ import Hammer from "@egjs/hammerjs";
 import mathQuillEditHandler from "./editHandler.js";
 import {
   domLoad,
-  isH5P
+  isH5P,
+  docLang
 } from "./dom.js";
-
+import {
+  H5P_to_DOM
+} from "./replacements.js";
 import config from "./config.json";
 import decode from "./decode.js";
 
@@ -106,24 +109,42 @@ export async function mathQuillify(id) {
 
   var domElem = $el[0];
   if (typeof domElem !== 'undefined') {
-    var temp = domElem.innerHTML;
-    temp = temp.replace(/{{result}}/g, '\\MathQuillMathField{}');
-    temp = temp.replace(/\\Ohm/g, '\\Omega');
-    temp = temp.replace(/\\mathrm/g, '');
-    temp = temp.replace(/\\unit{/g, config.unit_replacement);
-    temp = temp.replace(/\\times/g, config.multiplicationDot);
-    // temp = temp.replace(/\\cdot/g, config.multiplicationCross);
-    //TODO simplify code 
-    if (isEditor && isH5P()) {
-      console.log('H5P & Editor');
+    // var temp = domElem.innerHTML;
+
+    var language = docLang();
+     if (isEditor){
       var mf = document.getElementById('math-field');
-      temp = mf.textContent;
-      console.log('editor & H5P: replace {{result}} with \\class{inputfield}{} - does this ever happen?');
-      temp = temp.replace(/{{result}}/g, '\\class{inputfield}{}');
+      var expression = mf.textContent;
+      var temp = H5P_to_DOM(expression, '', language, isEditor) // solution=''
+      console.log('editor & H5P - does this ever happen?');
       mf.textContent = temp;
     } else {
-      domElem.innerHTML = temp; // does not work with H5P-Editor!!!
+      expression = domElem.innerHTML;
+      var temp = H5P_to_DOM(expression, '', language, isEditor) // solution=''
+       domElem.innerHTML = temp;
     }
+    var temp = H5P_to_DOM(domElem.innerHTML, '', language, isEditor);
+
+    // temp = temp.replace(/{{result}}/g, '\\MathQuillMathField{}');
+    // temp = temp.replace(/\\Ohm/g, '\\Omega');
+    // temp = temp.replace(/\\mathrm/g, '');
+    // temp = temp.replace(/\\unit{/g, config.unit_replacement);
+    // temp = temp.replace(/\\times/g, config.multiplicationDot);
+    // // temp = temp.replace(/\\cdot/g, config.multiplicationCross);
+    // //TODO simplify code 
+    // if (isEditor && isH5P()) {
+    //   console.log('H5P & Editor');
+    //   var mf = document.getElementById('math-field');
+    //   temp = mf.textContent;
+    //   console.log('editor & H5P: replace {{result}} with \\class{inputfield}{} - does this ever happen?');
+    //   temp = temp.replace(/{{result}}/g, '\\class{inputfield}{}');
+    //   mf.textContent = temp;
+    // } else {
+    //   domElem.innerHTML = temp; // does not work with H5P-Editor!!!
+    // }
+
+
+
     fApp.formulaApplet = domElem;
 
     if (isEditor) {
@@ -170,7 +191,7 @@ export async function mathQuillify(id) {
   var mqEditableField;
   if (isEditor) {
     editor_fApp = fApp;
-    } else {
+  } else {
     // *** no editor ***
     try {
       MQ.StaticMath(domElem);
@@ -273,8 +294,7 @@ function clickHandler(ev) {
           // if virtual keyboard is hidden, select keyboard button
           $(fApp.formulaApplet).nextAll("button.keyb_button:first").addClass('selected');
         }
-      }
-      else {
+      } else {
         // fApp has no ResultField (static formula)
         console.log(fApp.id + ' has no input field');
         try {
