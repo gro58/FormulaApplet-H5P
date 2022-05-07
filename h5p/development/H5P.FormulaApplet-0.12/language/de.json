@@ -18,7 +18,7 @@
       "default": "default"
     },
     {
-      "label": "Expression (LATEX)",
+      "label": "Ausdruck (LATEX)",
       "default": "7 +\\class{inputfield}{x} = 11",
       "description": "Benutze dieses Eingabe-Feld, wenn du vertraut mit LATEX bist"
     },
@@ -27,12 +27,12 @@
       "description": "Haken, wen das Ergebnis eine <b>physikalische Größe</b> (Maßzahl und Einheit) ist. <br>Kein Haken, falls das Ergebnis ein <b>mathematischer Ausdruck</b> ist."
     },
     {
-      "label": "Solution (encoded)",
+      "label": "Lösung (codiert)",
       "default": "default-solution",
-      "description": "Ergebnis (TEX), codiert"
+      "description": "Ergebnis (LATEX, codiert)"
     },
     {
-      "label": "Formula Applet Id",
+      "label": "Id des Formel-Applets",
       "default": "new_id",
       "description": "eindeutige Id des Formel-Applets"
     }

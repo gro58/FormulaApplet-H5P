@@ -7,6 +7,9 @@ import {
     setUnit,
     eraseUnit,
 } from "./inputfield_unit.js";
+import {
+    docLang
+} from "./dom.js";
 
 const squareroot = '<span style="white-space: nowrap; font-size:larger">&radic;<span style="text-decoration:overline;">&nbsp;&#x2b1a;&nbsp;</span></span>';
 const nthRoot = '<sup style="position: relative; top: -0.5em; right: -0.5em;">\u2b1a</sup>' + squareroot;
@@ -15,6 +18,11 @@ const right = ['right', '<span style="font-size: 130%">\u25bb</span>', '#Right']
 const enter = ['enter', '<span style="font-size: 150%; color:green">\u23ce</span>', '#Enter'];
 const backspace = ['backspace', '\u232B', '#Backspace'];
 const poweroften = ['power_of_ten', '10<sup style="font-size: 85%">\u2b1a</sup>', '10^'];
+var unitText = 'Set/Unset Unit';
+if (docLang() == 'de'){
+    unitText = 'Einheit setzen/löschen';
+}
+const setunitkey = ['setunsetUnit', unitText, '#setUnit'];
 
 var keys = [];
 keys['mixed'] = [
@@ -52,7 +60,8 @@ keys['mixed'] = [
         poweroften,
         ['lg', 'lg', 'lg('],
         // ['power', '\u2b1a<sup>\u2b1a</sup>', '^'],
-        ['setunsetUnit', 'Set/Unset Unit', '#setUnit'],
+        // ['setunsetUnit', 'Set/Unset Unit', '#setUnit'],
+        setunitkey, 
         ['nthRoot', nthRoot, '#nthroot'],
         ['smallgap-2', '', ''],
         ['1'],
