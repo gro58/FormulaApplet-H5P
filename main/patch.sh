@@ -24,14 +24,14 @@ sed -i "s/__PATCHVERSION__/$PATCHNUMBER/g" $FILENAME
 echo "[patch.sh] patched file $FILENAME with patch number $PATCHNUMBER"
 sleep 2
 
-FILENAME=../h5p/development/H5P.FormulaApplet-0.12/library.json
+FILENAME=../h5p/development/H5P.FormulaApplet-0.13/library.json
 rm $FILENAME
 cp $FILENAME.ori $FILENAME
 sed -i "s/__PATCHVERSION__/$PATCHNUMBER/g" $FILENAME
 git add $FILENAME
 echo "[patch.sh] patched file $FILENAME with patch number $PATCHNUMBER"
 
-FILENAME=../h5p/development/H5PEditor.FormulaAppletEditor-0.12/library.json
+FILENAME=../h5p/development/H5PEditor.FormulaAppletEditor-0.13/library.json
 rm $FILENAME
 cp $FILENAME.ori $FILENAME
 sed -i "s/__PATCHVERSION__/$PATCHNUMBER/g" $FILENAME
