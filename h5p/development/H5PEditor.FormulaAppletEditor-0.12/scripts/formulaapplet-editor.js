@@ -84,7 +84,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
         solution = '';
       }
     }
-    
+
     // var temp = params.TEX_expression;
     // if (typeof temp === 'undefined') {
     //   temp = '17 + {{result}} = 21';
@@ -96,7 +96,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     }
     html += '>';
     var language = H5Pbridge.docLang();
-    var temp = H5Pbridge.H5P_to_DOM(expression, solution, language, true); //isEditor=true
+    var temp = H5Pbridge.H5P_to_MathQuill(expression, solution, language, true); //isEditor=true
     // temp: like LATEX, but special syntax for MathQuill added
     // wrap temp into <span>
     var span = '<span id="math-field">' + temp + '</span>';
@@ -552,15 +552,19 @@ async function editorAction() {
     }
     if (actionType === 'TEX_changed') {
       console.info('*** TEX_changed ' + data);
-      var temp = data.replace(/{{result}}/g, '\\class{inputfield}{' + editor_fApp.solution + '}');
-      temp = temp.replace(/\\unit{/g, H5Pbridge.config.unit_replacement);
-      //avoid XSS
-      temp = temp.replace(/</g, '');
-      temp = temp.replace(/>/g, '');
-      temp = temp.replace(/"/g, '');
-      temp = temp.replace(/'/g, '');
-      temp = temp.replace(/&/g, '');
-      temp = temp.replace(/ /g, '_');
+      // var temp = data.replace(/{{result}}/g, '\\class{inputfield}{' + editor_fApp.solution + '}');
+      // temp = temp.replace(/\\unit{/g, H5Pbridge.config.unit_replacement);
+      // //avoid XSS
+      // temp = temp.replace(/</g, '');
+      // temp = temp.replace(/>/g, '');
+      // temp = temp.replace(/"/g, '');
+      // temp = temp.replace(/'/g, '');
+      // temp = temp.replace(/&/g, '');
+      // temp = temp.replace(/ /g, '_');
+
+      var language = H5Pbridge.docLang();
+      var temp = H5Pbridge.H5P_to_MathQuill(data, editor_fApp.solution, language, true);
+      // H5P_to_MathQuill includes no_XSS
       console.log('editorMf.latex(temp) ' + temp);
       editorMf.latex(temp);
     }

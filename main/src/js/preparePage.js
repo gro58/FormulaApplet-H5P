@@ -21,7 +21,7 @@ import {
   docLang
 } from "./dom.js";
 import {
-  H5P_to_DOM
+  H5P_to_MathQuill
 } from "./replacements.js";
 import config from "./config.json";
 import decode from "./decode.js";
@@ -115,15 +115,15 @@ export async function mathQuillify(id) {
      if (isEditor){
       var mf = document.getElementById('math-field');
       var expression = mf.textContent;
-      var temp = H5P_to_DOM(expression, '', language, isEditor) // solution=''
+      var temp = H5P_to_MathQuill(expression, '', language, isEditor) // solution=''
       console.log('editor & H5P - does this ever happen?');
       mf.textContent = temp;
     } else {
       expression = domElem.innerHTML;
-      var temp = H5P_to_DOM(expression, '', language, isEditor) // solution=''
+      var temp = H5P_to_MathQuill(expression, '', language, isEditor) // solution=''
        domElem.innerHTML = temp;
     }
-    var temp = H5P_to_DOM(domElem.innerHTML, '', language, isEditor);
+    // var temp = H5P_to_MathQuill(domElem.innerHTML, '', language, isEditor);
 
     // temp = temp.replace(/{{result}}/g, '\\MathQuillMathField{}');
     // temp = temp.replace(/\\Ohm/g, '\\Omega');

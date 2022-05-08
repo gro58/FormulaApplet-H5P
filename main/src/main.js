@@ -20,7 +20,7 @@ import {
 import MQ from "./js/lib/mathquillWrapper.js";
 import isEditHandlerActive from "./js/switchEditHandler.js";
 import createWaiter from "./js/waiterFactory.js";
-import { H5P_to_DOM } from "./js/replacements.js";
+import { H5P_to_MathQuill } from "./js/replacements.js";
 
 
 // H5Pbridge
@@ -38,7 +38,7 @@ export {
     MQ,
     isEditHandlerActive,
     createWaiter,
-    H5P_to_DOM,
+    H5P_to_MathQuill,
     docLang
 };
 
