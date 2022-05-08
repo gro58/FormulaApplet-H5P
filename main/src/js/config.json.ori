@@ -1,6 +1,6 @@
 {
     "defaultPrecision": 0.000001,
-    "multiplicationCross": "&times;",
+    "multiplicationCross": "\\times",
     "multiplicationDot": "\\cdot",
     "unit_replacement": "\\textcolor{blue}{",
 	"patchversion": "__PATCHVERSION__",

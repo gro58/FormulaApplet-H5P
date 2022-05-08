@@ -84,16 +84,26 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
         solution = '';
       }
     }
-    var temp = params.TEX_expression;
-    if (typeof temp === 'undefined') {
-      temp = '17 + {{result}} = 21';
+
+    // var temp = params.TEX_expression;
+    // if (typeof temp === 'undefined') {
+    //   temp = '17 + {{result}} = 21';
+    // }
+    // temp = temp.replace(/{{result}}/g, '\\class{inputfield}{' + solution + '}');
+    var expression = params.TEX_expression;
+    if (typeof expression === 'undefined') {
+      expression = '17 + {{result}} = 21';
     }
-    temp = temp.replace(/{{result}}/g, '\\class{inputfield}{' + solution + '}');
     html += '>';
+    var language = H5Pbridge.docLang();
+    var temp = H5Pbridge.H5P_to_MathQuill(expression, solution, language, true); //isEditor=true
+    // temp: like LATEX, but special syntax for MathQuill added
+    // wrap temp into <span>
     var span = '<span id="math-field">' + temp + '</span>';
     html += span;
+    // close <p class="formula_applet"...> tag
     html += '<\p>';
-    // console.log('Assembled html: ' + html);
+    console.log('Assembled html: ' + html);
 
     var fieldMarkup = H5PEditor.createFieldMarkup(this.field, html, nextFieldId);
     self.$item = H5PEditor.$(fieldMarkup);
@@ -542,15 +552,19 @@ async function editorAction() {
     }
     if (actionType === 'TEX_changed') {
       console.info('*** TEX_changed ' + data);
-      var temp = data.replace(/{{result}}/g, '\\class{inputfield}{' + editor_fApp.solution + '}');
-      temp = temp.replace(/\\unit{/g, H5Pbridge.config.unit_replacement);
-      //avoid XSS
-      temp = temp.replace(/</g, '');
-      temp = temp.replace(/>/g, '');
-      temp = temp.replace(/"/g, '');
-      temp = temp.replace(/'/g, '');
-      temp = temp.replace(/&/g, '');
-      temp = temp.replace(/ /g, '_');
+      // var temp = data.replace(/{{result}}/g, '\\class{inputfield}{' + editor_fApp.solution + '}');
+      // temp = temp.replace(/\\unit{/g, H5Pbridge.config.unit_replacement);
+      // //avoid XSS
+      // temp = temp.replace(/</g, '');
+      // temp = temp.replace(/>/g, '');
+      // temp = temp.replace(/"/g, '');
+      // temp = temp.replace(/'/g, '');
+      // temp = temp.replace(/&/g, '');
+      // temp = temp.replace(/ /g, '_');
+
+      var language = H5Pbridge.docLang();
+      var temp = H5Pbridge.H5P_to_MathQuill(data, editor_fApp.solution, language, true);
+      // H5P_to_MathQuill includes no_XSS
       console.log('editorMf.latex(temp) ' + temp);
       editorMf.latex(temp);
     }

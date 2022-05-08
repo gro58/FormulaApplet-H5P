@@ -1,11 +1,4 @@
 ﻿var H5P = H5P || {};
-// https://stackoverflow.com/questions/8199760/how-to-get-the-browser-language-using-javascript#8199791
-var userLang = navigator.language || navigator.userLanguage || "unknown";
-console.log("userLang=" + userLang);
-// https://stackoverflow.com/questions/949341/how-to-obtain-lang-attribute-in-html-using-javascript#949578
-var docLang = document.getElementsByTagName('html')[0].getAttribute('lang');
-docLang = docLang || document.getElementsByTagName('html')[0].getAttribute('xml:lang') || "unknown";
-console.log("docLang=" + docLang);
 
 H5P.FormulaApplet = (function ($) {
 
