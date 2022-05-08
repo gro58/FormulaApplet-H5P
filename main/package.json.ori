@@ -1,7 +1,7 @@
 {
-  "name": "formelapplet",
-  "version": "0.12.__PATCHVERSION__",
-  "description": "lets you create math or physics exercises on HTML pages or in Wikis",
+  "name": "formelapplet-h5p",
+  "version": "0.13.__PATCHVERSION__",
+  "description": "lets you create math or physics exercises using H5P",
   "main": "src/index.js",
   "scripts": {
     "start": "cross-env PRODUCTION=\"false\" SERVE=\"true\" rollup -c -w",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gro58/FormulaApplet.git"
+    "url": "git+https://github.com/gro58/FormulaApplet-H5P.git"
   },
   "keywords": [
     "formelapplet"
@@ -21,9 +21,9 @@
   "author": "gro58",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gro58/FormulaApplet/issues"
+    "url": "https://github.com/gro58/FormulaApplet-H5P/issues"
   },
-  "homepage": "https://github.com/gro58/FormulaApplet#readme",
+  "homepage": "https://github.com/gro58/FormulaApplet-H5P#readme",
   "devDependencies": {
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-commonjs": "^20.0.0",

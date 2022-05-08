@@ -2,7 +2,7 @@
   "title": "Formula Applet 0.12",
   "description": "Displays a Formula Applet",
   "majorVersion": 0,
-  "minorVersion": 12,
+  "minorVersion": 13,
   "patchVersion": __PATCHVERSION__,
   "runnable": 1,
   "author": "Rudolf Grossmann",

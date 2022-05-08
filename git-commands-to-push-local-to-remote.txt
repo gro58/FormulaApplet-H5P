@@ -1,0 +1,4 @@
+in e:\gut\gf09-H5P
+git remote set-url origin https://github.com/gro58/FormulaApplet-H5P.git
+git branch -M main
+git push -u origin main

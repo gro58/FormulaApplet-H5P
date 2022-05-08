@@ -1,0 +1,18 @@
+{
+    "folders": [
+        {
+            "name": "Bundle-Development",
+            "path": "./main"
+        },
+        {
+            "name": "H5P-Development",
+            "path": "./h5p/development"
+        }
+    ],
+    "settings": {},
+    "extensions": {
+        "recommendations": [
+            "dbaeumer.vscode-eslint"
+        ]
+    }
+}
