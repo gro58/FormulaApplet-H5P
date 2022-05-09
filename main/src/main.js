@@ -42,9 +42,9 @@ export {
     docLang
 };
 
-window.onload = function () {
-    preparePage();
-};
+// window.onload = function () {
+//     preparePage();
+// };
 
 export function mainIsLoaded() {
     return true;

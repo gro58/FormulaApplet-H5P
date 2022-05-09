@@ -15,7 +15,7 @@
  */
 
 var H5P = H5P || {};
-console.log('Here is formulaapplet-editor.js 0.12.' + H5Pbridge.config.patchversion);
+console.log('Here is formulaapplet-editor.js 0.13.' + H5Pbridge.config.patchversion);
 
 //TODO get rid of var obj_global and newLatex
 var obj_global = {};
