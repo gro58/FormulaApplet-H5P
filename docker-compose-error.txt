@@ -1,0 +1,10 @@
+h5p-formulaapplet-h5p-only-1          | [Mon May 09 16:52:51.903564 2022] [mpm_prefork:notice] [pid 1] AH00163: Apache/2.4.53 (Debian) PHP/7.4.29 configured -- resuming normal operations
+h5p-formulaapplet-h5p-only-1          | [Mon May 09 16:52:51.903654 2022] [core:notice] [pid 1] AH00094: Command line: 'apache2 -D FOREGROUND'
+h5p-formulaapplet-h5p-joubel-setup-1  | /bin/sh: /tmp/install-joubel.sh: Permission denied
+h5p-formulaapplet-h5p-joubel-setup-1 exited with code 126
+Gracefully stopping... (press Ctrl+C again to force)
+[+] Running 3/3
+ - Container h5p-formulaapplet-h5p-only-1          Stopped                                                                                                                           3.2s 
+ - Container h5p-formulaapplet-h5p-joubel-setup-1  Stopped                                                                                                                           0.0s 
+ - Container h5p-formulaapplet-h5p-1               Stopped                                                                                                                           3.2s 
+canceled

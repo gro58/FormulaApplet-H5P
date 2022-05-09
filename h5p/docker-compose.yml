@@ -1,7 +1,7 @@
 version: "2"
 
 services:
-  formulaapplet-h5p-2:
+  formulaapplet-h5p-only:
     build:
       context: ./
       dockerfile: Dockerfile
@@ -9,3 +9,12 @@ services:
         - ./:/var/www/html/sites/default/files/h5p
     ports:
         - "8090:80"
+  formulaapplet-h5p-joubel-setup:
+    image: alpine:latest
+    volumes:
+        - ./:/var/www/html/sites/default/files/h5p
+        - ./install-joubel.sh:/tmp/install-joubel.sh
+    depends_on:
+      - formulaapplet-h5p
+    restart: "no"
+    entrypoint: ["/bin/sh", "-c", "chmod +x /tmp/install-joubel.sh && /tmp/install-joubel.sh"]

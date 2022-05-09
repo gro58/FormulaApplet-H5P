@@ -1,4 +1,5 @@
 #!/bin/bash
+#
 
 PATCHNUMBER=$(cat nextpatchnumber.txt)
 echo "[patch.sh] patch number: $PATCHNUMBER"
@@ -22,7 +23,7 @@ cp $FILENAME.ori $FILENAME
 sed -i "s/__PATCHVERSION__/$PATCHNUMBER/g" $FILENAME
 # git add $FILENAME
 echo "[patch.sh] patched file $FILENAME with patch number $PATCHNUMBER"
-sleep 2
+sleep 4
 
 FILENAME=../h5p/development/H5P.FormulaApplet-0.13/library.json
 rm $FILENAME

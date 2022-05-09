@@ -1,5 +1,5 @@
 {
-  "title": "Formula Applet 0.12",
+  "title": "Formula Applet 0.13",
   "description": "Displays a Formula Applet",
   "majorVersion": 0,
   "minorVersion": 13,
@@ -32,7 +32,7 @@
   "editorDependencies": [{
       "machineName": "H5PEditor.FormulaAppletEditor",
       "majorVersion": 0,
-      "minorVersion": 12
+      "minorVersion": 13
     },
     {
       "machineName": "H5P.JoubelUI",
