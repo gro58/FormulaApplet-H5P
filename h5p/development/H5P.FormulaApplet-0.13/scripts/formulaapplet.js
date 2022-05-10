@@ -27,15 +27,17 @@ H5P.FormulaApplet = (function ($) {
       return (typeof $el[0] !== 'undefined');
     };
     waitForDomElem.doTheRest = async function () {
-      console.log(this.name + ' - do the Rest: mathQuillify ' + id);
+      console.log(this.name + ' stopped. Mathquillify ' + id);
       var domElem = $('#' + id + '.formula_applet:not(.mq-math-mode)')[0];
       // console.log(domElem);
       var expression = domElem.innerHTML;
       console.log(expression);
-      var hasResultField = (expression.indexOf('{{result}}')>=0); //used in clickEvent
+      var hasResultField = (expression.indexOf('{{result}}') >= 0);
+      // hasResultField will be used in clickEvent
+      // remember here, because expression is changed soon by H5P_to_MathQuill
       var language = H5Pbridge.docLang();
-      var solution='';
-      var isEditor=false;
+      var solution = '';
+      var isEditor = false;
       var temp = H5Pbridge.H5P_to_MathQuill(expression, solution, language, isEditor);
       domElem.innerHTML = temp;
 
@@ -51,8 +53,8 @@ H5P.FormulaApplet = (function ($) {
       $el.on('click', clickHandler);
 
       function clickHandler(ev) {
-        console.log(ev);
-        console.log(domElem);
+        // console.log(ev);
+        // console.log(domElem);
         try {
           if (typeof domElem !== 'undefined') {
             if (hasResultField) {
@@ -61,40 +63,63 @@ H5P.FormulaApplet = (function ($) {
               $(".formula_applet").removeClass('selected');
               $(".formula_applet").off('virtualKeyboardEvent');
               $(domElem).addClass('selected');
-              // TODO attach virtualkeyboardEvent
-              // $(formulaApplet).on('virtualKeyboardEvent', function (_evnt, cmd) {
-              //   if (cmd === '#Enter') {
-              //     // mathQuillEditHandler cannot be outsourced to virtualKeyboard (circular dependency)
-              //     fApp = FAList[_evnt.currentTarget.id];
-              //     //TODO see, if special syntax necessary? 
-              //     //TODO mathQuillEditHandler(fApp, MQ, 'enter'); 
-              //     mathQuillEditHandler(fApp, MQ);
-              //   } else {
-              //     virtualKeyboardEventHandler(_evnt, cmd, fApp.mathField);
-              //   }
-              // });
+              // attach virtualkeyboardEvent
               $("button.keyb_button").removeClass('selected');
               if (($('#virtualKeyboard').css('display') || 'none') === 'none') {
                 // if virtual keyboard is hidden, select keyboard button
-                //TODO 
-                // $(formulaApplet).nextAll("button.keyb_button:first").addClass('selected');
+                $(domElem).nextAll("button.keyb_button:first").addClass('selected');
               }
             } else {
-              // fApp has no ResultField (static formula)
-              console.log(fApp.id + ' has no input field');
-              try {
-                var mfContainer = MQ.StaticMath(fApp.formulaApplet);
-                var mfLatexForParser = mfContainer.latex();
-                var myTree = new FaTree();
-                myTree.leaf.content = mfLatexForParser;
-              } catch (error) {
-                console.log('ERROR ' + error);
-              }
+              // element has no ResultField (static formula)
+              console.log(_evnt.currentTarget.id + ' has no ResultField');
+              // TODO handle case "no ResultField"
+              // try {
+              //   var mfContainer = MQ.StaticMath(fApp.formulaApplet);
+              //   var mfLatexForParser = mfContainer.latex();
+              //   var myTree = new FaTree();
+              //   myTree.leaf.content = mfLatexForParser;
+              // } catch (error) {
+              //   console.log('ERROR ' + error);
+              // }
             }
           }
         } catch (error) {
           console.log('ERROR ' + error);
         }
+      }
+
+      // attach button for evoking virtual keyboard
+      try {
+        // make virtual keyboard show/hide by mouseclick
+        ($('<button class="keyb_button">\u2328</button>')).insertAfter($el);
+        $('button.keyb_button').on('mousedown', function () {
+          H5Pbridge.showVirtualKeyboard();
+          $("button.keyb_button").removeClass('selected');
+        });
+        // insert span for right/wrong tag
+        // will be replaced by H5P scoring
+        $('<span class="truefalse">&nbsp;</span>').insertAfter($el);
+
+        // let domElem receive virtualKeyboardEvents
+        console.log($(domElem));
+        $(domElem).on('virtualKeyboardEvent', function (_evnt, cmd) {
+          console.log(_evnt);
+          console.log(cmd);
+          if (cmd === '#Enter') {
+            // mathQuillEditHandler cannot be outsourced to virtualKeyboard (circular dependency)
+            console.log(_evnt.currentTarget.id);
+            //TODO mathQuillEditHandler(fApp, MQ, 'enter'); 
+            // or mathQuillEditHandler(fApp, MQ);
+          } else {
+            // H5Pbridge.virtualKeyboardEventHandler(_evnt, cmd, fApp.mathField);
+          }
+        });
+
+      } catch (error) {
+        console.error(error);
+      }
+      if ($('#' + id).hasClass('mq-math-mode')) {
+        console.log(id + ': SUCCESS');
       }
 
       //TODO install edithandler - see preparePage.js

@@ -558,6 +558,7 @@ function keyboardEvent0(cmd) {
 
         }
     } else {
+        console.log($(".formula_applet"));
         $(".formula_applet").trigger('virtualKeyboardEvent', cmd);
         // switch back
         if (activeKeyboard == 'abc_caps') {
