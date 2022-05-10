@@ -3,7 +3,7 @@
   "description": "Displays a Formula Applet",
   "majorVersion": 0,
   "minorVersion": 13,
-  "patchVersion": 18,
+  "patchVersion": 19,
   "runnable": 1,
   "author": "Rudolf Grossmann",
   "license": "MIT",
