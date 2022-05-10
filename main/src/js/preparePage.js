@@ -27,8 +27,7 @@ import config from "./config.json";
 import decode from "./decode.js";
 
 import initVirtualKeyboard, {
-  showVirtualKeyboard,
-  virtualKeyboardEventHandler
+  showVirtualKeyboard
 } from "./virtualKeyboard.js";
 
 //TODO hide global vars

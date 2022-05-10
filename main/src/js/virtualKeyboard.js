@@ -10,6 +10,8 @@ import {
 import {
     docLang
 } from "./dom.js";
+import MQ from "./lib/mathquillWrapper.js";
+
 
 const squareroot = '<span style="white-space: nowrap; font-size:larger">&radic;<span style="text-decoration:overline;">&nbsp;&#x2b1a;&nbsp;</span></span>';
 const nthRoot = '<sup style="position: relative; top: -0.5em; right: -0.5em;">\u2b1a</sup>' + squareroot;
@@ -559,7 +561,9 @@ function keyboardEvent0(cmd) {
         }
     } else {
         console.log($(".formula_applet"));
-        $(".formula_applet").trigger('virtualKeyboardEvent', cmd);
+        // $(".formula_applet").trigger('virtualKeyboardEvent', cmd);
+        // replaced by processVirtualKeyboardCommand
+        processVirtualKeyboardCommand(cmd);
         // switch back
         if (activeKeyboard == 'abc_caps') {
             activeKeyboard = 'abc';
@@ -690,7 +694,28 @@ export function showVirtualKeyboard() {
 //     console.log(mf);
 // }
 
-export function virtualKeyboardEventHandler(_event, cmd, mf) {
+function processVirtualKeyboardCommand(cmd) {
+    // TODO deal with case cmd=enter
+    // snippet from preparepage.js:
+
+    // if (cmd === '#Enter') {
+    //     // mathQuillEditHandler cannot be outsourced to virtualKeyboard (circular dependency)
+    //     fApp = FAList[_evnt.currentTarget.id];
+    //     //TODO see, if special syntax necessary? 
+    //     //TODO mathQuillEditHandler(fApp, MQ, 'enter'); 
+    //     mathQuillEditHandler(fApp, MQ);
+    //   } else {
+
+
+
+
+    // get selected mathField from DOM 
+    // instead of get many from H5P.FormulaApplet (formulaapplet.js )
+    console.log(cmd);
+    var mqEditableField = $('.formula_applet.mq-math-mode.selected').find('.mq-editable-field')[0];
+    console.log(mqEditableField);
+    var mf = MQ.MathField(mqEditableField, {});
+
     if (typeof mf !== 'undefined') {
         var endsWithSpace = (cmd.substr(-1) === ' ');
         if (endsWithSpace) {

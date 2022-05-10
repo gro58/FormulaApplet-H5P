@@ -24,8 +24,7 @@ import {
     H5P_to_MathQuill
 } from "./js/replacements.js";
 import initVirtualKeyboard, {
-    showVirtualKeyboard,
-    virtualKeyboardEventHandler
+    showVirtualKeyboard
 } from "./js/virtualKeyboard.js";
 
 
@@ -47,8 +46,7 @@ export {
     H5P_to_MathQuill,
     docLang,
     initVirtualKeyboard,
-    showVirtualKeyboard,
-    virtualKeyboardEventHandler
+    showVirtualKeyboard
 };
 
 // window.onload = function () {

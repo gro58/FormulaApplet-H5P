@@ -100,20 +100,21 @@ H5P.FormulaApplet = (function ($) {
         // will be replaced by H5P scoring
         $('<span class="truefalse">&nbsp;</span>').insertAfter($el);
 
+        // replaced by processVirtualKeyboardCommand(cmd) in virtualKeyboard.js
         // let domElem receive virtualKeyboardEvents
-        console.log($(domElem));
-        $(domElem).on('virtualKeyboardEvent', function (_evnt, cmd) {
-          console.log(_evnt);
-          console.log(cmd);
-          if (cmd === '#Enter') {
-            // mathQuillEditHandler cannot be outsourced to virtualKeyboard (circular dependency)
-            console.log(_evnt.currentTarget.id);
-            //TODO mathQuillEditHandler(fApp, MQ, 'enter'); 
-            // or mathQuillEditHandler(fApp, MQ);
-          } else {
-            // H5Pbridge.virtualKeyboardEventHandler(_evnt, cmd, fApp.mathField);
-          }
-        });
+        // console.log($(domElem));
+        // $(domElem).on('virtualKeyboardEvent', function (_evnt, cmd) {
+        //   console.log(_evnt);
+        //   console.log(cmd);
+        //   if (cmd === '#Enter') {
+        //     // mathQuillEditHandler cannot be outsourced to virtualKeyboard (circular dependency)
+        //     console.log(_evnt.currentTarget.id);
+        //     //TODO mathQuillEditHandler(fApp, MQ, 'enter'); 
+        //     // or mathQuillEditHandler(fApp, MQ);
+        //   } else {
+        //     // H5Pbridge.virtualKeyboardEventHandler(_evnt, cmd, fApp.mathField);
+        //   }
+        // });
 
       } catch (error) {
         console.error(error);
