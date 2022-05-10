@@ -20,7 +20,13 @@ import {
 import MQ from "./js/lib/mathquillWrapper.js";
 import isEditHandlerActive from "./js/switchEditHandler.js";
 import createWaiter from "./js/waiterFactory.js";
-import { H5P_to_MathQuill } from "./js/replacements.js";
+import {
+    H5P_to_MathQuill
+} from "./js/replacements.js";
+import initVirtualKeyboard, {
+    showVirtualKeyboard,
+    virtualKeyboardEventHandler
+} from "./js/virtualKeyboard.js";
 
 
 // H5Pbridge
@@ -39,7 +45,10 @@ export {
     isEditHandlerActive,
     createWaiter,
     H5P_to_MathQuill,
-    docLang
+    docLang,
+    initVirtualKeyboard,
+    showVirtualKeyboard,
+    virtualKeyboardEventHandler
 };
 
 // window.onload = function () {

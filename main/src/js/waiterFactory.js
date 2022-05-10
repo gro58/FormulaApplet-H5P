@@ -25,6 +25,7 @@ export default function createWaiter() {
             console.log(this.name + ': ' + this.index);
         },
         start: async function () {
+            console.log(this.name + ' started');
             var self = this; //https://stackoverflow.com/questions/24634484/javascript-self-vs-this#24634723
             var stopKey = setInterval(function () {
                 if (self.condition()) {

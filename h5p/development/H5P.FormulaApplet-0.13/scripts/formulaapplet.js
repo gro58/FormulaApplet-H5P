@@ -7,6 +7,7 @@ H5P.FormulaApplet = (function ($) {
     counter = counter || 0;
     if (counter === 0) {
       console.log('formulaapplet.js 0.13.' + H5Pbridge.config.patchversion);
+      H5Pbridge.initVirtualKeyboard();
     }
     counter++;
 
@@ -14,13 +15,9 @@ H5P.FormulaApplet = (function ($) {
     var MQ = H5Pbridge.MQ;
     console.log('try to mathquillify ' + id);
     var $el = $('#' + id + '.formula_applet:not(.mq-math-mode)');
-    // console.log($el);
     if (typeof $el === 'undefined') {
       throw id + ' not found';
     }
-
-    // TODO activate mouse clicks
-    // $el.on('click', clickHandler);
 
     var waitForDomElem = H5Pbridge.createWaiter();
     waitForDomElem.name = 'waiter for domElem ';
@@ -30,13 +27,16 @@ H5P.FormulaApplet = (function ($) {
       return (typeof $el[0] !== 'undefined');
     };
     waitForDomElem.doTheRest = async function () {
-      console.log('domElem of ' + id + ' found');
+      console.log(this.name + ' - do the Rest: mathQuillify ' + id);
       var domElem = $('#' + id + '.formula_applet:not(.mq-math-mode)')[0];
-      console.log(domElem);
-      var language = H5Pbridge.docLang();
+      // console.log(domElem);
       var expression = domElem.innerHTML;
-      // solution='', isEditor=false
-      var temp = H5Pbridge.H5P_to_MathQuill(expression, '', language, false)
+      console.log(expression);
+      var hasResultField = (expression.indexOf('{{result}}')>=0); //used in clickEvent
+      var language = H5Pbridge.docLang();
+      var solution='';
+      var isEditor=false;
+      var temp = H5Pbridge.H5P_to_MathQuill(expression, solution, language, isEditor);
       domElem.innerHTML = temp;
 
       //TODO retrieve H5P parameters - see preparePage.js
@@ -47,10 +47,62 @@ H5P.FormulaApplet = (function ($) {
         console.error('Error using MQ.StaticMath: ' + err);
         console.trace();
       }
+
+      $el.on('click', clickHandler);
+
+      function clickHandler(ev) {
+        console.log(ev);
+        console.log(domElem);
+        try {
+          if (typeof domElem !== 'undefined') {
+            if (hasResultField) {
+              ev.stopPropagation(); // avoid body click
+              // deselect all applets
+              $(".formula_applet").removeClass('selected');
+              $(".formula_applet").off('virtualKeyboardEvent');
+              $(domElem).addClass('selected');
+              // TODO attach virtualkeyboardEvent
+              // $(formulaApplet).on('virtualKeyboardEvent', function (_evnt, cmd) {
+              //   if (cmd === '#Enter') {
+              //     // mathQuillEditHandler cannot be outsourced to virtualKeyboard (circular dependency)
+              //     fApp = FAList[_evnt.currentTarget.id];
+              //     //TODO see, if special syntax necessary? 
+              //     //TODO mathQuillEditHandler(fApp, MQ, 'enter'); 
+              //     mathQuillEditHandler(fApp, MQ);
+              //   } else {
+              //     virtualKeyboardEventHandler(_evnt, cmd, fApp.mathField);
+              //   }
+              // });
+              $("button.keyb_button").removeClass('selected');
+              if (($('#virtualKeyboard').css('display') || 'none') === 'none') {
+                // if virtual keyboard is hidden, select keyboard button
+                //TODO 
+                // $(formulaApplet).nextAll("button.keyb_button:first").addClass('selected');
+              }
+            } else {
+              // fApp has no ResultField (static formula)
+              console.log(fApp.id + ' has no input field');
+              try {
+                var mfContainer = MQ.StaticMath(fApp.formulaApplet);
+                var mfLatexForParser = mfContainer.latex();
+                var myTree = new FaTree();
+                myTree.leaf.content = mfLatexForParser;
+              } catch (error) {
+                console.log('ERROR ' + error);
+              }
+            }
+          }
+        } catch (error) {
+          console.log('ERROR ' + error);
+        }
+      }
+
       //TODO install edithandler - see preparePage.js
     };
     waitForDomElem.start();
   }
+
+
   //TODO resize
   // $(document).trigger('resize');
 
