@@ -5,9 +5,6 @@ import {
     findCorrespondingRightBracket
 } from "./texParser.js";
 
-// import {
-//     mathQuillEditHandlerActive
-// } from "./editHandler.js";
 import {
     setEditHandlerActive
 } from "./switchEditHandler.js";

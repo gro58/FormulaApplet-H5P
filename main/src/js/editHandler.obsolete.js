@@ -7,8 +7,11 @@ import config from "./config.json";
 import isEditHandlerActive from "./switchEditHandler.js";
 import setOkWrongTag from "./ok_wrong_tagging.js";
 
-export default function mathQuillEditHandler(fApp, MQ) {
-    // if (mathQuillEditHandlerActive.flag === true) {
+export default function mathQuillEditHandler_debug(options) {
+    console.log(options);
+}
+
+function mathQuillEditHandler_old(fApp, MQ) {
     if (isEditHandlerActive()) {
         var mf = fApp.mathField;
         var mfContainer = MQ.StaticMath(fApp.formulaApplet);

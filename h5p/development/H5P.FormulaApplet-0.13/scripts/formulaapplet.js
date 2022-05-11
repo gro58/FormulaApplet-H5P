@@ -1,16 +1,24 @@
 ﻿var H5P = H5P || {};
 
 H5P.FormulaApplet = (function ($) {
-  console.log('define H5P.FormulaApplet object');
-  var counter; //TODO get rid of global var counter
-  function afterAppend(id) {
+  console.log('define H5P.FormulaApplet class');
+
+  var counter;
+  // afterAppend is called multiple times, once for every appended FormulaApplet
+  function afterAppend(fa_obj) {
+    // if counter is undefined, init 0. if increased, do not change
     counter = counter || 0;
     if (counter === 0) {
+      // things to be done once
       console.log('formulaapplet.js 0.13.' + H5Pbridge.config.patchversion);
       H5Pbridge.initVirtualKeyboard();
     }
     counter++;
 
+    // console.log(fa_obj);
+    var options = fa_obj.options;
+    // console.log(options);
+    var id = options.id;
     // mathQuillifying
     var MQ = H5Pbridge.MQ;
     console.log('try to mathquillify ' + id);
@@ -27,11 +35,10 @@ H5P.FormulaApplet = (function ($) {
       return (typeof $el[0] !== 'undefined');
     };
     waitForDomElem.doTheRest = async function () {
-      console.log(this.name + ' stopped. Mathquillify ' + id);
       var domElem = $('#' + id + '.formula_applet:not(.mq-math-mode)')[0];
       // console.log(domElem);
       var expression = domElem.innerHTML;
-      console.log(expression);
+      console.log('Mathquillify ' + id + ': ' + expression);
       var hasResultField = (expression.indexOf('{{result}}') >= 0);
       // hasResultField will be used in clickEvent
       // remember here, because expression is changed soon by H5P_to_MathQuill
@@ -42,8 +49,9 @@ H5P.FormulaApplet = (function ($) {
       domElem.innerHTML = temp;
 
       //TODO retrieve H5P parameters - see preparePage.js
+      var mqEditableField;
       try {
-        MQ.StaticMath(domElem);
+        mqEditableField = MQ.StaticMath(domElem);
         // MQ.StaticMath seems to generate a mqEditableField
       } catch (err) {
         console.error('Error using MQ.StaticMath: ' + err);
@@ -53,8 +61,6 @@ H5P.FormulaApplet = (function ($) {
       $el.on('click', clickHandler);
 
       function clickHandler(ev) {
-        // console.log(ev);
-        // console.log(domElem);
         try {
           if (typeof domElem !== 'undefined') {
             if (hasResultField) {
@@ -66,7 +72,7 @@ H5P.FormulaApplet = (function ($) {
               // attach virtualkeyboardEvent
               $("button.keyb_button").removeClass('selected');
               if (($('#virtualKeyboard').css('display') || 'none') === 'none') {
-                // if virtual keyboard is hidden, select keyboard button
+                // if virtual keyboard is hidden, show keyboard button
                 $(domElem).nextAll("button.keyb_button:first").addClass('selected');
               }
             } else {
@@ -123,7 +129,70 @@ H5P.FormulaApplet = (function ($) {
         console.log(id + ': SUCCESS');
       }
 
-      //TODO install edithandler - see preparePage.js
+      //install edithandler
+      if (hasResultField) {
+        mqEditableField = $el.find('.mq-editable-field')[0];
+        // console.log(mqEditableField);
+        var mf = MQ.MathField(mqEditableField, {});
+        // console.log(mf);
+        mf.config({
+          handlers: {
+            edit: () => {
+              mqEditableField.focus();
+              mathQuillEditHandler(options);
+            },
+            // TODO is case enter necessary?
+            enter: () => {
+              mathQuillEditHandler(options);
+            },
+          }
+        });
+      }
+      function mathQuillEditHandler(options) {
+        //stub
+        console.log(options);
+      }
+
+      function mathQuillEditHandler_new(options) {
+        if (isEditHandlerActive()) {
+            // var mf = fApp.mathField;
+            // var mfContainer = MQ.StaticMath(fApp.formulaApplet);
+            var mfContainer = MQ.StaticMath(domElem);
+            var solution = fApp.solution;
+            var hasSolution = fApp.hasSolution;
+            var unitAuto = fApp.unitAuto;
+            var precision = fApp.precision;
+            var dsList = fApp.definitionsetList;
+    
+            // var sel = getSelection(mf, true);
+            // console.log('>> ' + sel.preSelected + '|' + sel.postSelected);
+        
+            var mfLatexForParser = '';
+            if (hasSolution) {
+                mfLatexForParser = mf.latex();
+            } else {
+                mfLatexForParser = mfContainer.latex();
+            }
+            if (unitAuto) {
+                mfLatexForParser = makeAutoUnitstring(mf);
+            }
+    
+            var isEqual;
+            if (hasSolution) {
+                solution = solution.replace(/\\unit{/g, config.unit_replacement);
+                isEqual = H5Pbridge.checkIfEqual(mfLatexForParser, solution, dsList, precision);
+                console.log(mfLatexForParser + ' = ' + solution + ' ' + isEqual);
+            } else {
+                isEqual = H5Pbridge.checkIfEquality(mfContainer.latex(), dsList, precision);
+                console.log(mfContainer.latex() + ' isEqual= ' + isEqual);
+            }
+            // see ok_wrong_tagging.js
+            var key = '#' + fApp.id + '.formula_applet + span.truefalse';
+            setOkWrongTag(key, isEqual);
+        }
+    }
+
+
     };
     waitForDomElem.start();
   }
@@ -153,24 +222,26 @@ H5P.FormulaApplet = (function ($) {
    * @param {jQuery} $container
    */
   C.prototype.attach = function ($container) {
+    // this points to H5P.FormulaApplet 
     var self = this;
     $container.addClass("h5p-formulaapplet");
 
-    var html = '<p class="formula_applet" id="' + this.options.id + '"';
+    var html = '<p class="formula_applet" id="' + self.options.id + '"';
     // console.log(H5PIntegration.l10n.H5P.language);
 
-    if (this.options.formulaAppletPhysics == true) {
-      html += ' mode="physics"';
-    }
-    if (this.options.formulaAppletMode == 'manu') {
-      html += ' data-b64="' + this.options.data_b64 + '"';
-    } else {
-      this.options.data_b64 = 'Automatic solution';
-    }
-    html += '>' + this.options.TEX_expression + '</p>'; //do not use fa_applet
-    // html += '<p>' + this.options.data_b64 + '</p>';
+    // obsolete to store options in DOM. options are available via self.options
+    // if (self.options.formulaAppletPhysics == true) {
+    //   html += ' mode="physics"';
+    // }
+    // if (self.options.formulaAppletMode == 'manu') {
+    //   html += ' data-b64="' + self.options.data_b64 + '"';
+    // } else {
+    //   self.options.data_b64 = 'Automatic solution';
+    // }
+    html += '>' + self.options.TEX_expression + '</p>'; //do not use fa_applet
+    // html += '<p>' + self.options.data_b64 + '</p>';
     // console.log(html);    
-    $container.append(html, afterAppend(this.options.id), self);
+    $container.append(html, afterAppend(self), self);
   };
   return C;
 

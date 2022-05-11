@@ -16,6 +16,6 @@ export function docLang() {
     var docLang = document.getElementsByTagName('html')[0].getAttribute('lang');
     docLang = docLang || document.getElementsByTagName('html')[0].getAttribute('xml:lang') || "unknown";
     docLang = docLang.slice(0,2); //e.g. en-US -> en
-    console.log("docLang=" + docLang);
+    // console.log("docLang=" + docLang);
     return docLang;
 }

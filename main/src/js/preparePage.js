@@ -14,7 +14,7 @@
 import $ from "jquery";
 import MQ from "./lib/mathquillWrapper.js";
 import Hammer from "@egjs/hammerjs";
-import mathQuillEditHandler from "./editHandler.js";
+// import mathQuillEditHandler from "./editHandler.js";
 import {
   domLoad,
   isH5P,

@@ -6,8 +6,6 @@ import {
 }
 from "./texParser.js";
 import config from "./config.json";
-// import mathQuillEditHandlerActive
-// from "./editHandler.js";
 import {
     setEditHandlerActive
 }

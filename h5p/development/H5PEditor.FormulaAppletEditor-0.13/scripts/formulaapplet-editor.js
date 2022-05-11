@@ -124,7 +124,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       }
     };
 
-    self.config.change('formula applet changed');
+    self.config.change('This is a new expression automatically set on change of FormulaAppletEditor instance ?');
     $wrapper.append(self.$item);
 
 

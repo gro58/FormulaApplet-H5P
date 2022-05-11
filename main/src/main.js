@@ -26,6 +26,12 @@ import {
 import initVirtualKeyboard, {
     showVirtualKeyboard
 } from "./js/virtualKeyboard.js";
+// import mathQuillEditHandler from "./js/editHandler.js";
+import {
+    checkIfEqual,
+    checkIfEquality
+} from "./js/checkIfEqual.js";
+
 
 
 // H5Pbridge
@@ -46,7 +52,10 @@ export {
     H5P_to_MathQuill,
     docLang,
     initVirtualKeyboard,
-    showVirtualKeyboard
+    showVirtualKeyboard,
+    // mathQuillEditHandler,
+    checkIfEqual,
+    checkIfEquality
 };
 
 // window.onload = function () {
