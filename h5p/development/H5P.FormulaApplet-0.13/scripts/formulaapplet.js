@@ -129,7 +129,7 @@ H5P.FormulaApplet = (function ($) {
         console.log(id + ': SUCCESS');
       }
 
-      //install edithandler
+      //create MathField and attach edithandler
       if (hasResultField) {
         mqEditableField = $el.find('.mq-editable-field')[0];
         // console.log(mqEditableField);
@@ -159,10 +159,13 @@ H5P.FormulaApplet = (function ($) {
             // var mfContainer = MQ.StaticMath(fApp.formulaApplet);
             var mfContainer = MQ.StaticMath(domElem);
             var solution = fApp.solution;
-            var hasSolution = fApp.hasSolution;
-            var unitAuto = fApp.unitAuto;
+            // var hasSolution = fApp.hasSolution;
+            // var unitAuto = fApp.unitAuto;
+            var unitAuto = options.formulaAppletPhysics;
             var precision = fApp.precision;
-            var dsList = fApp.definitionsetList;
+            // var dsList = fApp.definitionsetList;
+            // replaced by definitionSets
+            var definitionSets = options.definitionSets;
     
             // var sel = getSelection(mf, true);
             // console.log('>> ' + sel.preSelected + '|' + sel.postSelected);
@@ -180,10 +183,10 @@ H5P.FormulaApplet = (function ($) {
             var isEqual;
             if (hasSolution) {
                 solution = solution.replace(/\\unit{/g, config.unit_replacement);
-                isEqual = H5Pbridge.checkIfEqual(mfLatexForParser, solution, dsList, precision);
+                isEqual = H5Pbridge.checkIfEqual(mfLatexForParser, solution, definitionSets, precision);
                 console.log(mfLatexForParser + ' = ' + solution + ' ' + isEqual);
             } else {
-                isEqual = H5Pbridge.checkIfEquality(mfContainer.latex(), dsList, precision);
+                isEqual = H5Pbridge.checkIfEquality(mfContainer.latex(), definitionSets, precision);
                 console.log(mfContainer.latex() + ' isEqual= ' + isEqual);
             }
             // see ok_wrong_tagging.js

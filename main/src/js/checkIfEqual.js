@@ -6,6 +6,7 @@ import parse, {
     evaluateTree,
     fillWithValues
 } from "./texParser.js";
+import definitionString2Array from 'definition_string_to_array.js';
 
 // import {getFAppFromId} from "./preparePage.js";
 
@@ -13,27 +14,28 @@ import parse, {
  * 
  * @param {string} leftside left side of equation 
  * @param {string} rightside right side of equation
- * @param {array} dsList  list of definition sets to be considered
+ * @param {string} definitionSets  set of condioions to be fulfilled
  * @returns true if a = b, false if not<br>
  * 
  * assembles an equation a = b from left side a uns right side b, then checks if a = b is true<hr>
  * @augments checkIfEquality
  * @see checkIfEquality
  */
-export function checkIfEqual(leftside, rightside, dsList, precision) {
+export function checkIfEqual(leftside, rightside, definitionSets, precision) {
     var equation = leftside + '=' + rightside;
-    return checkIfEquality(equation, dsList, precision);
+    return checkIfEquality(equation, definitionSets, precision);
 }
 
 /**
  * 
  * @param {string} equation TEX string representing an equation to be checked
- * @param {array} dsList array of definition sets to be considered<br>
+ * @param {string} definitionSets  set of condioions to be fulfilled
  * @returns true if equality holds, false if not
  * @see checkIfEqual
  */
 
-export function checkIfEquality(equation, dsList, precision) {
+export function checkIfEquality(equation, definitionSets, precision) {
+    var dsList = definitionString2Array(definitionSets);
     var temp = equation.replace(/\\times/g, '\\cdot');
     var myTree = parse(temp);
     myTree = fillWithRandomValAndCheckDefSets(myTree, dsList);

@@ -31,6 +31,20 @@
     "default": false
   },
   {
+    "name": "definitionSets",
+    "type": "text",
+    "label": "List of Definition Sets",
+    "description": "List of conditions to be fulfilled if expression is checked<br>Example: still missing // TODO",
+    "default": "x > 0"
+  },
+  {
+    "name": "precision",
+    "type": "text",
+    "label": "Precision",
+    "description": "Required precision of answer, e.g. 0.5% or 0.005. <br>If empty, defaults to 0.0001%=0.000001",
+    "default": "x &lt; 100"
+  },
+  {
     "label": "Solution (encoded)",
     "name": "data_b64",
     "type": "text",
