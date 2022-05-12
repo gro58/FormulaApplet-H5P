@@ -1,4 +1,6 @@
-﻿var H5P = H5P || {};
+﻿"use strict";
+
+var H5P = H5P || {};
 
 H5P.FormulaApplet = (function ($) {
   console.log('define H5P.FormulaApplet class');
@@ -168,7 +170,7 @@ H5P.FormulaApplet = (function ($) {
           // var unitAuto = fApp.unitAuto;
           var unitAuto = options.formulaAppletPhysics;
           // var precision = fApp.precision;
-          var precision = options.precision;
+          var precision = options.sanitizedPrecision;
           // var dsList = fApp.definitionsetList;
           // dsList replaced by definitionSets
           var definitionSets = options.definitionSets;
@@ -190,7 +192,6 @@ H5P.FormulaApplet = (function ($) {
 
           var isEqual;
           if (hasSolution) {
-            solution = solution.replace(/\\unit{/g, config.unit_replacement);
             isEqual = H5Pbridge.checkIfEqual(mfLatexForParser, data_b64, definitionSets, precision);
             // console.log(mfLatexForParser + ' = ' + solution + ' ' + isEqual);
           } else {
@@ -221,11 +222,13 @@ H5P.FormulaApplet = (function ($) {
     this.$ = $(this);
     // Extend defaults with provided options
     this.options = $.extend(true, {}, {
-      prec: 'unknown'
+      // add option for result of sanitizedPrecision()
+      // this.options.precision will not be changed
+      sanitizedPrecision: ''
     }, options);
     // Keep provided id.
     this.id = id;
-    this.options.prec = sanitizePrecision(this.options.precision);
+    this.options.sanitizedPrecision = sanitizedPrecision(this.options.precision);
   };
 
   /**
@@ -246,9 +249,9 @@ H5P.FormulaApplet = (function ($) {
     html += '</p>';
     $container.append(html, afterAppend(self), self);
   };
-  return C;
 
-  function sanitizePrecision(prec) {
+  function sanitizedPrecision(prec) {
+    try {
       prec = prec.replace(/,/g, '.');
       var endsWithPercent = prec.slice(-1) === '%';
       if (endsWithPercent) {
@@ -258,8 +261,13 @@ H5P.FormulaApplet = (function ($) {
       if (endsWithPercent) {
         prec = prec * 0.01;
       }
+    } catch (error) {
+      // for example, prec = undefined, '', ' ',...
+      // then take default, same as in semantics.json
+      prec = "0.000001";
+    }
     return prec;
   }
-  
 
+  return C;
 })(H5P.jQuery);
