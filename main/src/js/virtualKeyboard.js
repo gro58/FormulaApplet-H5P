@@ -674,17 +674,7 @@ export function showVirtualKeyboard() {
     $('#virtualKeyboard table').css('display', 'none');
     keyboardActivate('mixed');
     $('#virtualKeyboard table#table_' + activeKeyboard).css('display', 'table');
-    // var lang = selected_language['lang'];
-    // if (lang === 'de') {
-    //     $('.virtualKeyboard-setUnit')[0].innerHTML = 'Einheit';
-    // }
-    // if (lang === 'en') {
-    //     $('.virtualKeyboard-setUnit')[0].innerHTML = 'Unit';
-    // }
-
-    // $('.virtualKeyboard-setUnit')[0].innerHTML = 'Set/Unset Unit';
     $('.virtualKeyboard-space')[0].innerHTML = 'free';
-    // $('.virtualKeyboard-eraseUnit')[0].innerHTML = 'free2';
 }
 
 // export function virtualKeyboardEventHandlerDebugging(_event, cmd, mf) {
@@ -695,7 +685,7 @@ export function showVirtualKeyboard() {
 // }
 
 function processVirtualKeyboardCommand(cmd) {
-    // TODO deal with case cmd=enter
+    // TODO ENTER: deal with case cmd=enter
     // snippet from preparepage.js:
 
     // if (cmd === '#Enter') {

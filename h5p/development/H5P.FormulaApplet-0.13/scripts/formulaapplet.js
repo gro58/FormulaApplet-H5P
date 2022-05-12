@@ -18,9 +18,7 @@ H5P.FormulaApplet = (function ($) {
     }
     counter++;
 
-    // console.log(fa_obj);
     var options = fa_obj.options;
-    // console.log(options);
     var id = options.id;
     // mathQuillifying
     var MQ = H5Pbridge.MQ;
@@ -95,6 +93,7 @@ H5P.FormulaApplet = (function ($) {
             }
           }
         } catch (error) {
+          //TODO ERROR ReferenceError: _evnt is not defined (maybe if hasSolution = false) 
           console.log('ERROR ' + error);
         }
       }
@@ -146,17 +145,12 @@ H5P.FormulaApplet = (function ($) {
               mqEditableField.focus();
               mathQuillEditHandler(options);
             },
-            // TODO is case enter necessary?
+            // TODO ENTER: is case enter necessary?
             enter: () => {
               mathQuillEditHandler(options);
             },
           }
         });
-      }
-
-      function mathQuillEditHandler_debug(options) {
-        //stub
-        console.log(options);
       }
 
       //TODO no need for argument "options" because defined in surrounding function
@@ -178,23 +172,16 @@ H5P.FormulaApplet = (function ($) {
           // var sel = getSelection(mf, true);
           // console.log('>> ' + sel.preSelected + '|' + sel.postSelected);
 
-          var mfLatexForParser = '';
-          // TODO simplify if... code
-          if (hasSolution) {
-            mfLatexForParser = mf.latex();
-          } else {
-            var mfContainer = MQ.StaticMath(domElem);
-            mfLatexForParser = mfContainer.latex();
-          }
           if (unitAuto) {
-            mfLatexForParser = H5Pbridge.makeAutoUnitstring(mf);
+            // has to be done before checkIfEqual
+            H5Pbridge.makeAutoUnitstring(mf);
           }
 
           var isEqual;
           if (hasSolution) {
-            isEqual = H5Pbridge.checkIfEqual(mfLatexForParser, data_b64, definitionSets, precision);
-            // console.log(mfLatexForParser + ' = ' + solution + ' ' + isEqual);
+            isEqual = H5Pbridge.checkIfEqual(mf.latex(), data_b64, definitionSets, precision);
           } else {
+            // look at whole equation, input field and surroundings
             var mfContainer = MQ.StaticMath(domElem);
             isEqual = H5Pbridge.checkIfEquality(mfContainer.latex(), definitionSets, precision);
             console.log(mfContainer.latex() + ' isEqual= ' + isEqual);

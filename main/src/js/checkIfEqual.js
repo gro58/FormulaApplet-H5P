@@ -15,11 +15,11 @@ import config from "./config.json";
 /**
  * 
  * @param {string} leftside left side of equation 
- * @param {string} rightside right side of equation
- * @param {string} definitionSets  set of condioions to be fulfilled
+ * @param {string} data_b64 right side of equation, encoded
+ * @param {string} definitionSets  set of conditions to be fulfilled
  * @returns true if a = b, false if not<br>
  * 
- * assembles an equation a = b from left side a uns right side b, then checks if a = b is true<hr>
+ * assembles an equation a = b from left side a and decoded right side b, then checks if a = b is true<hr>
  * @augments checkIfEquality
  * @see checkIfEquality
  */
