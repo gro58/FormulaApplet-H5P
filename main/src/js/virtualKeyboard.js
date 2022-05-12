@@ -21,7 +21,7 @@ const enter = ['enter', '<span style="font-size: 150%; color:green">\u23ce</span
 const backspace = ['backspace', '\u232B', '#Backspace'];
 const poweroften = ['power_of_ten', '10<sup style="font-size: 85%">\u2b1a</sup>', '10^'];
 var unitText = 'Set/Unset Unit';
-if (docLang() == 'de'){
+if (docLang() == 'de') {
     unitText = 'Einheit setzen/löschen';
 }
 const setunitkey = ['setunsetUnit', unitText, '#setUnit'];
@@ -63,7 +63,7 @@ keys['mixed'] = [
         ['lg', 'lg', 'lg('],
         // ['power', '\u2b1a<sup>\u2b1a</sup>', '^'],
         // ['setunsetUnit', 'Set/Unset Unit', '#setUnit'],
-        setunitkey, 
+        setunitkey,
         ['nthRoot', nthRoot, '#nthroot'],
         ['smallgap-2', '', ''],
         ['1'],
@@ -385,9 +385,10 @@ keys['greek_caps'] = [
     ]
 ]
 
-function getVirtualKeyboard() {
+function getVirtualKeyboard(isEditor) {
     let result = document.createElement("div");
     result.id = "virtualKeyboard";
+    $(result).addClass(isEditor ? "h5pEditor" : "h5p");
     let header = document.createElement("div");
     header.id = "virtualKeyboard_header";
     header.innerText = "Move";
@@ -651,12 +652,12 @@ function tabClick(ev, keyboardId) {
     keyboardActivate(activeKeyboard);
 }
 
-export default function initVirtualKeyboard() {
+export default function initVirtualKeyboard(isEditor) {
     var kb = $('#keyboard')[0];
     if (typeof kb == 'undefined') {
         kb = document.createElement('div');
         kb.id = 'keyboard';
-        kb.append(getVirtualKeyboard());
+        kb.append(getVirtualKeyboard(isEditor));
         document.body.appendChild(kb);
     }
     virtualKeyboardBindEvents();

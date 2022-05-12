@@ -1,6 +1,14 @@
-div#virtualKeyboard{
+div#virtualKeyboard.h5p {
 	position: fixed;
-	width:fit-content;
+}
+
+div#virtualKeyboard.h5pEditor {
+	position: absolute;
+
+}
+
+div#virtualKeyboard {
+	width: fit-content;
 	/* top: auto; */
 	/* bottom: 1vh; */
 	/* https://www.w3schools.com/cssref/pr_pos_bottom.asp */
@@ -10,19 +18,19 @@ div#virtualKeyboard{
 	max-width: 100vw;
 	min-width: 50vw;
 	/* background-color: #c0c0c050; transparency #50 */
-	background-color:#b2cee7;
+	background-color: #b2cee7;
 	border-radius: 3px;
 	z-index: 9;
 	cursor: move;
 }
 
-#virtualKeyboard table{
+#virtualKeyboard table {
 	display: none;
 	/* width: calc(100% +120px); */
 	width: 100%
 }
 
-#virtualKeyboard table#table_mixed{
+#virtualKeyboard table#table_mixed {
 	display: table;
 }
 
@@ -57,7 +65,7 @@ div#virtualKeyboard{
 }
 
 .virtualKeyboard-shift {
-	color:navy;
+	color: navy;
 }
 
 .virtualKeyboard-backspace {
@@ -69,11 +77,11 @@ div#virtualKeyboard{
 	background-color: orange;
 }
 
-.virtualKeyboardButton.virtualKeyboard-unit{
+.virtualKeyboardButton.virtualKeyboard-unit {
 	font-size: 120%;
 }
 
-.virtualKeyboardButton.virtualKeyboard-clear_unit{
+.virtualKeyboardButton.virtualKeyboard-clear_unit {
 	font-size: 120%;
 }
 
@@ -85,34 +93,42 @@ div#output tbody {
 	position: relative;
 	left: 20px;
 }
+
 #table_abc .virtualKeyboard-row2 .virtualKeyboardButton {
 	position: relative;
 	left: 40px;
 }
+
 #table_abc_caps .virtualKeyboard-row1 .virtualKeyboardButton {
 	position: relative;
 	left: 20px;
 }
+
 #table_abc_caps .virtualKeyboard-row2 .virtualKeyboardButton {
 	position: relative;
 	left: 40px;
 }
+
 #table_greek .virtualKeyboard-row1 .virtualKeyboardButton {
 	position: relative;
 	left: 20px;
 }
+
 #table_greek .virtualKeyboard-row2 .virtualKeyboardButton {
 	position: relative;
 	left: 40px;
 }
+
 #table_greek_caps .virtualKeyboard-row1 .virtualKeyboardButton {
 	position: relative;
 	left: 20px;
 }
+
 #table_greek_caps .virtualKeyboard-row2 .virtualKeyboardButton {
 	position: relative;
 	left: 40px;
 }
+
 /* #virtualKeyboard table#table_abc{
 	padding-right: 20px;
 } */
@@ -165,8 +181,8 @@ button#button-table_off {
 }
 
 .tablinks.selected {
-	background-color:rgb(138, 137, 182);
-	color:  rgb(240, 240, 255);
+	background-color: rgb(138, 137, 182);
+	color: rgb(240, 240, 255);
 	border-color: blue;
 	border-width: 2px;
 	border-bottom: transparent;
