@@ -6,7 +6,8 @@ H5P.FormulaApplet = (function ($) {
   var counter;
   // afterAppend is called multiple times, once for every appended FormulaApplet
   function afterAppend(fa_obj) {
-    // if counter is undefined, init 0. if increased, do not change
+    // if counter is undefined, init with value 0.
+    // if counter is defined (increased), do not change
     counter = counter || 0;
     if (counter === 0) {
       // things to be done once
@@ -40,6 +41,8 @@ H5P.FormulaApplet = (function ($) {
       var expression = domElem.innerHTML;
       console.log('Mathquillify ' + id + ': ' + expression);
       var hasResultField = (expression.indexOf('{{result}}') >= 0);
+      var hasSolution = (typeof $(domElem).attr('data-b64') !== 'undefined');
+
       // hasResultField will be used in clickEvent
       // remember here, because expression is changed soon by H5P_to_MathQuill
       var language = H5Pbridge.docLang();
@@ -148,52 +151,58 @@ H5P.FormulaApplet = (function ($) {
           }
         });
       }
-      function mathQuillEditHandler(options) {
+
+      function mathQuillEditHandler_debug(options) {
         //stub
         console.log(options);
       }
 
-      function mathQuillEditHandler_new(options) {
-        if (isEditHandlerActive()) {
-            // var mf = fApp.mathField;
-            // var mfContainer = MQ.StaticMath(fApp.formulaApplet);
+      //TODO no need for argument "options" because defined in surrounding function
+      function mathQuillEditHandler(options) {
+        if (H5Pbridge.isEditHandlerActive()) {
+          // var mf = fApp.mathField;
+          // var mfContainer = MQ.StaticMath(fApp.formulaApplet);
+          // var solution = fApp.solution;
+          var data_b64 = options.data_b64;
+          // var hasSolution = fApp.hasSolution;
+          // var unitAuto = fApp.unitAuto;
+          var unitAuto = options.formulaAppletPhysics;
+          // var precision = fApp.precision;
+          var precision = options.precision;
+          // var dsList = fApp.definitionsetList;
+          // dsList replaced by definitionSets
+          var definitionSets = options.definitionSets;
+
+          // var sel = getSelection(mf, true);
+          // console.log('>> ' + sel.preSelected + '|' + sel.postSelected);
+
+          var mfLatexForParser = '';
+          // TODO simplify if... code
+          if (hasSolution) {
+            mfLatexForParser = mf.latex();
+          } else {
             var mfContainer = MQ.StaticMath(domElem);
-            var solution = fApp.solution;
-            // var hasSolution = fApp.hasSolution;
-            // var unitAuto = fApp.unitAuto;
-            var unitAuto = options.formulaAppletPhysics;
-            var precision = fApp.precision;
-            // var dsList = fApp.definitionsetList;
-            // replaced by definitionSets
-            var definitionSets = options.definitionSets;
-    
-            // var sel = getSelection(mf, true);
-            // console.log('>> ' + sel.preSelected + '|' + sel.postSelected);
-        
-            var mfLatexForParser = '';
-            if (hasSolution) {
-                mfLatexForParser = mf.latex();
-            } else {
-                mfLatexForParser = mfContainer.latex();
-            }
-            if (unitAuto) {
-                mfLatexForParser = makeAutoUnitstring(mf);
-            }
-    
-            var isEqual;
-            if (hasSolution) {
-                solution = solution.replace(/\\unit{/g, config.unit_replacement);
-                isEqual = H5Pbridge.checkIfEqual(mfLatexForParser, solution, definitionSets, precision);
-                console.log(mfLatexForParser + ' = ' + solution + ' ' + isEqual);
-            } else {
-                isEqual = H5Pbridge.checkIfEquality(mfContainer.latex(), definitionSets, precision);
-                console.log(mfContainer.latex() + ' isEqual= ' + isEqual);
-            }
-            // see ok_wrong_tagging.js
-            var key = '#' + fApp.id + '.formula_applet + span.truefalse';
-            setOkWrongTag(key, isEqual);
+            mfLatexForParser = mfContainer.latex();
+          }
+          if (unitAuto) {
+            mfLatexForParser = H5Pbridge.makeAutoUnitstring(mf);
+          }
+
+          var isEqual;
+          if (hasSolution) {
+            solution = solution.replace(/\\unit{/g, config.unit_replacement);
+            isEqual = H5Pbridge.checkIfEqual(mfLatexForParser, data_b64, definitionSets, precision);
+            // console.log(mfLatexForParser + ' = ' + solution + ' ' + isEqual);
+          } else {
+            var mfContainer = MQ.StaticMath(domElem);
+            isEqual = H5Pbridge.checkIfEquality(mfContainer.latex(), definitionSets, precision);
+            console.log(mfContainer.latex() + ' isEqual= ' + isEqual);
+          }
+          // see ok_wrong_tagging.js
+          var key = '#' + id + '.formula_applet + span.truefalse';
+          H5Pbridge.setOkWrongTag(key, isEqual);
         }
-    }
+      }
 
 
     };
@@ -212,10 +221,11 @@ H5P.FormulaApplet = (function ($) {
     this.$ = $(this);
     // Extend defaults with provided options
     this.options = $.extend(true, {}, {
-      bli: 'bla'
+      prec: 'unknown'
     }, options);
     // Keep provided id.
     this.id = id;
+    this.options.prec = sanitizePrecision(this.options.precision);
   };
 
   /**
@@ -225,27 +235,31 @@ H5P.FormulaApplet = (function ($) {
    * @param {jQuery} $container
    */
   C.prototype.attach = function ($container) {
-    // this points to H5P.FormulaApplet 
+    // "this" points to H5P.FormulaApplet 
     var self = this;
     $container.addClass("h5p-formulaapplet");
 
-    var html = '<p class="formula_applet" id="' + self.options.id + '"';
-    // console.log(H5PIntegration.l10n.H5P.language);
-
-    // obsolete to store options in DOM. options are available via self.options
-    // if (self.options.formulaAppletPhysics == true) {
-    //   html += ' mode="physics"';
-    // }
-    // if (self.options.formulaAppletMode == 'manu') {
-    //   html += ' data-b64="' + self.options.data_b64 + '"';
-    // } else {
-    //   self.options.data_b64 = 'Automatic solution';
-    // }
-    html += '>' + self.options.TEX_expression + '</p>'; //do not use fa_applet
-    // html += '<p>' + self.options.data_b64 + '</p>';
-    // console.log(html);    
+    var html = '<p class="formula_applet" id="';
+    html += self.options.id;
+    html += '">';
+    html += self.options.TEX_expression
+    html += '</p>';
     $container.append(html, afterAppend(self), self);
   };
   return C;
+
+  function sanitizePrecision(prec) {
+      prec = prec.replace(/,/g, '.');
+      var endsWithPercent = prec.slice(-1) === '%';
+      if (endsWithPercent) {
+        prec = prec.substring(0, prec.length - 1);
+      }
+      prec = prec.valueOf();
+      if (endsWithPercent) {
+        prec = prec * 0.01;
+      }
+    return prec;
+  }
+  
 
 })(H5P.jQuery);

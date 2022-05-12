@@ -6,7 +6,7 @@ import parse, {
     evaluateTree,
     fillWithValues
 } from "./texParser.js";
-import definitionString2Array from 'definition_string_to_array.js';
+import definitionString2Array from './definition_string_to_array.js';
 
 // import {getFAppFromId} from "./preparePage.js";
 
@@ -21,7 +21,8 @@ import definitionString2Array from 'definition_string_to_array.js';
  * @augments checkIfEquality
  * @see checkIfEquality
  */
-export function checkIfEqual(leftside, rightside, definitionSets, precision) {
+export function checkIfEqual(leftside, data_b64, definitionSets, precision) {
+    var rightside = H5Pbridge.decode(data_b64);
     var equation = leftside + '=' + rightside;
     return checkIfEquality(equation, definitionSets, precision);
 }
@@ -35,10 +36,10 @@ export function checkIfEqual(leftside, rightside, definitionSets, precision) {
  */
 
 export function checkIfEquality(equation, definitionSets, precision) {
-    var dsList = definitionString2Array(definitionSets);
+    var definitionArray = definitionString2Array(definitionSets);
     var temp = equation.replace(/\\times/g, '\\cdot');
     var myTree = parse(temp);
-    myTree = fillWithRandomValAndCheckDefSets(myTree, dsList);
+    myTree = fillWithRandomValAndCheckDefSets(myTree, definitionArray);
     var almostOne = evaluateTree(myTree);
     var dif = Math.abs(almostOne - 1);
     // var fApp = getFAppFromId(id);
@@ -52,9 +53,9 @@ export function checkIfEquality(equation, definitionSets, precision) {
     }
 }
 
-function fillWithRandomValAndCheckDefSets(treeVar, dsList) {
+function fillWithRandomValAndCheckDefSets(treeVar, definitionArray) {
     var rememberTree = JSON.stringify(treeVar);
-    if (dsList.length == 0) {
+    if (definitionArray.length == 0) {
         fillWithValues(treeVar);
         return treeVar;
     } else {
@@ -68,14 +69,14 @@ function fillWithRandomValAndCheckDefSets(treeVar, dsList) {
             fillWithValues(tree2);
             var variableValueList = tree2.variableValueList;
             // CheckDefinitionSets
-            for (var i = 0; i < dsList.length; i++) {
-                var definitionset = parse(dsList[i]);
+            for (var i = 0; i < definitionArray.length; i++) {
+                var definitionset = parse(definitionArray[i]);
                 fillWithValues(definitionset, variableValueList);
                 var value = evaluateTree(definitionset);
                 success = ((value > 0) || typeof value == 'undefined');
                 if (!success) {
                     // short circuit
-                    i = dsList.length;
+                    i = definitionArray.length;
                     // restore leafs with value = undefined
                 }
             }

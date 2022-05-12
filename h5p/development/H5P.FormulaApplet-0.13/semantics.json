@@ -41,8 +41,8 @@
     "name": "precision",
     "type": "text",
     "label": "Precision",
-    "description": "Required precision of answer, e.g. 0.5% or 0.005. <br>If empty, defaults to 0.0001%=0.000001",
-    "default": "x &lt; 100"
+    "description": "Required precision of answer, e.g. 0,5% or 0.5% or 0.005",
+    "default": "0.000001"
   },
   {
     "label": "Solution (encoded)",

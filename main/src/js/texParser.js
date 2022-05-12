@@ -1672,8 +1672,8 @@ export function fillWithValues(treeVar, list) {
                         var value = 1000 * Math.cos(u1) * Math.sqrt(u2);
                     } else {
                         value = list[content];
-                        if (typeof value == 'undefined') {
-                            console.error('Variable in definition set but not in applet: ' + content);
+                        if (typeof value === 'undefined') {
+                            console.info('Variable in definition set but not in expression: ' + content);
                             stop = true;
                             i++;
                             hasValue = false;

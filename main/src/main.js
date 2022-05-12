@@ -31,8 +31,8 @@ import {
     checkIfEqual,
     checkIfEquality
 } from "./js/checkIfEqual.js";
-
-
+import setOkWrongTag from "./js/ok_wrong_tagging.js";
+import makeAutoUnitstring from "./js/autoUnit.js";
 
 // H5Pbridge
 export {
@@ -55,7 +55,9 @@ export {
     showVirtualKeyboard,
     // mathQuillEditHandler,
     checkIfEqual,
-    checkIfEquality
+    checkIfEquality,
+    setOkWrongTag,
+    makeAutoUnitstring
 };
 
 // window.onload = function () {

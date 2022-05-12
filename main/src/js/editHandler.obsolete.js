@@ -19,7 +19,7 @@ function mathQuillEditHandler_old(fApp, MQ) {
         var hasSolution = fApp.hasSolution;
         var unitAuto = fApp.unitAuto;
         var precision = fApp.precision;
-        var dsList = fApp.definitionsetList;
+        var defArray = fApp.definitionsetList;
 
         // var sel = getSelection(mf, true);
         // console.log('>> ' + sel.preSelected + '|' + sel.postSelected);
@@ -37,10 +37,10 @@ function mathQuillEditHandler_old(fApp, MQ) {
         var isEqual;
         if (hasSolution) {
             solution = solution.replace(/\\unit{/g, config.unit_replacement);
-            isEqual = checkIfEqual(mfLatexForParser, solution, dsList, precision);
+            isEqual = checkIfEqual(mfLatexForParser, solution, defArray, precision);
             console.log(mfLatexForParser + ' = ' + solution + ' ' + isEqual);
         } else {
-            isEqual = checkIfEquality(mfContainer.latex(), dsList, precision);
+            isEqual = checkIfEquality(mfContainer.latex(), defArray, precision);
             console.log(mfContainer.latex() + ' isEqual= ' + isEqual);
         }
         // see ok_wrong_tagging.js

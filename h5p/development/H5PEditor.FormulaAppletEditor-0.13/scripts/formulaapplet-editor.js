@@ -98,11 +98,8 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     var language = H5Pbridge.docLang();
     var temp = H5Pbridge.H5P_to_MathQuill(expression, solution, language, true); //isEditor=true
     // temp: like LATEX, but special syntax for MathQuill added
-    // wrap temp into <span>
-    var span = '<span id="math-field">' + temp + '</span>';
-    html += span;
-    // close <p class="formula_applet"...> tag
-    html += '<\p>';
+    // wrap temp into <span> and close <p class="formula_applet"...> tag
+    html += '<span id="math-field">' + temp + '</span><\p>';
     console.log('Assembled html: ' + html);
 
     var fieldMarkup = H5PEditor.createFieldMarkup(this.field, html, nextFieldId);
