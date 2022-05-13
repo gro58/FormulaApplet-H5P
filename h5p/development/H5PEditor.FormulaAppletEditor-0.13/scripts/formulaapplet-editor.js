@@ -40,7 +40,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
    */
   FormulaAppletEditor.prototype.appendTo = function ($wrapper) {
     var self = this;
-    const  h5p_id = ns.getNextFieldId(this.field);
+    const h5p_id = ns.getNextFieldId(this.field);
     // console.log(self);
     var params = self.parent.params;
     // compose an HTML tag to be used by MathQuill using params and H5Pbridge
@@ -48,21 +48,31 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       // TODO get random id
       params.id = 'new_id';
     }
-    var html = '<p class="formula_applet" id="' + params.id + '-edit"';
-    var solution = '';
-    if (params.formulaAppletMode === 'manu') {
-      try {
-        solution = H5Pbridge.decode(params.data_b64);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
+    
+    // start of composing HTML
     var expression = params.TEX_expression;
     if (typeof expression === 'undefined') {
       expression = '17 + {{result}} = 21';
     }
+    var hasResultfield = (expression.indexOf('{{result}}') >= 0)
+    if (hasResultfield) {
+      var html = '<p class="formula_applet" id="' + params.id + '-edit"';
+    } else {
+      var html = '<p class="formula_applet noresult" id="' + params.id + '-edit"';
+    }
+    var solution = '';
+    if (hasResultfield) {
+      if (params.formulaAppletMode === 'manu') {
+        try {
+          solution = H5Pbridge.decode(params.data_b64);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
     html += '>';
+    // end of composing HTML
+
     var language = H5Pbridge.docLang();
     var temp = H5Pbridge.H5P_to_MathQuill(expression, solution, language, true); //isEditor=true
     // TODO if hasSolution and is<Editor, take solution into account using H5P_to_MathQuill
@@ -72,7 +82,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     console.log('Assembled html: ' + html);
 
     // var inner = '<input type="text" id="' + params.id + '" class="formula_applet">dummy';
-    var fieldMarkup = H5PEditor.createFieldMarkup(this.field, html,  h5p_id);
+    var fieldMarkup = H5PEditor.createFieldMarkup(this.field, html, h5p_id);
     self.$item = H5PEditor.$(fieldMarkup);
     self.$formulaApplet = self.$item.find('.formula_applet');
 

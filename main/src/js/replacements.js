@@ -36,17 +36,14 @@ export function no_XSS(str) {
 }
 
 export function H5P_to_MathQuill(expression, solution, language, isEditor) {
-    result = expression;
-    var wrapped_in_span = false;
+    var result = expression;
     if (expression.indexOf('<span id="math-field">') >= 0) {
         console.log('remove math-field spans');
-        wrapped_in_span = true;
         // unwrap, remove math-field spans
         result = result.replace(/<span id="math-field">/g, '');
         result = result.replace(/<\/span>/g, '');
-    }
-    var result = no_XSS(result);
-    if (wrapped_in_span){
+        result = no_XSS(result);
+        // wrap again
         result = '<span id="math-field">' + result + '</span>';
     }
 
