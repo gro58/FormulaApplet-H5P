@@ -17,6 +17,15 @@
     "default": "auto"
   },
   {
+    "name": "fa_applet",
+    "type": "text",
+    "label": "Formula Applet Editor",
+    "description": " ",
+    "optional": true,
+    "default": "default",
+    "widget": "formulaAppletEditor"
+  },
+  {
     "label": "Expression (LATEX)",
     "name": "TEX_expression",
     "type": "text",

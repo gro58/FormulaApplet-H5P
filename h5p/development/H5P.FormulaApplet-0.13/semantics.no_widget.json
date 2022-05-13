@@ -17,15 +17,6 @@
     "default": "auto"
   },
   {
-    "name": "fa_applet",
-    "type": "text",
-    "label": "Formula Applet Editor",
-    "description": " ",
-    "optional": true,
-    "default": "default",
-    "widget": "formulaAppletEditor"
-  },
-  {
     "label": "Expression (LATEX)",
     "name": "TEX_expression",
     "type": "text",
@@ -38,6 +29,20 @@
     "label": "Physics Mode",
     "description": "Check if result is a <b>physical quantity</b> (value and unit). <br>Uncheck if result is a <b>mathematical expression</b>.",
     "default": false
+  },
+  {
+    "name": "definitionSets",
+    "type": "text",
+    "label": "List of Definition Sets",
+    "description": "List of conditions to be fulfilled if expression is checked<br>Example: still missing // TODO",
+    "default": "x > 0"
+  },
+  {
+    "name": "precision",
+    "type": "text",
+    "label": "Precision",
+    "description": "Required precision of answer, e.g. 0,5% or 0.5% or 0.005",
+    "default": "0.000001"
   },
   {
     "label": "Solution (encoded)",
