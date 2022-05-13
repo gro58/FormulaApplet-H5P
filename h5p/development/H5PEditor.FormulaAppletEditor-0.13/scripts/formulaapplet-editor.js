@@ -65,14 +65,14 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     html += '>';
     var language = H5Pbridge.docLang();
     var temp = H5Pbridge.H5P_to_MathQuill(expression, solution, language, true); //isEditor=true
+    // TODO if hasSolution and is<Editor, take solution into account using H5P_to_MathQuill
     // temp: like LATEX, but special syntax for MathQuill added
     // wrap temp into <span> and close <p class="formula_applet"...> tag
     html += '<span id="math-field">' + temp + '</span><\p>';
     console.log('Assembled html: ' + html);
 
-    var inner = '<input type="text" id="' + id + '" class="formula_applet">dummy';
-    // TODO next line: replace inner by html
-    var fieldMarkup = H5PEditor.createFieldMarkup(this.field, inner,  h5p_id);
+    // var inner = '<input type="text" id="' + params.id + '" class="formula_applet">dummy';
+    var fieldMarkup = H5PEditor.createFieldMarkup(this.field, html,  h5p_id);
     self.$item = H5PEditor.$(fieldMarkup);
     self.$formulaApplet = self.$item.find('.formula_applet');
 
