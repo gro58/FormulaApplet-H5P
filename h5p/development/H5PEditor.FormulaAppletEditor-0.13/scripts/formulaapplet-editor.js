@@ -4,10 +4,10 @@
  * @param {H5P.jQuery} $
  */
 
- var H5P = H5P || {};
- console.log('Here is new formulaapplet-editor.js 0.13.' + H5Pbridge.config.patchversion);
+var H5P = H5P || {};
+console.log('Here is new formulaapplet-editor.js 0.13.' + H5Pbridge.config.patchversion);
 
- H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (function ($) {
+H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (function ($) {
 
   /**
    * Creates an editor widget for a FormulaApplet.
@@ -32,14 +32,14 @@
    * @public
    * @param {H5P.jQuery} $wrapper
    */
-   FormulaAppletEditor.prototype.appendTo = function ($wrapper) {
+  FormulaAppletEditor.prototype.appendTo = function ($wrapper) {
     var self = this;
     const id = ns.getNextFieldId(this.field);
     // TODO change class-name
-    var inner = '<input type="text" id="' + id + '" class="h5p-expression-picker">';
+    var inner = '<input type="text" id="' + id + '" class="h5p-formulaapplet-expression-picker">';
     var html = H5PEditor.createFieldMarkup(this.field, inner, id);
     self.$item = H5PEditor.$(html);
-    self.$formulaApplet = self.$item.find('.h5p-expression-picker');
+    self.$formulaApplet = self.$item.find('.h5p-formulaapplet-expression-picker');
 
     self.config = {
       appendTo: self.$item[0],
@@ -54,13 +54,14 @@
       }
     };
 
-    // Make it possible to set spectrum config
-    if (self.field.spectrum !== undefined) {
-      self.config = $.extend(self.config, self.field.spectrum);
-    }
+    // DELETE parts concerning spectrum
+    // // Make it possible to set spectrum config
+    // if (self.field.spectrum !== undefined) {
+    //   self.config = $.extend(self.config, self.field.spectrum);
+    // }
 
-    // Create expression picker widget
-    self.$expressionPicker.spectrum(self.config);
+    // // Create expression picker widget
+    // self.$expressionPicker.spectrum(self.config);
 
     self.$item.appendTo($wrapper);
   };
@@ -73,12 +74,18 @@
    * @return {String}
    */
   ExpressionSelector.prototype.expressionToString = function (expression) {
-    switch (this.config.preferredFormat) {
-      case 'rgb': return expression.toRgbString();
-      case 'hsv': return expression.toHsvString();
-      case 'hsl': return expression.toHslString();
-      default: return expression.toHexString();
-    }
+    // DELETE parts concerning spectrum
+    // switch (this.config.preferredFormat) {
+    //   case 'rgb':
+    //     return expression.toRgbString();
+    //   case 'hsv':
+    //     return expression.toHsvString();
+    //   case 'hsl':
+    //     return expression.toHslString();
+    //   default:
+    //     return expression.toHexString();
+    // }
+    return 'ExpressionString (test)';
   };
 
   /**
@@ -86,7 +93,8 @@
    * @method hide
    */
   ExpressionSelector.prototype.hide = function () {
-    this.$expressionPicker.spectrum('hide');
+    // DELETE parts concerning spectrum
+    // this.$expressionPicker.spectrum('hide');
   };
   /**
    * Save the expression
