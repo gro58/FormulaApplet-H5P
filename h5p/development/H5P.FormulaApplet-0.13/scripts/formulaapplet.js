@@ -81,7 +81,7 @@ H5P.FormulaApplet = (function ($) {
             } else {
               // element has no ResultField (static formula)
               console.log(_evnt.currentTarget.id + ' has no ResultField');
-              // TODO handle case "no ResultField"
+              //TODO handle case "no ResultField"
               // try {
               //   var mfContainer = MQ.StaticMath(fApp.formulaApplet);
               //   var mfLatexForParser = mfContainer.latex();
@@ -145,7 +145,7 @@ H5P.FormulaApplet = (function ($) {
               mqEditableField.focus();
               mathQuillEditHandler(options);
             },
-            // TODO ENTER: is case enter necessary?
+            //TODO ENTER: is case enter necessary?
             enter: () => {
               mathQuillEditHandler(options);
             },

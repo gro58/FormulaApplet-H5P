@@ -40,7 +40,7 @@ export function checkIfEqual(leftside, data_b64, definitionSets, precision) {
 export function checkIfEquality(equation, definitionSets, precision) {
     equation = equation.replace(/\\unit{/g, config.unit_replacement);
     // legacy: use of config.unit_replacement
-    // TODO: use of \\unit, replace parseTextColor(tree) by parseUnit(tree) in texParser.js
+    //TODO: use of \\unit, replace parseTextColor(tree) by parseUnit(tree) in texParser.js
     var definitionArray = definitionString2Array(definitionSets);
     var temp = equation.replace(/\\times/g, '\\cdot');
     var myTree = parse(temp);

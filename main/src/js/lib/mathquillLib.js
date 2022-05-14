@@ -894,7 +894,7 @@ var Controller = P(function(_) {
     root.controller = this;
 
     this.cursor = root.cursor = Cursor(root, options);
-    // TODO: stop depending on root.cursor, and rm it
+    //TODO: stop depending on root.cursor, and rm it
   };
 
   _.handle = function(name, dir) {
@@ -2420,7 +2420,7 @@ Controller.open(function(_) {
     this.setTextareaSelection();
   };
   _.paste = function(text) {
-    // TODO: document `statelessClipboard` config option in README, after
+    //TODO: document `statelessClipboard` config option in README, after
     // making it work like it should, that is, in both text and math mode
     // (currently only works in math fields, so worse than pointless, it
     //  only gets in the way by \text{}-ifying pasted stuff and $-ifying
@@ -3033,7 +3033,7 @@ var TextBlock = P(Node, function(_, super_) {
   _.parser = function() {
     var textBlock = this;
 
-    // TODO: correctly parse text mode
+    //TODO: correctly parse text mode
     var string = Parser.string;
     var regex = Parser.regex;
     var optWhitespace = Parser.optWhitespace;
@@ -3074,7 +3074,7 @@ var TextBlock = P(Node, function(_, super_) {
   _.moveOutOf = function(dir, cursor) { cursor.insDirOf(dir, this); };
   _.unselectInto = _.moveTowards;
 
-  // TODO: make these methods part of a shared mixin or something.
+  //TODO: make these methods part of a shared mixin or something.
   _.selectTowards = MathCommand.prototype.selectTowards;
   _.deleteTowards = MathCommand.prototype.deleteTowards;
 
@@ -4527,7 +4527,7 @@ var SupSub = P(MathCommand, function(_, super_) {
     // unless my block has none, in which case insert the cursor into
     // its block (and not mine, I'm about to remove myself) in the case
     // I was just typed.
-    // TODO: simplify
+    //TODO: simplify
 
     // equiv. to [L, R].forEach(function(dir) { ... });
     for (var dir = L; dir; dir = (dir === L ? R : false)) {
@@ -4545,7 +4545,7 @@ var SupSub = P(MathCommand, function(_, super_) {
             else children.adopt(dest, 0, dest.ends[L]);
           }
           else var pt = Point(dest, 0, dest.ends[L]);
-          this.placeCursor = (function(dest, src) { // TODO: don't monkey-patch
+          this.placeCursor = (function(dest, src) { //TODO: don't monkey-patch
             return function(cursor) { cursor.insAtDirEnd(-dir, dest || src); };
           }(dest, src));
         }
@@ -4589,7 +4589,7 @@ var SupSub = P(MathCommand, function(_, super_) {
       if (cmd instanceof Symbol) cmd.remove();
       else if (cmd) cmd.deleteTowards(dir, cursor.insAtDirEnd(-dir, this.sub));
 
-      // TODO: factor out a .removeBlock() or something
+      //TODO: factor out a .removeBlock() or something
       if (this.sub.isEmpty()) {
         this.sub.deleteOutOf(L, cursor.insAtLeftEnd(this.sub));
         if (this.sup) cursor.insDirOf(-dir, this);

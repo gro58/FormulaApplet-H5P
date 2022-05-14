@@ -34,7 +34,7 @@
     "name": "definitionSets",
     "type": "text",
     "label": "List of Definition Sets",
-    "description": "List of conditions to be fulfilled if expression is checked<br>Example: still missing // TODO",
+    "description": "List of conditions to be fulfilled if expression is checked<br>Example: still missing //TODO",
     "default": "x > 0"
   },
   {

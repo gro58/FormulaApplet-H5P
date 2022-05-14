@@ -1473,7 +1473,7 @@ export function evaluateTree(filledTree) {
     }
 }
 
-function val(node, tree) { // TODO: different name, too similar to function value?
+function val(node, tree) { //TODO: different name, too similar to function value?
     //recursive
     var fu, child0, child1, child2, temp;
     var children = node.children;

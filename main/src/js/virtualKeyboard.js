@@ -686,7 +686,7 @@ export function showVirtualKeyboard() {
 // }
 
 function processVirtualKeyboardCommand(cmd) {
-    // TODO ENTER: deal with case cmd=enter
+    //TODO ENTER: deal with case cmd=enter
     // snippet from preparepage.js:
 
     // if (cmd === '#Enter') {
