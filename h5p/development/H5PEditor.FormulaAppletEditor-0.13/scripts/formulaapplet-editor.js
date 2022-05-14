@@ -184,16 +184,13 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       spaceBehavesLikeTab: true, // configurable
       handlers: {
         edit: function (mathField) { // useful event handlers
-          try {
+          // try {
             if (H5Pbridge.isEditHandlerActive()) {
-              var latex = mathField.latex();
-              console.log('mathQuillEditHandler refreshResultField latex=' + latex);
-              //TODO add code for refreshing fields expression and data_b64
-              // refreshResultField(latex, fApp);
+              refreshFields(mathField.latex());
             }
-          } catch (error) {
-            console.error('ERROR in MQ.MathField: ' + error);
-          }
+          // } catch (error) {
+            // console.error('ERROR in MQ.MathField: ' + error);
+          // }
         }
       }
     });
@@ -210,53 +207,39 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     var texinput = $('div.field.field-name-TEX_expression.text input')[0];
     console.log(texinput);
     texinput.addEventListener('input', function (event) {
-      // DOM -> field
-      // setValue(obj, 'TEX_expression', event.target.value);
-      //TODO maybe can be replaced by 
-      // obj.parent.params['TEX_expression'] = event.target.value;
+      // DOM -> field - done by H5P
+      // not necessary: setValue(obj, 'TEX_expression', event.target.value);
 
       // distinguish between events caused by keyboard input or by editorMf
       if (event.isTrusted) {
-        var msg = 'event caused by keyboard input';
+        var msg = ' (keyboard input)';
         event.preventDefault();
         //TODO editorAction('TEX_changed', event.target.value);
       } else {
-        var msg = 'event caused by editorMf - do nothing';
+        var msg = ' (editorMf) - do nothing';
+        // maybe necessary: setValue(obj, 'TEX_expression', event.target.value);
+        //TODO maybe can be replaced by 
+        // obj.parent.params['TEX_expression'] = event.target.value;
       }
       console.log('TEX_expression changed: ' + event.target.value + msg);
     });
   }
+
+  function refreshFields(latex){
+    console.log(latex + ' -> expression, data_b64');
+    var temp = H5Pbridge.MathQuill_to_H5P(latex);
+    console.log(temp.expression);
+    console.log(temp.data_b64);
+  }
+
   return FormulaAppletEditor;
 })(H5P.jQuery);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// *** legacy code follows ***
+//#########################################################################################
+//#########################################################################################
+//#########################################################################################
+//#########################################################################################
+//#########################################################################################
+// *** unused legacy code follows ***
 
 async function prepareEditorApplet(fApp) {
   console.log('prepareEditorApplet');

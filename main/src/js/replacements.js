@@ -58,10 +58,25 @@ export function H5P_to_MathQuill(expression, solution, language, isEditor) {
     // replacements for both expression and solution
     result = result.replace(/\\unit{/g, config.unit_replacement);
     result = result.replace(/\\Ohm/g, '\\Omega');
+    //TODO µ -> \\?
     result = result.replace(/\\mathrm/g, '');
     if (language === 'en') {
-        result = result.replace(/\\cdot/g, config.multiplicationCross);
+        result = result.replaceAll(config.multiplicationDot, config.multiplicationCross);
         result = result.replace(/\,/g, '.');
     }
+    return result;
+}
+
+export function MathQuill_to_H5P(latex) {
+    latex = latex.replaceAll(config.multiplicationCross, config.multiplicationDot);
+    latex = latex.replace(/\./g, ',');
+    latex = latex.replaceAll("\\Omega", "\\Ohm");
+    latex = latex.replaceAll(H5Pbridge.config.unit_replacement, '\\unit{');
+    // from refreshResultField:
+    var parts = H5Pbridge.separateInputfield(latex);
+    var result = {
+        expression: parts.before + '{{result}}' + parts.after,
+        data_b64: H5Pbridge.encode(parts.tag)
+    };
     return result;
 }

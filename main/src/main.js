@@ -1,4 +1,5 @@
 "use strict";
+// 
 
 import preparePage, {
     mathQuillify,
@@ -21,7 +22,8 @@ import MQ from "./js/lib/mathquillWrapper.js";
 import isEditHandlerActive from "./js/switchEditHandler.js";
 import createWaiter from "./js/waiterFactory.js";
 import {
-    H5P_to_MathQuill
+    H5P_to_MathQuill,
+    MathQuill_to_H5P
 } from "./js/replacements.js";
 import initVirtualKeyboard, {
     showVirtualKeyboard
@@ -50,6 +52,7 @@ export {
     isEditHandlerActive,
     createWaiter,
     H5P_to_MathQuill,
+    MathQuill_to_H5P,
     docLang,
     initVirtualKeyboard,
     showVirtualKeyboard,
