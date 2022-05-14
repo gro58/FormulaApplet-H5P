@@ -8,6 +8,8 @@
 
 var H5P = H5P || {};
 console.log('Here is stub of formulaapplet-editor.js 0.13.' + H5Pbridge.config.patchversion);
+//TODO get rid of var obj_global
+var obj_global = {};
 
 H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (function ($) {
 
@@ -43,6 +45,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     const h5p_id = ns.getNextFieldId(this.field);
     // console.log(self);
     var params = self.parent.params;
+    console.log(params);
     // compose an HTML tag to be used by MathQuill using params and H5Pbridge
     if (typeof params.id === 'undefined') {
       //TODO get random id
@@ -112,7 +115,13 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     self.$item.appendTo($wrapper);
     //TODO maybe wait for math-field appear in DOM
     var editorMf = mathQuillifyEditor();
-    init_synchronize();
+    init_synchronize(params);
+
+    $(function () {
+      console.log('DOM is ready');
+      //code that needs to be executed when DOM is ready, after manipulation, goes here
+      afterAppend(self);
+    });
   };
 
   /**
@@ -169,8 +178,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
   };
 
   FormulaAppletEditor.prototype.remove = function () {};
-
-
+  
   function mathQuillifyEditor() {
     // make whole mathFieldSpan editable
     var mathFieldSpan = document.getElementById('math-field');
@@ -185,11 +193,11 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       handlers: {
         edit: function (mathField) { // useful event handlers
           // try {
-            if (H5Pbridge.isEditHandlerActive()) {
-              refreshFields(mathField.latex());
-            }
+          if (H5Pbridge.isEditHandlerActive()) {
+            refreshFields(mathField.latex());
+          }
           // } catch (error) {
-            // console.error('ERROR in MQ.MathField: ' + error);
+          //   console.error('ERROR in MQ.MathField: ' + error);
           // }
         }
       }
@@ -225,15 +233,68 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     });
   }
 
-  function refreshFields(latex){
-    console.log(latex + ' -> expression, data_b64');
-    var temp = H5Pbridge.MathQuill_to_H5P(latex);
-    console.log(temp.expression);
-    console.log(temp.data_b64);
-  }
-
   return FormulaAppletEditor;
 })(H5P.jQuery);
+
+async function afterAppend(obj) {
+  console.log('afterAppend');
+  obj_global = obj;
+  console.log(obj_global);
+}
+
+function refreshFields(latex) {
+  console.log(latex + ' -> expression, data_b64');
+  var temp = H5Pbridge.MathQuill_to_H5P(latex);
+  console.log(temp.expression);
+  setValue(obj_global, 'TEX_expression', temp.expression);
+  console.log(temp.data_b64);
+  setValue(obj_global, 'data_b64', temp.data_b64);
+}
+
+// getField is used by getValue
+function getField(obj, name) {
+  var children = obj.parent.children;
+  var result;
+  for (var i = 0; i < children.length; i++) {
+    var child = children[i];
+    if (child.field.name == name) {
+      result = child;
+      i = children.length; //short circuit
+    }
+  }
+  return result;
+}
+
+function getValue(obj, name) {
+  var field = getField(obj, name);
+  if (field.field.type === 'text') {
+    return field.$input[0].value;
+  } else {
+    return field.value;
+  }
+}
+
+// setValue() sucks if field "name" has a widget attached
+function setValue(obj, name, value) {
+  // H5P
+  obj.parent.params[name] = value;
+  // synchronize DOM
+  var targetField = H5PEditor.findField(name, obj.parent);
+  var type = targetField.field.type;
+  if (type === 'select') {
+    var $targetField = targetField.$select;
+    $targetField[0].value = value;
+  };
+  if (type === 'text') {
+    var $targetField = targetField.$input;
+    $targetField[0].value = value;
+  };
+  if (type === 'boolean') {
+    var $targetField = targetField.$input;
+    $targetField[0].checked = value;
+  };
+}
+
 //#########################################################################################
 //#########################################################################################
 //#########################################################################################
