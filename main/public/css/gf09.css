@@ -3,13 +3,13 @@
 	color: darkred;
 }
 
-.formula_applet {
+.formula_applet.hasresultfield {
 	border: darkblue solid thin;
 	background-color: lightblue;
 	display: inline-block;
 }
 
-.formula_applet.selected {
+.formula_applet.hasresultfield.selected {
 	border: blue solid medium;
 	/* background-color: lightgoldenrodyellow; */
 	background-color: antiquewhite;

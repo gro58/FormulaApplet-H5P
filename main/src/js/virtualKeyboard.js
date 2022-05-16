@@ -564,7 +564,7 @@ function keyboardEvent0(cmd) {
 
         }
     } else {
-        console.log($(".formula_applet"));
+        // console.log($(".formula_applet"));
         // $(".formula_applet").trigger('virtualKeyboardEvent', cmd);
         // replaced by processVirtualKeyboardCommand
         processVirtualKeyboardCommand(cmd);
@@ -696,8 +696,13 @@ export function showVirtualKeyboard() {
 
 function processVirtualKeyboardCommand(cmd) {
     //TODO ENTER: deal with case cmd=enter
-    // snippet from preparepage.js:
 
+
+    if (cmd === '#Enter') {
+        console.log('vkbd: button "enter"');
+    }
+
+    // snippet from preparepage.js:
     // if (cmd === '#Enter') {
     //     // mathQuillEditHandler cannot be outsourced to virtualKeyboard (circular dependency)
     //     fApp = FAList[_evnt.currentTarget.id];
@@ -717,7 +722,7 @@ function processVirtualKeyboardCommand(cmd) {
     if (typeof mqEditableField === 'undefined') {
         mqEditableField = $('#math-field')[0];
     }
-    console.log(mqEditableField);
+    // console.log(mqEditableField);
     var mf = MQ.MathField(mqEditableField, {});
 
     if (typeof mf !== 'undefined') {

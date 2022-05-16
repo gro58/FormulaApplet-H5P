@@ -38,7 +38,7 @@ export function no_XSS(str) {
 export function H5P_to_MathQuill(expression, solution, language, isEditor) {
     var result = expression;
     if (expression.indexOf('<span id="math-field">') >= 0) {
-        console.log('remove math-field spans');
+        // console.log('remove math-field spans');
         // unwrap, remove math-field spans
         result = result.replace(/<span id="math-field">/g, '');
         result = result.replace(/<\/span>/g, '');

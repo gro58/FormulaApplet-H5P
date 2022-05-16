@@ -41,6 +41,9 @@ H5P.FormulaApplet = (function ($) {
       var expression = domElem.innerHTML;
       console.log('Mathquillify ' + id + ': ' + expression);
       var hasResultField = (expression.indexOf('{{result}}') >= 0);
+      if (hasResultField){
+        $(domElem).addClass('hasresultfield');
+      }
       var hasSolution = (typeof $(domElem).attr('data-b64') !== 'undefined');
 
       // hasResultField will be used in clickEvent

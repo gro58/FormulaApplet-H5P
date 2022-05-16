@@ -13,10 +13,10 @@ import {
 export function getSelection(mf, options) {
     // if options.erase is undefined, erase defaults to false
     var erase = options.erase || false;
-    console.log('getSelection: erase=' + erase);
+    // console.log('getSelection: erase=' + erase);
     // typeof mf = mathField
     var ori = mf.latex();
-    console.log('ori= ' + ori);
+    // console.log('ori= ' + ori);
     var erased = ori;
     if (erase) {
         erased = eraseInputfieldClass(ori);
@@ -35,7 +35,7 @@ export function getSelection(mf, options) {
         if (erase) {
             replacedAndErased = eraseInputfieldClass(replacedAndErased);
         }
-        console.log('replacedAndErased= ' + replacedAndErased);
+        // console.log('replacedAndErased= ' + replacedAndErased);
         var preSelected = '?';
         var selected = '?';
         var postSelected = '?';

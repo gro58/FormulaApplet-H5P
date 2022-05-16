@@ -45,7 +45,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     const h5p_id = ns.getNextFieldId(this.field);
     // console.log(self);
     var params = self.parent.params;
-    console.log(params);
+    // console.log(params);
     // compose an HTML tag to be used by MathQuill using params and H5Pbridge
     if (typeof params.id === 'undefined') {
       //TODO get random id
@@ -127,7 +127,10 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       keyboardparent.append(kbDiv);
       H5Pbridge.virtualKeyboardBindEvents();
       H5Pbridge.keyboardActivate('mixed');
-      afterAppend(self);
+      (async function () {
+        obj_global = self;
+      })();
+      // afterAppend(self);
     });
   };
 
@@ -185,7 +188,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
   };
 
   FormulaAppletEditor.prototype.remove = function () {};
-  
+
   function mathQuillifyEditor() {
     // make whole mathFieldSpan editable
     var mathFieldSpan = document.getElementById('math-field');
@@ -221,7 +224,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
   async function init_synchronize() {
     await H5Pbridge.domLoad;
     var texinput = $('div.field.field-name-TEX_expression.text input')[0];
-    console.log(texinput);
+    // console.log(texinput);
     texinput.addEventListener('input', function (event) {
       // DOM -> field - done by H5P
       // not necessary: setValue(obj, 'TEX_expression', event.target.value);
@@ -245,18 +248,18 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
   return FormulaAppletEditor;
 })(H5P.jQuery);
 
-async function afterAppend(obj) {
-  console.log('afterAppend');
-  obj_global = obj;
-  console.log(obj_global);
-}
+// async function afterAppend(obj) {
+//   console.log('afterAppend');
+//   obj_global = obj;
+//   // console.log(obj_global);
+// }
 
 function refreshFields(latex) {
-  console.log(latex + ' -> expression, data_b64');
+  // console.log(latex + ' -> expression, data_b64');
   var temp = H5Pbridge.MathQuill_to_H5P(latex);
-  console.log(temp.expression);
+  // console.log(temp.expression);
   setValue(obj_global, 'TEX_expression', temp.expression);
-  console.log(temp.data_b64);
+  // console.log(temp.data_b64);
   setValue(obj_global, 'data_b64', temp.data_b64);
 }
 

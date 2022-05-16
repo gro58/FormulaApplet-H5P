@@ -13,9 +13,9 @@ export default function definitionString2Array(def_with_entities) {
   // https://tertiumnon.medium.com/js-how-to-decode-html-entities-8ea807a140e5
   var decodeArea = document.createElement('textarea');
   decodeArea.innerHTML = def_with_entities;
-  console.log(decodeArea);
+  // console.log(decodeArea);
   var def = decodeArea.value;
-  console.log(def_with_entities + ' -> ' + def);
+  // console.log(def_with_entities + ' -> ' + def);
   def = def.replace(/\s/g, "");
   def = def.replace(/&&/g, "&");
   var defArray = def.split("&");

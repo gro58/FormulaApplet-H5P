@@ -10,6 +10,7 @@ export default function createWaiter() {
         name: 'defaultWaiter',
         interval: 200, // interval=200 means: check every 200ms
         max_count: 10,
+        // defaults
         condition: function () {
             return false
         }, //default: stop only if index === max_count
@@ -22,7 +23,7 @@ export default function createWaiter() {
         index: 0,
         increase: function () {
             this.index++;
-            console.log(this.name + ': ' + this.index);
+            // console.log(this.name + ': ' + this.index);
         },
         start: async function () {
             console.log(this.name + ' started');
