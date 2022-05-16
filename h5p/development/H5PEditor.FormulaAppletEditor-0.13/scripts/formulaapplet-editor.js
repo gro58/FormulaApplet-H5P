@@ -120,6 +120,9 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     $(function () {
       console.log('DOM is ready');
       //code that needs to be executed when DOM is ready, after manipulation, goes here
+      var keyboardparent = H5P.jQuery('p.formula_applet').parent();
+      // disabled means read-only
+      keyboardparent.append('<br><br><textarea id="html_output" rows="3" cols="150" disabled>space for virtual keyboard</textarea>');
       afterAppend(self);
     });
   };
@@ -194,6 +197,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
         edit: function (mathField) { // useful event handlers
           // try {
           if (H5Pbridge.isEditHandlerActive()) {
+            //TODO do nothing if ???
             refreshFields(mathField.latex());
           }
           // } catch (error) {
@@ -222,6 +226,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       if (event.isTrusted) {
         var msg = ' (keyboard input)';
         event.preventDefault();
+        //TODO TEX_expression -> editorMf
         //TODO editorAction('TEX_changed', event.target.value);
       } else {
         var msg = ' (editorMf) - do nothing';
