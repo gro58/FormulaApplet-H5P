@@ -403,6 +403,9 @@ function getVirtualKeyboard(isEditor) {
         "greek": "\u03b1\u03b2\u03b3",
         "off": "&nbsp;\u2716"
     };
+    if (isEditor) {
+        delete tabButtons.off;
+    }
     for (let tabId of Object.keys(tabButtons)) {
         let button = document.createElement("button");
         button.classList.add("tablinks");
@@ -466,7 +469,7 @@ function createTable(tableId) {
     return result;
 }
 
-function virtualKeyboardBindEvents() {
+export function virtualKeyboardBindEvents() {
     $(".virtualKeyboardButton").mousedown(function (ev) {
         ev.preventDefault();
         var cmd = clickEvent(ev);
@@ -578,7 +581,7 @@ function keyboardEvent0(cmd) {
 
 var activeKeyboard = 'dummy';
 
-function keyboardActivate(keyboardId) {
+export function keyboardActivate(keyboardId) {
     $('.virtualKeyboard_tab button').removeClass("selected");
     switch (keyboardId) {
         case 'abc':
@@ -652,14 +655,20 @@ function tabClick(ev, keyboardId) {
     keyboardActivate(activeKeyboard);
 }
 
-export default function initVirtualKeyboard(isEditor) {
+export function createkeyboardDiv(isEditor) {
     var kb = $('#keyboard')[0];
-    if (typeof kb == 'undefined') {
+    // create div if necessary
+    if (typeof kb === 'undefined') {
         kb = document.createElement('div');
         kb.id = 'keyboard';
         kb.append(getVirtualKeyboard(isEditor));
-        document.body.appendChild(kb);
     }
+    return kb;
+}
+
+export default function initVirtualKeyboardnoEditor() {
+    var kb = createkeyboardDiv(false);
+    document.body.appendChild(kb);
     virtualKeyboardBindEvents();
     keyboardActivate('mixed');
     hideVirtualKeyboard();
@@ -704,6 +713,10 @@ function processVirtualKeyboardCommand(cmd) {
     // instead of get many from H5P.FormulaApplet (formulaapplet.js )
     console.log(cmd);
     var mqEditableField = $('.formula_applet.mq-math-mode.selected').find('.mq-editable-field')[0];
+    //TODO deal with case 'editor' - better use var isEditor?
+    if (typeof mqEditableField === 'undefined') {
+        mqEditableField = $('#math-field')[0];
+    }
     console.log(mqEditableField);
     var mf = MQ.MathField(mqEditableField, {});
 

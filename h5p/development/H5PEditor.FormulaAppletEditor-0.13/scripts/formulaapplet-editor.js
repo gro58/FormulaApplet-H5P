@@ -114,15 +114,19 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
 
     self.$item.appendTo($wrapper);
     //TODO maybe wait for math-field appear in DOM
-    var editorMf = mathQuillifyEditor();
+    // DELETE var editorMf = mathQuillifyEditor(); 
+    mathQuillifyEditor();
     init_synchronize(params);
 
     $(function () {
       console.log('DOM is ready');
       //code that needs to be executed when DOM is ready, after manipulation, goes here
+      var kbDiv = H5Pbridge.createkeyboardDiv(true);
       var keyboardparent = H5P.jQuery('p.formula_applet').parent();
-      // disabled means read-only
-      keyboardparent.append('<br><br><textarea id="html_output" rows="3" cols="150" disabled>space for virtual keyboard</textarea>');
+      // keyboardparent.append('<br><br><textarea id="html_output" rows="3" cols="150" disabled>space for virtual keyboard</textarea>');
+      keyboardparent.append(kbDiv);
+      H5Pbridge.virtualKeyboardBindEvents();
+      H5Pbridge.keyboardActivate('mixed');
       afterAppend(self);
     });
   };

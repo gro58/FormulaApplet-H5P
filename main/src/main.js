@@ -25,8 +25,11 @@ import {
     H5P_to_MathQuill,
     MathQuill_to_H5P
 } from "./js/replacements.js";
-import initVirtualKeyboard, {
-    showVirtualKeyboard
+import initVirtualKeyboardnoEditor, {
+    showVirtualKeyboard,
+    createkeyboardDiv,
+    virtualKeyboardBindEvents,
+    keyboardActivate
 } from "./js/virtualKeyboard.js";
 // import mathQuillEditHandler from "./js/editHandler.js";
 import {
@@ -54,9 +57,11 @@ export {
     H5P_to_MathQuill,
     MathQuill_to_H5P,
     docLang,
-    initVirtualKeyboard,
+    initVirtualKeyboardnoEditor,
     showVirtualKeyboard,
-    // mathQuillEditHandler,
+    createkeyboardDiv,
+    virtualKeyboardBindEvents,
+    keyboardActivate,
     checkIfEqual,
     checkIfEquality,
     setOkWrongTag,

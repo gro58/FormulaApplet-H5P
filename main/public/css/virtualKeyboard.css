@@ -3,8 +3,10 @@ div#virtualKeyboard.h5p {
 }
 
 div#virtualKeyboard.h5pEditor {
-	position: absolute;
-
+	/* position: absolute; */
+	transform: none;
+	width:auto;
+	cursor: pointer;
 }
 
 div#virtualKeyboard {
@@ -62,6 +64,10 @@ div#virtualKeyboard {
 	border: 0px;
 	min-width: 10px;
 	cursor: move;
+}
+
+div#virtualKeyboard.h5pEditor .virtualKeyboardButton.smallgap{
+	cursor: pointer;
 }
 
 .virtualKeyboard-shift {
@@ -133,6 +139,10 @@ div#output tbody {
 	padding-right: 20px;
 } */
 
+div#virtualKeyboard.h5pEditor#virtualKeyboard_header{
+	cursor: pointer;
+}
+
 #virtualKeyboard_header {
 	height: 20px;
 	background-color: darkolivegreen;
@@ -170,6 +180,10 @@ div#output tbody {
 	color: rgb(255, 111, 0);
 	/* font-size: 120%; */
 }
+
+/* div#virtualKeyboard.h5pEditor button#button-table_off {
+	display: none;
+} */
 
 button#button-table_off {
 	float: right;

@@ -14,7 +14,7 @@ H5P.FormulaApplet = (function ($) {
     if (counter === 0) {
       // things to be done once
       console.log('formulaapplet.js 0.13.' + H5Pbridge.config.patchversion);
-      H5Pbridge.initVirtualKeyboard(false); //isEditor=false
+      H5Pbridge.initVirtualKeyboardnoEditor();
     }
     counter++;
 
