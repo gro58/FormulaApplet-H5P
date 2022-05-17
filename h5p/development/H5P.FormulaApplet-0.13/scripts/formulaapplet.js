@@ -54,7 +54,6 @@ H5P.FormulaApplet = (function ($) {
       var temp = H5Pbridge.H5P_to_MathQuill(expression, solution, language, isEditor);
       domElem.innerHTML = temp;
 
-      //TODO retrieve H5P parameters - see preparePage.js
       var mqEditableField;
       try {
         mqEditableField = MQ.StaticMath(domElem);
@@ -83,20 +82,11 @@ H5P.FormulaApplet = (function ($) {
               }
             } else {
               // element has no ResultField (static formula)
-              console.log(_evnt.currentTarget.id + ' has no ResultField');
-              //TODO handle case "no ResultField"
-              // try {
-              //   var mfContainer = MQ.StaticMath(fApp.formulaApplet);
-              //   var mfLatexForParser = mfContainer.latex();
-              //   var myTree = new FaTree();
-              //   myTree.leaf.content = mfLatexForParser;
-              // } catch (error) {
-              //   console.log('ERROR ' + error);
-              // }
+              console.log(ev.currentTarget.id + ' has no ResultField');
             }
           }
         } catch (error) {
-          //TODO ERROR ReferenceError: _evnt is not defined (maybe if hasSolution = false) 
+          //TODO ERROR ReferenceError: ev is not defined (maybe if hasSolution = false) 
           console.log('ERROR ' + error);
         }
       }
@@ -142,21 +132,10 @@ H5P.FormulaApplet = (function ($) {
       //TODO no need for argument "options" because defined in surrounding function
       function mathQuillEditHandler(options) {
         if (H5Pbridge.isEditHandlerActive()) {
-          // var mf = fApp.mathField;
-          // var mfContainer = MQ.StaticMath(fApp.formulaApplet);
-          // var solution = fApp.solution;
           var data_b64 = options.data_b64;
-          // var hasSolution = fApp.hasSolution;
-          // var unitAuto = fApp.unitAuto;
           var unitAuto = options.formulaAppletPhysics;
-          // var precision = fApp.precision;
           var precision = options.sanitizedPrecision;
-          // var dsList = fApp.definitionsetList;
-          // dsList replaced by definitionSets
           var definitionSets = options.definitionSets;
-
-          // var sel = getSelection(mf, true);
-          // console.log('>> ' + sel.preSelected + '|' + sel.postSelected);
 
           if (unitAuto) {
             // has to be done before checkIfEqual
@@ -167,7 +146,7 @@ H5P.FormulaApplet = (function ($) {
           if (hasSolution) {
             isEqual = H5Pbridge.checkIfEqual(mf.latex(), data_b64, definitionSets, precision);
           } else {
-            // look at whole equation, input field and surroundings
+            // look at whole equation: input field and surroundings
             var mfContainer = MQ.StaticMath(domElem);
             isEqual = H5Pbridge.checkIfEquality(mfContainer.latex(), definitionSets, precision);
             console.log(mfContainer.latex() + ' isEqual= ' + isEqual);

@@ -42,8 +42,8 @@
   {
     "name": "definitionSets",
     "type": "text",
-    "label": "List of Definition Sets",
-    "description": "List of conditions to be fulfilled if expression is checked<br>Example: still missing //TODO",
+    "label": "Conditions",
+    "description": "Definition set: List of conditions to be fulfilled if expression is checked<br>Example: x >= 0 & x^2 < y",
     "default": "x > 0"
   },
   {
@@ -54,11 +54,11 @@
     "default": "0.000001"
   },
   {
-    "label": "Solution (encoded)",
     "name": "data_b64",
+    "label": "Solution (encoded)",
     "type": "text",
     "default": "L7Lwb",
-    "description": "Solution (TEX), encoded"
+    "description": "Solution (TEX), b64-encoded"
   },
   {
     "label": "Formula Applet Id",

@@ -17,7 +17,7 @@ var unitText = '<span style="font-size: 70%; color:green">Set/Unset Unit</span>'
 var inputText = '<span style="font-size: 80%; color:green">Set input</span>';
 
 if (docLang() == 'de') {
-    //TODO use language/*.json
+    //TODO use language/*.json H5P.t(...)
     unitText = '<span style="font-size: 70%; color:green">Einheit setzen/löschen</span>';
     inputText = '<span style="font-size: 80%; color:green">Eingabefeld setzen</span>';
 }
@@ -704,24 +704,12 @@ export function showVirtualKeyboard() {
 // }
 
 function processVirtualKeyboardCommand(cmd) {
-    //TODO ENTER: deal with case cmd=enter
 
 
     if (cmd === '#Enter') {
+        //TODO ENTER: deal with case cmd=enter
         console.log('vkbd: button "enter"');
     }
-
-    // snippet from preparepage.js:
-    // if (cmd === '#Enter') {
-    //     // mathQuillEditHandler cannot be outsourced to virtualKeyboard (circular dependency)
-    //     fApp = FAList[_evnt.currentTarget.id];
-    //     //TODO see, if special syntax necessary? 
-    //     //TODO mathQuillEditHandler(fApp, MQ, 'enter'); 
-    //     mathQuillEditHandler(fApp, MQ);
-    //   } else {
-
-
-
 
     // get selected mathField from DOM 
     // instead of get many from H5P.FormulaApplet (formulaapplet.js )

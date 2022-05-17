@@ -49,6 +49,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     // console.log(params);
     // compose an HTML tag to be used by MathQuill using params and H5Pbridge
     if (typeof params.id === 'undefined' || params.id === 'new_id') {
+      //TODO if params.id already exists (duplicate import), create new one!
       params.id = randomId(14);
     }
 
@@ -214,14 +215,14 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       spaceBehavesLikeTab: true, // configurable
       handlers: {
         edit: function (mathField) { // useful event handlers
-          // try {
+          try {
           if (H5Pbridge.isEditHandlerActive()) {
             //TODO do nothing if ???
             refreshFields(mathField.latex());
           }
-          // } catch (error) {
-          //   console.error('ERROR in MQ.MathField: ' + error);
-          // }
+          } catch (error) {
+            console.error('ERROR in MQ.MathField: ' + error);
+          }
         }
       }
     });
@@ -235,32 +236,26 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
 
   async function init_synchronize() {
     await H5Pbridge.domLoad;
-    var $texinput = $('div.field.field-name-TEX_expression.text input');
+    var $tex_expression = $('div.field.field-name-TEX_expression.text input');
     // https://stackoverflow.com/questions/7060750/detect-the-enter-key-in-a-text-input-field#7060762
-    $texinput.on('keyup', function (event) {
+    $tex_expression.on('keyup', function (event) {
       if (event.key === 'Enter' || event.keyCode === 13) {
-        console.log(event.target);
+        // console.log(event.target);
+        //process enter event
         refreshEditor(editorMf, event.target.value);
-        //TODO process enter event
       }
     });
-    // console.log(texinput);
-    $texinput[0].addEventListener('input', function (event) {
+    // console.log(tex_expression);
+    $tex_expression[0].addEventListener('input', function (event) {
       console.log(event);
       // DOM -> field - done by H5P
-      // not necessary: setValue(obj, 'TEX_expression', event.target.value);
 
       // distinguish between events caused by keyboard input or by editorMf
       if (event.isTrusted) {
         var msg = ' (keyboard input)';
         event.preventDefault();
-        //TODO TEX_expression -> editorMf
-        //TODO editorAction('TEX_changed', event.target.value);
       } else {
         var msg = ' (editorMf) - do nothing';
-        // maybe necessary: setValue(obj, 'TEX_expression', event.target.value);
-        //TODO maybe can be replaced by 
-        // obj.parent.params['TEX_expression'] = event.target.value;
       }
       console.log('TEX_expression changed: ' + event.target.value + msg);
     });
@@ -269,6 +264,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
   return FormulaAppletEditor;
 })(H5P.jQuery);
 
+//DELETE obsolete code
 // async function afterAppend(obj) {
 //   console.log('afterAppend');
 //   FAE_global = obj;
@@ -350,35 +346,31 @@ function randomId(length) {
   return result;
 }
 
+//#########################################################################################
+//#########################################################################################
+//DELETE *** unused legacy code follows ***
 
-//#########################################################################################
-//#########################################################################################
-//#########################################################################################
-//#########################################################################################
-//#########################################################################################
-// *** unused legacy code follows ***
+// async function prepareEditorApplet(fApp) {
+//   console.log('prepareEditorApplet');
+//   await H5Pbridge.domLoad;
+//   var editorMf = mathQuillifyEditor(fApp);
+//   // editorMf provides commands like editorMf.latex('\\sqrt{2}') and var latextext = editorMf.latex();
+//   fApp.mathField = editorMf;
+//   console.log('editorMf.latex=' + editorMf.latex());
+//   refreshResultField(editorMf.latex(), fApp);
+//   //TODO code replacement for refreshLatexEvent. Get rid of unused event types
+//   // $.event.trigger("refreshLatexEvent"); //adjust \cdot versus \times
 
-async function prepareEditorApplet(fApp) {
-  console.log('prepareEditorApplet');
-  await H5Pbridge.domLoad;
-  var editorMf = mathQuillifyEditor(fApp);
-  // editorMf provides commands like editorMf.latex('\\sqrt{2}') and var latextext = editorMf.latex();
-  fApp.mathField = editorMf;
-  console.log('editorMf.latex=' + editorMf.latex());
-  refreshResultField(editorMf.latex(), fApp);
-  //TODO code replacement for refreshLatexEvent. Get rid of unused event types
-  // $.event.trigger("refreshLatexEvent"); //adjust \cdot versus \times
+//   // get config.debug value from js/config.json.ori, show or hide 4 fields
+//   var css_display_value = (H5Pbridge.config.debug === 'true' ? '' : 'none');
+//   H5P.jQuery('.field-name-data_b64').css('display', css_display_value);
+//   H5P.jQuery('.field-name-id').css('display', css_display_value);
+//   H5P.jQuery('.field-name-selected_language').css('display', css_display_value);
 
-  // get config.debug value from js/config.json.ori, show or hide 4 fields
-  var css_display_value = (H5Pbridge.config.debug === 'true' ? '' : 'none');
-  H5P.jQuery('.field-name-data_b64').css('display', css_display_value);
-  H5P.jQuery('.field-name-id').css('display', css_display_value);
-  H5P.jQuery('.field-name-selected_language').css('display', css_display_value);
-
-  if (H5Pbridge.config.htmloutput === 'true') {
-    H5P.jQuery('#html_output').css('display', '');
-  } else {
-    H5P.jQuery('#html_output').css('display', 'none');
-  }
-  return fApp;
-} // end of prepareEditorApplet
+//   if (H5Pbridge.config.htmloutput === 'true') {
+//     H5P.jQuery('#html_output').css('display', '');
+//   } else {
+//     H5P.jQuery('#html_output').css('display', 'none');
+//   }
+//   return fApp;
+// } // end of prepareEditorApplet
