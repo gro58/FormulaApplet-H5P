@@ -64,12 +64,16 @@ export function H5P_to_MathQuill(expression, solution, language, isEditor) {
         result = result.replaceAll(config.multiplicationDot, config.multiplicationCross);
         result = result.replace(/\,/g, '.');
     }
+    if (language === 'de') {
+        result = result.replaceAll(config.multiplicationCross, config.multiplicationDot);
+        result = result.replace(/\./g, ',');
+    }
     return result;
 }
 
 export function MathQuill_to_H5P(latex) {
-    latex = latex.replaceAll(config.multiplicationCross, config.multiplicationDot);
-    latex = latex.replace(/\./g, ',');
+    latex = latex.replaceAll(config.multiplicationDot, config.multiplicationCross);
+    latex = latex.replace(/\,/g, '.');
     latex = latex.replaceAll("\\Omega", "\\Ohm");
     latex = latex.replaceAll(H5Pbridge.config.unit_replacement, '\\unit{');
     // from refreshResultField:

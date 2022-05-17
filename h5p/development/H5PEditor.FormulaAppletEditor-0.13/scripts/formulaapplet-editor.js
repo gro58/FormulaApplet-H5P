@@ -8,8 +8,8 @@
 
 var H5P = H5P || {};
 console.log('Here is stub of formulaapplet-editor.js 0.13.' + H5Pbridge.config.patchversion);
-//TODO get rid of var obj_global
-var obj_global = {};
+//TODO get rid of var FAE_global
+var FAE_global = {};
 
 H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (function ($) {
 
@@ -128,8 +128,16 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       H5Pbridge.virtualKeyboardBindEvents();
       H5Pbridge.keyboardActivate('mixed');
       (async function () {
-        obj_global = self;
+        FAE_global = self;
+        console.log(FAE_global);
+        console.log(H5PEditor.FormulaApplet);
       })();
+      // get config.debug value from js/config.json.ori, show or hide 4 fields
+      var css_display_value = (H5Pbridge.config.debug === 'true' ? '' : 'none');
+      H5P.jQuery('.field-name-data_b64').css('display', css_display_value);
+      H5P.jQuery('.field-name-id').css('display', css_display_value);
+      H5P.jQuery('.field-name-selected_language').css('display', css_display_value);
+
       // afterAppend(self);
     });
   };
@@ -159,6 +167,8 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     // DELETE parts concerning spectrum
     // this.$colorPicker.spectrum('hide');
   };
+
+  // START - parts from ColorPicker example
   /**
    * Save the color
    *
@@ -188,6 +198,9 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
   };
 
   FormulaAppletEditor.prototype.remove = function () {};
+
+  // END - parts from ColorPicker example 
+
 
   function mathQuillifyEditor() {
     // make whole mathFieldSpan editable
@@ -259,22 +272,22 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
 
 // async function afterAppend(obj) {
 //   console.log('afterAppend');
-//   obj_global = obj;
-//   // console.log(obj_global);
+//   FAE_global = obj;
+//   // console.log(FAE_global);
 // }
 
 function refreshFields(latex) {
   // console.log(latex + ' -> expression, data_b64');
   var temp = H5Pbridge.MathQuill_to_H5P(latex);
   // console.log(temp.expression);
-  setValue(obj_global, 'TEX_expression', temp.expression);
+  setValue(FAE_global, 'TEX_expression', temp.expression);
   // console.log(temp.data_b64);
-  setValue(obj_global, 'data_b64', temp.data_b64);
+  setValue(FAE_global, 'data_b64', temp.data_b64);
 }
 
 function refreshEditor(editorMf, latex) {
   var language = H5Pbridge.docLang();
-  var data_b64 = getValue(obj_global, 'data_b64');
+  var data_b64 = getValue(FAE_global, 'data_b64');
   var solution = H5Pbridge.decode(data_b64);
   console.log(latex, solution, language);
   var temp = H5Pbridge.H5P_to_MathQuill(latex, solution, language, true);
