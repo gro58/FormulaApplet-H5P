@@ -48,9 +48,8 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     var params = self.parent.params;
     // console.log(params);
     // compose an HTML tag to be used by MathQuill using params and H5Pbridge
-    if (typeof params.id === 'undefined') {
-      //TODO get random id
-      params.id = 'new_id';
+    if (typeof params.id === 'undefined' || params.id === 'new_id') {
+      params.id = randomId(14);
     }
 
     // start of composing HTML
@@ -129,8 +128,8 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       H5Pbridge.keyboardActivate('mixed');
       (async function () {
         FAE_global = self;
-        console.log(FAE_global);
-        console.log(H5PEditor.FormulaApplet);
+        // console.log(FAE_global);
+        // console.log(H5PEditor.FormulaAppletEditor);
       })();
       // get config.debug value from js/config.json.ori, show or hide 4 fields
       var css_display_value = (H5Pbridge.config.debug === 'true' ? '' : 'none');
@@ -280,14 +279,14 @@ function refreshFields(latex) {
   // console.log(latex + ' -> expression, data_b64');
   var temp = H5Pbridge.MathQuill_to_H5P(latex);
   // console.log(temp.expression);
-  setValue(FAE_global, 'TEX_expression', temp.expression);
+  setValue_workaround('TEX_expression', temp.expression);
   // console.log(temp.data_b64);
-  setValue(FAE_global, 'data_b64', temp.data_b64);
+  setValue_workaround('data_b64', temp.data_b64);
 }
 
 function refreshEditor(editorMf, latex) {
   var language = H5Pbridge.docLang();
-  var data_b64 = getValue(FAE_global, 'data_b64');
+  var data_b64 = getValue_workaround('data_b64');
   var solution = H5Pbridge.decode(data_b64);
   console.log(latex, solution, language);
   var temp = H5Pbridge.H5P_to_MathQuill(latex, solution, language, true);
@@ -303,22 +302,16 @@ function refreshEditor(editorMf, latex) {
   }
 }
 
-// getField is used by getValue
-function getField(obj, name) {
-  var children = obj.parent.children;
-  var result;
+function getValue_workaround(name) {
+  var children = FAE_global.parent.children;
+  var field;
   for (var i = 0; i < children.length; i++) {
     var child = children[i];
     if (child.field.name == name) {
-      result = child;
+      field = child;
       i = children.length; //short circuit
     }
   }
-  return result;
-}
-
-function getValue(obj, name) {
-  var field = getField(obj, name);
   if (field.field.type === 'text') {
     return field.$input[0].value;
   } else {
@@ -326,12 +319,12 @@ function getValue(obj, name) {
   }
 }
 
-// setValue() sucks if field "name" has a widget attached
-function setValue(obj, name, value) {
+// setValue_workaround() sucks if field "name" has a widget attached
+function setValue_workaround(name, value) {
   // H5P
-  obj.parent.params[name] = value;
+  FAE_global.parent.params[name] = value;
   // synchronize DOM
-  var targetField = H5PEditor.findField(name, obj.parent);
+  var targetField = H5PEditor.findField(name, FAE_global.parent);
   var type = targetField.field.type;
   if (type === 'select') {
     var $targetField = targetField.$select;
@@ -346,6 +339,17 @@ function setValue(obj, name, value) {
     $targetField[0].checked = value;
   };
 }
+
+function randomId(length) {
+  var result = 'fa-';
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+  var numOfChars = characters.length;
+  for (var i = 3; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * numOfChars));
+  }
+  return result;
+}
+
 
 //#########################################################################################
 //#########################################################################################
