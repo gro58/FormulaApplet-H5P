@@ -1,10 +1,10 @@
 "use strict";
 // 
 
-import preparePage, {
-    mathQuillify,
-    editor_fApp
-} from "./js/preparePage.js";
+// import preparePage, {
+//     mathQuillify,
+//     editor_fApp
+// } from "./js/preparePage.js";
 import decode, {
     encode
 } from "./js/decode.js";
@@ -19,7 +19,7 @@ import {
     docLang
 } from "./js/dom.js";
 import MQ from "./js/lib/mathquillWrapper.js";
-import isEditHandlerActive from "./js/switchEditHandler.js";
+import EditActive from "./js/switchEditHandler.js";
 import createWaiter from "./js/waiterFactory.js";
 import {
     H5P_to_MathQuill,
@@ -43,16 +43,16 @@ import makeAutoUnitstring from "./js/autoUnit.js";
 export {
     decode,
     encode,
-    mathQuillify,
-    preparePage,
-    editor_fApp,
+    // mathQuillify,
+    // preparePage,
+    // editor_fApp,
     config,
     setInput,
     separateInputfield,
     isH5P,
     domLoad,
     MQ,
-    isEditHandlerActive,
+    EditActive,
     createWaiter,
     H5P_to_MathQuill,
     MathQuill_to_H5P,
