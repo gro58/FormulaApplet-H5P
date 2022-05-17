@@ -223,9 +223,18 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
 
   async function init_synchronize() {
     await H5Pbridge.domLoad;
-    var texinput = $('div.field.field-name-TEX_expression.text input')[0];
+    var $texinput = $('div.field.field-name-TEX_expression.text input');
+    // https://stackoverflow.com/questions/7060750/detect-the-enter-key-in-a-text-input-field#7060762
+    $texinput.on('keyup', function (event) {
+      if (event.key === 'Enter' || event.keyCode === 13) {
+        console.log(event.target);
+        refreshEditor(event.target.value);
+        //TODO process enter event
+      }
+    });
     // console.log(texinput);
-    texinput.addEventListener('input', function (event) {
+    $texinput[0].addEventListener('input', function (event) {
+      console.log(event);
       // DOM -> field - done by H5P
       // not necessary: setValue(obj, 'TEX_expression', event.target.value);
 
@@ -261,6 +270,10 @@ function refreshFields(latex) {
   setValue(obj_global, 'TEX_expression', temp.expression);
   // console.log(temp.data_b64);
   setValue(obj_global, 'data_b64', temp.data_b64);
+}
+
+function refreshEditor(latex){
+  console.log(latex);
 }
 
 // getField is used by getValue

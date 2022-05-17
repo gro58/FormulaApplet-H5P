@@ -6,25 +6,31 @@ import config from "./config.json";
 import {
     setUnit,
     eraseUnit,
+    setInput
 } from "./inputfield_unit.js";
 import {
     docLang
 } from "./dom.js";
 import MQ from "./lib/mathquillWrapper.js";
 
+var unitText = '<span style="font-size: 70%; color:green">Set/Unset Unit</span>';
+var inputText = '<span style="font-size: 80%; color:green">Set input</span>';
+
+if (docLang() == 'de') {
+    //TODO use language/*.json
+    unitText = '<span style="font-size: 70%; color:green">Einheit setzen/löschen</span>';
+    inputText = '<span style="font-size: 80%; color:green">Eingabefeld setzen</span>';
+}
 
 const squareroot = '<span style="white-space: nowrap; font-size:larger">&radic;<span style="text-decoration:overline;">&nbsp;&#x2b1a;&nbsp;</span></span>';
 const nthRoot = '<sup style="position: relative; top: -0.5em; right: -0.5em;">\u2b1a</sup>' + squareroot;
 const left = ['left', '<span style="font-size: 130%">\u25c5</span>', '#Left'];
 const right = ['right', '<span style="font-size: 130%">\u25bb</span>', '#Right'];
+const setunitkey = ['setunsetUnit', unitText, '#setUnit'];
 const enter = ['enter', '<span style="font-size: 150%; color:green">\u23ce</span>', '#Enter'];
+const setinput = ['setinput', inputText, '#setInput'];
 const backspace = ['backspace', '\u232B', '#Backspace'];
 const poweroften = ['power_of_ten', '10<sup style="font-size: 85%">\u2b1a</sup>', '10^'];
-var unitText = 'Set/Unset Unit';
-if (docLang() == 'de') {
-    unitText = 'Einheit setzen/löschen';
-}
-const setunitkey = ['setunsetUnit', unitText, '#setUnit'];
 
 var keys = [];
 keys['mixed'] = [
@@ -422,13 +428,13 @@ function getVirtualKeyboard(isEditor) {
     result.append(tabs);
 
     for (let tabId of ["abc", "abc_caps", "mixed", "function", "greek", "greek_caps"]) {
-        result.append(createTable(tabId));
+        result.append(createTable(tabId, isEditor));
     }
 
     return result;
 }
 
-function createTable(tableId) {
+function createTable(tableId, isEditor) {
     let result = document.createElement("table");
     result.id = "table_" + tableId;
     let tbody = document.createElement("tbody");
@@ -440,6 +446,9 @@ function createTable(tableId) {
         tbody.append(tr);
         for (var keyindex = 0; keyindex < keylist.length; keyindex++) {
             var key = keylist[keyindex];
+            if (isEditor && key[0] === 'enter') {
+                key = setinput;
+            }
             if (typeof key[1] == 'undefined') {
                 key[1] = key[0];
             }
@@ -735,7 +744,10 @@ function processVirtualKeyboardCommand(cmd) {
             // remove # from start of cmd
             cmd = cmd.substring(1);
             // 'Enter' is done in preparePage.js
-            if (cmd === 'setUnit') {
+            if (cmd === 'setInput') {
+                console.log('setInput-Event');
+                setInput(mf);
+            } else if (cmd === 'setUnit') {
                 setUnit(mf);
             } else if (cmd === 'eraseUnit') {
                 eraseUnit(mf);
