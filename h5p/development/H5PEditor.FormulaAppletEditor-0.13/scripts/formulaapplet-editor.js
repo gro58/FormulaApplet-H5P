@@ -345,32 +345,3 @@ function randomId(length) {
   }
   return result;
 }
-
-//#########################################################################################
-//#########################################################################################
-//DELETE *** unused legacy code follows ***
-
-// async function prepareEditorApplet(fApp) {
-//   console.log('prepareEditorApplet');
-//   await H5Pbridge.domLoad;
-//   var editorMf = mathQuillifyEditor(fApp);
-//   // editorMf provides commands like editorMf.latex('\\sqrt{2}') and var latextext = editorMf.latex();
-//   fApp.mathField = editorMf;
-//   console.log('editorMf.latex=' + editorMf.latex());
-//   refreshResultField(editorMf.latex(), fApp);
-//   //TODO code replacement for refreshLatexEvent. Get rid of unused event types
-//   // $.event.trigger("refreshLatexEvent"); //adjust \cdot versus \times
-
-//   // get config.debug value from js/config.json.ori, show or hide 4 fields
-//   var css_display_value = (H5Pbridge.config.debug === 'true' ? '' : 'none');
-//   H5P.jQuery('.field-name-data_b64').css('display', css_display_value);
-//   H5P.jQuery('.field-name-id').css('display', css_display_value);
-//   H5P.jQuery('.field-name-selected_language').css('display', css_display_value);
-
-//   if (H5Pbridge.config.htmloutput === 'true') {
-//     H5P.jQuery('#html_output').css('display', '');
-//   } else {
-//     H5P.jQuery('#html_output').css('display', 'none');
-//   }
-//   return fApp;
-// } // end of prepareEditorApplet
