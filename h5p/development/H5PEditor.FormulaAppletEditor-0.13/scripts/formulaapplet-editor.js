@@ -25,6 +25,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
 
   // available H5Pbridge methods
   // console.log(H5Pbridge);
+  var editorMf = {};
 
   function FormulaAppletEditor(parent, field, params, setValue) {
     this.parent = parent;
@@ -114,8 +115,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
 
     self.$item.appendTo($wrapper);
     //TODO maybe wait for math-field appear in DOM
-    // DELETE var editorMf = mathQuillifyEditor(); 
-    mathQuillifyEditor();
+    editorMf = mathQuillifyEditor();
     init_synchronize(params);
 
     $(function () {
@@ -228,7 +228,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     $texinput.on('keyup', function (event) {
       if (event.key === 'Enter' || event.keyCode === 13) {
         console.log(event.target);
-        refreshEditor(event.target.value);
+        refreshEditor(editorMf, event.target.value);
         //TODO process enter event
       }
     });
@@ -272,8 +272,22 @@ function refreshFields(latex) {
   setValue(obj_global, 'data_b64', temp.data_b64);
 }
 
-function refreshEditor(latex){
-  console.log(latex);
+function refreshEditor(editorMf, latex) {
+  var language = H5Pbridge.docLang();
+  var data_b64 = getValue(obj_global, 'data_b64');
+  var solution = H5Pbridge.decode(data_b64);
+  console.log(latex, solution, language);
+  var temp = H5Pbridge.H5P_to_MathQuill(latex, solution, language, true);
+  // H5P_to_MathQuill includes no_XSS
+  console.log(editorMf);
+  console.log('refresh MathQuill with ' + temp);
+  var fallback = editorMf.latex();
+  editorMf.latex(temp);
+  //check if empty
+  if (editorMf.latex() === '') {
+    //no success
+    editorMf.latex(fallback);
+  }
 }
 
 // getField is used by getValue
