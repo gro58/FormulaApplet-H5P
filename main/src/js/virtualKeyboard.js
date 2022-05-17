@@ -746,7 +746,10 @@ function processVirtualKeyboardCommand(cmd) {
             // 'Enter' is done in preparePage.js
             if (cmd === 'setInput') {
                 console.log('setInput-Event');
-                setInput(mf);
+                var temp = setInput(mf);
+                // restore mf - not necessary any more
+                // mf.latex(temp.old);
+                mf.latex(temp.new);
             } else if (cmd === 'setUnit') {
                 setUnit(mf);
             } else if (cmd === 'eraseUnit') {
