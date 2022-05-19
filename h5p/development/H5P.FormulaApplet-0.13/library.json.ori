@@ -1,8 +1,8 @@
 {
-  "title": "Formula Applet 0.13",
+  "title": "Formula Applet __MAJORVERSION__.__MINORVERSION__",
   "description": "Displays a Formula Applet",
-  "majorVersion": 0,
-  "minorVersion": 13,
+  "majorVersion": __MAJORVERSION__,
+  "minorVersion": __MINORVERSION__,
   "patchVersion": __PATCHVERSION__,
   "runnable": 1,
   "author": "Rudolf Grossmann",
@@ -14,9 +14,6 @@
     "path": "scripts/bundle.js"
   }],
   "preloadedCss": [{
-      "path": "styles/formulaapplet.css"
-    },
-    {
       "path": "styles/gf09.css"
     },
     {
@@ -31,12 +28,7 @@
   ],
   "editorDependencies": [{
       "machineName": "H5PEditor.FormulaAppletEditor",
-      "majorVersion": 0,
-      "minorVersion": 13
-    },
-    {
-      "machineName": "H5P.JoubelUI",
-      "majorVersion": 1,
-      "minorVersion": 3    }
+      "majorVersion": __MAJORVERSION__,
+	  "minorVersion": __MINORVERSION__    }
   ]
 }

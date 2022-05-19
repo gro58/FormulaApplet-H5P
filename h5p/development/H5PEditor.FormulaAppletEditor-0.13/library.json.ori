@@ -1,7 +1,7 @@
 {
-  "title": "H5PEditor.FormulaAppletEditor 0.13",
-  "majorVersion": 0,
-  "minorVersion": 13,
+  "title": "FormulaApplet Editor__MAJORVERSION__.__MINORVERSION__",
+  "majorVersion": __MAJORVERSION__,
+  "minorVersion": __MINORVERSION__,
   "patchVersion": __PATCHVERSION__,
   "runnable": 0,
   "machineName": "H5PEditor.FormulaAppletEditor",
@@ -17,9 +17,6 @@
   "preloadedCss": [
     {
       "path": "styles/gf09.css"
-    },
-    {
-      "path": "styles/formulaapplet.css"
     },
     {
       "path": "styles/table.css"

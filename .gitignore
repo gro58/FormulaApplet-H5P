@@ -9,14 +9,11 @@ js/lib/ToDo.pdf
 node_modules/
 Doxyfile
 doc(doxygen)
-version*.txt
+version.txt
 /md/Paul.md
 make-zip/
 html_version/
 h5p/development/H5P.JoubelUI-1.3/
-main/src/js/config.json
-h5p/development/H5P.FormulaApplet-2.10/library.json
-h5p/development/H5PEditor.FormulaAppletEditor-0.11/library.json
 rollup_bak
 h5p.org_comment_45324
 circular_dependencies.txt
@@ -30,3 +27,4 @@ h5p/Dockerfile.bak
 h5p/docker-compose.yml.no_success
 h5p/Dockerfile.error500
 h5p/Dockerfile.sucks
+main/patchmore.sh.bak
