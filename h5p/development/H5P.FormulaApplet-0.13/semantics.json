@@ -26,11 +26,11 @@
     "widget": "formulaAppletEditor"
   },
   {
-    "label": "Expression (LATEX)",
     "name": "TEX_expression",
     "type": "text",
-    "default": "7 +\\class{inputfield}{x} = 11",
-    "description": "Use this field only if you are familiar with LATEX"
+    "label": "Expression (LATEX)",
+    "description": "Use this field if you are familiar with LATEX",
+    "default": "7 +{{result}} = 11"
   },
   {
     "name": "formulaAppletPhysics",
@@ -55,16 +55,16 @@
   },
   {
     "name": "data_b64",
-    "label": "Solution (encoded)",
     "type": "text",
-    "default": "L7Lwb",
-    "description": "Solution (TEX), b64-encoded"
+    "label": "Solution (encoded)",
+    "description": "Solution (TEX), b64-encoded",
+    "default": "L7Lwb"
   },
   {
-    "label": "Formula Applet Id",
     "name": "id",
     "type": "text",
-    "default": "new_id",
-    "description": "Id of the Formula Applet - has to be unique"
+    "label": "Formula Applet Id",
+    "description": "Id of the Formula Applet - has to be unique",
+    "default": "new_id"
   }
 ]

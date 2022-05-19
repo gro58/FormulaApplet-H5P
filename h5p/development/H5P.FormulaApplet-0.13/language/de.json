@@ -14,12 +14,10 @@
     },
     {
       "label": "Formel-Applet-Editor",
-      "description": " ",
-      "default": "default"
+      "description": " "
     },
     {
       "label": "Ausdruck (LATEX)",
-      "default": "7 +\\class{inputfield}{x} = 11",
       "description": "Benutze dieses Eingabe-Feld, wenn du vertraut mit LATEX bist"
     },
     {
@@ -27,14 +25,24 @@
       "description": "Haken, wen das Ergebnis eine <b>physikalische Größe</b> (Maßzahl und Einheit) ist. <br>Kein Haken, falls das Ergebnis ein <b>mathematischer Ausdruck</b> ist."
     },
     {
+      "label": "Bedingungen",
+      "description": "Definitionsmenge: Liste von Bedingungen, die erfüllt werden müssen, wenn der Ausdruckl überprüft wird<br>Beispiel: x >= 0 & x^2 < y",
+      "default": "x > 0"
+    },
+    {
+      "label": "Geanuigkeit",
+      "description": "Geforderte Genauigkeit der Antwort, z.B. 0,5% oder 0.5% oder 0.005",
+      "default": "0.000001"
+    },
+      {
       "label": "Lösung (codiert)",
-      "default": "default-solution",
+      "default": "L7Lwb",
       "description": "Ergebnis (LATEX, codiert)"
     },
     {
       "label": "Id des Formel-Applets",
       "default": "new_id",
-      "description": "eindeutige Id des Formel-Applets"
+      "description": "Eindeutige Id des Formel-Applets"
     }
   ]
 }
