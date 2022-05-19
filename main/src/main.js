@@ -19,7 +19,7 @@ import {
     docLang
 } from "./js/dom.js";
 import MQ from "./js/lib/mathquillWrapper.js";
-import EditActive from "./js/switchEditHandler.js";
+import isEditHandlerActive from "./js/switchEditHandler.js";
 import createWaiter from "./js/waiterFactory.js";
 import {
     H5P_to_MathQuill,
@@ -52,7 +52,7 @@ export {
     isH5P,
     domLoad,
     MQ,
-    EditActive,
+    isEditHandlerActive,
     createWaiter,
     H5P_to_MathQuill,
     MathQuill_to_H5P,

@@ -14,6 +14,8 @@ H5P.FormulaApplet = (function ($) {
     if (counter === 0) {
       // things to be done once
       console.log('formulaapplet.js 0.13.' + H5Pbridge.config.patchversion);
+      // mathQuillify legacy applets with syntax <p class="formula_applet solution">...</p>
+      mathQuillifyLegacyApplets();
       H5Pbridge.initVirtualKeyboardnoEditor();
     }
     counter++;
@@ -40,15 +42,23 @@ H5P.FormulaApplet = (function ($) {
       // console.log(domElem);
       var expression = domElem.innerHTML;
       console.log('Mathquillify ' + id + ': ' + expression);
+      // look for {{resultfield}}:
       var hasResultField = (expression.indexOf('{{result}}') >= 0);
+      // hasResultField will be used in clickEvent
+      // remember here, because expression will be changed soon by H5P_to_MathQuill
+      // DELETE - legacy(for WordPress) does not work
+      // if ($(domElem).hasClass('solution')) {
+      //   hasResultField = false;
+      // }
       if (hasResultField) {
         $(domElem).addClass('hasresultfield');
       }
-      var hasSolution = (typeof $(domElem).attr('data-b64') !== 'undefined');
+      var hasSolution = (options.formulaAppletMode === 'manu');
+      // var hasSolution2 = (typeof $(domElem).attr('data-b64') !== 'undefined');
+      // console.log('hasSolution=', hasSolution, ' hasSolution2=', hasSolution2);
 
-      // hasResultField will be used in clickEvent
-      // remember here, because expression is changed soon by H5P_to_MathQuill
       var language = H5Pbridge.docLang();
+      //start with empty user input
       var solution = '';
       var isEditor = false;
       var temp = H5Pbridge.H5P_to_MathQuill(expression, solution, language, isEditor);
@@ -160,7 +170,26 @@ H5P.FormulaApplet = (function ($) {
 
     };
     waitForDomElem.start();
+
+    async function mathQuillifyLegacyApplets() {
+      await H5Pbridge.domLoad;
+      var MQ = H5Pbridge.MQ;
+      console.log(MQ);
+      console.log('mathQuillifyLegacyApplets');
+      $('p.formula_applet.solution').each(function (index) {
+        var domElem = $(this)[0];
+        var expression = domElem.innerHTML;
+        var solution = '';
+        var language = H5Pbridge.docLang();
+        var isEditor = false;
+        var temp = H5Pbridge.H5P_to_MathQuill(expression, solution, language, isEditor);
+        domElem.innerHTML = temp;
+        console.log(index, temp);
+        MQ.StaticMath(domElem);
+      });
+    }
   }
+
 
 
   //TODO resize
