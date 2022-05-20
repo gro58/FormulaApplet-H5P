@@ -2,7 +2,7 @@
     "multiplicationCross": "\\times",
     "multiplicationDot": "\\cdot",
     "unit_replacement": "\\textcolor{blue}{",
-	"patchversion": "82",
+	"patchversion": "83",
     "debug": "true",
     "htmloutput": "true"
 }
