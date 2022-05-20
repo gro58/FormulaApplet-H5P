@@ -210,7 +210,7 @@ export function eraseUnit(mf) {
     var startOfUnitTags = posn.sofUnitTags;
     var endOfUnitTags = posn.eofUnitTags;
 
-    // delete unittag outside cursor (or left boundary of selection)
+    // delete unittag outside of cursor (or left boundary of selection)
     var cursorpos = sel.preSelected.length;
     var ori_array = ori.split('');
     for (var i = 0; i < startOfUnitTags.length; i++) {

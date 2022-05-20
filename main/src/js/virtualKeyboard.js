@@ -407,7 +407,9 @@ function getVirtualKeyboard(isEditor) {
         "function": "&nbsp;f(x)&nbsp;",
         "abc": "abc",
         "greek": "\u03b1\u03b2\u03b3",
-        "off": "&nbsp;\u2716"
+        // reversed order caused by 'float: right'
+        "off": "&nbsp;\u2716",
+        "info": 'Version ' + config.version + ' (' + docLang() + ')'
     };
     if (isEditor) {
         delete tabButtons.off;
@@ -419,9 +421,9 @@ function getVirtualKeyboard(isEditor) {
         button.onclick = evt => tabClick(evt, tabId);
         button.innerHTML = tabButtons[tabId];
         if (tabId == 'off') {
-            var patchversion = config.patchversion;
-            // console.log('patchversion=' + patchversion);
-            button.title = 'patch #=' + patchversion;
+            var version = config.version;
+             // title tag causes hovering tooltip
+            button.title = 'version=' + version;
         }
         tabs.append(button);
     }

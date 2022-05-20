@@ -3,6 +3,7 @@
     "multiplicationDot": "\\cdot",
     "unit_replacement": "\\textcolor{blue}{",
 	"patchversion": "__PATCHVERSION__",
+	"version": "__VERSION__",
     "debug": "true",
     "htmloutput": "true"
 }

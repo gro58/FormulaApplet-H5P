@@ -46,16 +46,10 @@ H5P.FormulaApplet = (function ($) {
       var hasResultField = (expression.indexOf('{{result}}') >= 0);
       // hasResultField will be used in clickEvent
       // remember here, because expression will be changed soon by H5P_to_MathQuill
-      // DELETE - legacy(for WordPress) does not work
-      // if ($(domElem).hasClass('solution')) {
-      //   hasResultField = false;
-      // }
       if (hasResultField) {
         $(domElem).addClass('hasresultfield');
       }
       var hasSolution = (options.formulaAppletMode === 'manu');
-      // var hasSolution2 = (typeof $(domElem).attr('data-b64') !== 'undefined');
-      // console.log('hasSolution=', hasSolution, ' hasSolution2=', hasSolution2);
 
       var language = H5Pbridge.docLang();
       //start with empty user input

@@ -264,13 +264,6 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
   return FormulaAppletEditor;
 })(H5P.jQuery);
 
-//DELETE obsolete code
-// async function afterAppend(obj) {
-//   console.log('afterAppend');
-//   FAE_global = obj;
-//   // console.log(FAE_global);
-// }
-
 function refreshFields(latex) {
   // console.log(latex + ' -> expression, data_b64');
   var temp = H5Pbridge.MathQuill_to_H5P(latex);
