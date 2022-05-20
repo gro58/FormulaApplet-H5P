@@ -28,3 +28,7 @@ h5p/docker-compose.yml.no_success
 h5p/Dockerfile.error500
 h5p/Dockerfile.sucks
 main/patchmore.sh.bak
+main/test_lineendings.txt.ori
+main/test_lineendings.txt
+
+main/how_to_delete_file_named_nul.txt
