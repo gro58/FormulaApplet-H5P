@@ -123,18 +123,18 @@ H5P.FormulaApplet = (function ($) {
           handlers: {
             edit: () => {
               mqEditableField.focus();
-              mathQuillEditHandler(options);
+              mathQuillEditHandler();
             },
             //TODO ENTER: is case enter necessary?
             enter: () => {
-              mathQuillEditHandler(options);
+              mathQuillEditHandler();
             },
           }
         });
       }
 
       //TODO no need for argument "options" because defined in surrounding function
-      function mathQuillEditHandler(options) {
+      function mathQuillEditHandler() {
         if (H5Pbridge.isEditHandlerActive()) {
           var data_b64 = options.data_b64;
           var unitAuto = options.formulaAppletPhysics;

@@ -13,12 +13,12 @@ import {
 } from "./dom.js";
 import MQ from "./lib/mathquillWrapper.js";
 
-var unitText = '<span style="font-size: 70%; color:green">Set/Unset Unit</span>';
+var unitText = '<span style="font-size: 70%; color:green">(Un)Set<br>Unit</span>';
 var inputText = '<span style="font-size: 80%; color:green">Set input</span>';
 
 if (docLang() == 'de') {
     //TODO use language/*.json H5P.t(...)
-    unitText = '<span style="font-size: 70%; color:green">Einheit setzen/löschen</span>';
+    unitText = '<span style="font-size: 70%; color:green">Einheit<br>setzen<br>löschen</span>';
     inputText = '<span style="font-size: 80%; color:green">Eingabefeld setzen</span>';
 }
 
