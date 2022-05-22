@@ -58,7 +58,8 @@ export function H5P_to_MathQuill(expression, solution, language, isEditor) {
     // replacements for both expression and solution
     result = result.replace(/\\unit{/g, config.unit_replacement);
     result = result.replace(/\\Ohm/g, '\\Omega');
-    //TODO µ -> \\?
+    //TODO \\mu -> µ
+    result = result.replace(/\\mu/g, 'µ'); //used in texParser.js
     result = result.replace(/\\mathrm/g, '');
     if (language === 'en') {
         result = result.replaceAll(config.multiplicationDot, config.multiplicationCross);

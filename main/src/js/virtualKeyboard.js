@@ -329,7 +329,7 @@ keys['greek'] = [
         ['omega', '&omega;'],
         ['beta', '&beta;'],
         ['ny', '&nu;', '\\nu '],
-        ['my', '&mu;', '\\mu '],
+        ['my', '&mu;', 'µ '],
         left,
         right,
         enter

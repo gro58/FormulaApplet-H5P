@@ -265,11 +265,9 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
 })(H5P.jQuery);
 
 function refreshFields(latex) {
-  // console.log(latex + ' -> expression, data_b64');
+  // latex -> expression, data_b64;
   var temp = H5Pbridge.MathQuill_to_H5P(latex);
-  // console.log(temp.expression);
   setValue_workaround('TEX_expression', temp.expression);
-  // console.log(temp.data_b64);
   setValue_workaround('data_b64', temp.data_b64);
 }
 
@@ -293,18 +291,18 @@ function refreshEditor(editorMf, latex) {
 
 function getValue_workaround(name) {
   var children = FAE_global.parent.children;
-  var field;
+  var found;
   for (var i = 0; i < children.length; i++) {
     var child = children[i];
     if (child.field.name == name) {
-      field = child;
+      found = child;
       i = children.length; //short circuit
     }
   }
-  if (field.field.type === 'text') {
-    return field.$input[0].value;
+  if (found.field.type === 'text') {
+    return found.$input[0].value;
   } else {
-    return field.value;
+    return found.value;
   }
 }
 
