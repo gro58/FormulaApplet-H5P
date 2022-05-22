@@ -1,6 +1,6 @@
 # FormulaApplet-H5P
 * is a fork of FormulaApplet
-* with goal to get rid of all pure HTML related code, especially the fApp object
+* with goal to get rid of all pure HTML related code, <del>especially the fApp object</del> 'Done!'
 * simplifying code 
 * lets you create math or physics exercises on HTML pages or in Wikis. 
 * You can provide an expression as solution, and FormulaApplet checks if your solution is right or wrong.
