@@ -14,23 +14,23 @@ Maybe use of async/await is even better? Ask Sebastian Rettig?
 * avoid code doubling <del>(preparePage.js/refreshResultFieldClone - formulaapplet-editor.js/refreshResultField)</del>
 * <del>move mathQuillifyEditor(fApp) from preparePage.js to formulaapplet-editor.js</del>
 * delete console.logs of solution
-* <del>semantic versioning. Change version numbers 2.8 and 2.10 to 0.x.y</del> patch number is increased by script pr.ps1<br/>
-  What about patching package.json?
-* refactoring of fApp object or even <b>get rid of fApp object</b>.
+* <del>semantic versioning. Change version numbers 2.8 and 2.10 to 0.x.y</del> patch number is increased by script prh.ps1<br/>
+  package.json is also patched.
+* <del>refactoring of fApp object or even **get rid of fApp object**</del> Done!
 * 'missing input field' bug at 'addition theorem' example (index.html)
-* translate.js uses localStore
-* VirtualKeyboard position
+* <del>translate.js uses localStore<del> Obsolete. Replaced by H5Pbridge.docLang()
+* VirtualKeyboard position (improved. Still not perfect)
 * Use iife, revealing module pattern, OOP
 * Use JSDoc https://jsdoc.app/ Started!
 * enable debugging in Visual Studio Code
-* <del>Render \cdot as times(cross) if lang=en</del>
-* <del>Render , as . if lang=en</del>
+* <del>Render \cdot as times(cross) if docLang()=en</del>
+* <del>Render , as . if docLang()=en</del>
 * e for Exponent interferes with e for Euler's number.
 * try/catch
 * Tests (https://developer.mozilla.org/en-US/docs/Web/API/console/assert), unit tests, jest
 * Test using tree2tex.js
 * Tests using browsers like FireFox, IE, Edge, and using OS like Linux, Android, iOS
-* separate code for "replace"
+* <del>separate code for "replace"</del> **Done!**
 * if two solutions: The order should not matter.
 
 ## Nice to have
@@ -42,7 +42,7 @@ Maybe use of async/await is even better? Ask Sebastian Rettig?
 * condition = ...
 * number of significant digits
 * Natural constants like e, c,...
-* Contact Karl Kirst
+* <del>Contact Karl Kirst</del> **Done!**
 * Hammer as jQuery plugin. Why?
 * <del>H5P Editor</del>
 * asinh, acosh, atanh
@@ -52,15 +52,13 @@ Maybe use of async/await is even better? Ask Sebastian Rettig?
 * GeoGebra as an H5P package. Why?
 ## GitHub
 * License (2nd)
-## [GIT Cheat Sheet](../../git-cheat.php "Spickzettel für GIT")
-## wp.formelapplet.de
-1) Beispiele/Examples
-1) GWK
-1) rename to www.formelapplet.de
+* [GIT Cheat Sheet](../../git-cheat.php "Spickzettel für GIT")
 ## www.formelapplet.de
-* Tree (Kategorienbaum)
-* Befreundete Seiten
-* YouTube HowTo (stable Version of Formula Applet needed)
-* DOC, Usage
-* Search with Phuchs
-* Community, Support
+1) <del>Beispiele/Examples</del> **Done!**
+1) GWK
+1) Tree (Kategorienbaum)
+1) Befreundete Seiten
+1) YouTube HowTo (stable Version of Formula Applet needed)
+1) DOC, Usage
+1) Search with Phuchs
+1) Community, Support
