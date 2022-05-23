@@ -26,9 +26,16 @@
       "path": "styles/MathQuill/mathquill.css"
     }
   ],
+  "preloadedDependencies": [{
+      "machineName": "H5P.Question",
+      "majorVersion": 1,
+      "minorVersion": 4
+    }
+  ],
   "editorDependencies": [{
       "machineName": "H5PEditor.FormulaAppletEditor",
       "majorVersion": __MAJORVERSION__,
-	  "minorVersion": __MINORVERSION__    }
+	    "minorVersion": __MINORVERSION__    
+    }
   ]
 }
