@@ -2,9 +2,9 @@
 
 var H5P = H5P || {};
 
-H5P.FormulaApplet = (function ($) {
+H5P.FormulaApplet = (function ($, Question) {
   console.log('define H5P.FormulaApplet class');
-
+  console.log(Question);
   var counter;
   // afterAppend is called multiple times, once for every appended FormulaApplet
   function afterAppend(fa_obj) {
@@ -204,8 +204,90 @@ H5P.FormulaApplet = (function ($) {
     // Keep provided id.
     this.id = id;
     this.options.sanitizedPrecision = sanitizedPrecision(this.options.precision);
+
+    // Extend with Question
+    var self = this;
+    // Inheritance
+    // Question.call(self, 'blanks');
+    // Question.call(self, 'FormulaApplet');
+    Question.call(self, 'formulaapplet');
   };
 
+  // Inheritance from Question class
+  // Blanks.prototype = Object.create(Question.prototype);
+  // Blanks.prototype.constructor = Blanks;
+  C.prototype = Object.create(Question.prototype);
+  C.prototype.constructor = C;
+
+  // 3. register your questions sections:
+  // ```js
+  /**
+   * Registers this question type's DOM elements before they are attached.
+   * Called from H5P.Question.
+   */
+  C.prototype.registerDomElements = function () {
+    var self = this;
+  
+    if (self.params.image) {
+      // Register task image
+      self.setImage(self.params.image.path);
+    }
+  
+    // Register task introduction text
+    self.setIntroduction(self.params.text);
+  
+    // Register task content area
+    self.setContent(self.createQuestions(), {
+      'class': self.params.behaviour.separateLines ? 'h5p-separate-lines' : ''
+    });
+    // ... and buttons
+    self.registerButtons();
+  };
+  // ```
+  
+  // 4. Register your buttons:
+  // ```js
+  /**
+   * Create all the buttons for the task
+   */
+  C.prototype.registerButtons = function () {
+    var self = this;
+  
+    if (!self.params.behaviour.autoCheck) {
+      // Check answer button
+      self.addButton('check-answer', self.params.checkAnswer, function () {
+        self.toggleButtonVisibility(STATE_CHECKING);
+        self.markResults();
+        self.showEvaluation();
+        self.triggerXAPICompleted(self.getScore(), self.getMaxScore());
+      });
+    }
+  
+    // Check answer button
+    self.addButton('show-solution', self.params.showSolutions, function () {
+      if (self.allBlanksFilledOut()) {
+        self.toggleButtonVisibility(STATE_SHOWING_SOLUTION);
+        self.showCorrectAnswers();
+      }
+    }, self.params.behaviour.enableSolutionsButton);
+  
+    // Try again button
+    if (self.params.behaviour.enableRetry === true) {
+      self.addButton('try-again', self.params.tryAgain, function () {
+        self.removeMarkedResults();
+        self.hideSolutions();
+        self.hideEvaluation();
+        self.clearAnswers();
+        self.resetGrowTextField();
+        self.done = false;
+        self.toggleButtonVisibility(STATE_ONGOING);
+        self.$questions.filter(':first').find('input:first').focus();
+      });
+    }
+    self.toggleButtonVisibility(STATE_ONGOING);
+  };
+  // ```
+  
   /**
    * Attach function called by H5P framework to insert H5P content into
    * page
@@ -245,4 +327,4 @@ H5P.FormulaApplet = (function ($) {
   }
 
   return C;
-})(H5P.jQuery);
+})(H5P.jQuery, H5P.Question);
