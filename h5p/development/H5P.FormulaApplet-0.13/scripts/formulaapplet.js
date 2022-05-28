@@ -4,7 +4,20 @@ var H5P = H5P || {};
 
 H5P.FormulaApplet = (function ($, Question) {
   console.log('define H5P.FormulaApplet class');
-  console.log(Question);
+  // console.log(Question);
+
+  // from blanks.js:
+  /**
+   * @constant
+   * @default
+   */
+  var STATE_ONGOING = 'ongoing';
+  var STATE_CHECKING = 'checking';
+  var STATE_SHOWING_SOLUTION = 'showing-solution';
+  var STATE_FINISHED = 'finished';
+
+
+
   var counter;
   // afterAppend is called multiple times, once for every appended FormulaApplet
   function afterAppend(fa_obj) {
@@ -194,30 +207,93 @@ H5P.FormulaApplet = (function ($, Question) {
    * Constructor function.
    */
   function C(options, id) {
+
+    // Extend with Question
+    var self = this;
+    // console.log(self);
+    // Inheritance
+    // Question.call(self, 'blanks');
+    Question.call(self, 'FormulaApplet');
+
     this.$ = $(this);
+    // console.log(options);
+    // formulaapplet.js uses options like https://h5p.org/tutorial-greeting-card
+    // but blank.js uses params 
     // Extend defaults with provided options
     this.options = $.extend(true, {}, {
       // add option for result of sanitizedPrecision()
       // this.options.precision will not be changed
-      sanitizedPrecision: ''
+      sanitizedPrecision: '',
+      //TODO
+      overallFeedback: [],
+      // behaviour from blanks.js
+      behaviour: {
+        enableRetry: true,
+        enableSolutionsButton: true,
+        enableCheckButton: true,
+        caseSensitive: true,
+        showSolutionsRequiresInput: true,
+        autoCheck: false,
+        separateLines: false
+      },
+      testoption: 'test'
     }, options);
+    // console.log(this.options)
+    this.params = this.options;
+    // console.log(this.params);
     // Keep provided id.
     this.id = id;
     this.options.sanitizedPrecision = sanitizedPrecision(this.options.precision);
-
-    // Extend with Question
-    var self = this;
-    // Inheritance
-    // Question.call(self, 'blanks');
-    // Question.call(self, 'FormulaApplet');
-    Question.call(self, 'formulaapplet');
+    this.options.testoption = 'test changed';
+    // console.log(this.options)
+    // console.log(this.params);
   };
+
+  /**
+   * Attach function called by H5P framework to insert H5P content into
+   * page
+   *
+   * @param {jQuery} $container
+   */
+  // C.prototype.attach = function ($container) {
+  //   // "this" points to H5P.FormulaApplet 
+  //   var self = this;
+  //   $container.addClass("h5p-formulaapplet");
+
+  //   var html = '<p class="formula_applet" id="';
+  //   html += self.options.id;
+  //   html += '">';
+  //   html += self.options.TEX_expression
+  //   html += '</p>';
+  //   $container.append(html, afterAppend(self), self);
+  // };
+
+
+
+  // C.prototype.attach($container) will be replaced by
+  // self.setContent(self.createFormulaApplet()...)
+  // problem: afterAppend(self) has to be called!
 
   // Inheritance from Question class
   // Blanks.prototype = Object.create(Question.prototype);
   // Blanks.prototype.constructor = Blanks;
   C.prototype = Object.create(Question.prototype);
   C.prototype.constructor = C;
+
+  // createFormulaApplet: replacement for Blanks.prototype.createQuestions
+  C.prototype.createFormulaApplet = function (labelId) {
+    var self = this;
+    // $container.addClass("h5p-formulaapplet");
+
+    var html = '<p class="formula_applet" id="';
+    html += self.options.id;
+    html += '">';
+    html += self.options.TEX_expression
+    html += '</p>';
+    // $container.append(html, afterAppend(self), self);
+    var $html = $(html);
+    return $html;
+  };
 
   // 3. register your questions sections:
   // ```js
@@ -227,24 +303,29 @@ H5P.FormulaApplet = (function ($, Question) {
    */
   C.prototype.registerDomElements = function () {
     var self = this;
-  
+
+    // console.log(self);
     if (self.params.image) {
       // Register task image
       self.setImage(self.params.image.path);
     }
-  
+
     // Register task introduction text
     self.setIntroduction(self.params.text);
-  
+
     // Register task content area
-    self.setContent(self.createQuestions(), {
+    // self.setContent(self.createQuestions(), {
+    //   'class': self.params.behaviour.separateLines ? 'h5p-separate-lines' : ''
+    // });
+    self.setContent(self.createFormulaApplet(), {
       'class': self.params.behaviour.separateLines ? 'h5p-separate-lines' : ''
     });
+    afterappend(self);
     // ... and buttons
-    self.registerButtons();
+    self.registerButtons(); //TODO button logic
   };
   // ```
-  
+
   // 4. Register your buttons:
   // ```js
   /**
@@ -252,25 +333,29 @@ H5P.FormulaApplet = (function ($, Question) {
    */
   C.prototype.registerButtons = function () {
     var self = this;
-  
+
     if (!self.params.behaviour.autoCheck) {
       // Check answer button
       self.addButton('check-answer', self.params.checkAnswer, function () {
         self.toggleButtonVisibility(STATE_CHECKING);
-        self.markResults();
+        // specific for blanks.js
+        // self.markResults();
         self.showEvaluation();
-        self.triggerXAPICompleted(self.getScore(), self.getMaxScore());
+        //TODO XAPI
+        // self.triggerXAPICompleted(self.getScore(), self.getMaxScore());
       });
     }
-  
+
     // Check answer button
     self.addButton('show-solution', self.params.showSolutions, function () {
-      if (self.allBlanksFilledOut()) {
-        self.toggleButtonVisibility(STATE_SHOWING_SOLUTION);
-        self.showCorrectAnswers();
-      }
+      // specific for blanks.js
+      //TODO
+      // if (self.allBlanksFilledOut()) {
+      //   self.toggleButtonVisibility(STATE_SHOWING_SOLUTION);
+      //   self.showCorrectAnswers();
+      // }
     }, self.params.behaviour.enableSolutionsButton);
-  
+
     // Try again button
     if (self.params.behaviour.enableRetry === true) {
       self.addButton('try-again', self.params.tryAgain, function () {
@@ -287,24 +372,113 @@ H5P.FormulaApplet = (function ($, Question) {
     self.toggleButtonVisibility(STATE_ONGOING);
   };
   // ```
-  
-  /**
-   * Attach function called by H5P framework to insert H5P content into
-   * page
-   *
-   * @param {jQuery} $container
-   */
-  C.prototype.attach = function ($container) {
-    // "this" points to H5P.FormulaApplet 
-    var self = this;
-    $container.addClass("h5p-formulaapplet");
 
-    var html = '<p class="formula_applet" id="';
-    html += self.options.id;
-    html += '">';
-    html += self.options.TEX_expression
-    html += '</p>';
-    $container.append(html, afterAppend(self), self);
+  //from blanks.js
+  /**
+   * Toggle buttons dependent of state.
+   *
+   * Using CSS-rules to conditionally show/hide using the data-attribute [data-state]
+   */
+  C.prototype.toggleButtonVisibility = function (state) {
+    // The show solutions button is hidden if all answers are correct
+    var allCorrect = (this.getScore() === this.getMaxScore());
+    if (this.params.behaviour.autoCheck && allCorrect) {
+      // We are viewing the solutions
+      state = STATE_FINISHED;
+    }
+
+    if (this.params.behaviour.enableSolutionsButton) {
+      if (state === STATE_CHECKING && !allCorrect) {
+        this.showButton('show-solution');
+      } else {
+        this.hideButton('show-solution');
+      }
+    }
+
+    if (this.params.behaviour.enableRetry) {
+      if ((state === STATE_CHECKING && !allCorrect) || state === STATE_SHOWING_SOLUTION) {
+        this.showButton('try-again');
+      } else {
+        this.hideButton('try-again');
+      }
+    }
+
+    if (state === STATE_ONGOING) {
+      this.showButton('check-answer');
+    } else {
+      this.hideButton('check-answer');
+    }
+
+    this.trigger('resize');
+  };
+
+  // stub, from blanks.js
+  /**
+   * Count the number of correct answers.
+   *
+   * @returns {Number} Points
+   */
+  C.prototype.getScore = function () {
+    var self = this;
+    var correct = 1;
+    // for (var i = 0; i < self.clozes.length; i++) {
+    //   if (self.clozes[i].correct()) {
+    //     correct++;
+    //   }
+    //   self.params.userAnswers[i] = self.clozes[i].getUserAnswer();
+    // }
+
+    return correct;
+  };
+
+
+  /**
+   * Show evaluation widget, i.e: 'You got x of y blanks correct'
+   */
+  C.prototype.showEvaluation = function () {
+    var maxScore = this.getMaxScore();
+    var score = this.getScore();
+    var scoreText = H5P.Question.determineOverallFeedback(this.params.overallFeedback, score / maxScore).replace('@score', score).replace('@total', maxScore);
+
+    this.setFeedback(scoreText, score, maxScore, this.params.scoreBarLabel);
+
+    if (score === maxScore) {
+      this.toggleButtonVisibility(STATE_FINISHED);
+    }
+  };
+
+  /**
+   * Hide the evaluation widget
+   */
+  C.prototype.hideEvaluation = function () {
+    // Clear evaluation section.
+    this.removeFeedback();
+  };
+
+  /**
+   * Hide solutions. (/try again)
+   */
+  C.prototype.hideSolutions = function () {
+    // Clean solution from quiz
+    this.$questions.find('.h5p-correct-answer').remove();
+  };
+
+  /**
+   * Get maximum number of correct answers.
+   *
+   * @returns {Number} Max points
+   */
+
+  // stub, from blanks.js
+  /**
+   * Get maximum number of correct answers.
+   *
+   * @returns {Number} Max points
+   */
+  C.prototype.getMaxScore = function () {
+    // var self = this;
+    // return self.clozes.length;
+    return 1;
   };
 
   function sanitizedPrecision(prec) {
