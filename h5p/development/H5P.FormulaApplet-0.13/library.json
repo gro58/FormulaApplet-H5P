@@ -3,7 +3,7 @@
   "description": "Displays a Formula Applet",
   "majorVersion": 0,
   "minorVersion": 13,
-  "patchVersion": 103,
+  "patchVersion": 110,
   "runnable": 1,
   "author": "Rudolf Grossmann",
   "license": "MIT",
@@ -26,9 +26,16 @@
       "path": "styles/MathQuill/mathquill.css"
     }
   ],
+  "preloadedDependencies": [{
+      "machineName": "H5P.Question",
+      "majorVersion": 1,
+      "minorVersion": 4
+    }
+  ],
   "editorDependencies": [{
       "machineName": "H5PEditor.FormulaAppletEditor",
       "majorVersion": 0,
-	  "minorVersion": 13    }
+	    "minorVersion": 13    
+    }
   ]
 }
