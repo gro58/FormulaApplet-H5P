@@ -41,9 +41,9 @@ export function checkIfEquality(equation, definitionSets, precision) {
     equation = equation.replace(/\\unit{/g, config.unit_replacement);
     // legacy: use of config.unit_replacement
     //TODO: use of \\unit, replace parseTextColor(tree) by parseUnit(tree) in texParser.js
-    console.log(equation);
+    // console.log(equation);
     var definitionArray = definitionString2Array(definitionSets);
-    console.log(definitionArray);
+    // console.log(definitionArray);
     var temp = equation.replace(/\\times/g, '\\cdot');
     var myTree = parse(temp);
     myTree = fillWithRandomValAndCheckDefSets(myTree, definitionArray);

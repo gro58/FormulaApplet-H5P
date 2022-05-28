@@ -54,6 +54,8 @@ H5P.FormulaApplet = (function ($, Question) {
         autoCheck: false,
         separateLines: false
       },
+      domElem: {},
+      // MathField: {dummyMathField: 'dummyMathFieldText'},
       testoption: 'test'
     }, options);
     // console.log(this.options)
@@ -67,34 +69,11 @@ H5P.FormulaApplet = (function ($, Question) {
     // console.log(this.params);
   };
 
-  /**
-   * Attach function called by H5P framework to insert H5P content into
-   * page
-   *
-   * @param {jQuery} $container
-   */
-  // C.prototype.attach = function ($container) {
-  //   // "this" points to H5P.FormulaApplet 
-  //   var self = this;
-  //   $container.addClass("h5p-formulaapplet");
-
-  //   var html = '<p class="formula_applet" id="';
-  //   html += self.options.id;
-  //   html += '">';
-  //   html += self.options.TEX_expression
-  //   html += '</p>';
-  //   $container.append(html, afterAppend(self), self);
-  // };
-
-
-
-  // C.prototype.attach($container) will be replaced by
+  // C.prototype.attach($container) is replaced by
   // self.setContent(self.createFormulaApplet()...)
-  // problem: afterAppend(self) has to be called!
+  // and self.afterAppend()
 
   // Inheritance from Question class
-  // Blanks.prototype = Object.create(Question.prototype);
-  // Blanks.prototype.constructor = Blanks;
   C.prototype = Object.create(Question.prototype);
   C.prototype.constructor = C;
 
@@ -109,8 +88,7 @@ H5P.FormulaApplet = (function ($, Question) {
     html += self.options.TEX_expression
     html += '</p>';
     // $container.append(html, afterAppend(self), self);
-    var $html = $(html);
-    return $html;
+    return $(html);
   };
 
   // 3. register your questions sections:
@@ -170,22 +148,22 @@ H5P.FormulaApplet = (function ($, Question) {
       // specific for blanks.js
       //TODO
       // if (self.allBlanksFilledOut()) {
-      //   self.toggleButtonVisibility(STATE_SHOWING_SOLUTION);
-      //   self.showCorrectAnswers();
+        self.toggleButtonVisibility(STATE_SHOWING_SOLUTION);
+        //TODO self.showCorrectAnswers();
       // }
     }, self.params.behaviour.enableSolutionsButton);
 
     // Try again button
     if (self.params.behaviour.enableRetry === true) {
       self.addButton('try-again', self.params.tryAgain, function () {
-        self.removeMarkedResults();
+        //TODO DELETE self.removeMarkedResults(); 
         self.hideSolutions();
         self.hideEvaluation();
-        self.clearAnswers();
-        self.resetGrowTextField();
+        //TODO self.clearAnswers();
+        //TODO self.resetGrowTextField();
         self.done = false;
         self.toggleButtonVisibility(STATE_ONGOING);
-        self.$questions.filter(':first').find('input:first').focus();
+        // self.$questions.filter(':first').find('input:first').focus();
       });
     }
     self.toggleButtonVisibility(STATE_ONGOING);
@@ -231,6 +209,17 @@ H5P.FormulaApplet = (function ($, Question) {
     this.trigger('resize');
   };
 
+  C.prototype.getScore_debug = function () {
+    var self = this;
+    var options = self.params;
+    var id = options.id;
+    var mf = options.MathField;
+    var domElem = options.domElem;
+    if (Object.keys(domElem).length > 0) {
+      console.log('debug getScore: ' + id, domElem, mf);
+    }
+  }
+
   // stub, from blanks.js
   /**
    * Count the number of correct answers.
@@ -238,18 +227,46 @@ H5P.FormulaApplet = (function ($, Question) {
    * @returns {Number} Points
    */
   C.prototype.getScore = function () {
+    // await H5Pbridge.domLoad;
     var self = this;
-    var correct = 1;
-    // for (var i = 0; i < self.clozes.length; i++) {
-    //   if (self.clozes[i].correct()) {
-    //     correct++;
-    //   }
-    //   self.params.userAnswers[i] = self.clozes[i].getUserAnswer();
-    // }
+    // console.log(self);
+    var options = self.params;
+    var domElem = options.domElem;
+    var correct = 0;
+    if (Object.keys(domElem).length > 0) {
+      var id = options.id;
+      var data_b64 = options.data_b64;
+      // var unitAuto = options.formulaAppletPhysics;
+      var precision = options.sanitizedPrecision;
+      var definitionSets = options.definitionSets;
+      var hasSolution = (options.formulaAppletMode === 'manu');
+      // console.log('getScore options ', id, options);
 
+      var isEqual;
+      if (hasSolution) {
+        var latex = options.MathField.latex();
+        isEqual = H5Pbridge.checkIfEqual(latex, data_b64, definitionSets, precision);
+      } else {
+        // look at whole equation: input field and surroundings
+        var mfContainer = H5Pbridge.MQ.StaticMath(options.domElem);
+        isEqual = H5Pbridge.checkIfEquality(mfContainer.latex(), definitionSets, precision);
+        // console.log(mfContainer.latex() + ' isEqual= ' + isEqual);
+      }
+      // see ok_wrong_tagging.js
+      //TODO DELETE obsolete 
+      // var key = '#' + id + '.formula_applet + span.truefalse';
+      // H5Pbridge.setOkWrongTag(key, isEqual);
+
+      correct = (isEqual ? 1 : 0);
+      // for (var i = 0; i < self.clozes.length; i++) {
+      //   if (self.clozes[i].correct()) {
+      //     correct++;
+      //   }
+      //   self.params.userAnswers[i] = self.clozes[i].getUserAnswer();
+      // }
+    }
     return correct;
   };
-
 
   /**
    * Show evaluation widget, i.e: 'You got x of y blanks correct'
@@ -279,7 +296,7 @@ H5P.FormulaApplet = (function ($, Question) {
    */
   C.prototype.hideSolutions = function () {
     // Clean solution from quiz
-    this.$questions.find('.h5p-correct-answer').remove();
+    //TODO this.$questions.find('.h5p-correct-answer').remove();
   };
 
   /**
@@ -324,7 +341,7 @@ H5P.FormulaApplet = (function ($, Question) {
   // afterAppend is called multiple times, once for every appended FormulaApplet
   // function afterAppend(fa_obj) {
   C.prototype.afterAppend = function () {
-    var self=this;
+    var self = this;
     // if counter is undefined, init with value 0.
     // if counter is defined (increased), do not change
     counter = counter || 0;
@@ -446,50 +463,51 @@ H5P.FormulaApplet = (function ($, Question) {
               mqEditableField.focus();
               mathQuillEditHandler();
             },
-            //TODO ENTER: is case enter necessary?
             enter: () => {
-              mathQuillEditHandler();
+              // mathQuillEditHandler();
+              self.showEvaluation();
             },
           }
         });
+        options.MathField = mf;
       }
 
       //TODO no need for argument "options" because defined in surrounding function
       function mathQuillEditHandler() {
         if (H5Pbridge.isEditHandlerActive()) {
-          var data_b64 = options.data_b64;
+          // var data_b64 = options.data_b64;
           var unitAuto = options.formulaAppletPhysics;
-          var precision = options.sanitizedPrecision;
-          var definitionSets = options.definitionSets;
+          // var precision = options.sanitizedPrecision;
+          // var definitionSets = options.definitionSets;
 
           if (unitAuto) {
             // has to be done before checkIfEqual
             H5Pbridge.makeAutoUnitstring(mf);
           }
 
-          var isEqual;
-          if (hasSolution) {
-            isEqual = H5Pbridge.checkIfEqual(mf.latex(), data_b64, definitionSets, precision);
-          } else {
-            // look at whole equation: input field and surroundings
-            var mfContainer = MQ.StaticMath(domElem);
-            isEqual = H5Pbridge.checkIfEquality(mfContainer.latex(), definitionSets, precision);
-            console.log(mfContainer.latex() + ' isEqual= ' + isEqual);
-          }
-          // see ok_wrong_tagging.js
-          var key = '#' + id + '.formula_applet + span.truefalse';
-          H5Pbridge.setOkWrongTag(key, isEqual);
+          // var isEqual;
+          // if (hasSolution) {
+          //   isEqual = H5Pbridge.checkIfEqual(mf.latex(), data_b64, definitionSets, precision);
+          // } else {
+          //   // look at whole equation: input field and surroundings
+          //   var mfContainer = MQ.StaticMath(domElem);
+          //   isEqual = H5Pbridge.checkIfEquality(mfContainer.latex(), definitionSets, precision);
+          //   console.log(mfContainer.latex() + ' isEqual= ' + isEqual);
+          // }
+          // // see ok_wrong_tagging.js
+          // var key = '#' + id + '.formula_applet + span.truefalse';
+          // H5Pbridge.setOkWrongTag(key, isEqual);
         }
       }
-
-
+      options.domElem = domElem;
+      // console.log(options);
     };
     waitForDomElem.start();
 
     async function mathQuillifyLegacyApplets() {
       await H5Pbridge.domLoad;
       var MQ = H5Pbridge.MQ;
-      console.log(MQ);
+      // console.log(MQ);
       console.log('mathQuillifyLegacyApplets');
       $('p.formula_applet.solution').each(function (index) {
         var domElem = $(this)[0];
@@ -499,7 +517,7 @@ H5P.FormulaApplet = (function ($, Question) {
         var isEditor = false;
         var temp = H5Pbridge.H5P_to_MathQuill(expression, solution, language, isEditor);
         domElem.innerHTML = temp;
-        console.log(index, temp);
+        // console.log(index, temp);
         MQ.StaticMath(domElem);
       });
     }
