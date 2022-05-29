@@ -67,10 +67,10 @@ echo "[patchmore.sh] patch $FILENAME"
 
 ((PATCHNUMBER=PATCHNUMBER+1))
 echo $PATCHNUMBER > ./nextpatchnumber.txt
+git add ./nextpatchnumber.txt  2>warning.txt
 
 rm ./warning.txt
-# "git add" also has to "add" the deletion, but only if stashed before!
-# git add ./warning.txt
+# "git add" has to "add" the deletion only if stashed before!
 
 # https://linuxconfig.org/bash-script-pause-script-before-proceeding
 read -p "Pausing for 60 seconds" -t 60

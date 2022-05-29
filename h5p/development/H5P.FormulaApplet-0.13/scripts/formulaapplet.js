@@ -6,10 +6,10 @@ H5P.FormulaApplet = (function ($, Question) {
   console.log('define H5P.FormulaApplet class');
   // console.log(Question);
 
-  // from blanks.js:
   /**
    * @constant
    * @default
+   * @see blanks.js
    */
   var STATE_ONGOING = 'ongoing';
   var STATE_CHECKING = 'checking';
@@ -47,7 +47,7 @@ H5P.FormulaApplet = (function ($, Question) {
       // behaviour from blanks.js
       behaviour: {
         enableRetry: true,
-        enableSolutionsButton: true,
+        enableSolutionsButton: false,  //default: true
         enableCheckButton: true,
         caseSensitive: true,
         showSolutionsRequiresInput: true,
