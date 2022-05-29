@@ -34,3 +34,7 @@ main/nextpatchnumber.txt
 main/how_to_delete_file_named_nul.txt
 h5p/development/H5P.Blanks-1.12/
 h5p/development/H5P.Question-1.4/
+h5p/development/H5P.FormulaApplet-0.13/scripts/bundle.js
+h5p/development/H5P.FormulaApplet-0.13/scripts/bundle.js.map
+h5p/development/H5PEditor.FormulaAppletEditor-0.13/scripts/bundle.js
+h5p/development/H5PEditor.FormulaAppletEditor-0.13/scripts/bundle.js.map
