@@ -402,7 +402,7 @@ function getVirtualKeyboard(isEditor) {
     let tabs = document.createElement("div");
     tabs.id = "virtualKeyboard_tab";
     tabs.classList.add("virtualKeyboard_tab");
-    const tabButtons = {
+    var tabButtons = {
         "mixed": "123&radic;+-&nbsp;&nbsp;&nbsp;",
         "function": "&nbsp;f(x)&nbsp;",
         "abc": "abc",
