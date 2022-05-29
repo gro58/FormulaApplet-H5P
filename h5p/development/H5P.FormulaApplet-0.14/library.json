@@ -1,9 +1,9 @@
 {
-  "title": "Formula Applet 0.13",
+  "title": "Formula Applet 0.14",
   "description": "Displays a Formula Applet",
   "majorVersion": 0,
-  "minorVersion": 13,
-  "patchVersion": 111,
+  "minorVersion": 14,
+  "patchVersion": 0,
   "runnable": 1,
   "author": "Rudolf Grossmann",
   "license": "MIT",
@@ -35,7 +35,7 @@
   "editorDependencies": [{
       "machineName": "H5PEditor.FormulaAppletEditor",
       "majorVersion": 0,
-	    "minorVersion": 13    
+	    "minorVersion": 14    
     }
   ]
 }
