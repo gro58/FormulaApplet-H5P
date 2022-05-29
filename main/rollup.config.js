@@ -19,10 +19,10 @@ console.log("PRODUCTION", production, "(env: " + process.env.PRODUCTION + ")");
 const serveWanted = process.env.SERVE === "true";
 
 const h5pCopy = process.env.H5PCOPY === "true";
-const h5pBase = "../h5p/development/H5P.FormulaApplet-0.13/";
+const h5pBase = "../h5p/development/H5P.FormulaApplet-0.14/";
 const h5pScriptsFolder = h5pBase + "scripts/";
 const h5pStylesFolder = h5pBase + "styles/";
-const h5pEditorBase = "../h5p/development/H5PEditor.FormulaAppletEditor-0.13/"
+const h5pEditorBase = "../h5p/development/H5PEditor.FormulaAppletEditor-0.14/"
 const h5pEditorScriptsFolder = h5pEditorBase + "scripts/";
 const h5pEditorStylesFolder = h5pEditorBase + "styles/";
 

@@ -734,8 +734,8 @@ function processVirtualKeyboardCommand(cmd) {
             // remove # from start of cmd
             cmd = cmd.substring(1);
             if (cmd === 'Enter') {
-                console.log('vkbd: button "enter"');
-                mf.keystroke('Enter');
+                console.log('vkbd: keystroke "Shift-Enter"');
+                mf.keystroke('Shift-Enter');
             } else if (cmd === 'setInput') {
                 console.log('setInput-Event');
                 var temp = setInput(mf);

@@ -97,8 +97,8 @@ var H5Pbridge = (function (exports) {
     var multiplicationCross = "\\times";
     var multiplicationDot = "\\cdot";
     var unit_replacement = "\\textcolor{blue}{";
-    var patchversion = "2";
-    var version = "0.14.2";
+    var patchversion = "3";
+    var version = "0.14.3";
     var debug = "true";
     var htmloutput = "true";
     var config = {
@@ -21836,7 +21836,7 @@ var H5Pbridge = (function (exports) {
             button.innerHTML = tabButtons[tabId];
             if (tabId == 'off') {
                 var version = config.version;
-                 // title tag causes hovering tooltip
+                // title tag causes hovering tooltip
                 button.title = 'version=' + version;
             }
             tabs.append(button);
@@ -22120,10 +22120,10 @@ var H5Pbridge = (function (exports) {
     function processVirtualKeyboardCommand(cmd) {
 
 
-        if (cmd === '#Enter') {
-            //TODO ENTER: deal with case cmd=enter
-            console.log('vkbd: button "enter"');
-        }
+        // if (cmd === '#Enter') {
+        //     //TODO ENTER: deal with case cmd=enter
+        //     console.log('vkbd: button "enter"');
+        // }
 
         // get selected mathField from DOM 
         // instead of get many from H5P.FormulaApplet (formulaapplet.js )
@@ -22145,8 +22145,10 @@ var H5Pbridge = (function (exports) {
             if (cmd.startsWith('#')) {
                 // remove # from start of cmd
                 cmd = cmd.substring(1);
-                // 'Enter' is done in preparePage.js
-                if (cmd === 'setInput') {
+                if (cmd === 'Enter') {
+                    console.log('vkbd: button "enter"');
+                    mf.keystroke('Enter');
+                } else if (cmd === 'setInput') {
                     console.log('setInput-Event');
                     var temp = setInput(mf);
                     // restore mf - not necessary any more
