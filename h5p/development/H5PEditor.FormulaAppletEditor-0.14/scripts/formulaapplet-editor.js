@@ -7,7 +7,7 @@
  */
 
 var H5P = H5P || {};
-console.log('Here is stub of formulaapplet-editor.js 0.13.' + H5Pbridge.config.patchversion);
+console.log('Here is formulaapplet-editor.js ' + H5Pbridge.config.version);
 //TODO get rid of var FAE_global
 var FAE_global = {};
 
@@ -81,7 +81,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     // temp: like LATEX, but special syntax for MathQuill added
     // wrap temp into <span> and close <p class="formula_applet"...> tag
     html += '<span id="math-field">' + temp + '</span><\p>';
-    console.log('Assembled html: ' + html);
+    // console.log('Assembled html: ' + html);
 
     // var inner = '<input type="text" id="' + params.id + '" class="formula_applet">dummy';
     var fieldMarkup = H5PEditor.createFieldMarkup(this.field, html, h5p_id);

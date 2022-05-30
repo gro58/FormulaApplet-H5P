@@ -48,7 +48,8 @@ button.keyb_button.selected {
 	line-height: 0.9;
 	border-radius: 5px;
 	padding: 3px;
-	margin-left: 16px;
+	margin-left: 10px;
+	transform: translateY(5px);
 	color: blue;
 	background-color: lightgoldenrodyellow;
 }
@@ -81,7 +82,12 @@ div#output {
 } */
 
 /* H5P */
-.formulaAppletEditor .formula_applet{
+
+div.h5p-FormulaApplet {
+	background: transparent;
+}
+
+.formulaAppletEditor .formula_applet {
 	display: inline-block;
 }
 

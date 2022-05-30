@@ -347,7 +347,7 @@ H5P.FormulaApplet = (function ($, Question) {
     counter = counter || 0;
     if (counter === 0) {
       // things to be done once
-      console.log('formulaapplet.js 0.13.' + H5Pbridge.config.patchversion);
+      console.log('formulaapplet.js ' + H5Pbridge.config.version);
       // mathQuillify legacy applets with syntax <p class="formula_applet solution">...</p>
       mathQuillifyLegacyApplets();
       H5Pbridge.initVirtualKeyboardnoEditor();
