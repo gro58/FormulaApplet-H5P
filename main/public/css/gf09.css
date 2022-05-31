@@ -1,3 +1,10 @@
+/*
+DO NOT edit copies of gf09.css in H5P directories (h5p\development\H5P... 
+because they will be overwritten by the bundler (see rollup.config.js)
+
+Edit only this file:  main\public\css\gf09.css
+*/
+
 .mq-cursor {
 	background-color: lightyellow;
 	color: darkred;
@@ -70,7 +77,7 @@ div#output {
 	padding: 1px;
 }
 
-/* editoe mode "auto" */
+/* editor mode "auto" */
 .mq-class.inputfield[contenteditable="false"] {
 	/* color: crimson; */
 	color: lightgreen;
@@ -83,7 +90,7 @@ div#output {
 
 /* H5P */
 
-div.h5p-FormulaApplet {
+.h5p-FormulaApplet {
 	background: transparent;
 }
 
