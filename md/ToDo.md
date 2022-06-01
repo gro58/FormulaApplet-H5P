@@ -6,7 +6,7 @@
 * Use apps.zum.de and unterrichten.zum.de
 * Ask H5P Forum
 * <del>Use Lumi as an editor</del> ✔
-* <del>make H5P take care of type &lt;p class="formula_applet solution" id="bla"&gt;TEX code&lt;/p&gt;</del>✔
+* <del>make H5P take care of type &lt;p class="formula_applet solution" id="bla"&gt;TEX code&lt;/p&gt;</del> ✔
 ## Coding
 * WaiterFactory, createWaiter(): Maybe better use async/await? Ask Sebastian Rettig?
 * accept e.g. .080 for 0.080
@@ -18,8 +18,8 @@
 * Use iife, revealing module pattern, OOP
 * Use JSDoc https://jsdoc.app/ Started!
 * enable debugging in Visual Studio Code
-* <del>Render \cdot as times(cross) if docLang()=en</del>✔
-* <del>Render , as . if docLang()=en</del>✔
+* <del>Render \cdot as times(cross) if docLang()=en</del> ✔
+* <del>Render , as . if docLang()=en</del> ✔
 * e for Exponent interferes with e for Euler's number.
 * try/catch
 * Tests (https://developer.mozilla.org/en-US/docs/Web/API/console/assert), unit tests, jest
@@ -48,11 +48,11 @@
 * License (2nd)
 * [GIT Cheat Sheet](../../git-cheat.php "Spickzettel für GIT")
 ## www.formelapplet.de
-1) <del>Beispiele/Examples</del> **Done!**
+1) <del>Beispiele/Examples</del> ✔
 1) GWK
 1) Tree (Kategorienbaum)
 1) Befreundete Seiten
 1) YouTube HowTo (stable Version of Formula Applet needed)
 1) DOC, Usage
-1) Search with Phuchs
+1) <del>Search with Phuchs</del> Use WordPress Search field ✔
 1) Community, Support
