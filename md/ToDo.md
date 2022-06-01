@@ -48,6 +48,7 @@
 * License (2nd)
 * [GIT Cheat Sheet](../../git-cheat.php "Spickzettel für GIT")
 ## www.formelapplet.de
+1) use H5P.Question - Update H5P.FormulaApplet from 0.13 to 0.14
 1) <del>Beispiele/Examples</del> ✔
 1) GWK
 1) Tree (Kategorienbaum)
