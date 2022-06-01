@@ -6,7 +6,7 @@
 * Use apps.zum.de and unterrichten.zum.de
 * Ask H5P Forum
 * <del>Use Lumi as an editor</del> ✔
-* <del>make H5P take care of type <p class="formula_applet solution" id="bla">TEX code</p></del>✔
+* <del>make H5P take care of type &lt;p class="formula_applet solution" id="bla"&gt;TEX code&lt;/p&gt;</del>✔
 ## Coding
 * WaiterFactory, createWaiter(): Maybe better use async/await? Ask Sebastian Rettig?
 * accept e.g. .080 for 0.080
