@@ -1,0 +1,124 @@
+<html>
+<head>
+<title>waiterFactory async/await OK</title>
+
+</head>
+
+<Body>
+<h1>waiterFactory async/await OK</h1>
+<h2>Watch console!</h2>
+<div>
+<button type="button" id='myButton1'>Click Me 1</button>
+<button type="button" id='myButton2'>Click Me 2</button>
+<a id='myElement1'>Waiting 1</a> 
+<a id='myElement2'>Waiting 2</a>
+</div>
+<hr>
+<div>
+<textarea id="output" style="width: 600px; height: 800px;">logging</textarea>
+</div> 
+<SCRIPT>
+document.getElementById("myButton1").onclick = function clickEventHandler(ev){
+	document.getElementById("myElement1").innerHTML = 'Click 1';
+}
+document.getElementById("myButton2").onclick = function clickEventHandler(ev){
+	document.getElementById("myElement2").innerHTML = 'Click 2';
+}
+
+var outTextarea = document.getElementById("output");
+function log(text){
+	var oldtext = outTextarea.innerHTML;
+	var newtext = oldtext + "\n" + text;
+	outTextarea.innerHTML = newtext;
+}
+
+function createWaiter(){
+    var default_waiter = {
+        name: 'defaultWaiter',
+        interval: 300, // interval=300 means: check every 300ms
+        max_count: 10,
+        condition: function () {
+            return false
+        }, //default: stop only if n === max_count
+        index: 0,
+        waiter: function(okFunc, errorFunc){
+			var that = this;
+			// console.log(that);
+			console.log('okFunc, errorFunc', okFunc, errorFunc);
+			var pr = new Promise((resolve, reject)=>{
+				// console.log('resolve reject', resolve, reject);
+				var stopKey = setInterval(function () {
+					if (that.condition()) {
+						clearInterval(stopKey);
+						resolve();
+					} else {
+						that.index++;
+						// log(that.name + ' ' + that.index);
+						if (that.max_count > 0 && that.index >= that.max_count) {
+							clearInterval(stopKey);
+							// reject(new Error('errortext for reject'));
+							reject();
+						}
+					}
+				}, that.interval); // interval=200 means: check every 200ms
+			}).then(okFunc).catch(errorFunc);
+			return pr;
+		}
+	} // end of default_waiter
+
+    var newWaiter = Object.create(default_waiter);
+    return newWaiter;
+};
+
+function condition1(){
+	return (document.getElementById("myElement1").innerHTML === 'Click 1');
+}
+
+function doRest1(){
+	log('do the rest of 1');
+}
+
+function doError1(){
+	log('counter limit exceeded 1');
+}
+
+function condition2(){
+	var isEqual2 = (document.getElementById("myElement2").innerHTML === 'Click 2');
+	return isEqual2;
+}
+
+function doRest2(){
+	log('do the rest of 2');
+}
+
+function doError2(){
+	log('counter limit exceeded 2');
+}
+
+log('create waiters');
+var waiter1 = createWaiter();
+waiter1.name = 'first';
+waiter1.condition = condition1;
+
+var waiter2 = createWaiter();
+waiter2.name = 'second';
+waiter2.condition = condition2;
+waiter2.interval = 400;
+waiter2.max_count = 12;
+
+async function outerFunc1(){
+	log('start waiting for waiter1');
+	await waiter1.waiter(doRest1, doError1);
+}
+
+async function outerFunc2(){
+	log('start waiting for waiter2');
+	await waiter2.waiter(doRest2, doError2);
+}
+
+log('call outerFunc1() and outerFunc2()');
+outerFunc1();
+outerFunc2();
+log('but do not wait for outerFunc...');
+</SCRIPT> 
+</html>

@@ -3,6 +3,10 @@
 var H5P = H5P || {};
 
 H5P.FormulaApplet = (function ($, Question) {
+  console.log('test createWaiterAsync');
+
+
+
   console.log('define H5P.FormulaApplet class');
   // console.log(Question);
 

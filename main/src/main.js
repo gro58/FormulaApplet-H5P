@@ -38,6 +38,7 @@ import {
 } from "./js/checkIfEqual.js";
 import setOkWrongTag from "./js/ok_wrong_tagging.js";
 import makeAutoUnitstring from "./js/autoUnit.js";
+import createWaiterAsync from "./js/waiterFactory_async_await.js";
 
 // H5Pbridge
 export {
@@ -65,7 +66,8 @@ export {
     checkIfEqual,
     checkIfEquality,
     setOkWrongTag,
-    makeAutoUnitstring
+    makeAutoUnitstring,
+    createWaiterAsync
 };
 
 // window.onload = function () {
