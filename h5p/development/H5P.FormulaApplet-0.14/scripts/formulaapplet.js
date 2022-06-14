@@ -3,10 +3,6 @@
 var H5P = H5P || {};
 
 H5P.FormulaApplet = (function ($, Question) {
-  console.log('test createWaiterAsync');
-
-
-
   console.log('define H5P.FormulaApplet class');
   // console.log(Question);
 
@@ -51,7 +47,7 @@ H5P.FormulaApplet = (function ($, Question) {
       // behaviour from blanks.js
       behaviour: {
         enableRetry: true,
-        enableSolutionsButton: false,  //default: true
+        enableSolutionsButton: false, //default: true
         enableCheckButton: true,
         caseSensitive: true,
         showSolutionsRequiresInput: true,
@@ -152,8 +148,8 @@ H5P.FormulaApplet = (function ($, Question) {
       // specific for blanks.js
       //TODO
       // if (self.allBlanksFilledOut()) {
-        self.toggleButtonVisibility(STATE_SHOWING_SOLUTION);
-        //TODO self.showCorrectAnswers();
+      self.toggleButtonVisibility(STATE_SHOWING_SOLUTION);
+      //TODO self.showCorrectAnswers();
       // }
     }, self.params.behaviour.enableSolutionsButton);
 
@@ -355,6 +351,26 @@ H5P.FormulaApplet = (function ($, Question) {
       // mathQuillify legacy applets with syntax <p class="formula_applet solution">...</p>
       mathQuillifyLegacyApplets();
       H5Pbridge.initVirtualKeyboardnoEditor();
+
+      console.log('test createWaiterAsync');
+      // console.log(H5Pbridge);
+      var waitForDomElemAsync = H5Pbridge.createWaiterAsync();
+      waitForDomElemAsync.name = 'waiter for domElemAsync ';
+      waitForDomElemAsync.max_count = 10; // 10*200ms=10*0,2s= 2s
+      waitForDomElemAsync.condition = function () {
+        $el = $('#' + id + '.formula_applet:not(.mq-math-mode)');
+        // return (typeof $el[0] !== 'undefined');
+        return false;
+      };
+      waitForDomElemAsync.doRest = async function () {
+        console.log('waitForDomElemAsync.doRest');
+      }
+      waitForDomElemAsync.doError = async function () {
+        console.log('waitForDomElemAsync.doError');
+      }
+      console.log('before call of waiter ' +waitForDomElemAsync.name);
+      waitForDomElemAsync.start();
+      console.log('after call of waiter ' +waitForDomElemAsync.name);
     }
     counter++;
 

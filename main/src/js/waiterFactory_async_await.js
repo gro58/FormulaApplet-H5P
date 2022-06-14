@@ -31,7 +31,7 @@
     waiter: function(okFunc, errorFunc){
         var that = this;
         // console.log(that);
-        console.log('okFunc, errorFunc', okFunc, errorFunc);
+        // console.log('okFunc, errorFunc', okFunc, errorFunc);
         var pr = new Promise((resolve, reject)=>{
             // console.log('resolve reject', resolve, reject);
             var stopKey = setInterval(function () {
@@ -40,7 +40,7 @@
                     resolve();
                 } else {
                     that.index++;
-                    // log(that.name + ' ' + that.index);
+                    console.log(that.name + ' ' + that.index);
                     if (that.max_count > 0 && that.index >= that.max_count) {
                         clearInterval(stopKey);
                         // reject(new Error('errortext for reject'));

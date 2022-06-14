@@ -21,6 +21,7 @@ import {
 import MQ from "./js/lib/mathquillWrapper.js";
 import isEditHandlerActive from "./js/switchEditHandler.js";
 import createWaiter from "./js/waiterFactory.js";
+import createWaiterAsync from "./js/waiterFactory_async_await.js";
 import {
     H5P_to_MathQuill,
     MathQuill_to_H5P
@@ -38,7 +39,6 @@ import {
 } from "./js/checkIfEqual.js";
 import setOkWrongTag from "./js/ok_wrong_tagging.js";
 import makeAutoUnitstring from "./js/autoUnit.js";
-import createWaiterAsync from "./js/waiterFactory_async_await.js";
 
 // H5Pbridge
 export {
