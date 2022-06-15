@@ -20,7 +20,7 @@ import {
 } from "./js/dom.js";
 import MQ from "./js/lib/mathquillWrapper.js";
 import isEditHandlerActive from "./js/switchEditHandler.js";
-import createWaiter from "./js/waiterFactory.js";
+// import createWaiter from "./js/waiterFactory.js";
 import createWaiterAsync from "./js/waiterFactory_async_await.js";
 import {
     H5P_to_MathQuill,
@@ -54,7 +54,7 @@ export {
     domLoad,
     MQ,
     isEditHandlerActive,
-    createWaiter,
+    // createWaiter,
     H5P_to_MathQuill,
     MathQuill_to_H5P,
     docLang,
