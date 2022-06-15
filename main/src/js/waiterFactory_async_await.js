@@ -51,7 +51,7 @@
         }).then(okFunc).catch(errorFunc);
         return pr;
     },
-    start: async function (doRest, doError) {
+    start: async function () {
         // var that = this;
         // await that.waiter(that.doRest, that.doError);
         await this.waiter(this.doRest, this.doError);

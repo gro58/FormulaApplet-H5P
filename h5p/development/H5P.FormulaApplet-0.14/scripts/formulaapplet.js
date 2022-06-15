@@ -354,19 +354,18 @@ H5P.FormulaApplet = (function ($, Question) {
 
       console.log('test createWaiterAsync');
       // console.log(H5Pbridge);
-      var waitForDomElemAsync = H5Pbridge.createWaiterAsync();
-      waitForDomElemAsync.name = 'waiter for domElemAsync ';
+      var waitForDomElemAsync = H5Pbridge.createWaiterAsync('name parameter: waiter for domElemAsync ');
       waitForDomElemAsync.max_count = 10; // 10*200ms=10*0,2s= 2s
       waitForDomElemAsync.condition = function () {
         $el = $('#' + id + '.formula_applet:not(.mq-math-mode)');
         // return (typeof $el[0] !== 'undefined');
-        return false;
+        return true;
       };
       waitForDomElemAsync.doRest = async function () {
-        console.log('waitForDomElemAsync.doRest');
+        console.log('waitForDomElemAsync.doRest - overwrite default');
       }
       waitForDomElemAsync.doError = async function () {
-        console.log('waitForDomElemAsync.doError');
+        console.log('waitForDomElemAsync.doError - overwrite default');
       }
       console.log('before call of waiter ' +waitForDomElemAsync.name);
       waitForDomElemAsync.start();
