@@ -15,11 +15,11 @@
 
  var default_waiter = {
     name: 'defaultWaiter',
-    interval: 200, // check every 200ms
+    interval: 200, // check every 200ms (polling)
     max_count: 10, // 10*200ms = 10*0,2s = 2s
     condition: function () {
         return false
-    }, //default: stop only if index === max_count
+    }, //default behaviour: stop only if index === max_count
     doRest: function (){
         console.log(this.name + ': do the rest');
     },

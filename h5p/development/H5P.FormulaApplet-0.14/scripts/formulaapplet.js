@@ -382,7 +382,7 @@ H5P.FormulaApplet = (function ($, Question) {
       // console.log(domElem);
       var expression = domElem.innerHTML;
       // console.log('Mathquillify ' + id + ': ' + expression);
-      
+
       // look for {{resultfield}}:
       var hasResultField = (expression.indexOf('{{result}}') >= 0);
       // hasResultField will be used in clickEvent
@@ -390,14 +390,14 @@ H5P.FormulaApplet = (function ($, Question) {
       if (hasResultField) {
         $(domElem).addClass('hasresultfield');
       }
-      //TODO simplify
-      var hasSolution = (options.formulaAppletMode === 'manu');
+      //TODO simplify: //DELETE
+      // var hasSolution = (options.formulaAppletMode === 'manu');
 
-      var language = H5Pbridge.docLang();
+      // var language = H5Pbridge.docLang();
       //start with empty user input, hasSolution=true/false does not matter
       var solution = '';
       var isEditor = false;
-      var temp = H5Pbridge.H5P_to_MathQuill(expression, solution, language, isEditor);
+      var temp = H5Pbridge.H5P_to_MathQuill(expression, solution, isEditor);
       domElem.innerHTML = temp;
 
       var mqEditableField;
@@ -519,7 +519,7 @@ H5P.FormulaApplet = (function ($, Question) {
         var solution = '';
         var language = H5Pbridge.docLang();
         var isEditor = false;
-        var temp = H5Pbridge.H5P_to_MathQuill(expression, solution, language, isEditor);
+        var temp = H5Pbridge.H5P_to_MathQuill(expression, solution, isEditor);
         domElem.innerHTML = temp;
         // console.log(index, temp);
         MQ.StaticMath(domElem);

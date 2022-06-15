@@ -1,6 +1,10 @@
 "use strict";
 
 import config from "./config.json";
+import {
+    docLang
+} from "./dom.js";
+
 
 // manage replacements in one place
 
@@ -35,7 +39,8 @@ export function no_XSS(str) {
     return result;
 }
 
-export function H5P_to_MathQuill(expression, solution, language, isEditor) {
+export function H5P_to_MathQuill(expression, solution, isEditor) {
+    var language = docLang();
     var result = expression;
     if (expression.indexOf('<span id="math-field">') >= 0) {
         // console.log('remove math-field spans');

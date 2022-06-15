@@ -77,7 +77,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     // end of composing HTML
 
     var language = H5Pbridge.docLang();
-    var temp = H5Pbridge.H5P_to_MathQuill(expression, solution, language, true); //isEditor=true
+    var temp = H5Pbridge.H5P_to_MathQuill(expression, solution, true); //isEditor=true
     // temp: like LATEX, but special syntax for MathQuill added
     // wrap temp into <span> and close <p class="formula_applet"...> tag
     html += '<span id="math-field">' + temp + '</span><\p>';
@@ -276,7 +276,7 @@ function refreshEditor(editorMf, latex) {
   var data_b64 = getValue_workaround('data_b64');
   var solution = H5Pbridge.decode(data_b64);
   console.log(latex, solution, language);
-  var temp = H5Pbridge.H5P_to_MathQuill(latex, solution, language, true);
+  var temp = H5Pbridge.H5P_to_MathQuill(latex, solution, true);
   // H5P_to_MathQuill includes no_XSS
   console.log(editorMf);
   console.log('refresh MathQuill with ' + temp);
