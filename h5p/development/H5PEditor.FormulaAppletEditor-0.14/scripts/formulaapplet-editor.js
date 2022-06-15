@@ -76,7 +76,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     html += '>';
     // end of composing HTML
 
-    var language = H5Pbridge.docLang();
+    // var language = H5Pbridge.docLang();
     var temp = H5Pbridge.H5P_to_MathQuill(expression, solution, true); //isEditor=true
     // temp: like LATEX, but special syntax for MathQuill added
     // wrap temp into <span> and close <p class="formula_applet"...> tag
@@ -216,10 +216,10 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       handlers: {
         edit: function (mathField) { // useful event handlers
           try {
-          if (H5Pbridge.isEditHandlerActive()) {
-            //TODO do nothing if ???
-            refreshFields(mathField.latex());
-          }
+            if (H5Pbridge.isEditHandlerActive()) {
+              //TODO do nothing if ???
+              refreshFields(mathField.latex());
+            }
           } catch (error) {
             console.error('ERROR in MQ.MathField: ' + error);
           }
@@ -234,7 +234,9 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
    * init synchronization between TEX_expression (H5P field and DOM) and editorMf
    */
 
-  async function init_synchronize() {
+  async function init_synchronize(ppp) {
+    console.log('init_synchronize(ppp)');
+    console.log(ppp);
     await H5Pbridge.domLoad;
     var $tex_expression = $('div.field.field-name-TEX_expression.text input');
     // https://stackoverflow.com/questions/7060750/detect-the-enter-key-in-a-text-input-field#7060762
@@ -242,7 +244,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       if (event.key === 'Enter' || event.keyCode === 13) {
         // console.log(event.target);
         //process enter event
-        refreshEditor(editorMf, event.target.value);
+        refreshEditor(editorMf, event.target.value, ppp);
       }
     });
     // console.log(tex_expression);
@@ -271,9 +273,11 @@ function refreshFields(latex) {
   setValue_workaround('data_b64', temp.data_b64);
 }
 
-function refreshEditor(editorMf, latex) {
+function refreshEditor(editorMf, latex, ppp) {
   var language = H5Pbridge.docLang();
   var data_b64 = getValue_workaround('data_b64');
+  var data_b64_compare = ppp.data_b64;
+  console.log(data_b64, data_b64_compare, (data_b64===data_b64_compare));
   var solution = H5Pbridge.decode(data_b64);
   console.log(latex, solution, language);
   var temp = H5Pbridge.H5P_to_MathQuill(latex, solution, true);
