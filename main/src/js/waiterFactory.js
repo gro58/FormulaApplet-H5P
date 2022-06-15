@@ -58,7 +58,7 @@
     }
 };
 
-export default function createWaiterAsync(newname) {
+export default function createWaiter(newname) {
     var newWaiter = Object.create(default_waiter);
     newWaiter.name = newname;
     return newWaiter;

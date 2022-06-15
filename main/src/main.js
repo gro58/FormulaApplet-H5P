@@ -1,10 +1,6 @@
 "use strict";
 // 
 
-// import preparePage, {
-//     mathQuillify,
-//     editor_fApp
-// } from "./js/preparePage.js";
 import decode, {
     encode
 } from "./js/decode.js";
@@ -20,8 +16,7 @@ import {
 } from "./js/dom.js";
 import MQ from "./js/lib/mathquillWrapper.js";
 import isEditHandlerActive from "./js/switchEditHandler.js";
-// import createWaiter from "./js/waiterFactory.js";
-import createWaiterAsync from "./js/waiterFactory_async_await.js";
+import createWaiter from "./js/waiterFactory.js";
 import {
     H5P_to_MathQuill,
     MathQuill_to_H5P
@@ -32,7 +27,6 @@ import initVirtualKeyboardnoEditor, {
     virtualKeyboardBindEvents,
     keyboardActivate
 } from "./js/virtualKeyboard.js";
-// import mathQuillEditHandler from "./js/editHandler.js";
 import {
     checkIfEqual,
     checkIfEquality
@@ -44,9 +38,6 @@ import makeAutoUnitstring from "./js/autoUnit.js";
 export {
     decode,
     encode,
-    // mathQuillify,
-    // preparePage,
-    // editor_fApp,
     config,
     setInput,
     separateInputfield,
@@ -54,7 +45,6 @@ export {
     domLoad,
     MQ,
     isEditHandlerActive,
-    // createWaiter,
     H5P_to_MathQuill,
     MathQuill_to_H5P,
     docLang,
@@ -67,7 +57,7 @@ export {
     checkIfEquality,
     setOkWrongTag,
     makeAutoUnitstring,
-    createWaiterAsync
+    createWaiter
 };
 
 // window.onload = function () {

@@ -368,22 +368,21 @@ H5P.FormulaApplet = (function ($, Question) {
       throw id + ' not found';
     }
 
-    var waitForDomElemAsync = H5Pbridge.createWaiterAsync('waitForDomElem: '+id);
-    // waitForDomElemAsync.name = 'waiter for domElem ';
-    // waitForDomElemAsync.max_count = 10; // default
-    waitForDomElemAsync.condition = function () {
+    var waitForDomElem = H5Pbridge.createWaiter('waitForDomElem: '+id);
+      waitForDomElem.condition = function () {
       $el = $('#' + id + '.formula_applet:not(.mq-math-mode)');
       return (typeof $el[0] !== 'undefined');
     };
-    waitForDomElemAsync.doError = async function () {
+    waitForDomElem.doError = async function () {
       console.log('waitForDomElem: counter limit exceeded - ' + id);
     }
 
-    waitForDomElemAsync.doRest = async function () {
+    waitForDomElem.doRest = async function () {
       var domElem = $('#' + id + '.formula_applet:not(.mq-math-mode)')[0];
       // console.log(domElem);
       var expression = domElem.innerHTML;
       // console.log('Mathquillify ' + id + ': ' + expression);
+      
       // look for {{resultfield}}:
       var hasResultField = (expression.indexOf('{{result}}') >= 0);
       // hasResultField will be used in clickEvent
@@ -507,7 +506,7 @@ H5P.FormulaApplet = (function ($, Question) {
       options.domElem = domElem;
       // console.log(options);
     };
-    waitForDomElemAsync.start();
+    waitForDomElem.start();
 
     async function mathQuillifyLegacyApplets() {
       await H5Pbridge.domLoad;
