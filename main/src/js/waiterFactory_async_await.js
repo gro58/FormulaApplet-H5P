@@ -1,7 +1,7 @@
 "use strict";
 /**
  * 
- * @returns function createWaiter() which returns a waiter object
+ * @returns function createWaiter(waiterName) which returns a waiter object
  * 
  * use:
  * var myWaiter = createWaiter('my Waiter');
@@ -15,8 +15,8 @@
 
  var default_waiter = {
     name: 'defaultWaiter',
-    interval: 200, // interval=200 means: check every 200ms
-    max_count: 10,
+    interval: 200, // check every 200ms
+    max_count: 10, // 10*200ms = 10*0,2s = 2s
     condition: function () {
         return false
     }, //default: stop only if index === max_count
