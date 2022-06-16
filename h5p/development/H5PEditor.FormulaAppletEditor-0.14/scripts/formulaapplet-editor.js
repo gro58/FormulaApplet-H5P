@@ -234,9 +234,9 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
    * init synchronization between TEX_expression (H5P field and DOM) and editorMf
    */
 
-  async function init_synchronize(ppp) {
-    console.log('init_synchronize(ppp)');
-    console.log(ppp);
+  async function init_synchronize(params) {
+    // console.log('init_synchronize(params)');
+    // console.log(params);
     await H5Pbridge.domLoad;
     var $tex_expression = $('div.field.field-name-TEX_expression.text input');
     // https://stackoverflow.com/questions/7060750/detect-the-enter-key-in-a-text-input-field#7060762
@@ -244,12 +244,12 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       if (event.key === 'Enter' || event.keyCode === 13) {
         // console.log(event.target);
         //process enter event
-        refreshEditor(editorMf, event.target.value, ppp);
+        refreshEditor(editorMf, event.target.value, params);
       }
     });
     // console.log(tex_expression);
     $tex_expression[0].addEventListener('input', function (event) {
-      console.log(event);
+      // console.log(event);
       // DOM -> field - done by H5P
 
       // distinguish between events caused by keyboard input or by editorMf
@@ -259,7 +259,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       } else {
         var msg = ' (editorMf) - do nothing';
       }
-      console.log('TEX_expression changed: ' + event.target.value + msg);
+      // console.log('TEX_expression changed: ' + event.target.value + msg);
     });
   }
 
@@ -273,42 +273,42 @@ function refreshFields(latex) {
   setValue_workaround('data_b64', temp.data_b64);
 }
 
-function refreshEditor(editorMf, latex, ppp) {
-  var language = H5Pbridge.docLang();
-  var data_b64 = getValue_workaround('data_b64');
-  var data_b64_compare = ppp.data_b64;
-  console.log(data_b64, data_b64_compare, (data_b64===data_b64_compare));
-  var solution = H5Pbridge.decode(data_b64);
-  console.log(latex, solution, language);
+function refreshEditor(editorMf, latex, params) {
+  // var language = H5Pbridge.docLang();
+  // var data_b64_workaround = getValue_workaround('data_b64');
+  // var data_b64 = params.data_b64;
+  var solution = H5Pbridge.decode(params.data_b64);
+  // console.log(latex, solution, language);
   var temp = H5Pbridge.H5P_to_MathQuill(latex, solution, true);
   // H5P_to_MathQuill includes no_XSS
-  console.log(editorMf);
-  console.log('refresh MathQuill with ' + temp);
+  // console.log(editorMf);
+  console.log('refresh editor widget with ' + temp);
   var fallback = editorMf.latex();
   editorMf.latex(temp);
   //check if empty
   if (editorMf.latex() === '') {
     //no success
+    console.log('refresh editor widget: NO SUCCESS');
     editorMf.latex(fallback);
   }
 }
 
-function getValue_workaround(name) {
-  var children = FAE_global.parent.children;
-  var found;
-  for (var i = 0; i < children.length; i++) {
-    var child = children[i];
-    if (child.field.name == name) {
-      found = child;
-      i = children.length; //short circuit
-    }
-  }
-  if (found.field.type === 'text') {
-    return found.$input[0].value;
-  } else {
-    return found.value;
-  }
-}
+// function getValue_workaround(name) {
+//   var children = FAE_global.parent.children;
+//   var found;
+//   for (var i = 0; i < children.length; i++) {
+//     var child = children[i];
+//     if (child.field.name == name) {
+//       found = child;
+//       i = children.length; //short circuit
+//     }
+//   }
+//   if (found.field.type === 'text') {
+//     return found.$input[0].value;
+//   } else {
+//     return found.value;
+//   }
+// }
 
 // setValue_workaround() sucks if field "name" has a widget attached
 function setValue_workaround(name, value) {
