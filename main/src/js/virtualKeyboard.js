@@ -31,6 +31,7 @@ const enter = ['enter', '<span style="font-size: 150%; color:green">\u23ce</span
 const setinput = ['setinput', inputText, '#setInput'];
 const backspace = ['backspace', '\u232B', '#Backspace'];
 const poweroften = ['power_of_ten', '10<sup style="font-size: 85%">\u2b1a</sup>', '10^'];
+const version = config.version + ' (' + docLang() + ')';
 
 var keys = [];
 keys['mixed'] = [
@@ -92,7 +93,7 @@ keys['mixed'] = [
         right,
         enter,
     ]
-]
+];
 
 keys['function'] = [
     // row 0
@@ -150,7 +151,7 @@ keys['function'] = [
         right,
         enter,
     ],
-]
+];
 
 keys['abc'] = [
     // row 0
@@ -213,7 +214,7 @@ keys['abc'] = [
         right,
         enter,
     ]
-]
+];
 
 keys['abc_caps'] = [
     // row 0
@@ -278,7 +279,7 @@ keys['abc_caps'] = [
         right,
         enter,
     ]
-]
+];
 
 keys['greek'] = [
     // row 0
@@ -304,7 +305,8 @@ keys['greek'] = [
         ['ypsilon', '&upsilon;', '\\upsilon '],
         ['theta', '&theta;'],
         ['iota', '&iota;'],
-        ['omikron', '&omicron;', '\\omicron '],
+        // https://tex.stackexchange.com/questions/233257/omicron-not-working-in-latex
+        ['omikron', '&omicron;', 'o '],
         ['pi', '&pi;']
     ],
     // row 1
@@ -334,7 +336,7 @@ keys['greek'] = [
         right,
         enter
     ]
-]
+];
 keys['greek_caps'] = [
     // row 0
     [
@@ -389,7 +391,13 @@ keys['greek_caps'] = [
         right,
         enter
     ]
-]
+];
+keys['info'] = [
+    // row 0
+    [
+        ['version', version, ' ']
+    ]
+];
 
 function getVirtualKeyboard(isEditor) {
     let result = document.createElement("div");
@@ -407,9 +415,10 @@ function getVirtualKeyboard(isEditor) {
         "function": "&nbsp;f(x)&nbsp;",
         "abc": "abc",
         "greek": "\u03b1\u03b2\u03b3",
+        "info": "&nbsp;\u2754",
         // reversed order caused by 'float: right'
         "off": "&nbsp;\u2716",
-        "info": 'Version ' + config.version + ' (' + docLang() + ')'
+        // "info_old": 'Version ' + config.version + ' (' + docLang() + ')'
     };
     if (isEditor) {
         delete tabButtons.off;
@@ -421,15 +430,13 @@ function getVirtualKeyboard(isEditor) {
         button.onclick = evt => tabClick(evt, tabId);
         button.innerHTML = tabButtons[tabId];
         if (tabId == 'off') {
-            var version = config.version;
-            // title tag causes hovering tooltip
             button.title = 'version=' + version;
         }
         tabs.append(button);
     }
     result.append(tabs);
 
-    for (let tabId of ["abc", "abc_caps", "mixed", "function", "greek", "greek_caps"]) {
+    for (let tabId of ["abc", "abc_caps", "mixed", "function", "greek", "greek_caps", "info"]) {
         result.append(createTable(tabId, isEditor));
     }
 

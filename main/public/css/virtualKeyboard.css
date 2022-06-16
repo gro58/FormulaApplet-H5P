@@ -95,6 +95,15 @@ div#virtualKeyboard.h5pEditor .virtualKeyboardButton.smallgap {
 	font-size: 120%;
 }
 
+.virtualKeyboardButton.virtualKeyboard-version {
+	font-size: 150%;
+}
+
+.virtualKeyboardButton.virtualKeyboard-version:hover {
+	color: inherit;
+	background-color: #8bd;
+}
+
 div#output tbody {
 	margin: 15px;
 }
@@ -186,11 +195,11 @@ div#virtualKeyboard.h5pEditor#virtualKeyboard_header {
 	/* font-size: 120%; */
 }
 
-button#button-table_info:hover {
+button#button-table_info_old:hover {
 	color: black;
 }
 
-button#button-table_info {
+button#button-table_info_old {
 	float: right;
 	background-color: transparent;
 	border: none;
