@@ -36,7 +36,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     this.changes = [];
 
     //inspect FormulaAppletEditor object
-    console.log('FormulaAppletEditor object: ', this);
+    // console.log('FormulaAppletEditor object: ', this);
   }
 
   /**
@@ -224,6 +224,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
             if (H5Pbridge.isEditHandlerActive()) {
               // latex -> expression, data_b64;
               var temp = H5Pbridge.MathQuill_to_H5P(mathField.latex());
+              //TODO see if this.setValue() can be used instead of mySetValue().
               mySetValue('TEX_expression', temp.expression, parent);
               mySetValue('data_b64', temp.data_b64, parent);
             }
@@ -340,9 +341,9 @@ function refreshEditor(editorMf, latex, params) {
 //   };
 // }
 
-//TODO avoid name collision 
+//TODO is this necessary to avoid name collision with setValue?
 function mySetValue(name, value, parent) {
-  console.log(parent);
+  // console.log(parent);
   parent.params[name] = value;
   // synchronize DOM
   var targetField = H5PEditor.findField(name, parent);
