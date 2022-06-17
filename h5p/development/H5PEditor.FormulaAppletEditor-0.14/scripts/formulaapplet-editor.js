@@ -9,7 +9,7 @@
 var H5P = H5P || {};
 console.log('Here is formulaapplet-editor.js ' + H5Pbridge.config.version);
 //TODO get rid of var FAE_global
-var FAE_global = {};
+// var FAE_global = {};
 
 H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (function ($) {
 
@@ -34,6 +34,9 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     this.setValue = setValue;
 
     this.changes = [];
+
+    //inspect FormulaAppletEditor object
+    console.log('FormulaAppletEditor object: ', this);
   }
 
   /**
@@ -60,10 +63,12 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     }
     var hasResultfield = (expression.indexOf('{{result}}') >= 0)
     if (hasResultfield) {
-      var html = '<p class="formula_applet" id="' + params.id + '-edit"';
+      var html = '<p class="formula_applet"';
     } else {
-      var html = '<p class="formula_applet noresult" id="' + params.id + '-edit"';
+      var html = '<p class="formula_applet noresult"';
     }
+    html += ' id="' + params.id + '-edit"';
+
     // get solution from data_b64, if necessary 
     var solution = '';
     if (hasResultfield && params.formulaAppletMode === 'manu') {
@@ -74,16 +79,14 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       }
     }
     html += '>';
-    // end of composing HTML
-
-    // var language = H5Pbridge.docLang();
+  
     var temp = H5Pbridge.H5P_to_MathQuill(expression, solution, true); //isEditor=true
-    // temp: like LATEX, but special syntax for MathQuill added
+    // temp contains text similar to LATEX, but with a special syntax for MathQuill added
+
     // wrap temp into <span> and close <p class="formula_applet"...> tag
-    html += '<span id="math-field">' + temp + '</span><\p>';
+    html += '<span id="math-field">' + temp + '</span></p>';
     // console.log('Assembled html: ' + html);
 
-    // var inner = '<input type="text" id="' + params.id + '" class="formula_applet">dummy';
     var fieldMarkup = H5PEditor.createFieldMarkup(this.field, html, h5p_id);
     self.$item = H5PEditor.$(fieldMarkup);
     self.$formulaApplet = self.$item.find('.formula_applet');
@@ -115,7 +118,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
 
     self.$item.appendTo($wrapper);
     //TODO maybe wait for math-field appear in DOM
-    editorMf = mathQuillifyEditor();
+    editorMf = this.mathQuillifyEditor();
     init_synchronize(params);
 
     $(function () {
@@ -127,16 +130,16 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       keyboardparent.append(kbDiv);
       H5Pbridge.virtualKeyboardBindEvents();
       H5Pbridge.keyboardActivate('mixed');
-      (async function () {
-        FAE_global = self;
-        // console.log(FAE_global);
-        // console.log(H5PEditor.FormulaAppletEditor);
-      })();
-      // get config.debug value from js/config.json.ori, show or hide 4 fields
+      // (async function () {
+      //   FAE_global = self;
+      //   // console.log(FAE_global);
+      //   // console.log(H5PEditor.FormulaAppletEditor);
+      // })();
+      // get config.debug value from js/config.json.ori, show or hide debugging fields
       var css_display_value = (H5Pbridge.config.debug === 'true' ? '' : 'none');
-      H5P.jQuery('.field-name-data_b64').css('display', css_display_value);
-      H5P.jQuery('.field-name-id').css('display', css_display_value);
-      H5P.jQuery('.field-name-selected_language').css('display', css_display_value);
+      $('.field-name-data_b64').css('display', css_display_value);
+      $('.field-name-id').css('display', css_display_value);
+      $('.field-name-selected_language').css('display', css_display_value);
 
       // afterAppend(self);
     });
@@ -202,8 +205,9 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
   // END - parts from ColorPicker example 
 
 
-  function mathQuillifyEditor() {
-    var self = this;
+  // function mathQuillifyEditor() {
+  FormulaAppletEditor.prototype.mathQuillifyEditor = function () {
+    var parent = this.parent;
     // make whole mathFieldSpan editable
     var mathFieldSpan = document.getElementById('math-field');
     //TODO are next 3 lines necessary?
@@ -220,8 +224,8 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
             if (H5Pbridge.isEditHandlerActive()) {
               // latex -> expression, data_b64;
               var temp = H5Pbridge.MathQuill_to_H5P(mathField.latex());
-              setValue_workaround('TEX_expression', temp.expression, self);
-              setValue_workaround('data_b64', temp.data_b64, self);
+              mySetValue('TEX_expression', temp.expression, parent);
+              mySetValue('data_b64', temp.data_b64, parent);
             }
           } catch (error) {
             console.error('ERROR in MQ.MathField: ' + error);
@@ -262,7 +266,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       } else {
         var msg = ' (editorMf) - do nothing';
       }
-      // console.log('TEX_expression changed: ' + event.target.value + msg);
+      // console.log('TEX_expression changed: ' + event.target.value + msg);setValue_workaround
     });
   }
 
@@ -315,12 +319,33 @@ function refreshEditor(editorMf, latex, params) {
 // }
 
 // setValue_workaround() sucks if field "name" has a widget attached
-function setValue_workaround(name, value, self) {
-  console.log(self);
-  // H5P
-  FAE_global.parent.params[name] = value;
+// function setValue_workaround(name, value, self) {
+//   console.log(self);
+//   // H5P
+//   FAE_global.parent.params[name] = value;
+//   // synchronize DOM
+//   var targetField = H5PEditor.findField(name, FAE_global.parent);
+//   var type = targetField.field.type;
+//   if (type === 'select') {
+//     var $targetField = targetField.$select;
+//     $targetField[0].value = value;
+//   };
+//   if (type === 'text') {
+//     var $targetField = targetField.$input;
+//     $targetField[0].value = value;
+//   };
+//   if (type === 'boolean') {
+//     var $targetField = targetField.$input;
+//     $targetField[0].checked = value;
+//   };
+// }
+
+//TODO avoid name collision 
+function mySetValue(name, value, parent) {
+  console.log(parent);
+  parent.params[name] = value;
   // synchronize DOM
-  var targetField = H5PEditor.findField(name, FAE_global.parent);
+  var targetField = H5PEditor.findField(name, parent);
   var type = targetField.field.type;
   if (type === 'select') {
     var $targetField = targetField.$select;
