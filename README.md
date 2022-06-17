@@ -1,5 +1,6 @@
 # FormulaApplet-H5P
-* lets you create math or physics exercises on CMS with H5P plugins (WordPress, Drupal, Moodle,...). 
+* lets you create math or physics exercises on CMS with H5P plugins (WordPress, Drupal, Moodle,...).
+* see [examples](https://www.formelapplet.de) at www.formelapplet.de
 * You can provide an expression as solution, and FormulaApplet checks if your solution is right or wrong.
 * **Algebraic equivalent** solutions are also accepted.
 * FormulaApplet is able to deal with **physical units**.
