@@ -12,6 +12,7 @@ import {
     docLang
 } from "./dom.js";
 import MQ from "./lib/mathquillWrapper.js";
+import repo from "../../package.json";
 
 var unitText = '<span style="font-size: 70%; color:green">(Un)Set<br>Unit</span>';
 var inputText = '<span style="font-size: 80%; color:green">Set input</span>';
@@ -32,6 +33,13 @@ const setinput = ['setinput', inputText, '#setInput'];
 const backspace = ['backspace', '\u232B', '#Backspace'];
 const poweroften = ['power_of_ten', '10<sup style="font-size: 85%">\u2b1a</sup>', '10^'];
 const version = config.version + ' (' + docLang() + ')';
+var message = '<p>&nbsp;</p>';
+message += '<p>H5P.FormulaApplet Version ' + version + '</p>';
+var temp = repo.repository.url;
+temp = temp.slice(4); //delete start "git+"
+temp += '#readme';
+message += '<p><a href="' + temp + '">' + temp + '</a>  by gro58</p>';
+message += '<p>&nbsp;</p>';
 
 var keys = [];
 keys['mixed'] = [
@@ -392,10 +400,11 @@ keys['greek_caps'] = [
         enter
     ]
 ];
+
 keys['info'] = [
     // row 0
     [
-        ['version', version, ' ']
+        ['version', message, ' ']
     ]
 ];
 
