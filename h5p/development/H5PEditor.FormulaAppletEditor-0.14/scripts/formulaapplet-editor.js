@@ -203,6 +203,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
 
 
   function mathQuillifyEditor() {
+    var self = this;
     // make whole mathFieldSpan editable
     var mathFieldSpan = document.getElementById('math-field');
     //TODO are next 3 lines necessary?
@@ -217,8 +218,10 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
         edit: function (mathField) { // useful event handlers
           try {
             if (H5Pbridge.isEditHandlerActive()) {
-              //TODO do nothing if ???
-              refreshFields(mathField.latex());
+              // latex -> expression, data_b64;
+              var temp = H5Pbridge.MathQuill_to_H5P(mathField.latex());
+              setValue_workaround('TEX_expression', temp.expression, self);
+              setValue_workaround('data_b64', temp.data_b64, self);
             }
           } catch (error) {
             console.error('ERROR in MQ.MathField: ' + error);
@@ -266,12 +269,13 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
   return FormulaAppletEditor;
 })(H5P.jQuery);
 
-function refreshFields(latex) {
-  // latex -> expression, data_b64;
-  var temp = H5Pbridge.MathQuill_to_H5P(latex);
-  setValue_workaround('TEX_expression', temp.expression);
-  setValue_workaround('data_b64', temp.data_b64);
-}
+//DELETE - refreshFields() moved to MathQuillifyEditor, handler
+// function refreshFields(latex) {
+//   // latex -> expression, data_b64;
+//   var temp = H5Pbridge.MathQuill_to_H5P(latex);
+//   setValue_workaround('TEX_expression', temp.expression);
+//   setValue_workaround('data_b64', temp.data_b64);
+// }
 
 function refreshEditor(editorMf, latex, params) {
   // var language = H5Pbridge.docLang();
@@ -311,7 +315,8 @@ function refreshEditor(editorMf, latex, params) {
 // }
 
 // setValue_workaround() sucks if field "name" has a widget attached
-function setValue_workaround(name, value) {
+function setValue_workaround(name, value, self) {
+  console.log(self);
   // H5P
   FAE_global.parent.params[name] = value;
   // synchronize DOM
