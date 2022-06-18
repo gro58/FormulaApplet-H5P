@@ -52,7 +52,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
 
     // compose an HTML tag to be used by MathQuill using params and H5Pbridge
     if (typeof params.id === 'undefined' || params.id === 'new_id') {
-      //TODO if params.id already exists (duplicate import), create new one!
+      // TODO if params.id already exists (duplicate import), create new one!
       params.id = randomId(14);
     }
 
@@ -105,7 +105,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     };
 
     self.$item.appendTo($wrapper);
-    //TODO maybe wait for math-field appear in DOM
+    // TODO maybe wait for math-field appear in DOM
     editorMf = this.mathQuillifyEditor();
     init_synchronize(params);
 
@@ -169,7 +169,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     var parent = this.parent;
     // make whole mathFieldSpan editable
     var mathFieldSpan = document.getElementById('math-field');
-    //TODO are next 3 lines necessary?
+    // TODO are next 3 lines necessary?
     var temp = mathFieldSpan.innerHTML;
     temp = temp.replace(/\\unit{/g, H5Pbridge.config.unit_replacement);
     mathFieldSpan.innerHTML = temp;
@@ -183,7 +183,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
             if (H5Pbridge.isEditHandlerActive()) {
               // latex -> expression, data_b64;
               var temp = H5Pbridge.MathQuill_to_H5P(mathField.latex());
-              //TODO see if this.setValue() can be used instead of setValueAndSyncDOM().
+              // TODO see if this.setValue() can be used instead of setValueAndSyncDOM().
               setValueAndSyncDOM('TEX_expression', temp.expression, parent);
               setValueAndSyncDOM('data_b64', temp.data_b64, parent);
             }
@@ -242,7 +242,7 @@ function refreshEditor(editorMf, latex, params) {
   }
 }
 
-//TODO is this necessary to avoid name collision with setValue?
+// TODO is this necessary to avoid name collision with setValue?
 function setValueAndSyncDOM(name, value, parent) {
   parent.params[name] = value;
   // synchronize DOM 

@@ -17,7 +17,7 @@ H5P.FormulaApplet = (function ($, Question) {
   var STATE_FINISHED = 'finished';
 
 
-  //TODO resize
+  // TODO resize
   // $(document).trigger('resize');
 
 
@@ -42,7 +42,7 @@ H5P.FormulaApplet = (function ($, Question) {
       // add option for result of sanitizedPrecision()
       // this.options.precision will not be changed
       sanitizedPrecision: '',
-      //TODO
+      // TODO
       overallFeedback: [],
       // behaviour from blanks.js
       behaviour: {
@@ -138,7 +138,7 @@ H5P.FormulaApplet = (function ($, Question) {
         // specific for blanks.js
         // self.markResults();
         self.showEvaluation();
-        //TODO XAPI
+        // TODO XAPI
         // self.triggerXAPICompleted(self.getScore(), self.getMaxScore());
       });
     }
@@ -146,21 +146,21 @@ H5P.FormulaApplet = (function ($, Question) {
     // Check answer button
     self.addButton('show-solution', self.params.showSolutions, function () {
       // specific for blanks.js
-      //TODO
+      // TODO
       // if (self.allBlanksFilledOut()) {
       self.toggleButtonVisibility(STATE_SHOWING_SOLUTION);
-      //TODO self.showCorrectAnswers();
+      // TODO self.showCorrectAnswers();
       // }
     }, self.params.behaviour.enableSolutionsButton);
 
     // Try again button
     if (self.params.behaviour.enableRetry === true) {
       self.addButton('try-again', self.params.tryAgain, function () {
-        //TODO DELETE self.removeMarkedResults(); 
+        // TODO DELETE self.removeMarkedResults(); 
         self.hideSolutions();
         self.hideEvaluation();
-        //TODO self.clearAnswers();
-        //TODO self.resetGrowTextField();
+        // TODO self.clearAnswers();
+        // TODO self.resetGrowTextField();
         self.done = false;
         self.toggleButtonVisibility(STATE_ONGOING);
         // self.$questions.filter(':first').find('input:first').focus();
@@ -253,7 +253,7 @@ H5P.FormulaApplet = (function ($, Question) {
         // console.log(mfContainer.latex() + ' isEqual= ' + isEqual);
       }
       // see ok_wrong_tagging.js
-      //TODO DELETE obsolete 
+      // TODO DELETE obsolete 
       // var key = '#' + id + '.formula_applet + span.truefalse';
       // H5Pbridge.setOkWrongTag(key, isEqual);
 
@@ -296,7 +296,7 @@ H5P.FormulaApplet = (function ($, Question) {
    */
   C.prototype.hideSolutions = function () {
     // Clean solution from quiz
-    //TODO this.$questions.find('.h5p-correct-answer').remove();
+    // TODO this.$questions.find('.h5p-correct-answer').remove();
   };
 
   /**
@@ -354,7 +354,7 @@ H5P.FormulaApplet = (function ($, Question) {
     }
     counter++;
 
-    //TODO DELETE 
+    // TODO DELETE 
     // console.log(self);
     // console.log(fa_obj);
 
@@ -390,7 +390,7 @@ H5P.FormulaApplet = (function ($, Question) {
       if (hasResultField) {
         $(domElem).addClass('hasresultfield');
       }
-      //TODO simplify: //DELETE
+      // TODO simplify: //DELETE
       // var hasSolution = (options.formulaAppletMode === 'manu');
 
       // var language = H5Pbridge.docLang();
@@ -432,7 +432,7 @@ H5P.FormulaApplet = (function ($, Question) {
             }
           }
         } catch (error) {
-          //TODO ERROR ReferenceError: ev is not defined (maybe if hasSolution = false) 
+          // TODO ERROR ReferenceError: ev is not defined (maybe if hasSolution = false) 
           console.log('ERROR ' + error);
         }
       }
@@ -476,7 +476,7 @@ H5P.FormulaApplet = (function ($, Question) {
         options.MathField = mf;
       }
 
-      //TODO no need for argument "options" because defined in surrounding function
+      // TODO no need for argument "options" because defined in surrounding function
       function mathQuillEditHandler() {
         if (H5Pbridge.isEditHandlerActive()) {
           // var data_b64 = options.data_b64;

@@ -18,7 +18,7 @@ var unitText = '<span style="font-size: 70%; color:green">(Un)Set<br>Unit</span>
 var inputText = '<span style="font-size: 80%; color:green">Set input</span>';
 
 if (docLang() == 'de') {
-    //TODO use language/*.json H5P.t(...)
+    // TODO use language/*.json H5P.t(...)
     unitText = '<span style="font-size: 70%; color:green">Einheit<br>setzen<br>löschen</span>';
     inputText = '<span style="font-size: 80%; color:green">Eingabefeld setzen</span>';
 }
@@ -725,7 +725,7 @@ function processVirtualKeyboardCommand(cmd) {
 
 
     // if (cmd === '#Enter') {
-    //     //TODO ENTER: deal with case cmd=enter
+    //     // TODO ENTER: deal with case cmd=enter
     //     console.log('vkbd: button "enter"');
     // }
 
@@ -733,7 +733,7 @@ function processVirtualKeyboardCommand(cmd) {
     // instead of get many from H5P.FormulaApplet (formulaapplet.js )
     console.log(cmd);
     var mqEditableField = $('.formula_applet.mq-math-mode.selected').find('.mq-editable-field')[0];
-    //TODO deal with case 'editor' - better use var isEditor?
+    // TODO deal with case 'editor' - better use var isEditor?
     if (typeof mqEditableField === 'undefined') {
         mqEditableField = $('#math-field')[0];
     }

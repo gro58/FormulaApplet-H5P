@@ -1,5 +1,5 @@
 "use strict";
-//TODO get rid of global var
+// TODO get rid of global var
 var editHandlerActive = true;
 
 export function setEditHandlerActive(truefalse){
