@@ -89,6 +89,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     self.$formulaApplet = self.$item.find('.formula_applet');
 
     self.config = {
+      // TODO investigate use of self.config 
       appendTo: self.$item[0],
       preferredFormat: 'hex',
       // expression: self.getExpression(),
@@ -169,6 +170,11 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     // TODO are next 3 lines necessary?
     var temp = mathFieldSpan.innerHTML;
     temp = temp.replace(/\\unit{/g, H5Pbridge.config.unit_replacement);
+    if (mathFieldSpan.innerHTML === temp) {
+      console.log(mathFieldSpan.innerHTML, 'did not change');
+    } else {
+      console.log(mathFieldSpan.innerHTML,'changed to',temp);
+    }
     mathFieldSpan.innerHTML = temp;
 
     if (!mathFieldSpan) throw new Error("Cannot find math-field. The FormulaAppletEditor must provide one.");
@@ -180,7 +186,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
             if (H5Pbridge.isEditHandlerActive()) {
               // latex -> expression, data_b64;
               var temp = H5Pbridge.MathQuill_to_H5P(mathField.latex());
-              // TODO see if this.setValue() can be used instead of setValueAndSyncDOM().
+              // TODO investigate if this.setValue() can be used instead of setValueAndSyncDOM().
               setValueAndSyncDOM('TEX_expression', temp.expression, parent);
               setValueAndSyncDOM('data_b64', temp.data_b64, parent);
             }
@@ -239,7 +245,7 @@ function refreshEditor(editorMf, latex, params) {
   }
 }
 
-// TODO is this necessary to avoid name collision with setValue?
+// avoid name collision with setValue
 function setValueAndSyncDOM(name, value, parent) {
   parent.params[name] = value;
   // synchronize DOM 

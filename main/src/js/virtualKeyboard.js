@@ -38,7 +38,8 @@ message += '<p>H5P.FormulaApplet Version ' + version + '</p>';
 var temp = repo.repository.url;
 temp = temp.slice(4); //delete start "git+"
 temp += '#readme';
-message += '<p><a href="' + temp + '">' + temp + '</a>  by gro58</p>';
+message += '<p><a href="' + temp + '">' + temp + '</a></p>';
+message += '<p>by <a href="https://www.grossmann.info">gro58</a></p>';
 message += '<p>&nbsp;</p>';
 
 var keys = [];
@@ -723,17 +724,15 @@ export function showVirtualKeyboard() {
 
 function processVirtualKeyboardCommand(cmd) {
 
-
-    // if (cmd === '#Enter') {
-    //     // TODO ENTER: deal with case cmd=enter
-    //     console.log('vkbd: button "enter"');
-    // }
+    if (cmd === '#Enter') {
+        // TODO ENTER: deal with case cmd=enter
+        console.log('vkbd: button "enter"');
+    }
 
     // get selected mathField from DOM 
     // instead of get many from H5P.FormulaApplet (formulaapplet.js )
     console.log(cmd);
     var mqEditableField = $('.formula_applet.mq-math-mode.selected').find('.mq-editable-field')[0];
-    // TODO deal with case 'editor' - better use var isEditor?
     if (typeof mqEditableField === 'undefined') {
         mqEditableField = $('#math-field')[0];
     }

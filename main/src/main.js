@@ -31,7 +31,7 @@ import {
     checkIfEqual,
     checkIfEquality
 } from "./js/checkIfEqual.js";
-import setOkWrongTag from "./js/ok_wrong_tagging.js";
+// import setOkWrongTag from "./js/ok_wrong_tagging.js";
 import makeAutoUnitstring from "./js/autoUnit.js";
 
 // H5Pbridge
@@ -55,7 +55,7 @@ export {
     keyboardActivate,
     checkIfEqual,
     checkIfEquality,
-    setOkWrongTag,
+    // setOkWrongTag,
     makeAutoUnitstring,
     createWaiter
 };

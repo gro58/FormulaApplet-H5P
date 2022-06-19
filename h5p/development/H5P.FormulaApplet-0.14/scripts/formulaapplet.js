@@ -17,7 +17,7 @@ H5P.FormulaApplet = (function ($, Question) {
   var STATE_FINISHED = 'finished';
 
 
-  // TODO resize
+  // TODO resize (?)
   // $(document).trigger('resize');
 
 
@@ -42,7 +42,7 @@ H5P.FormulaApplet = (function ($, Question) {
       // add option for result of sanitizedPrecision()
       // this.options.precision will not be changed
       sanitizedPrecision: '',
-      // TODO
+      // TODO make use of overallFeedback
       overallFeedback: [],
       // behaviour from blanks.js
       behaviour: {
@@ -59,6 +59,7 @@ H5P.FormulaApplet = (function ($, Question) {
       testoption: 'test'
     }, options);
     // console.log(this.options)
+    // TODO unify syntax: params/options
     this.params = this.options;
     // console.log(this.params);
     // Keep provided id.
@@ -145,11 +146,10 @@ H5P.FormulaApplet = (function ($, Question) {
 
     // Check answer button
     self.addButton('show-solution', self.params.showSolutions, function () {
-      // specific for blanks.js
-      // TODO
+      // TODO specific for blanks.js?
       // if (self.allBlanksFilledOut()) {
       self.toggleButtonVisibility(STATE_SHOWING_SOLUTION);
-      // TODO self.showCorrectAnswers();
+      // TODO implement self.showCorrectAnswers();
       // }
     }, self.params.behaviour.enableSolutionsButton);
 
@@ -160,7 +160,7 @@ H5P.FormulaApplet = (function ($, Question) {
         self.hideSolutions();
         self.hideEvaluation();
         // TODO self.clearAnswers();
-        // TODO self.resetGrowTextField();
+        // TODO DELETE self.resetGrowTextField();
         self.done = false;
         self.toggleButtonVisibility(STATE_ONGOING);
         // self.$questions.filter(':first').find('input:first').focus();
@@ -252,18 +252,12 @@ H5P.FormulaApplet = (function ($, Question) {
         isEqual = H5Pbridge.checkIfEquality(mfContainer.latex(), definitionSets, precision);
         // console.log(mfContainer.latex() + ' isEqual= ' + isEqual);
       }
-      // see ok_wrong_tagging.js
-      // TODO DELETE obsolete 
+
       // var key = '#' + id + '.formula_applet + span.truefalse';
-      // H5Pbridge.setOkWrongTag(key, isEqual);
+      // H5Pbridge.setOkWrongTag(key, isEqual); replaced by H5P.setScoredResult(1,5,instance,false, false);
+      // ok_wrong_tagging.js deleted
 
       correct = (isEqual ? 1 : 0);
-      // for (var i = 0; i < self.clozes.length; i++) {
-      //   if (self.clozes[i].correct()) {
-      //     correct++;
-      //   }
-      //   self.params.userAnswers[i] = self.clozes[i].getUserAnswer();
-      // }
     }
     return correct;
   };
@@ -295,15 +289,9 @@ H5P.FormulaApplet = (function ($, Question) {
    * Hide solutions. (/try again)
    */
   C.prototype.hideSolutions = function () {
-    // Clean solution from quiz
-    // TODO this.$questions.find('.h5p-correct-answer').remove();
+    // TODO Clean solution from quiz
+    // this.$questions.find('.h5p-correct-answer').remove();
   };
-
-  /**
-   * Get maximum number of correct answers.
-   *
-   * @returns {Number} Max points
-   */
 
   // stub, from blanks.js
   /**
@@ -313,6 +301,7 @@ H5P.FormulaApplet = (function ($, Question) {
    */
   C.prototype.getMaxScore = function () {
     // var self = this;
+    // TODO implement getMaxScore()
     // return self.clozes.length;
     return 1;
   };
@@ -354,10 +343,6 @@ H5P.FormulaApplet = (function ($, Question) {
     }
     counter++;
 
-    // TODO DELETE 
-    // console.log(self);
-    // console.log(fa_obj);
-
     var options = self.options;
     var id = options.id;
     // mathQuillifying
@@ -368,8 +353,8 @@ H5P.FormulaApplet = (function ($, Question) {
       throw id + ' not found';
     }
 
-    var waitForDomElem = H5Pbridge.createWaiter('waitForDomElem: '+id);
-      waitForDomElem.condition = function () {
+    var waitForDomElem = H5Pbridge.createWaiter('waitForDomElem: ' + id);
+    waitForDomElem.condition = function () {
       $el = $('#' + id + '.formula_applet:not(.mq-math-mode)');
       return (typeof $el[0] !== 'undefined');
     };
@@ -390,10 +375,6 @@ H5P.FormulaApplet = (function ($, Question) {
       if (hasResultField) {
         $(domElem).addClass('hasresultfield');
       }
-      // TODO simplify: //DELETE
-      // var hasSolution = (options.formulaAppletMode === 'manu');
-
-      // var language = H5Pbridge.docLang();
       //start with empty user input, hasSolution=true/false does not matter
       var solution = '';
       var isEditor = false;
@@ -445,9 +426,8 @@ H5P.FormulaApplet = (function ($, Question) {
           H5Pbridge.showVirtualKeyboard();
           $("button.keyb_button").removeClass('selected');
         });
-        // insert span for right/wrong tag
-        // will be replaced by H5P scoring
-        $('<span class="truefalse">&nbsp;</span>').insertAfter($el);
+        // insert span for right/wrong tag is replaced by H5P scoring
+        // $('<span class="truefalse">&nbsp;</span>').insertAfter($el);
       } catch (error) {
         console.error(error);
       }
