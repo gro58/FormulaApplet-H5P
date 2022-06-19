@@ -6,8 +6,8 @@
  * @param {H5P.jQuery} $
  */
 
- var H5P = H5P || {};
- var H5PIntegration = H5PIntegration || {};
+var H5P = H5P || {};
+var H5PIntegration = H5PIntegration || {};
 console.log('Here is formulaapplet-editor.js ' + H5Pbridge.config.version);
 
 H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (function ($) {
@@ -105,7 +105,6 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     };
 
     self.$item.appendTo($wrapper);
-    // TODO maybe wait for math-field appear in DOM
     editorMf = this.mathQuillifyEditor();
     init_synchronize(params);
 
@@ -125,45 +124,43 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     });
   };
 
-  // DELETE parts concerning spectrum
-  /**
-   * Hide color selector
-   * @method hide
-   */
-  FormulaAppletEditor.prototype.hide = function () {
-    // this.$colorPicker.spectrum('hide');
-  };
+  // obsolete parts concerning spectrum commented out
 
-  /**
-   * Save the color
-   *
-   * @param {Object} color The
-   */
-  FormulaAppletEditor.prototype.setColor = function (color) {
-    // Save the value, allow null
-    this.params = (color === null ? null : this.colorToString(color));
-    this.setValue(this.field, this.params);
+  // /**
+  //  * Hide color selector
+  //  * @method hide
+  //  */
+  // FormulaAppletEditor.prototype.hide = function () {};
 
-    this.changes.forEach(function (cb) {
-      cb(this.params);
-    })
-  };
+  // /**
+  //  * Save the color
+  //  *
+  //  * @param {Object} color The
+  //  */
+  // FormulaAppletEditor.prototype.setColor = function (color) {
+  //     // Save the value, allow null
+  //     this.params = (color === null ? null : this.colorToString(color));
+  //     this.setValue(this.field, this.params);
 
-  FormulaAppletEditor.prototype.getColor = function () {
-    var isEmpty = (this.params === null || this.params === "");
-    return isEmpty ? null : this.params;
-  };
+  //     this.changes.forEach(function (cb) {
+  //         cb(this.params);
+  //     })
+  // };
+
+  // FormulaAppletEditor.prototype.getColor = function () {
+  //     var isEmpty = (this.params === null || this.params === "");
+  //     return isEmpty ? null : this.params;
+  // };
 
   /**
    * Validate the current values.
    */
-  FormulaAppletEditor.prototype.validate = function () {
-    this.hide();
-    return (this.params !== undefined && this.params.length !== 0);
-  };
+  // FormulaAppletEditor.prototype.validate = function () {
+  //     this.hide();
+  //     return (this.params !== undefined && this.params.length !== 0);
+  // };
 
-  FormulaAppletEditor.prototype.remove = function () {};
-  // END - parts from ColorPicker example 
+  // FormulaAppletEditor.prototype.remove = function () {};
 
   FormulaAppletEditor.prototype.mathQuillifyEditor = function () {
     var parent = this.parent;

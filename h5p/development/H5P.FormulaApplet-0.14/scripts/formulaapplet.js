@@ -476,31 +476,11 @@ H5P.FormulaApplet = (function ($, Question) {
         options.MathField = mf;
       }
 
-      // TODO no need for argument "options" because defined in surrounding function
       function mathQuillEditHandler() {
         if (H5Pbridge.isEditHandlerActive()) {
-          // var data_b64 = options.data_b64;
-          var unitAuto = options.formulaAppletPhysics;
-          // var precision = options.sanitizedPrecision;
-          // var definitionSets = options.definitionSets;
-
-          if (unitAuto) {
-            // has to be done before checkIfEqual
+          if (options.formulaAppletPhysics) {
             H5Pbridge.makeAutoUnitstring(mf);
           }
-
-          // var isEqual;
-          // if (hasSolution) {
-          //   isEqual = H5Pbridge.checkIfEqual(mf.latex(), data_b64, definitionSets, precision);
-          // } else {
-          //   // look at whole equation: input field and surroundings
-          //   var mfContainer = MQ.StaticMath(domElem);
-          //   isEqual = H5Pbridge.checkIfEquality(mfContainer.latex(), definitionSets, precision);
-          //   console.log(mfContainer.latex() + ' isEqual= ' + isEqual);
-          // }
-          // // see ok_wrong_tagging.js
-          // var key = '#' + id + '.formula_applet + span.truefalse';
-          // H5Pbridge.setOkWrongTag(key, isEqual);
         }
       }
       options.domElem = domElem;
