@@ -131,7 +131,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
   //  * Hide color selector
   //  * @method hide
   //  */
-  // FormulaAppletEditor.prototype.hide = function () {};
+  FormulaAppletEditor.prototype.hide = function () {};
 
   // /**
   //  * Save the color
@@ -156,12 +156,12 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
   /**
    * Validate the current values.
    */
-  // FormulaAppletEditor.prototype.validate = function () {
-  //     this.hide();
-  //     return (this.params !== undefined && this.params.length !== 0);
-  // };
+  FormulaAppletEditor.prototype.validate = function () {
+      this.hide();
+      return (this.params !== undefined && this.params.length !== 0);
+  };
 
-  // FormulaAppletEditor.prototype.remove = function () {};
+  FormulaAppletEditor.prototype.remove = function () {};
 
   FormulaAppletEditor.prototype.mathQuillifyEditor = function () {
     var parent = this.parent;
