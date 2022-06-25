@@ -44,6 +44,10 @@ H5P.FormulaApplet = (function ($, Question) {
       sanitizedPrecision: '',
       // TODO make use of overallFeedback
       overallFeedback: [],
+      // i18n done in JoubelUI?
+      showSolutions: "Show solution",
+      tryAgain: "Try again",
+      checkAnswer: "Check",
       // behaviour from blanks.js
       behaviour: {
         enableRetry: true,
@@ -165,6 +169,7 @@ H5P.FormulaApplet = (function ($, Question) {
         self.toggleButtonVisibility(STATE_ONGOING);
         // self.$questions.filter(':first').find('input:first').focus();
       });
+      console.log('try again button', self, self.params, self.params.behaviour, self.params.tryAgain);
     }
     self.toggleButtonVisibility(STATE_ONGOING);
   };
