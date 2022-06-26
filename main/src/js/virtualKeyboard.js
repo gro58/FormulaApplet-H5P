@@ -15,12 +15,12 @@ import {
 import MQ from "./lib/mathquillWrapper.js";
 import repo from "../../package.json";
 
-var unitText = '<span style="font-size: 70%; color:green">(Un)Set<br>Unit</span>';
+var unitText = '<span>(Un)Set<br>Unit</span>';
 var inputText = '<span style="font-size: 80%; color:green">Set input</span>';
 
 if (docLang() == 'de') {
     // TODO use language/*.json H5P.t(...)
-    unitText = '<span style="font-size: 70%; color:green">Einheit<br>setzen<br>löschen</span>';
+    unitText = '<span>Einheit<br>setzen<br>löschen</span>';
     inputText = '<span style="font-size: 80%; color:green">Eingabefeld setzen</span>';
 }
 
@@ -421,6 +421,10 @@ var keys = keys_json;
 keys['info'][0] = [
     ['version', message, ' ']
 ];
+
+// [2][2][1] row 2, column 2, parameter 1
+// parameters: 0:name, 1:text, 2:command
+keys['mixed'][2][2][1] = unitText;
 
 function getVirtualKeyboard(isEditor) {
     let result = document.createElement("div");

@@ -24,9 +24,9 @@
 ["minus","-","-"]
 ],
 [
-["power_of_ten","10<sup style=\"font-size: 85%\">⬚</sup>","10^"],
+["power_of_ten","10<sup>⬚</sup>","10^"],
 ["lg","lg","lg("],
-["setunsetUnit","<span style=\"font-size: 70%; color:green\">Einheit<br>setzen<br>löschen</span>","#setUnit"],
+["setunsetUnit","<span>dummy: set unit</span>","#setUnit"],
 ["nthRoot","<sup style=\"position: relative; top: -0.5em; right: -0.5em;\">⬚</sup><span style=\"white-space: nowrap; font-size:larger\">&radic;<span style=\"text-decoration:overline;\">&nbsp;&#x2b1a;&nbsp;</span></span>","#nthroot"],
 ["smallgap-2","",""],
 ["1"],
@@ -38,17 +38,18 @@
 [
 ["bracket-left","(","("],
 ["bracket-right",")",")"],
-["square","⬚<sup style=\"font-size: 85%\">2</sup>","#square"],
+["square","⬚<sup>2</sup>","#square"],
 ["squareroot","<span style=\"white-space: nowrap; font-size:larger\">&radic;<span style=\"text-decoration:overline;\">&nbsp;&#x2b1a;&nbsp;</span></span>","\\sqrt "],
 ["smallgap-3","",""],
 ["0"],
 ["comma",",",","],
 ["left","<span>◅</span>","#Left"],["right","<span>▻</span>","#Right"],
-["enter","<span>⏎</span>","#Enter"]]],
+["enter","<span>⏎</span>","#Enter"]
+]],
 "function":[
-[["sin","<span style=\"font-size: 85%\">sin</span>"],
-["cos","<span style=\"font-size: 85%\">cos</span>"],
-["tan","<span style=\"font-size: 85%\">tan</span>"],
+[["sin","<span>sin</span>"],
+["cos","<span>cos</span>"],
+["tan","<span>tan</span>"],
 ["smallgap-0","",""],
 ["degree","°"],
 ["minute","'"],
@@ -57,12 +58,12 @@
 ["pi","&pi;","\\pi "]
 ],
 [
-["arcsin","<span style=\"font-size: 85%\">sin<sup>-1</sup></span>"],
-["arccos","<span style=\"font-size: 85%\">cos<sup>-1</sup></span>"],
-["arctan","<span style=\"font-size: 85%\">tan<sup>-1</sup></span>"],
+["arcsin","<span>sin<sup>-1</sup></span>"],
+["arccos","<span>cos<sup>-1</sup></span>"],
+["arctan","<span>tan<sup>-1</sup></span>"],
 ["smallgap-1","",""],
 ["abs","│⬚│","| |"],
-["subscript","⬚<sub style=\"font-size: 85%\">⬚</sub>"],
+["subscript","⬚<sub>⬚</sub>"],
 ["space","<span class=\"tr de kspace\">Leer</span><span class=\"tr en kspace\">Space</span>","\\ "],
 ["integral","∫","\\int_{}^{}"],
 ["infinity","&infin;","\\infinity "]
@@ -70,7 +71,7 @@
 [
 ["ln"],
 ["lg"],
-["log_base","log<sub style=\"font-size: 85%\">⬚</sub>","log_"],
+["log_base","log<sub>⬚</sub>","log_"],
 ["smallgap-2","",""],
 ["bracket-left","(","("],
 ["bracket-right",")",")"],
@@ -79,12 +80,12 @@
 ["backspace","⌫","#Backspace"]
 ],
 [
-["exp","e<sup style=\"font-size: 85%\">⬚</sup>"],
-["power_of_ten","10<sup style=\"font-size: 85%\">⬚</sup>","10^"],
+["exp","e<sup>⬚</sup>"],
+["power_of_ten","10<sup>⬚</sup>","10^"],
 ["power","⬚<sup>⬚</sup>","^"],
 ["smallgap-3","",""],
 ["squareroot","<span style=\"white-space: nowrap; font-size:larger\">&radic;<span style=\"text-decoration:overline;\">&nbsp;&#x2b1a;&nbsp;</span></span>","\\sqrt "],
-["abs","<span style=\"font-size: 85%\">abs</span>"],
+["abs","<span>abs</span>"],
 ["left","<span>◅</span>","#Left"],["right","<span>▻</span>","#Right"],
 ["enter","<span>⏎</span>","#Enter"]
 ]],
@@ -141,7 +142,8 @@
 ["up","↑"],
 ["left","<span>◅</span>","#Left"],
 ["right","<span>▻</span>","#Right"],
-["enter","<span>⏎</span>","#Enter"]]],
+["enter","<span>⏎</span>","#Enter"]
+]],
 "abc_caps":[
 [["1"],
 ["2"],
@@ -194,7 +196,8 @@
 ["comma",","],
 ["up","↑"],
 ["left","<span>◅</span>","#Left"],["right","<span>▻</span>","#Right"],
-["enter","<span>⏎</span>","#Enter"]]],
+["enter","<span>⏎</span>","#Enter"]
+]],
 "greek":[
 [["1"],
 ["2"],
@@ -241,7 +244,8 @@
 ["ny","&nu;","\\nu "],
 ["my","&mu;","µ "],
 ["left","<span>◅</span>","#Left"],["right","<span>▻</span>","#Right"],
-["enter","<span>⏎</span>","#Enter"]]],
+["enter","<span>⏎</span>","#Enter"]
+]],
 "greek_caps":[
 [["1"],
 ["2"],
@@ -288,7 +292,8 @@
 ["Ny","&Nu;"],
 ["My","&Mu;"],
 ["left","<span>◅</span>","#Left"],["right","<span>▻</span>","#Right"],
-["enter","<span>⏎</span>","#Enter"]]],
+["enter","<span>⏎</span>","#Enter"]
+]],
 "info":[
 [["version","<p>&nbsp;</p><p>H5P.FormulaApplet Version 0.14.43 (de)</p><p><a href=\"https://github.com/gro58/FormulaApplet-H5P.git#readme\">https://github.com/gro58/FormulaApplet-H5P.git#readme</a></p><p>by <a href=\"https://www.grossmann.info\">gro58</a></p><p>&nbsp;</p>"," "]
 ]]}

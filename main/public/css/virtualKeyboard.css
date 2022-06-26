@@ -117,6 +117,59 @@ div#virtualKeyboard.h5pEditor .virtualKeyboardButton.smallgap {
 	color: green;
 }
 
+.virtualKeyboardButton.virtualKeyboard-setunsetUnit span{
+	font-size: 50%;
+	color: green;
+}
+
+.virtualKeyboardButton.virtualKeyboard-sin span{
+	font-size: 85%;
+}
+
+.virtualKeyboardButton.virtualKeyboard-cos span{
+	font-size: 85%;
+}
+
+.virtualKeyboardButton.virtualKeyboard-tan span{
+	font-size: 85%;
+}
+
+.virtualKeyboardButton.virtualKeyboard-arcsin span{
+	font-size: 85%;
+}
+
+.virtualKeyboardButton.virtualKeyboard-arccos span{
+	font-size: 85%;
+}
+
+.virtualKeyboardButton.virtualKeyboard-arctan span{
+	font-size: 85%;
+}
+
+.virtualKeyboardButton.virtualKeyboard-power_of_ten sup{
+	font-size: 85%;
+}
+
+.virtualKeyboardButton.virtualKeyboard-square sup{
+	font-size: 85%;
+}
+
+.virtualKeyboardButton.virtualKeyboard-subscript sub{
+	font-size: 85%;
+}
+
+.virtualKeyboardButton.virtualKeyboard-log_base sub{
+	font-size: 85%;
+}
+
+.virtualKeyboardButton.virtualKeyboard-exp sup{
+	font-size: 85%;
+}
+
+.virtualKeyboardButton.virtualKeyboard-abs span{
+	font-size: 85%;
+}
+
 div#output tbody {
 	margin: 15px;
 }
