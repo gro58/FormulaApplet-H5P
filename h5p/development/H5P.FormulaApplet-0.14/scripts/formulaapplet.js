@@ -169,7 +169,7 @@ H5P.FormulaApplet = (function ($, Question) {
         self.toggleButtonVisibility(STATE_ONGOING);
         // self.$questions.filter(':first').find('input:first').focus();
       });
-      console.log('try again button', self, self.params, self.params.behaviour, self.params.tryAgain);
+      // console.log('try again button', self, self.params, self.params.behaviour, self.params.tryAgain);
     }
     self.toggleButtonVisibility(STATE_ONGOING);
   };

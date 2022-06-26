@@ -3,6 +3,7 @@
 import $ from "jquery";
 import Hammer from "@egjs/hammerjs";
 import config from "./config.json";
+import keys_json from "./virtualKeyboard-keys-all-lf.json";
 import {
     setUnit,
     eraseUnit,
@@ -23,15 +24,15 @@ if (docLang() == 'de') {
     inputText = '<span style="font-size: 80%; color:green">Eingabefeld setzen</span>';
 }
 
-const squareroot = '<span style="white-space: nowrap; font-size:larger">&radic;<span style="text-decoration:overline;">&nbsp;&#x2b1a;&nbsp;</span></span>';
-const nthRoot = '<sup style="position: relative; top: -0.5em; right: -0.5em;">\u2b1a</sup>' + squareroot;
-const left = ['left', '<span style="font-size: 130%">\u25c5</span>', '#Left'];
-const right = ['right', '<span style="font-size: 130%">\u25bb</span>', '#Right'];
-const setunitkey = ['setunsetUnit', unitText, '#setUnit'];
-const enter = ['enter', '<span style="font-size: 150%; color:green">\u23ce</span>', '#Enter'];
-const setinput = ['setinput', inputText, '#setInput'];
-const backspace = ['backspace', '\u232B', '#Backspace'];
-const poweroften = ['power_of_ten', '10<sup style="font-size: 85%">\u2b1a</sup>', '10^'];
+// const squareroot = '<span style="white-space: nowrap; font-size:larger">&radic;<span style="text-decoration:overline;">&nbsp;&#x2b1a;&nbsp;</span></span>';
+// const nthRoot = '<sup style="position: relative; top: -0.5em; right: -0.5em;">\u2b1a</sup>' + squareroot;
+// const left = ['left', '<span style="font-size: 130%">\u25c5</span>', '#Left'];
+// const right = ['right', '<span style="font-size: 130%">\u25bb</span>', '#Right'];
+// const setunitkey = ['setunsetUnit', unitText, '#setUnit'];
+// const enter = ['enter', '<span style="font-size: 150%; color:green">\u23ce</span>', '#Enter'];
+// const setinput = ['setinput', inputText, '#setInput'];
+// const backspace = ['backspace', '\u232B', '#Backspace'];
+// const poweroften = ['power_of_ten', '10<sup style="font-size: 85%">\u2b1a</sup>', '10^'];
 const version = config.version + ' (' + docLang() + ')';
 var message = '<p>&nbsp;</p>';
 message += '<p>H5P.FormulaApplet Version ' + version + '</p>';
@@ -42,372 +43,383 @@ message += '<p><a href="' + temp + '">' + temp + '</a></p>';
 message += '<p>by <a href="https://www.grossmann.info">gro58</a></p>';
 message += '<p>&nbsp;</p>';
 
-var keys = [];
-keys['mixed'] = [
-    // row 0
-    [
-        // [name, UTF-8, command] 
-        // #command -> mathfield.keystroke(command)
-        ['a'],
-        ['b'],
-        ['c'],
-        ['pi', '&pi;', '\\pi '],
-        ['smallgap-0', '', ''],
-        ['7'],
-        ['8'],
-        ['9'],
-        ['times', '&times;', '\\cdot '],
-        // ['times', '&times;', '\\times '],
-        ['divided', '&divide;', '/']
-    ],
-    // row 1
-    [
-        ['x'],
-        ['y'],
-        ['z'],
-        ['e'],
-        ['smallgap-1', '', ''],
-        ['4'],
-        ['5'],
-        ['6'],
-        ['plus', '+', '+'],
-        ['minus', '-', '-']
-    ],
-    // row 2
-    [
-        poweroften,
-        ['lg', 'lg', 'lg('],
-        // ['power', '\u2b1a<sup>\u2b1a</sup>', '^'],
-        // ['setunsetUnit', 'Set/Unset Unit', '#setUnit'],
-        setunitkey,
-        ['nthRoot', nthRoot, '#nthroot'],
-        ['smallgap-2', '', ''],
-        ['1'],
-        ['2'],
-        ['3'],
-        ['up', '↑', '^'],
-        backspace,
-    ],
-    // row 3
-    [
-        ['bracket-left', '(', '('],
-        ['bracket-right', ')', ')'],
-        ['square', '\u2b1a<sup style="font-size: 85%">2</sup>', '#square'],
-        // notice the space at end of string
-        ['squareroot', squareroot, '\\sqrt '],
-        ['smallgap-3', '', ''],
-        ['0'],
-        ['comma', ',', ','],
-        left,
-        right,
-        enter,
-    ]
-];
+// // var keys = [];
+// // use keys object instead of array
+// var keys = {};
+// keys['mixed'] = [
+//     // row 0
+//     [
+//         // [name, UTF-8, command] 
+//         // #command -> mathfield.keystroke(command)
+//         ['a'],
+//         ['b'],
+//         ['c'],
+//         ['pi', '&pi;', '\\pi '],
+//         ['smallgap-0', '', ''],
+//         ['7'],
+//         ['8'],
+//         ['9'],
+//         ['times', '&times;', '\\cdot '],
+//         // ['times', '&times;', '\\times '],
+//         ['divided', '&divide;', '/']
+//     ],
+//     // row 1
+//     [
+//         ['x'],
+//         ['y'],
+//         ['z'],
+//         ['e'],
+//         ['smallgap-1', '', ''],
+//         ['4'],
+//         ['5'],
+//         ['6'],
+//         ['plus', '+', '+'],
+//         ['minus', '-', '-']
+//     ],
+//     // row 2
+//     [
+//         poweroften,
+//         ['lg', 'lg', 'lg('],
+//         // ['power', '\u2b1a<sup>\u2b1a</sup>', '^'],
+//         // ['setunsetUnit', 'Set/Unset Unit', '#setUnit'],
+//         setunitkey,
+//         ['nthRoot', nthRoot, '#nthroot'],
+//         ['smallgap-2', '', ''],
+//         ['1'],
+//         ['2'],
+//         ['3'],
+//         ['up', '↑', '^'],
+//         backspace,
+//     ],
+//     // row 3
+//     [
+//         ['bracket-left', '(', '('],
+//         ['bracket-right', ')', ')'],
+//         ['square', '\u2b1a<sup style="font-size: 85%">2</sup>', '#square'],
+//         // notice the space at end of string
+//         ['squareroot', squareroot, '\\sqrt '],
+//         ['smallgap-3', '', ''],
+//         ['0'],
+//         ['comma', ',', ','],
+//         left,
+//         right,
+//         enter,
+//     ]
+// ];
 
-keys['function'] = [
-    // row 0
-    [
-        ['sin', '<span style="font-size: 85%">sin</span>'],
-        ['cos', '<span style="font-size: 85%">cos</span>'],
-        ['tan', '<span style="font-size: 85%">tan</span>'],
-        ['smallgap-0', '', ''],
-        ['degree', '°'],
-        ['minute', '\''],
-        ['second', '\'\''],
-        // ['setUnit', '<span class="tr de kunit">Einheit</span><span class="tr en kunit">Unit</span>', '#setUnit'],
-        ['setUnit', 'Set Unit', '#setUnit'],
-        // ['setUnit-en', 'Unit', '#setUnit'],
-        // ['setUnit-de', 'Einheit', '#setUnit'],
-        ['pi', '&pi;', '\\pi ']
-    ],
-    // row 1
-    [
-        ['arcsin', '<span style="font-size: 85%">sin<sup>-1</sup></span>'],
-        ['arccos', '<span style="font-size: 85%">cos<sup>-1</sup></span>'],
-        ['arctan', '<span style="font-size: 85%">tan<sup>-1</sup></span>'],
-        ['smallgap-1', '', ''],
-        ['abs', '\u2502\u2b1a\u2502', '| |'],
-        ['subscript', '\u2b1a<sub style="font-size: 85%">\u2b1a</sub>'],
-        // ['nthRoot', nthRoot, '#nthroot'],
-        ['space', '<span class="tr de kspace">Leer</span><span class="tr en kspace">Space</span>', '\\ '],
-        // ['limit', 'lim', '\\[\\lim_{x \\to +\\infty}{}\\]'],
-        // ['eraseUnit', '<span class="tr de kclru">Einheit<br>l&ouml;schen</span><span class="tr en kclru">Clear<br>Unit</span>', '#eraseUnit'],
-        ['integral', '\u222b', '\\int_{}^{}'],
-        ['infinity', '&infin;', '\\infinity ']
-    ],
-    // row 2
-    [
-        ['ln'],
-        ['lg'],
-        ['log_base', 'log<sub style="font-size: 85%">\u2b1a</sub>', 'log_'],
-        ['smallgap-2', '', ''],
-        ['bracket-left', '(', '('],
-        ['bracket-right', ')', ')'],
-        ['up', '&uarr;', '#Up'],
-        ['down', '&darr;', '#Down'],
-        backspace,
-    ],
-    // row 3
-    [
-        ['exp', 'e<sup style="font-size: 85%">\u2b1a</sup>'],
-        poweroften,
-        ['power', '\u2b1a<sup>\u2b1a</sup>', '^'],
-        ['smallgap-3', '', ''],
-        ['squareroot', squareroot, '\\sqrt '],
-        // ['keyboard', '\u2328', '\\xyz '],
-        ['abs', '<span style="font-size: 85%">abs</span>'],
-        left,
-        right,
-        enter,
-    ],
-];
+// keys['function'] = [
+//     // row 0
+//     [
+//         ['sin', '<span style="font-size: 85%">sin</span>'],
+//         ['cos', '<span style="font-size: 85%">cos</span>'],
+//         ['tan', '<span style="font-size: 85%">tan</span>'],
+//         ['smallgap-0', '', ''],
+//         ['degree', '°'],
+//         ['minute', '\''],
+//         ['second', '\'\''],
+//         // ['setUnit', '<span class="tr de kunit">Einheit</span><span class="tr en kunit">Unit</span>', '#setUnit'],
+//         ['setUnit', 'Set Unit', '#setUnit'],
+//         // ['setUnit-en', 'Unit', '#setUnit'],
+//         // ['setUnit-de', 'Einheit', '#setUnit'],
+//         ['pi', '&pi;', '\\pi ']
+//     ],
+//     // row 1
+//     [
+//         ['arcsin', '<span style="font-size: 85%">sin<sup>-1</sup></span>'],
+//         ['arccos', '<span style="font-size: 85%">cos<sup>-1</sup></span>'],
+//         ['arctan', '<span style="font-size: 85%">tan<sup>-1</sup></span>'],
+//         ['smallgap-1', '', ''],
+//         ['abs', '\u2502\u2b1a\u2502', '| |'],
+//         ['subscript', '\u2b1a<sub style="font-size: 85%">\u2b1a</sub>'],
+//         // ['nthRoot', nthRoot, '#nthroot'],
+//         ['space', '<span class="tr de kspace">Leer</span><span class="tr en kspace">Space</span>', '\\ '],
+//         // ['limit', 'lim', '\\[\\lim_{x \\to +\\infty}{}\\]'],
+//         // ['eraseUnit', '<span class="tr de kclru">Einheit<br>l&ouml;schen</span><span class="tr en kclru">Clear<br>Unit</span>', '#eraseUnit'],
+//         ['integral', '\u222b', '\\int_{}^{}'],
+//         ['infinity', '&infin;', '\\infinity ']
+//     ],
+//     // row 2
+//     [
+//         ['ln'],
+//         ['lg'],
+//         ['log_base', 'log<sub style="font-size: 85%">\u2b1a</sub>', 'log_'],
+//         ['smallgap-2', '', ''],
+//         ['bracket-left', '(', '('],
+//         ['bracket-right', ')', ')'],
+//         ['up', '&uarr;', '#Up'],
+//         ['down', '&darr;', '#Down'],
+//         backspace,
+//     ],
+//     // row 3
+//     [
+//         ['exp', 'e<sup style="font-size: 85%">\u2b1a</sup>'],
+//         poweroften,
+//         ['power', '\u2b1a<sup>\u2b1a</sup>', '^'],
+//         ['smallgap-3', '', ''],
+//         ['squareroot', squareroot, '\\sqrt '],
+//         // ['keyboard', '\u2328', '\\xyz '],
+//         ['abs', '<span style="font-size: 85%">abs</span>'],
+//         left,
+//         right,
+//         enter,
+//     ],
+// ];
 
-keys['abc'] = [
-    // row 0
-    [
-        ['1'],
-        ['2'],
-        ['3'],
-        ['4'],
-        ['5'],
-        ['6'],
-        ['7'],
-        ['8'],
-        ['9'],
-        ['0'],
-        ['szlig', '&szlig;'],
-    ],
-    // row 1
-    [
-        ['q'],
-        ['w'],
-        ['e'],
-        ['r'],
-        ['t'],
-        ['z'],
-        ['u'],
-        ['i'],
-        ['o'],
-        ['p'],
-        ['ue', '&uuml;'],
-    ],
-    // row 1
-    [
-        ['a'],
-        ['s'],
-        ['d'],
-        ['f'],
-        ['g'],
-        ['h'],
-        ['j'],
-        ['k'],
-        ['l'],
-        ['oe', '&ouml;'],
-        ['ae', '&auml;'],
-        backspace,
-    ],
-    // row 2
-    [
-        // https://www.w3schools.com/charsets/ref_utf_arrows.asp
-        ['shift', '⇑'],
-        ['y'],
-        ['x'],
-        ['c'],
-        ['v'],
-        ['b'],
-        ['n'],
-        ['m'],
-        ['comma', ','],
-        ['up', '↑'],
-        left,
-        right,
-        enter,
-    ]
-];
+// keys['abc'] = [
+//     // row 0
+//     [
+//         ['1'],
+//         ['2'],
+//         ['3'],
+//         ['4'],
+//         ['5'],
+//         ['6'],
+//         ['7'],
+//         ['8'],
+//         ['9'],
+//         ['0'],
+//         ['szlig', '&szlig;'],
+//     ],
+//     // row 1
+//     [
+//         ['q'],
+//         ['w'],
+//         ['e'],
+//         ['r'],
+//         ['t'],
+//         ['z'],
+//         ['u'],
+//         ['i'],
+//         ['o'],
+//         ['p'],
+//         ['ue', '&uuml;'],
+//     ],
+//     // row 1
+//     [
+//         ['a'],
+//         ['s'],
+//         ['d'],
+//         ['f'],
+//         ['g'],
+//         ['h'],
+//         ['j'],
+//         ['k'],
+//         ['l'],
+//         ['oe', '&ouml;'],
+//         ['ae', '&auml;'],
+//         backspace,
+//     ],
+//     // row 2
+//     [
+//         // https://www.w3schools.com/charsets/ref_utf_arrows.asp
+//         ['shift', '⇑'],
+//         ['y'],
+//         ['x'],
+//         ['c'],
+//         ['v'],
+//         ['b'],
+//         ['n'],
+//         ['m'],
+//         ['comma', ','],
+//         ['up', '↑'],
+//         left,
+//         right,
+//         enter,
+//     ]
+// ];
 
-keys['abc_caps'] = [
-    // row 0
-    [
-        ['1'],
-        ['2'],
-        ['3'],
-        ['4'],
-        ['5'],
-        ['6'],
-        ['7'],
-        ['8'],
-        ['9'],
-        ['0'],
-        ['szlig', '&szlig;'],
-    ],
-    // row 1
-    [
-        ['Q'],
-        ['W'],
-        ['E'],
-        ['R'],
-        ['T'],
-        ['Z'],
-        ['U'],
-        ['I'],
-        ['O'],
-        ['P'],
-        ['UE', '&Uuml;'],
-    ],
-    // row 1
-    [
-        ['A'],
-        ['S'],
-        ['D'],
-        ['F'],
-        ['G'],
-        ['H'],
-        ['J'],
-        ['K'],
-        ['L'],
-        ['OE', '&Ouml;'],
-        ['AE', '&Auml;'],
-        backspace,
-    ],
-    // row 2
-    [
-        // https://www.w3schools.com/charsets/ref_utf_arrows.asp
-        ['shift', '⇑'],
-        ['Y'],
-        ['X'],
-        ['C'],
-        ['V'],
-        ['B'],
-        ['N'],
-        ['M'],
-        ['comma', ','],
-        ['up', '↑'],
-        // ['left', '←'],
-        // ['right', '→'],
-        left,
-        right,
-        enter,
-    ]
-];
+// keys['abc_caps'] = [
+//     // row 0
+//     [
+//         ['1'],
+//         ['2'],
+//         ['3'],
+//         ['4'],
+//         ['5'],
+//         ['6'],
+//         ['7'],
+//         ['8'],
+//         ['9'],
+//         ['0'],
+//         ['szlig', '&szlig;'],
+//     ],
+//     // row 1
+//     [
+//         ['Q'],
+//         ['W'],
+//         ['E'],
+//         ['R'],
+//         ['T'],
+//         ['Z'],
+//         ['U'],
+//         ['I'],
+//         ['O'],
+//         ['P'],
+//         ['UE', '&Uuml;'],
+//     ],
+//     // row 1
+//     [
+//         ['A'],
+//         ['S'],
+//         ['D'],
+//         ['F'],
+//         ['G'],
+//         ['H'],
+//         ['J'],
+//         ['K'],
+//         ['L'],
+//         ['OE', '&Ouml;'],
+//         ['AE', '&Auml;'],
+//         backspace,
+//     ],
+//     // row 2
+//     [
+//         // https://www.w3schools.com/charsets/ref_utf_arrows.asp
+//         ['shift', '⇑'],
+//         ['Y'],
+//         ['X'],
+//         ['C'],
+//         ['V'],
+//         ['B'],
+//         ['N'],
+//         ['M'],
+//         ['comma', ','],
+//         ['up', '↑'],
+//         // ['left', '←'],
+//         // ['right', '→'],
+//         left,
+//         right,
+//         enter,
+//     ]
+// ];
 
-keys['greek'] = [
-    // row 0
-    [
-        ['1'],
-        ['2'],
-        ['3'],
-        ['4'],
-        ['5'],
-        ['6'],
-        ['7'],
-        ['8'],
-        ['9'],
-        ['0'],
-    ],
-    // row 1
-    [
-        ['varphi', '&phi;'],
-        ['zeta', '&zeta;'],
-        ['epsilon', '&epsilon;'],
-        ['rho', '&rho;'],
-        ['tau', '&tau;'],
-        ['ypsilon', '&upsilon;', '\\upsilon '],
-        ['theta', '&theta;'],
-        ['iota', '&iota;'],
-        // https://tex.stackexchange.com/questions/233257/omicron-not-working-in-latex
-        ['omikron', '&omicron;', 'o '],
-        ['pi', '&pi;']
-    ],
-    // row 1
-    [
-        ['alpha', '&alpha;'],
-        ['sigma', '&sigma;'],
-        ['delta', '&delta;'],
-        ['phi', '&varphi;'],
-        ['gamma', '&gamma;'],
-        ['eta', '&eta;'],
-        ['xi', '&xi;'],
-        ['kappa', '&kappa;'],
-        ['lambda', '&lambda;'],
-        backspace,
-    ],
-    // row 2
-    [
-        ['shift', '⇑'],
-        ['zeta', '&zeta;'],
-        ['chi', '&chi;'],
-        ['psi', '&psi;'],
-        ['omega', '&omega;'],
-        ['beta', '&beta;'],
-        ['ny', '&nu;', '\\nu '],
-        ['my', '&mu;', 'µ '],
-        left,
-        right,
-        enter
-    ]
-];
-keys['greek_caps'] = [
-    // row 0
-    [
-        ['1'],
-        ['2'],
-        ['3'],
-        ['4'],
-        ['5'],
-        ['6'],
-        ['7'],
-        ['8'],
-        ['9'],
-        ['0'],
-    ],
-    // row 1
-    [
-        ['Phi', '&Phi;'],
-        ['Zeta', '&Zeta;'],
-        ['Epsilon', '&Epsilon;'],
-        ['Rho', '&Rho;'],
-        ['Tau', '&Tau;'],
-        ['Upsilon', '&Upsilon;'],
-        ['Theta', '&Theta;'],
-        ['Iota', '&Iota;'],
-        ['Omikron', '&Omicron;'],
-        ['Pi', '&Pi;']
-    ],
-    // row 1
-    [
-        ['Alpha', '&Alpha;'],
-        ['Sigma', '&Sigma;'],
-        ['Delta', '&Delta;'],
-        ['Phi', '&Phi;'],
-        ['Gamma', '&Gamma;'],
-        ['Eta', '&Eta;'],
-        ['Xi', '&Xi;'],
-        ['Kappa', '&Kappa;'],
-        ['Lambda', '&Lambda;'],
-        backspace,
-    ],
-    // row 2
-    [
-        ['shift', '⇑'],
-        ['Zeta', '&Zeta;'],
-        ['Chi', '&Chi;'],
-        ['Psi', '&Psi;'],
-        ['Omega', '&Omega;'],
-        ['Beta', '&Beta;'],
-        ['Ny', '&Nu;'],
-        ['My', '&Mu;'],
-        left,
-        right,
-        enter
-    ]
-];
+// keys['greek'] = [
+//     // row 0
+//     [
+//         ['1'],
+//         ['2'],
+//         ['3'],
+//         ['4'],
+//         ['5'],
+//         ['6'],
+//         ['7'],
+//         ['8'],
+//         ['9'],
+//         ['0'],
+//     ],
+//     // row 1
+//     [
+//         ['varphi', '&phi;'],
+//         ['zeta', '&zeta;'],
+//         ['epsilon', '&epsilon;'],
+//         ['rho', '&rho;'],
+//         ['tau', '&tau;'],
+//         ['ypsilon', '&upsilon;', '\\upsilon '],
+//         ['theta', '&theta;'],
+//         ['iota', '&iota;'],
+//         // https://tex.stackexchange.com/questions/233257/omicron-not-working-in-latex
+//         ['omikron', '&omicron;', 'o '],
+//         ['pi', '&pi;']
+//     ],
+//     // row 1
+//     [
+//         ['alpha', '&alpha;'],
+//         ['sigma', '&sigma;'],
+//         ['delta', '&delta;'],
+//         ['phi', '&varphi;'],
+//         ['gamma', '&gamma;'],
+//         ['eta', '&eta;'],
+//         ['xi', '&xi;'],
+//         ['kappa', '&kappa;'],
+//         ['lambda', '&lambda;'],
+//         backspace,
+//     ],
+//     // row 2
+//     [
+//         ['shift', '⇑'],
+//         ['zeta', '&zeta;'],
+//         ['chi', '&chi;'],
+//         ['psi', '&psi;'],
+//         ['omega', '&omega;'],
+//         ['beta', '&beta;'],
+//         ['ny', '&nu;', '\\nu '],
+//         ['my', '&mu;', 'µ '],
+//         left,
+//         right,
+//         enter
+//     ]
+// ];
+// keys['greek_caps'] = [
+//     // row 0
+//     [
+//         ['1'],
+//         ['2'],
+//         ['3'],
+//         ['4'],
+//         ['5'],
+//         ['6'],
+//         ['7'],
+//         ['8'],
+//         ['9'],
+//         ['0'],
+//     ],
+//     // row 1
+//     [
+//         ['Phi', '&Phi;'],
+//         ['Zeta', '&Zeta;'],
+//         ['Epsilon', '&Epsilon;'],
+//         ['Rho', '&Rho;'],
+//         ['Tau', '&Tau;'],
+//         ['Upsilon', '&Upsilon;'],
+//         ['Theta', '&Theta;'],
+//         ['Iota', '&Iota;'],
+//         ['Omikron', '&Omicron;'],
+//         ['Pi', '&Pi;']
+//     ],
+//     // row 1
+//     [
+//         ['Alpha', '&Alpha;'],
+//         ['Sigma', '&Sigma;'],
+//         ['Delta', '&Delta;'],
+//         ['Phi', '&Phi;'],
+//         ['Gamma', '&Gamma;'],
+//         ['Eta', '&Eta;'],
+//         ['Xi', '&Xi;'],
+//         ['Kappa', '&Kappa;'],
+//         ['Lambda', '&Lambda;'],
+//         backspace,
+//     ],
+//     // row 2
+//     [
+//         ['shift', '⇑'],
+//         ['Zeta', '&Zeta;'],
+//         ['Chi', '&Chi;'],
+//         ['Psi', '&Psi;'],
+//         ['Omega', '&Omega;'],
+//         ['Beta', '&Beta;'],
+//         ['Ny', '&Nu;'],
+//         ['My', '&Mu;'],
+//         left,
+//         right,
+//         enter
+//     ]
+// ];
 
-keys['info'] = [
-    // row 0
-    [
-        ['version', message, ' ']
-    ]
-];
+// keys['info'] = [
+//     // row 0
+//     [
+//         ['version', message, ' ']
+//     ]
+// ];
+
+// console.log(keys);
+// console.log(keys['mixed']);
+// // console.log(JSON.stringify(keys));
+// console.log(keys_json);
+// console.log(keys_json['mixed']);
+
+//TODO rename keys_json with keys
+var keys = keys_json;
 
 function getVirtualKeyboard(isEditor) {
     let result = document.createElement("div");
