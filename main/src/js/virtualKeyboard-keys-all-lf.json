@@ -43,10 +43,8 @@
 ["smallgap-3","",""],
 ["0"],
 ["comma",",",","],
-["left","<span style=\"font-size: 130%\">◅</span>","#Left"],
-["right","<span style=\"font-size: 130%\">▻</span>","#Right"],
-["enter","<span style=\"font-size: 150%; color:green\">⏎</span>","#Enter"]
-]],
+["left","<span>◅</span>","#Left"],["right","<span>▻</span>","#Right"],
+["enter","<span>⏎</span>","#Enter"]]],
 "function":[
 [["sin","<span style=\"font-size: 85%\">sin</span>"],
 ["cos","<span style=\"font-size: 85%\">cos</span>"],
@@ -87,9 +85,8 @@
 ["smallgap-3","",""],
 ["squareroot","<span style=\"white-space: nowrap; font-size:larger\">&radic;<span style=\"text-decoration:overline;\">&nbsp;&#x2b1a;&nbsp;</span></span>","\\sqrt "],
 ["abs","<span style=\"font-size: 85%\">abs</span>"],
-["left","<span style=\"font-size: 130%\">◅</span>","#Left"],
-["right","<span style=\"font-size: 130%\">▻</span>","#Right"],
-["enter","<span style=\"font-size: 150%; color:green\">⏎</span>","#Enter"]
+["left","<span>◅</span>","#Left"],["right","<span>▻</span>","#Right"],
+["enter","<span>⏎</span>","#Enter"]
 ]],
 "abc":[
 [["1"],
@@ -142,10 +139,9 @@
 ["m"],
 ["comma",","],
 ["up","↑"],
-["left","<span style=\"font-size: 130%\">◅</span>","#Left"],
-["right","<span style=\"font-size: 130%\">▻</span>","#Right"],
-["enter","<span style=\"font-size: 150%; color:green\">⏎</span>","#Enter"]
-]],
+["left","<span>◅</span>","#Left"],
+["right","<span>▻</span>","#Right"],
+["enter","<span>⏎</span>","#Enter"]]],
 "abc_caps":[
 [["1"],
 ["2"],
@@ -197,10 +193,8 @@
 ["M"],
 ["comma",","],
 ["up","↑"],
-["left","<span style=\"font-size: 130%\">◅</span>","#Left"],
-["right","<span style=\"font-size: 130%\">▻</span>","#Right"],
-["enter","<span style=\"font-size: 150%; color:green\">⏎</span>","#Enter"]
-]],
+["left","<span>◅</span>","#Left"],["right","<span>▻</span>","#Right"],
+["enter","<span>⏎</span>","#Enter"]]],
 "greek":[
 [["1"],
 ["2"],
@@ -246,10 +240,8 @@
 ["beta","&beta;"],
 ["ny","&nu;","\\nu "],
 ["my","&mu;","µ "],
-["left","<span style=\"font-size: 130%\">◅</span>","#Left"],
-["right","<span style=\"font-size: 130%\">▻</span>","#Right"],
-["enter","<span style=\"font-size: 150%; color:green\">⏎</span>","#Enter"]
-]],
+["left","<span>◅</span>","#Left"],["right","<span>▻</span>","#Right"],
+["enter","<span>⏎</span>","#Enter"]]],
 "greek_caps":[
 [["1"],
 ["2"],
@@ -295,10 +287,8 @@
 ["Beta","&Beta;"],
 ["Ny","&Nu;"],
 ["My","&Mu;"],
-["left","<span style=\"font-size: 130%\">◅</span>","#Left"],
-["right","<span style=\"font-size: 130%\">▻</span>","#Right"],
-["enter","<span style=\"font-size: 150%; color:green\">⏎</span>","#Enter"]
-]],
+["left","<span>◅</span>","#Left"],["right","<span>▻</span>","#Right"],
+["enter","<span>⏎</span>","#Enter"]]],
 "info":[
 [["version","<p>&nbsp;</p><p>H5P.FormulaApplet Version 0.14.43 (de)</p><p><a href=\"https://github.com/gro58/FormulaApplet-H5P.git#readme\">https://github.com/gro58/FormulaApplet-H5P.git#readme</a></p><p>by <a href=\"https://www.grossmann.info\">gro58</a></p><p>&nbsp;</p>"," "]
 ]]}

@@ -36,9 +36,7 @@ if (docLang() == 'de') {
 const version = config.version + ' (' + docLang() + ')';
 var message = '<p>&nbsp;</p>';
 message += '<p>H5P.FormulaApplet Version ' + version + '</p>';
-var temp = repo.repository.url;
-temp = temp.slice(4); //delete start "git+"
-temp += '#readme';
+var temp = repo.repository.url.slice(4) + '#readme'; //slice(4): delete start "git+"
 message += '<p><a href="' + temp + '">' + temp + '</a></p>';
 message += '<p>by <a href="https://www.grossmann.info">gro58</a></p>';
 message += '<p>&nbsp;</p>';
@@ -420,6 +418,9 @@ message += '<p>&nbsp;</p>';
 
 //TODO rename keys_json with keys
 var keys = keys_json;
+keys['info'][0] = [
+    ['version', message, ' ']
+];
 
 function getVirtualKeyboard(isEditor) {
     let result = document.createElement("div");

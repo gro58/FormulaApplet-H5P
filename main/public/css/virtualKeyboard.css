@@ -104,6 +104,19 @@ div#virtualKeyboard.h5pEditor .virtualKeyboardButton.smallgap {
 	background-color: #8bd;
 }
 
+.virtualKeyboardButton.virtualKeyboard-right span{
+	font-size: 130%;
+}
+
+.virtualKeyboardButton.virtualKeyboard-left span{
+	font-size: 130%;
+}
+
+.virtualKeyboardButton.virtualKeyboard-enter span{
+	font-size: 150%;
+	color: green;
+}
+
 div#output tbody {
 	margin: 15px;
 }
@@ -189,7 +202,7 @@ div#virtualKeyboard.h5pEditor#virtualKeyboard_header {
 }
 
 /* Change background color of buttons on hover */
-.virtualKeyboard_tab button:hover{
+.virtualKeyboard_tab button:hover {
 	/* background-color: #80f080; */
 	color: rgb(255, 111, 0);
 	/* font-size: 120%; */
