@@ -3,14 +3,15 @@
 import $ from "jquery";
 import Hammer from "@egjs/hammerjs";
 import config from "./config.json";
-import { keys } from "./virtualKeyboard-keys-all-lf";
+import { keys } from "./virtualKeyboard-keys";
 import {
     setUnit,
     eraseUnit,
     setInput
 } from "./inputfield_unit.js";
 import {
-    docLang
+    docLang,
+    isMobile
 } from "./dom.js";
 import MQ from "./lib/mathquillWrapper.js";
 import repo from "../../package.json";
@@ -33,7 +34,7 @@ if (docLang() == 'de') {
 // const setinput = ['setinput', inputText, '#setInput'];
 // const backspace = ['backspace', '\u232B', '#Backspace'];
 // const poweroften = ['power_of_ten', '10<sup style="font-size: 85%">\u2b1a</sup>', '10^'];
-const version = config.version + ' (' + docLang() + ')';
+const version = config.version + ' (' + docLang() + ') isMobile=' + isMobile();
 var message = '<p>&nbsp;</p>';
 message += '<p>H5P.FormulaApplet Version ' + version + '</p>';
 var temp = repo.repository.url.slice(4) + '#readme'; //slice(4): delete start "git+"

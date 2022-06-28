@@ -12,7 +12,8 @@ import {
 import {
     domLoad,
     isH5P,
-    docLang
+    docLang,
+    isMobile
 } from "./js/dom.js";
 import MQ from "./js/lib/mathquillWrapper.js";
 import isEditHandlerActive from "./js/switchEditHandler.js";
@@ -57,7 +58,8 @@ export {
     checkIfEquality,
     // setOkWrongTag,
     makeAutoUnitstring,
-    createWaiter
+    createWaiter,
+    isMobile
 };
 
 // window.onload = function () {
