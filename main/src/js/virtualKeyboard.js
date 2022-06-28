@@ -3,7 +3,7 @@
 import $ from "jquery";
 import Hammer from "@egjs/hammerjs";
 import config from "./config.json";
-import keys_json from "./virtualKeyboard-keys-all-lf.json";
+import { keys } from "./virtualKeyboard-keys-all-lf";
 import {
     setUnit,
     eraseUnit,
@@ -413,11 +413,10 @@ message += '<p>&nbsp;</p>';
 // console.log(keys);
 // console.log(keys['mixed']);
 // // console.log(JSON.stringify(keys));
-// console.log(keys_json);
-// console.log(keys_json['mixed']);
+// console.log(keys_import);
+// console.log(keys_import['mixed']);
 
-//TODO rename keys_json with keys
-var keys = keys_json;
+// rename keys_import with keys: var keys = keys_import;
 keys['info'][0] = [
     ['version', message, ' ']
 ];
