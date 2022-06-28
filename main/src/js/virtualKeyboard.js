@@ -483,7 +483,8 @@ function createTable(tableId, isEditor) {
         for (var keyindex = 0; keyindex < keylist.length; keyindex++) {
             var key = keylist[keyindex];
             if (isEditor && key[0] === 'enter') {
-                key = setinput;
+                // key = setinput;
+                key = ['setinput', inputText, '#setInput'];
             }
             if (typeof key[1] == 'undefined') {
                 key[1] = key[0];
