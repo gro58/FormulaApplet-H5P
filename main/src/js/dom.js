@@ -21,6 +21,8 @@ export function docLang() {
 }
 
 export function isMobile(){
+    // test : // return true;
+
     // uses same as window.innerWidth
     return window.matchMedia('(max-width: 600px)').matches;
 } 

@@ -315,5 +315,5 @@ export var keys = {
         [
             ['version', 'message dummy', ' '] //message updated(replaced) by virtualkeyboard.js
         ]
-    ]
+    ]  
 }
