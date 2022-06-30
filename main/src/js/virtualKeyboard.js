@@ -420,8 +420,8 @@ function processVirtualKeyboardCommand(cmd) {
             } else if (cmd === 'nthroot') {
                 nthroot(mf);
             } else if (cmd === 'square') {
-                mf.keystroke('Up');
-                mf.typedtext('2');
+                mf.typedText('^');
+                mf.typedText('2');
             } else {
                 mf.keystroke(cmd);
             }
