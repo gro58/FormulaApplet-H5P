@@ -73,7 +73,7 @@ function getVirtualKeyboard(isEditor) {
     tabs.id = "virtualKeyboard_tab";
     tabs.classList.add("virtualKeyboard_tab");
     var tabButtons = {
-        "mixed": "123&radic;+-&nbsp;&nbsp;&nbsp;",
+        "mixed": "&radic;+-&nbsp;&nbsp;&nbsp;",
         "function": "&nbsp;f(x)&nbsp;",
         "abc": "abc",
         "greek": "\u03b1\u03b2\u03b3",
@@ -81,6 +81,9 @@ function getVirtualKeyboard(isEditor) {
         // reversed order caused by 'float: right'
         "off": "&nbsp;\u2716",
         // "info_old": 'Version ' + config.version + ' (' + docLang() + ')'
+    };
+    if (isMobile()) {
+        delete tabButtons.abc;
     };
     if (isEditor) {
         delete tabButtons.off;
