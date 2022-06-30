@@ -170,6 +170,23 @@ div#virtualKeyboard.h5pEditor .virtualKeyboardButton.smallgap {
 	font-size: 85%;
 }
 
+/* hide some buttons if not edit mode */
+div#virtualKeyboard.h5p .virtualKeyboardButton.virtualKeyboard-integral {
+	display: none;
+}
+
+div#virtualKeyboard.h5p .virtualKeyboardButton.virtualKeyboard-limit {
+	display: none;
+}
+
+div#virtualKeyboard.h5p .virtualKeyboardButton.virtualKeyboard-abs_f {
+	display: none;
+}
+
+div#virtualKeyboard.h5p .virtualKeyboardButton.virtualKeyboard-space {
+	display: none;
+}
+
 div#output tbody {
 	margin: 15px;
 }

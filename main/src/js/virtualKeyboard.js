@@ -30,15 +30,6 @@ if (docLang() == 'de') {
     inputText = '<span style="font-size: 80%; color:green">Eingabefeld setzen</span>';
 }
 
-// const squareroot = '<span style="white-space: nowrap; font-size:larger">&radic;<span style="text-decoration:overline;">&nbsp;&#x2b1a;&nbsp;</span></span>';
-// const nthRoot = '<sup style="position: relative; top: -0.5em; right: -0.5em;">\u2b1a</sup>' + squareroot;
-// const left = ['left', '<span style="font-size: 130%">\u25c5</span>', '#Left'];
-// const right = ['right', '<span style="font-size: 130%">\u25bb</span>', '#Right'];
-// const setunitkey = ['setunsetUnit', unitText, '#setUnit'];
-// const enter = ['enter', '<span style="font-size: 150%; color:green">\u23ce</span>', '#Enter'];
-// const setinput = ['setinput', inputText, '#setInput'];
-// const backspace = ['backspace', '\u232B', '#Backspace'];
-// const poweroften = ['power_of_ten', '10<sup style="font-size: 85%">\u2b1a</sup>', '10^'];
 const version = config.version + ' (' + docLang() + ') isMobile=' + isMobile();
 var message = '<p>&nbsp;</p>';
 message += '<p>H5P.FormulaApplet Version ' + version + '</p>';
@@ -368,7 +359,7 @@ export function showVirtualKeyboard() {
     $('#virtualKeyboard table').css('display', 'none');
     keyboardActivate('mixed');
     $('#virtualKeyboard table#table_' + activeKeyboard).css('display', 'table');
-    $('.virtualKeyboard-space')[0].innerHTML = 'free';
+    // $('.virtualKeyboard-space')[0].innerHTML = 'free';
 }
 
 // export function virtualKeyboardEventHandlerDebugging(_event, cmd, mf) {
@@ -422,6 +413,11 @@ function processVirtualKeyboardCommand(cmd) {
             } else if (cmd === 'square') {
                 mf.typedText('^');
                 mf.typedText('2');
+            } else if (cmd === 'integral') {
+                mf.typedText('\\int ');
+                // curly braces are generated automatically
+                // delete automatically generated '\ ' in first curly brace
+                mf.keystroke('Backspace');
             } else {
                 mf.keystroke(cmd);
             }

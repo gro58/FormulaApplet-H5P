@@ -55,10 +55,10 @@ export var keys = {
             ["cos", "<span>cos</span>"],
             ["tan", "<span>tan</span>"],
             ["smallgap-0", "", ""],
+            ["integral", "∫", "#integral"],
             ["degree", "°"],
             ["minute", "'"],
             ["second", "''"],
-            ["setUnit", "Set Unit", "#setUnit"],
             ["pi", "&pi;", "\\pi "]
         ],
         [
@@ -66,32 +66,32 @@ export var keys = {
             ["arccos", "<span>cos<sup>-1</sup></span>"],
             ["arctan", "<span>tan<sup>-1</sup></span>"],
             ["smallgap-1", "", ""],
-            ["abs", "│⬚│", "| |"],
-            ["subscript", "⬚<sub>⬚</sub>"],
-            ["space", "<span class=\"tr de kspace\">Leer</span><span class=\"tr en kspace\">Space</span>", "\\ "],
-            ["integral", "∫", "\\int_{}^{}"],
-            ["infinity", "&infin;", "\\infinity "]
+            ["limit", "lim", "\\lim_{x \\to \\infty} {}"],
+            ["down", "&darr;", "#Down"],
+            ["left", "<span>◅</span>", "#Left"],
+            ["right", "<span>▻</span>", "#Right"],
+            ["up", "&uarr;", "#Up"]
         ],
         [
             ["ln"],
             ["lg"],
             ["log_base", "log<sub>⬚</sub>", "log_"],
             ["smallgap-2", "", ""],
+            ["abs_f", "<span>abs</span>"],
+            ["subscript", "⬚<sub>⬚</sub>"],
             ["bracket-left", "(", "("],
             ["bracket-right", ")", ")"],
-            ["up", "&uarr;", "#Up"],
-            ["down", "&darr;", "#Down"],
             ["backspace", "⌫", "#Backspace"]
         ],
         [
             ["exp", "e<sup>⬚</sup>"],
             ["power_of_ten", "10<sup>⬚</sup>", "10^"],
             ["power", "⬚<sup>⬚</sup>", "^"],
-            ["smallgap-3", "", ""],
+            ["smallgap-3", "", ""],            
+            ["space", "&#826;", "\\ "],
+            ["abs", "│⬚│", "| |"],
+            ["infinity", "&infin;", "\\infinity "],
             ["squareroot", "<span style=\"white-space: nowrap; font-size:larger\">&radic;<span style=\"text-decoration:overline;\">&nbsp;&#x2b1a;&nbsp;</span></span>", "\\sqrt "],
-            ["abs", "<span>abs</span>"],
-            ["left", "<span>◅</span>", "#Left"],
-            ["right", "<span>▻</span>", "#Right"],
             ["enter", "<span>⏎</span>", "#Enter"]
         ]
     ],
