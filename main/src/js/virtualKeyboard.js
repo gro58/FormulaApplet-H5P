@@ -21,6 +21,7 @@ import {
 import MQ from "./lib/mathquillWrapper.js";
 import repo from "../../package.json";
 
+//TODO use iife
 var unitText = '<span>(Un)Set<br>Unit</span>';
 var inputText = '<span style="font-size: 80%; color:green">Set input</span>';
 
@@ -56,6 +57,9 @@ function getVirtualKeyboard(isEditor) {
     let result = document.createElement("div");
     result.id = "virtualKeyboard";
     $(result).addClass(isEditor ? "h5pEditor" : "h5p");
+    if (isMobile()) {
+        $(result).addClass("isMobile");
+    }
     let header = document.createElement("div");
     header.id = "virtualKeyboard_header";
     header.innerText = "Move";
@@ -342,7 +346,7 @@ export function createkeyboardDiv(isEditor) {
 }
 
 export default function initVirtualKeyboardnoEditor() {
-    var kb = createkeyboardDiv(false);
+    var kb = createkeyboardDiv(false); //isEditor=false
     document.body.appendChild(kb);
     virtualKeyboardBindEvents();
     keyboardActivate('mixed');

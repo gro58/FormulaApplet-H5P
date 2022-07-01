@@ -342,6 +342,22 @@ H5P.FormulaApplet = (function ($, Question) {
     if (counter === 0) {
       // things to be done once
       console.log('formulaapplet.js ' + H5Pbridge.config.version);
+
+      //add meta tag if not existing
+      var viewp;
+      viewp = $('meta[name="viewport"]')[0];
+      console.log('before add', viewp);
+      if (typeof viewp === 'undefined') {
+        $('head').append('<meta name="viewport" content="width=device-width, initial-scale=1">');
+      }
+      viewp = $('meta[name="viewport"]')[0];
+      console.log('after add', viewp);
+
+      // var x = document.createElement("META");
+      // x.setAttribute("name", "viewport");
+      // x.setAttribute("content", "width=device-width, initial-scale=1.0");
+      // document.head.appendChild(x);
+
       // mathQuillify legacy applets with syntax <p class="formula_applet solution">...</p>
       mathQuillifyLegacyApplets();
       H5Pbridge.initVirtualKeyboardnoEditor();
