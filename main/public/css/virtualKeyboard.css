@@ -1,14 +1,3 @@
-div#virtualKeyboard.h5p {
-	position: fixed;
-}
-
-div#virtualKeyboard.h5pEditor {
-	/* position: absolute; */
-	transform: none;
-	width: auto;
-	cursor: pointer;
-}
-
 div#virtualKeyboard {
 	width: fit-content;
 	/* top: auto; */
@@ -23,7 +12,13 @@ div#virtualKeyboard {
 	border-radius: 3px;
 	z-index: 1000;
 	cursor: move;
+}
 
+div#virtualKeyboard.h5pEditor {
+	position: inherit;
+	transform: none;
+	width: auto;
+	cursor: pointer;
 }
 
 /* no editor mode */

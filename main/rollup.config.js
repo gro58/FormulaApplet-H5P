@@ -5,7 +5,10 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import builtins from 'rollup-plugin-node-builtins';
 // import livereload from 'rollup-plugin-livereload';
-import copy from 'rollup-plugin-copy';
+
+// https://www.npmjs.com/package/rollup-plugin-copy-watch
+import copy from 'rollup-plugin-copy-watch';
+// import copy from 'rollup-plugin-copy';
 import {
 	terser
 } from 'rollup-plugin-terser';
@@ -63,14 +66,15 @@ function resolveAfter2Seconds(x) {
 	return new Promise(resolve => {
 		setTimeout(() => {
 			resolve(x);
-		}, 2000);
+		}, 4000);
 	});
 }
 
 async function myTest() {
 	console.log('before await');
-	var y = await resolveAfter2Seconds('after 2 seconds');
+	var y = await resolveAfter2Seconds('after 4 seconds');
 	console.log(y);
+	// console.log(targets);
 }
 
 myTest();
@@ -125,6 +129,7 @@ export default [{
 		production && terser(),
 
 		h5pCopy && copy({
+			watch: 'public/css',
 			targets: getCopyTargets("build/bundle.js")
 				.concat(getCopyTargets("css/gf09.css"))
 				.concat(getCopyTargets("css/table.css"))
@@ -142,6 +147,7 @@ function serve() {
 	return {
 		//writeBundle calls script 'npm run public', see package.json
 		writeBundle() {
+			console.log('writeBundle');
 			if (!started) {
 				started = true;
 				require('child_process').spawn('npm', ['run', 'public', '--', '--dev'], {
