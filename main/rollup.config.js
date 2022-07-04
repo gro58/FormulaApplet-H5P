@@ -129,6 +129,7 @@ export default [{
 		production && terser(),
 
 		h5pCopy && copy({
+			// see rollup-plugin-copy-watch
 			watch: 'public/css',
 			targets: getCopyTargets("build/bundle.js")
 				.concat(getCopyTargets("css/gf09.css"))
