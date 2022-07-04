@@ -14,17 +14,31 @@ div#virtualKeyboard {
 	/* top: auto; */
 	/* bottom: 1vh; */
 	/* https://www.w3schools.com/cssref/pr_pos_bottom.asp */
-	bottom: 5px;
+	/* bottom: 5px; */
 	left: 50%;
-	transform: translate(-50%, 0);
 	max-width: 100vw;
 	min-width: 40vw;
 	/* background-color: #c0c0c050; transparency #50 */
 	background-color: #b2cee7;
 	border-radius: 3px;
-	z-index: 9;
+	z-index: 1000;
 	cursor: move;
+
 }
+
+/* no editor mode */
+div#virtualKeyboard.h5p {
+	/* for visualViewport handling */
+	/* https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport */
+	position: fixed;
+	bottom: 0px;
+	transform-origin: bottom;
+	transform: translate(-50%, 0) scale(1);
+	/* background-color: red; */
+	/* transform: translate(0px, 0px) scale(1); */
+}
+
+
 
 #virtualKeyboard table {
 	display: none;
@@ -104,69 +118,69 @@ div#virtualKeyboard.h5pEditor .virtualKeyboardButton.smallgap {
 	background-color: #8bd;
 }
 
-.virtualKeyboardButton.virtualKeyboard-right span{
+.virtualKeyboardButton.virtualKeyboard-right span {
 	font-size: 130%;
 }
 
-.virtualKeyboardButton.virtualKeyboard-left span{
+.virtualKeyboardButton.virtualKeyboard-left span {
 	font-size: 130%;
 }
 
-.virtualKeyboardButton.virtualKeyboard-enter span{
+.virtualKeyboardButton.virtualKeyboard-enter span {
 	font-size: 150%;
 	color: green;
 }
 
-.virtualKeyboardButton.virtualKeyboard-setunsetUnit span{
+.virtualKeyboardButton.virtualKeyboard-setunsetUnit span {
 	font-size: 50%;
 	color: green;
 }
 
-.virtualKeyboardButton.virtualKeyboard-sin span{
+.virtualKeyboardButton.virtualKeyboard-sin span {
 	font-size: 85%;
 }
 
-.virtualKeyboardButton.virtualKeyboard-cos span{
+.virtualKeyboardButton.virtualKeyboard-cos span {
 	font-size: 85%;
 }
 
-.virtualKeyboardButton.virtualKeyboard-tan span{
+.virtualKeyboardButton.virtualKeyboard-tan span {
 	font-size: 85%;
 }
 
-.virtualKeyboardButton.virtualKeyboard-arcsin span{
+.virtualKeyboardButton.virtualKeyboard-arcsin span {
 	font-size: 85%;
 }
 
-.virtualKeyboardButton.virtualKeyboard-arccos span{
+.virtualKeyboardButton.virtualKeyboard-arccos span {
 	font-size: 85%;
 }
 
-.virtualKeyboardButton.virtualKeyboard-arctan span{
+.virtualKeyboardButton.virtualKeyboard-arctan span {
 	font-size: 85%;
 }
 
-.virtualKeyboardButton.virtualKeyboard-power_of_ten sup{
+.virtualKeyboardButton.virtualKeyboard-power_of_ten sup {
 	font-size: 85%;
 }
 
-.virtualKeyboardButton.virtualKeyboard-square sup{
+.virtualKeyboardButton.virtualKeyboard-square sup {
 	font-size: 85%;
 }
 
-.virtualKeyboardButton.virtualKeyboard-subscript sub{
+.virtualKeyboardButton.virtualKeyboard-subscript sub {
 	font-size: 85%;
 }
 
-.virtualKeyboardButton.virtualKeyboard-log_base sub{
+.virtualKeyboardButton.virtualKeyboard-log_base sub {
 	font-size: 85%;
 }
 
-.virtualKeyboardButton.virtualKeyboard-exp sup{
+.virtualKeyboardButton.virtualKeyboard-exp sup {
 	font-size: 85%;
 }
 
-.virtualKeyboardButton.virtualKeyboard-abs span{
+.virtualKeyboardButton.virtualKeyboard-abs span {
 	font-size: 85%;
 }
 
@@ -333,3 +347,22 @@ button#button-table_off {
 	top: -0.5em;
 	right: -0.5em;
 } */
+
+/* for visualVieport handling */
+/* https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport */
+#layoutViewport {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	visibility: hidden;
+}
+
+#virtualKeyboard {
+	position: fixed;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	background-color: red;
+	transform-origin: left bottom;
+	transform: translate(0px, 0px) scale(1);
+}

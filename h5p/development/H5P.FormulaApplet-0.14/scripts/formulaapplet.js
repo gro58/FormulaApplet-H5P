@@ -346,17 +346,43 @@ H5P.FormulaApplet = (function ($, Question) {
       //add meta tag if not existing
       var viewp;
       viewp = $('meta[name="viewport"]')[0];
-      console.log('before add', viewp);
+      console.log('before appending <meta name="viewport"', viewp);
       if (typeof viewp === 'undefined') {
         $('head').append('<meta name="viewport" content="width=device-width, initial-scale=1">');
       }
       viewp = $('meta[name="viewport"]')[0];
-      console.log('after add', viewp);
+      console.log('after appending <meta name="viewport"', viewp);
 
-      // var x = document.createElement("META");
-      // x.setAttribute("name", "viewport");
-      // x.setAttribute("content", "width=device-width, initial-scale=1.0");
-      // document.head.appendChild(x);
+      //add visualViewport handler
+      // https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport
+      $('body').append('<div id="layoutViewport"></div>');
+      // var bottomBar = document.getElementById('bottombar');
+      var visualVP = window.visualViewport;
+      var layoutViewport = document.getElementById('layoutViewport');
+      visualVP.addEventListener('scroll', visualVPHandler);
+      visualVP.addEventListener('resize', visualVPHandler);
+
+      function visualVPHandler() {
+        // Since the vkbd is position: fixed we need to offset it by the visual
+        // viewport's offset from the layout viewport origin.
+        var offsetX = visualVP.offsetLeft;
+        var offsetY = visualVP.height;
+        offsetY -= layoutViewport.getBoundingClientRect().height;
+        offsetY += visualVP.offsetTop;
+
+        // You could also do this by setting style.left and style.top if you
+        // use width: 100% instead.
+        var vkbd = document.getElementById('virtualKeyboard');
+        if (typeof vkbd !== 'undefined') {
+          var transform_style;
+          transform_style = 'translate(';
+          transform_style += offsetX + 'px,';
+          transform_style += offsetY + 'px,';
+          transform_style += 'scale(' + 1 / visualVP.scale + ')';
+          console.log('transform_style', transform_style);
+          vkbd.style.transform = transform_style;
+        }
+      }
 
       // mathQuillify legacy applets with syntax <p class="formula_applet solution">...</p>
       mathQuillifyLegacyApplets();
