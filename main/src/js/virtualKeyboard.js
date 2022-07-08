@@ -15,51 +15,66 @@ import {
     setInput
 } from "./inputfield_unit.js";
 import {
-    docLang,
-    isMobile
+    docLang
 } from "./dom.js";
 import MQ from "./lib/mathquillWrapper.js";
 import repo from "../../package.json";
 
-//TODO use iife
-var unitText = '<span>(Un)Set<br>Unit</span>';
-var inputText = '<span style="font-size: 80%; color:green">Set input</span>';
+var keys_mixed_ori = keys['mixed'];
+//TODO get rid of global vars
+var inputText;
+var virtualKeyboardHidden = true;
 
-if (docLang() == 'de') {
-    // TODO use language/*.json H5P.t(...)
-    unitText = '<span>Einheit<br>setzen<br>löschen</span>';
-    inputText = '<span style="font-size: 80%; color:green">Eingabefeld setzen</span>';
+function updateVirtualKeyboard(isMobile) {
+    console.log('updateVirtualKeyboard - isMobile=', isMobile);
+    if (isMobile) {
+        $('div#virtualKeyboard').addClass("isMobile");
+    } else {
+        $('div#virtualKeyboard').removeClass('isMobile');
+    }
+
+    const version = config.version + ' (' + docLang() + ') isMobile=' + isMobile;
+    var message = '<p>&nbsp;</p>';
+    message += '<p>H5P.FormulaApplet Version ' + version + '</p>';
+    var temp = repo.repository.url.slice(4) + '#readme'; //slice(4): delete start "git+"
+    message += '<p><a href="' + temp + '">' + temp + '</a></p>';
+    message += '<p>by <a href="https://www.grossmann.info">gro58</a></p>';
+    message += '<p>&nbsp;</p>';
+
+    //TODO use iife
+    var unitText = '<span>(Un)Set<br>Unit</span>';
+    inputText = '<span style="font-size: 80%; color:green">Set input</span>';
+
+    if (docLang() == 'de') {
+        // TODO use language/*.json H5P.t(...)
+        unitText = '<span>Einheit<br>setzen<br>löschen</span>';
+        inputText = '<span style="font-size: 80%; color:green">Eingabefeld setzen</span>';
+    }
+
+    if (isMobile) {
+        keys['mixed'] = keys_mixed_mobile;
+        // [2][3][1] row 2, column 3, parameter 1
+        // parameters: 0:name, 1:text, 2:command
+        keys['mixed'][2][3][1] = unitText;
+    } else {
+        keys['mixed'] = keys_mixed_ori;
+        // [2][2][1] row 2, column 2, parameter 1
+        // parameters: 0:name, 1:text, 2:command
+        keys['mixed'][2][2][1] = unitText;
+    };
+    keys['info'][0] = [
+        ['version', message, ' ']
+    ];
 }
 
-const version = config.version + ' (' + docLang() + ') isMobile=' + isMobile();
-var message = '<p>&nbsp;</p>';
-message += '<p>H5P.FormulaApplet Version ' + version + '</p>';
-var temp = repo.repository.url.slice(4) + '#readme'; //slice(4): delete start "git+"
-message += '<p><a href="' + temp + '">' + temp + '</a></p>';
-message += '<p>by <a href="https://www.grossmann.info">gro58</a></p>';
-message += '<p>&nbsp;</p>';
-
-keys['info'][0] = [
-    ['version', message, ' ']
-];
-if (isMobile()) {
-    keys['mixed'] = keys_mixed_mobile;
-    // [2][3][1] row 2, column 3, parameter 1
-    // parameters: 0:name, 1:text, 2:command
-    keys['mixed'][2][3][1] = unitText;
-} else {
-    // [2][2][1] row 2, column 2, parameter 1
-    // parameters: 0:name, 1:text, 2:command
-    keys['mixed'][2][2][1] = unitText;
-};
-
-function getVirtualKeyboard(isEditor) {
+function getVirtualKeyboard(isEditor, isMobile) {
     let result = document.createElement("div");
     result.id = "virtualKeyboard";
     $(result).addClass(isEditor ? "h5pEditor" : "h5p");
-    if (isMobile()) {
-        $(result).addClass("isMobile");
-    }
+    // moved to updateVirtualKeyboard:
+    // if (isMobile) {
+    //     $(result).addClass("isMobile");
+    // }
     let header = document.createElement("div");
     header.id = "virtualKeyboard_header";
     header.innerText = "Move";
@@ -77,7 +92,7 @@ function getVirtualKeyboard(isEditor) {
         "off": "&nbsp;\u2716",
         // "info_old": 'Version ' + config.version + ' (' + docLang() + ')'
     };
-    if (isMobile()) {
+    if (isMobile) {
         delete tabButtons.abc;
     };
     if (isEditor) {
@@ -89,9 +104,9 @@ function getVirtualKeyboard(isEditor) {
         button.id = "button-table_" + tabId;
         button.onclick = evt => tabClick(evt, tabId);
         button.innerHTML = tabButtons[tabId];
-        if (tabId == 'off') {
-            button.title = 'version=' + version;
-        }
+        // if (tabId == 'off') {
+        //     button.title = 'version=' + version;
+        // }
         tabs.append(button);
     }
     result.append(tabs);
@@ -334,28 +349,41 @@ function tabClick(ev, keyboardId) {
     keyboardActivate(activeKeyboard);
 }
 
-export function createkeyboardDiv(isEditor) {
-    var kb = $('#keyboard')[0];
-    // create div if necessary
-    if (typeof kb === 'undefined') {
-        kb = document.createElement('div');
-        kb.id = 'keyboard';
-        kb.append(getVirtualKeyboard(isEditor));
-    }
+export function createkeyboardDiv(isEditor, isMobile) {
+    $('#keyboard').remove();
+    // var kb = $('#keyboard')[0];
+    // if (typeof kb !== 'undefined'){
+
+    // }
+    // // create div if necessary
+    // if (typeof kb === 'undefined') {
+    var kb = document.createElement('div');
+    kb.id = 'keyboard';
+    kb.append(getVirtualKeyboard(isEditor, isMobile));
+    // }
     return kb;
 }
 
-export default function initVirtualKeyboardnoEditor() {
-    var kb = createkeyboardDiv(false); //isEditor=false
+export default function initVirtualKeyboardnoEditor(isMobile, hide) {
+    // console.log('initVirtualKeyboardnoEditor isMobile=', isMobile);
+    updateVirtualKeyboard(isMobile);
+    var kb = createkeyboardDiv(false, isMobile); //isEditor=false
     document.body.appendChild(kb);
     virtualKeyboardBindEvents();
     keyboardActivate('mixed');
-    hideVirtualKeyboard();
+    if (hide){
+        hideVirtualKeyboard();
+    }
+}
+
+export function isVirtualKeyboardHidden(){
+    return virtualKeyboardHidden;
 }
 
 function hideVirtualKeyboard() {
     $('#virtualKeyboard').css('display', 'none');
     $('.formula_applet.selected').nextAll("button.keyb_button:first").addClass('selected');
+    virtualKeyboardHidden = true;
 }
 
 export function showVirtualKeyboard() {
@@ -364,6 +392,7 @@ export function showVirtualKeyboard() {
     keyboardActivate('mixed');
     $('#virtualKeyboard table#table_' + activeKeyboard).css('display', 'table');
     // $('.virtualKeyboard-space')[0].innerHTML = 'free';
+    virtualKeyboardHidden = false;
 }
 
 // export function virtualKeyboardEventHandlerDebugging(_event, cmd, mf) {

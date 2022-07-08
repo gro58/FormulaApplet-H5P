@@ -12,8 +12,7 @@ import {
 import {
     domLoad,
     isH5P,
-    docLang,
-    isMobile
+    docLang
 } from "./js/dom.js";
 import MQ from "./js/lib/mathquillWrapper.js";
 import isEditHandlerActive from "./js/switchEditHandler.js";
@@ -26,7 +25,8 @@ import initVirtualKeyboardnoEditor, {
     showVirtualKeyboard,
     createkeyboardDiv,
     virtualKeyboardBindEvents,
-    keyboardActivate
+    keyboardActivate,
+    isVirtualKeyboardHidden
 } from "./js/virtualKeyboard.js";
 import {
     checkIfEqual,
@@ -54,12 +54,12 @@ export {
     createkeyboardDiv,
     virtualKeyboardBindEvents,
     keyboardActivate,
+    isVirtualKeyboardHidden,
     checkIfEqual,
     checkIfEquality,
     // setOkWrongTag,
     makeAutoUnitstring,
-    createWaiter,
-    isMobile
+    createWaiter
 };
 
 // window.onload = function () {

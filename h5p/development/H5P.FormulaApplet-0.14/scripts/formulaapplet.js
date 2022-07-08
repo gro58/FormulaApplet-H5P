@@ -357,12 +357,29 @@ H5P.FormulaApplet = (function ($, Question) {
       // https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport
       $('body').append('<div id="layoutViewport"></div>');
       // var bottomBar = document.getElementById('bottombar');
-      var visualVP = window.visualViewport;
       var layoutViewport = document.getElementById('layoutViewport');
-      visualVP.addEventListener('scroll', visualVPHandler);
-      visualVP.addEventListener('resize', visualVPHandler);
+      window.visualViewport.addEventListener('scroll', visualVP_scrollHandler);
+      window.visualViewport.addEventListener('resize', resizeHandler);
 
-      function visualVPHandler() {
+      var isMobile_old;
+
+      function resizeHandler(ev) {
+        // at first call of resizeHandler isMobile_old will be set from undefined to 'hide'
+        isMobile_old = typeof isMobile_old == 'undefined' ? 'hide' : isMobile_old;
+        // console.log(ev);
+        var isMobile = (window.visualViewport.width <= 600);
+        if (isMobile !== isMobile_old) {
+          var hide = (isMobile_old === 'hide') || H5Pbridge.isVirtualKeyboardHidden();
+          console.log('isMobile=', isMobile, 'hide=', hide, ev);
+          H5Pbridge.initVirtualKeyboardnoEditor(isMobile, hide);
+          isMobile_old = isMobile;
+        }
+      }
+
+      function visualVP_scrollHandler() {
+        // var visualVP = window.visualViewport;
+        console.log(visualVP);
+        console.log(layoutViewport.getBoundingClientRect());
         // Since the vkbd is position: fixed we need to offset it by the visual
         // viewport's offset from the layout viewport origin.
         var offsetX = visualVP.offsetLeft;
@@ -386,7 +403,8 @@ H5P.FormulaApplet = (function ($, Question) {
 
       // mathQuillify legacy applets with syntax <p class="formula_applet solution">...</p>
       mathQuillifyLegacyApplets();
-      H5Pbridge.initVirtualKeyboardnoEditor();
+      // H5Pbridge.initVirtualKeyboardnoEditor();
+      resizeHandler(); // evokes initVirtualKeyboardnoEditor(isMobile)
     }
     counter++;
 
