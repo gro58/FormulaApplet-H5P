@@ -21,7 +21,7 @@ import {
     H5P_to_MathQuill,
     MathQuill_to_H5P
 } from "./js/replacements.js";
-import initVirtualKeyboardnoEditor, {
+import initVirtualKeyboard, {
     showVirtualKeyboard,
     createkeyboardDiv,
     virtualKeyboardBindEvents,
@@ -49,7 +49,7 @@ export {
     H5P_to_MathQuill,
     MathQuill_to_H5P,
     docLang,
-    initVirtualKeyboardnoEditor,
+    initVirtualKeyboard,
     showVirtualKeyboard,
     createkeyboardDiv,
     virtualKeyboardBindEvents,

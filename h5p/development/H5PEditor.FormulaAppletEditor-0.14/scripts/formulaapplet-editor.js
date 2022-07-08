@@ -112,11 +112,19 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     $(function () {
       //code that needs to be executed when DOM is ready, after manipulation, goes here
       console.log('DOM is ready');
-      var kbDiv = H5Pbridge.createkeyboardDiv(true);
-      var keyboardparent = H5P.jQuery('p.formula_applet').parent();
-      keyboardparent.append(kbDiv);
-      H5Pbridge.virtualKeyboardBindEvents();
-      H5Pbridge.keyboardActivate('mixed');
+
+      // var isMobile = (window.visualViewport.width <= 600);
+      console.log(window.parent.innerWidth);
+      var isMobile = (window.parent.innerWidth <= 600);
+      H5Pbridge.initVirtualKeyboard(true, isMobile, false); 
+      //isEditor=true isMobile=? hide=false
+
+      // var kbDiv = H5Pbridge.createkeyboardDiv(true);
+      // var keyboardparent = H5P.jQuery('p.formula_applet').parent();
+      // keyboardparent.append(kbDiv);
+      // H5Pbridge.virtualKeyboardBindEvents();
+      // H5Pbridge.keyboardActivate('mixed');
+      
       // get config.debug value from js/config.json.ori, show or hide debugging fields
       var css_display_value = (H5Pbridge.config.debug === 'true' ? '' : 'none');
       $('.field-name-data_b64').css('display', css_display_value);

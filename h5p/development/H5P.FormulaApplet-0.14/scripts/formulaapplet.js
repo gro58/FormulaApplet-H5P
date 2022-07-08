@@ -371,7 +371,7 @@ H5P.FormulaApplet = (function ($, Question) {
         if (isMobile !== isMobile_old) {
           var hide = (isMobile_old === 'hide') || H5Pbridge.isVirtualKeyboardHidden();
           console.log('isMobile=', isMobile, 'hide=', hide, ev);
-          H5Pbridge.initVirtualKeyboardnoEditor(isMobile, hide);
+          H5Pbridge.initVirtualKeyboard(false, isMobile, hide); //isEditor=false
           isMobile_old = isMobile;
         }
       }
@@ -403,8 +403,7 @@ H5P.FormulaApplet = (function ($, Question) {
 
       // mathQuillify legacy applets with syntax <p class="formula_applet solution">...</p>
       mathQuillifyLegacyApplets();
-      // H5Pbridge.initVirtualKeyboardnoEditor();
-      resizeHandler(); // evokes initVirtualKeyboardnoEditor(isMobile)
+      resizeHandler(); // evokes initVirtualKeyboard(false, isMobile, undefined)
     }
     counter++;
 

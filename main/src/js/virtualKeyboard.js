@@ -364,19 +364,31 @@ export function createkeyboardDiv(isEditor, isMobile) {
     return kb;
 }
 
-export default function initVirtualKeyboardnoEditor(isMobile, hide) {
-    // console.log('initVirtualKeyboardnoEditor isMobile=', isMobile);
+export default function initVirtualKeyboard(isEditor, isMobile, hide) {
+    console.log('initVirtualKeyboard isEditor=', isEditor, ' isMobile=', isMobile, 'hide=', hide);
     updateVirtualKeyboard(isMobile);
-    var kb = createkeyboardDiv(false, isMobile); //isEditor=false
-    document.body.appendChild(kb);
+    var kb = createkeyboardDiv(isEditor, isMobile);
+    if (isEditor) {
+        // var kbDiv = H5Pbridge.createkeyboardDiv(true);
+        // var keyboardparent = H5P.jQuery('p.formula_applet').parent();
+        // keyboardparent.append(kbDiv);
+        // H5Pbridge.virtualKeyboardBindEvents();
+        // H5Pbridge.keyboardActivate('mixed');
+
+        var keyboardparent = $('p.formula_applet').parent();
+        keyboardparent.append(kb);
+    } else {
+        // var kb = createkeyboardDiv(isEditor, isMobile);
+        document.body.appendChild(kb);
+    }
     virtualKeyboardBindEvents();
     keyboardActivate('mixed');
-    if (hide){
+    if (hide) {
         hideVirtualKeyboard();
     }
 }
 
-export function isVirtualKeyboardHidden(){
+export function isVirtualKeyboardHidden() {
     return virtualKeyboardHidden;
 }
 
