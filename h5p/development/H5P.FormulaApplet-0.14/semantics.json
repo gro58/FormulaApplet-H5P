@@ -66,5 +66,23 @@
     "label": "Formula Applet Id",
     "description": "Id of the Formula Applet - has to be unique",
     "default": "new_id"
+  },
+  {
+    "label": "Text for \"Retry\" button",
+    "importance": "low",
+    "name": "tryAgain",
+    "type": "text",
+    "default": "Retry",
+    "common": true,
+    "optional": true
+  },
+  {
+    "label": "Text for \"Check\" button",
+    "importance": "low",
+    "name": "checkAnswer",
+    "type": "text",
+    "default": "Check",
+    "common": true,
+    "optional": true
   }
 ]
