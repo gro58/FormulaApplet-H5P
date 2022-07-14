@@ -377,6 +377,7 @@ H5P.FormulaApplet = (function ($, Question) {
         if (isMobile !== isMobile_old) {
           var hide = (isMobile_old === 'hide') || H5Pbridge.isVirtualKeyboardHidden();
           console.log('isMobile=', isMobile, 'hide=', hide, ev);
+          H5Pbridge.setUnitButtonText(self.params.unitButtonText);
           H5Pbridge.initVirtualKeyboard(false, isMobile, hide); //isEditor=false
           isMobile_old = isMobile;
         }

@@ -22,8 +22,13 @@ import repo from "../../package.json";
 
 var keys_mixed_ori = keys['mixed'];
 //TODO get rid of global vars
+var unitButtonText = "Unit";
 var inputText;
 var virtualKeyboardHidden = true;
+
+export function setUnitButtonText(text){
+    unitButtonText = text;
+}
 
 function updateVirtualKeyboard(isMobile) {
     console.log('updateVirtualKeyboard - isMobile=', isMobile);
@@ -42,12 +47,14 @@ function updateVirtualKeyboard(isMobile) {
     message += '<p>&nbsp;</p>';
 
     //TODO use iife
-    var unitText = '<span>(Un)Set<br>Unit</span>';
+    //moved to semantics.json
+    // var unitButtonText = '<span>(Un)Set<br>Unit</span>';
     inputText = '<span style="font-size: 80%; color:green">Set input</span>';
 
     if (docLang() == 'de') {
         // TODO use language/*.json H5P.t(...)
-        unitText = '<span>Einheit<br>setzen<br>löschen</span>';
+        // moved to de.json
+        // unitButtonText = '<span>Einheit<br>setzen<br>löschen</span>';
         inputText = '<span style="font-size: 80%; color:green">Eingabefeld setzen</span>';
     }
 
@@ -55,12 +62,12 @@ function updateVirtualKeyboard(isMobile) {
         keys['mixed'] = keys_mixed_mobile;
         // [2][3][1] row 2, column 3, parameter 1
         // parameters: 0:name, 1:text, 2:command
-        keys['mixed'][2][3][1] = unitText;
+        keys['mixed'][2][3][1] = unitButtonText;
     } else {
         keys['mixed'] = keys_mixed_ori;
         // [2][2][1] row 2, column 2, parameter 1
         // parameters: 0:name, 1:text, 2:command
-        keys['mixed'][2][2][1] = unitText;
+        keys['mixed'][2][2][1] = unitButtonText;
     };
     keys['info'][0] = [
         ['version', message, ' ']

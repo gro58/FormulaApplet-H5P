@@ -100,7 +100,7 @@
     "importance": "low",
     "name": "unitButtonText",
     "type": "text",
-    "default": "(Un)Set Unit",
+    "default": "<span>(Un)Set<br>Unit!!!</span>",
     "common": true,
     "optional": true
   }
