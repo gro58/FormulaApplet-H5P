@@ -4,7 +4,6 @@ var H5P = H5P || {};
 
 H5P.FormulaApplet = (function ($, Question) {
   console.log('define H5P.FormulaApplet class');
-  // console.log(Question);
 
   /**
    * @constant
@@ -48,6 +47,8 @@ H5P.FormulaApplet = (function ($, Question) {
       showSolutions: "Show solution",
       tryAgain: "Try again",
       checkAnswer: "Check",
+      translationTest: "tT dummy",
+      unitButtonText: "Unit",
       // behaviour from blanks.js
       behaviour: {
         enableRetry: true,
@@ -70,8 +71,9 @@ H5P.FormulaApplet = (function ($, Question) {
     this.id = id;
     this.options.sanitizedPrecision = sanitizedPrecision(this.options.precision);
     this.options.testoption = 'test changed';
-    // console.log(this.options)
+    // console.log(H5PIntegration);
     // console.log(this.params);
+    console.log('unitButtonText: ', this.params.unitButtonText);
   };
 
   // C.prototype.attach($container) is replaced by
@@ -342,7 +344,11 @@ H5P.FormulaApplet = (function ($, Question) {
     if (counter === 0) {
       // things to be done once
       console.log('formulaapplet.js ' + H5Pbridge.config.version);
-
+      // console.log(H5PIntegration.l10n['H5P']['h5pDescription']);
+      // debugger;
+      // console.log(H5P.t('translationTest'));
+      // console.log(H5P.t('translationTest','dummy var', 'H5P.FormulaApplet'));
+      // debugger;
       //add meta tag if not existing
       var viewp;
       viewp = $('meta[name="viewport"]')[0];
@@ -412,6 +418,8 @@ H5P.FormulaApplet = (function ($, Question) {
     // mathQuillifying
     var MQ = H5Pbridge.MQ;
     console.log('try to mathquillify ' + id);
+    console.log('options.translationTest=', options.translationTest);
+    console.log('options.testoption=', options.testoption);
     var $el = $('#' + id + '.formula_applet:not(.mq-math-mode)');
     if (typeof $el === 'undefined') {
       throw id + ' not found';

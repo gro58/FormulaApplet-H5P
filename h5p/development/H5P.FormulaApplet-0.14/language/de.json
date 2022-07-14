@@ -34,7 +34,7 @@
       "description": "Geforderte Genauigkeit der Antwort, z.B. 0,5% oder 0.5% oder 0.005",
       "default": "0.000001"
     },
-      {
+    {
       "label": "Lösung (codiert)",
       "default": "L7Lwb",
       "description": "Ergebnis (LATEX, codiert)"
@@ -51,6 +51,15 @@
     {
       "label": "Beschriftung des \"Überprüfen\"-Buttons",
       "default": "Überprüfen"
+    },
+    {
+      "label": "Text für den \"Übersetzungs-Test\" ",
+      "default": "Test-Text (de)"
+    },
+    {
+      "label": "Text für den Button \"Einheit\" ",
+      "description": "wird von der virtuellen Tastatur benötigt",
+      "default": "Einheit setzen/löschen"
     }
   ]
 }
