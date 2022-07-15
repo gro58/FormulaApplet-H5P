@@ -48,12 +48,8 @@ function updateVirtualKeyboard(isMobile) {
 
     // TODO move to semantics.json, de.json
     inputText = '<span style="font-size: 80%; color:green">Set input</span>';
-
     if (docLang() == 'de') {
-        // TODO use language/*.json H5P.t(...)
-        // moved to de.json
-        // unitButtonText = '<span>Einheit<br>setzen<br>löschen</span>';
-        inputText = '<span style="font-size: 80%; color:green">Eingabefeld setzen</span>';
+         inputText = '<span style="font-size: 80%; color:green">Eingabefeld setzen</span>';
     }
 
     if (isMobile) {
