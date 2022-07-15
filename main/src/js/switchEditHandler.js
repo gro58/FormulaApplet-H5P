@@ -1,5 +1,5 @@
 "use strict";
-// TODO get rid of global var editHandlerActive
+// editHandlerActive is not global - bundler uses output.format = 'iife'
 var editHandlerActive = true;
 
 export function setEditHandlerActive(truefalse){

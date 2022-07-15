@@ -62,7 +62,7 @@ function getCopyTargets(filename) {
 	return targets;
 }
 
-function resolveAfter2Seconds(x) {
+function resolveAfter4Seconds(x) {
 	return new Promise(resolve => {
 		setTimeout(() => {
 			resolve(x);
@@ -72,7 +72,7 @@ function resolveAfter2Seconds(x) {
 
 async function myTest() {
 	console.log('before await');
-	var y = await resolveAfter2Seconds('after 4 seconds');
+	var y = await resolveAfter4Seconds('use !_call_makeh5p.bat to create formulaapplet_latest.h5p');
 	console.log(y);
 	// console.log(targets);
 }

@@ -26,7 +26,8 @@ import initVirtualKeyboard, {
     createkeyboardDiv,
     virtualKeyboardBindEvents,
     keyboardActivate,
-    isVirtualKeyboardHidden
+    isVirtualKeyboardHidden,
+    setUnitButtonText
 } from "./js/virtualKeyboard.js";
 import {
     checkIfEqual,
@@ -55,6 +56,7 @@ export {
     virtualKeyboardBindEvents,
     keyboardActivate,
     isVirtualKeyboardHidden,
+    setUnitButtonText,
     checkIfEqual,
     checkIfEquality,
     // setOkWrongTag,
