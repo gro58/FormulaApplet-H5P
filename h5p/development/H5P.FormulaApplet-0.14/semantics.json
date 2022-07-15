@@ -86,21 +86,12 @@
     "optional": true
   },
   {
-    "label": "Text for \"Translation test\" ",
-    "importance": "low",
-    "name": "translationTest",
-    "type": "text",
-    "default": "Test text (en)",
-    "common": true,
-    "optional": true
-  },
-  {
     "label": "Text for \"Unit Button\" ",
     "description": "used by virtual keyboard",
     "importance": "low",
     "name": "unitButtonText",
     "type": "text",
-    "default": "<span>(Un)Set<br>Unit!!!</span>",
+    "default": "(Un)Set<br>Unit",
     "common": true,
     "optional": true
   }

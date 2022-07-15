@@ -20,8 +20,8 @@ import {
 import MQ from "./lib/mathquillWrapper.js";
 import repo from "../../package.json";
 
+// vars are not global - bundler uses output.format = 'iife'
 var keys_mixed_ori = keys['mixed'];
-//TODO get rid of global vars
 var unitButtonText = "Unit";
 var inputText;
 var virtualKeyboardHidden = true;
@@ -46,9 +46,7 @@ function updateVirtualKeyboard(isMobile) {
     message += '<p>by <a href="https://www.grossmann.info">gro58</a></p>';
     message += '<p>&nbsp;</p>';
 
-    //TODO use iife
-    //moved to semantics.json
-    // var unitButtonText = '<span>(Un)Set<br>Unit</span>';
+    // TODO move to semantics.json, de.json
     inputText = '<span style="font-size: 80%; color:green">Set input</span>';
 
     if (docLang() == 'de') {

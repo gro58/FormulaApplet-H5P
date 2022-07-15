@@ -53,10 +53,6 @@
       "default": "Überprüfen"
     },
     {
-      "label": "Text für den \"Übersetzungs-Test\" ",
-      "default": "Test-Text (de)"
-    },
-    {
       "label": "Text für den Button \"Einheit\" ",
       "description": "wird von der virtuellen Tastatur benötigt",
       "default": "Einheit setzen/löschen"
