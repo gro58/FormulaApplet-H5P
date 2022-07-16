@@ -26,6 +26,23 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
   // console.log(H5Pbridge);
   var editorMf = {};
 
+  // var waitForInstances = H5Pbridge.createWaiter('Wait for instances');
+  // waitForInstances.condition = function () {
+  //   // return (typeof H5P !== 'undefined' && typeof H5P.instances !== 'undefined' && H5P.instances.length > 0);
+  //   console.log(H5P, H5P.instances);
+  //   return (H5P && H5P.instances && H5P.instances.length > 0);
+  // };
+  // waitForInstances.doError = async function () {
+  //   console.log('waitForInstances - counter limit exceeded');
+  // };
+  // waitForInstances.doRest = async function () {
+  //   console.log('waitForInstances - do the rest');
+  //   console.log(H5P.instances);
+  // };
+  // waitForInstances.max_count = 20;
+  // waitForInstances.interval = 2000; //milliseconds
+  // waitForInstances.start();
+
   function FormulaAppletEditor(parent, field, params, setValue) {
     this.parent = parent;
     this.field = field;
@@ -51,8 +68,44 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     var params = self.parent.params;
 
     // compose an HTML tag to be used by MathQuill using params and H5Pbridge
-    if (typeof params.id === 'undefined' || params.id === 'new_id') {
-      // TODO if params.id already exists (duplicate import), create new one!
+    // var get = H5Pbridge.ListOfFormulaAppletIds().get;
+    // console.log(get);
+    // console.log(get());
+
+    // console.log(H5P);
+    // H5Pbridge.pushList('knurr');
+    // waitForInstances.start();
+
+    
+
+    console.clear();
+    // TODO DELETE as deprecated. Prefer 'hiddenlist' method.
+    // var page = window.parent.parent.document.getElementById('page');
+    // console.log(page);
+    // var listOfFormulaAppletIds = [];
+    // $('p.formula_applet', page).each(function(){
+    //   listOfFormulaAppletIds.push($(this).attr('id'));
+    // })
+    // console.log(listOfFormulaAppletIds);
+    
+    
+    //escaping from nested iframes
+    var hiddenList = window.parent.parent.document.getElementById('hiddenLast').innerHTML;
+    var listOfFormulaAppletIds = JSON.parse(hiddenList);
+
+    console.log(listOfFormulaAppletIds);
+
+    var id = params.id;
+    if(typeof id === 'undefined'){
+      id = 'new_id';
+    } else {
+      if(listOfFormulaAppletIds.indexOf(id) >=0) {
+        // duplicate id, maybe importing twice
+        id = 'new_id';
+      }
+    }
+    if (id === 'new_id') {
+      // create new one!
       params.id = randomId(14);
     }
 
@@ -107,6 +160,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
 
     self.$item.appendTo($wrapper);
     editorMf = this.mathQuillifyEditor();
+    // waitForInstances.start();
     init_synchronize(params);
 
     $(function () {
@@ -116,7 +170,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       // var isMobile = (window.visualViewport.width <= 600);
       console.log(window.parent.innerWidth);
       var isMobile = (window.parent.innerWidth <= 600);
-      H5Pbridge.initVirtualKeyboard(true, isMobile, false); 
+      H5Pbridge.initVirtualKeyboard(true, isMobile, false);
       //isEditor=true isMobile=? hide=false
 
       // var kbDiv = H5Pbridge.createkeyboardDiv(true);
@@ -124,7 +178,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       // keyboardparent.append(kbDiv);
       // H5Pbridge.virtualKeyboardBindEvents();
       // H5Pbridge.keyboardActivate('mixed');
-      
+
       // get config.debug value from js/config.json.ori, show or hide debugging fields
       var css_display_value = (H5Pbridge.config.debug === 'true' ? '' : 'none');
       $('.field-name-data_b64').css('display', css_display_value);
@@ -165,8 +219,8 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
    * Validate the current values.
    */
   FormulaAppletEditor.prototype.validate = function () {
-      this.hide();
-      return (this.params !== undefined && this.params.length !== 0);
+    this.hide();
+    return (this.params !== undefined && this.params.length !== 0);
   };
 
   FormulaAppletEditor.prototype.remove = function () {};
@@ -181,7 +235,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     if (mathFieldSpan.innerHTML === temp) {
       console.log(mathFieldSpan.innerHTML, 'did not change');
     } else {
-      console.log(mathFieldSpan.innerHTML,'changed to',temp);
+      console.log(mathFieldSpan.innerHTML, 'changed to', temp);
     }
     mathFieldSpan.innerHTML = temp;
 

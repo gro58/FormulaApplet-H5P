@@ -14,10 +14,9 @@ H5P.FormulaApplet = (function ($, Question) {
   var STATE_CHECKING = 'checking';
   var STATE_SHOWING_SOLUTION = 'showing-solution';
   var STATE_FINISHED = 'finished';
+  var listOfAllFormulaAppletIds = []; 
 
-
-  // TODO resize (?)
-  // $(document).trigger('resize');
+  $(document).trigger('resize');
 
 
   /**
@@ -61,7 +60,8 @@ H5P.FormulaApplet = (function ($, Question) {
       },
       domElem: {},
       // MathField: {dummyMathField: 'dummyMathFieldText'},
-      testoption: 'test'
+      //TODO DELETE all occurencies of testoption 
+      // testoption: 'test'
     }, options);
     // console.log(this.options)
     // TODO unify syntax: params/options
@@ -70,7 +70,7 @@ H5P.FormulaApplet = (function ($, Question) {
     // Keep provided id.
     this.id = id;
     this.options.sanitizedPrecision = sanitizedPrecision(this.options.precision);
-    this.options.testoption = 'test changed';
+    // this.options.testoption = 'test changed';
     // console.log(H5PIntegration);
     // console.log(this.params);
     console.log('unitButtonText: ', this.params.unitButtonText);
@@ -83,6 +83,9 @@ H5P.FormulaApplet = (function ($, Question) {
   // Inheritance from Question class
   C.prototype = Object.create(Question.prototype);
   C.prototype.constructor = C;
+
+  // variable shared by all C's
+  // C.prototype.listOfAllFormulaAppletIds = [];
 
   // createFormulaApplet: replacement for Blanks.prototype.createQuestions
   C.prototype.createFormulaApplet = function (labelId) {
@@ -97,6 +100,16 @@ H5P.FormulaApplet = (function ($, Question) {
     // $container.append(html, afterAppend(self), self);
     return $(html);
   };
+
+  // C.prototype.pushID = function (id) {
+    
+  //   console.log(self.listOfAllFormulaAppletIds);
+  // }
+
+  // C.prototype.getListOfAllFormulaAppletIds = function () {
+  //   console.log('listOfAllFormulaAppletIds', self.listOfAllFormulaAppletIds);
+  //   return self.listOfAllFormulaAppletIds;
+  // }
 
   // 3. register your questions sections:
   // ```js
@@ -344,23 +357,21 @@ H5P.FormulaApplet = (function ($, Question) {
     if (counter === 0) {
       // things to be done once
       console.log('formulaapplet.js ' + H5Pbridge.config.version);
-      // console.log(H5PIntegration.l10n['H5P']['h5pDescription']);
-      // debugger;
-      // console.log(H5P.t('translationTest'));
-      // console.log(H5P.t('translationTest','dummy var', 'H5P.FormulaApplet'));
-      // debugger;
+      // H5Pbridge.initListOfFormulaAppletIds();
+      // self.listOfAllFormulaAppletIds = [];
       //add meta tag if not existing
       var viewp;
       viewp = $('meta[name="viewport"]')[0];
-      console.log('before appending <meta name="viewport"', viewp);
+      // console.log('before appending <meta name="viewport"', viewp);
       if (typeof viewp === 'undefined') {
         $('head').append('<meta name="viewport" content="width=device-width, initial-scale=1">');
       }
       viewp = $('meta[name="viewport"]')[0];
-      console.log('after appending <meta name="viewport"', viewp);
+      // console.log('after appending <meta name="viewport"', viewp);
 
       //add visualViewport handler
       // https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport
+      $('body').append('<div id="hiddenList" style="display:none;">hidden list</div>');
       $('body').append('<div id="layoutViewport"></div>');
       // var bottomBar = document.getElementById('bottombar');
       var layoutViewport = document.getElementById('layoutViewport');
@@ -411,16 +422,34 @@ H5P.FormulaApplet = (function ($, Question) {
       // mathQuillify legacy applets with syntax <p class="formula_applet solution">...</p>
       mathQuillifyLegacyApplets();
       resizeHandler(); // evokes initVirtualKeyboard(false, isMobile, undefined)
+      // var test = new H5P.Field('idList', 'testIdList');
+      // console.log(test.getLabel());
+      // console.log(test.getValue());
     }
     counter++;
 
+    // things to be done after each append
     var options = self.options;
     var id = options.id;
+    listOfAllFormulaAppletIds.push(id);
+    console.log(listOfAllFormulaAppletIds);
+    var jsonList = JSON.stringify(listOfAllFormulaAppletIds);
+    console.log(jsonList);
+    document.getElementById('hiddenList').innerHTML = jsonList;
+
     // mathQuillifying
     var MQ = H5Pbridge.MQ;
     console.log('try to mathquillify ' + id);
+    // listOfAllFormulaAppletIds.push(id);
+    // console.log(listOfAllFormulaAppletIds);
+    // var list = H5P.FormulaApplet.ListOfFormulaAppletIds;
+    // var push = H5Pbridge.ListOfFormulaAppletIds().push
+    // console.log('list', list);
+    // list.push(id);
+    // self.pushID(id);
+
     console.log('options.translationTest=', options.translationTest);
-    console.log('options.testoption=', options.testoption);
+    // console.log('options.testoption=', options.testoption);
     var $el = $('#' + id + '.formula_applet:not(.mq-math-mode)');
     if (typeof $el === 'undefined') {
       throw id + ' not found';
@@ -559,6 +588,5 @@ H5P.FormulaApplet = (function ($, Question) {
       });
     }
   }
-
   return C;
 })(H5P.jQuery, H5P.Question);

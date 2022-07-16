@@ -61,7 +61,7 @@ export {
     checkIfEquality,
     // setOkWrongTag,
     makeAutoUnitstring,
-    createWaiter
+    createWaiter,
 };
 
 // window.onload = function () {
@@ -71,7 +71,3 @@ export {
 export function mainIsLoaded() {
     return true;
 }
-
-// export let selected_language = {
-//     lang: "de"
-// };
