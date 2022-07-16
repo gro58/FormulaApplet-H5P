@@ -2,8 +2,8 @@
     "multiplicationCross": "\\times",
     "multiplicationDot": "\\cdot",
     "unit_replacement": "\\textcolor{blue}{",
-	"patchversion": "91",
-	"version": "0.14.91",
+	"patchversion": "98",
+	"version": "0.14.98",
     "debug": "false",
     "htmloutput": "true"
 }
