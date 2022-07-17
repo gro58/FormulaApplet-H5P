@@ -6,7 +6,7 @@ import decode, {
 } from "./js/decode.js";
 import config from "./js/config.json";
 import {
-    setInput,
+    setInputField,
     separateInputfield,
 } from "./js/inputfield_unit.js";
 import {
@@ -27,7 +27,8 @@ import initVirtualKeyboard, {
     virtualKeyboardBindEvents,
     keyboardActivate,
     isVirtualKeyboardHidden,
-    setUnitButtonText
+    setUnitButtonText,
+    setInputButtonText
 } from "./js/virtualKeyboard.js";
 import {
     checkIfEqual,
@@ -41,7 +42,7 @@ export {
     decode,
     encode,
     config,
-    setInput,
+    setInputField,
     separateInputfield,
     isH5P,
     domLoad,
@@ -57,6 +58,7 @@ export {
     keyboardActivate,
     isVirtualKeyboardHidden,
     setUnitButtonText,
+    setInputButtonText,
     checkIfEqual,
     checkIfEquality,
     // setOkWrongTag,

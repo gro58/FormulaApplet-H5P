@@ -12,7 +12,7 @@ import {
 import {
     setUnit,
     eraseUnit,
-    setInput
+    setInputField
 } from "./inputfield_unit.js";
 import {
     docLang
@@ -23,11 +23,16 @@ import repo from "../../package.json";
 // vars are not global - bundler uses output.format = 'iife'
 var keys_mixed_ori = keys['mixed'];
 var unitButtonText = "Unit";
-var inputText;
+var inputButtonText = "Unit";
 var virtualKeyboardHidden = true;
 
 export function setUnitButtonText(text) {
     unitButtonText = text;
+    console.log('unitButtonText=', unitButtonText);
+}
+export function setInputButtonText(text) {
+    inputButtonText = text;
+    console.log('inputButtonText=', inputButtonText);
 }
 
 function updateVirtualKeyboard(isMobile) {
@@ -45,11 +50,11 @@ function updateVirtualKeyboard(isMobile) {
     message += '<p>by <a href="https://www.grossmann.info">gro58</a></p>';
     message += '<p>&nbsp;</p>';
 
-    // TODO move to semantics.json, de.json
-    inputText = '<span style="font-size: 80%; color:green">Set input</span>';
-    if (docLang() == 'de') {
-        inputText = '<span style="font-size: 80%; color:green">Eingabefeld setzen</span>';
-    }
+    // TODO DELETE, moved to semantics.json, de.json
+    // inputText = '<span style="font-size: 80%; color:green">Set input</span>';
+    // if (docLang() == 'de') {
+    //     inputText = '<span style="font-size: 80%; color:green">Eingabefeld setzen</span>';
+    // }
 
     if (isMobile) {
         keys['mixed'] = keys_mixed_mobile;
@@ -128,7 +133,7 @@ function createTable(tableId, isEditor) {
             var key = keylist[keyindex];
             if (isEditor && key[0] === 'enter') {
                 // key = setinput;
-                key = ['setinput', inputText, '#setInput'];
+                key = ['setinput', inputButtonText, '#setInputField'];
             }
             if (typeof key[1] == 'undefined') {
                 key[1] = key[0];
@@ -375,12 +380,15 @@ export default function initVirtualKeyboard(isEditor, isMobile, hide) {
         keyboardparent.append(kb);
     } else {
         // var kb = createkeyboardDiv(isEditor, isMobile);
+        // TODO add to parent iframe?
         document.body.appendChild(kb);
     }
     virtualKeyboardBindEvents();
     keyboardActivate('mixed');
     if (hide) {
         hideVirtualKeyboard();
+    } else {
+        showVirtualKeyboard();
     }
 }
 
@@ -439,9 +447,9 @@ function processVirtualKeyboardCommand(cmd) {
             if (cmd === 'Enter') {
                 console.log('vkbd: keystroke "Shift-Enter"');
                 mf.keystroke('Shift-Enter');
-            } else if (cmd === 'setInput') {
-                console.log('setInput-Event');
-                var temp = setInput(mf);
+            } else if (cmd === 'setInputField') {
+                console.log('setInputField-Event');
+                var temp = setInputField(mf);
                 // restore mf - not necessary any more
                 // mf.latex(temp.old);
                 mf.latex(temp.new);

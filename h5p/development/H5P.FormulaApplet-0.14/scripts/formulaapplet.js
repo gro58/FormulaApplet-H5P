@@ -351,23 +351,9 @@ H5P.FormulaApplet = (function ($, Question) {
       $('body').append('<div id="layoutViewport"></div>');
       var layoutViewport = document.getElementById('layoutViewport');
       window.visualViewport.addEventListener('scroll', visualVP_scrollHandler);
-      window.visualViewport.addEventListener('resize', resizeHandler);
-
-      var isMobile_old;
-
-      function resizeHandler(ev) {
-        // at first call of resizeHandler isMobile_old will be set from undefined to 'hide'
-        isMobile_old = typeof isMobile_old == 'undefined' ? 'hide' : isMobile_old;
-        // console.log(ev);
-        var isMobile = (window.visualViewport.width <= 600);
-        if (isMobile !== isMobile_old) {
-          var hide = (isMobile_old === 'hide') || H5Pbridge.isVirtualKeyboardHidden();
-          // console.log('isMobile=', isMobile, 'hide=', hide, ev);
-          H5Pbridge.setUnitButtonText(self.params.unitButtonText);
-          H5Pbridge.initVirtualKeyboard(false, isMobile, hide); //isEditor=false
-          isMobile_old = isMobile;
-        }
-      }
+      window.visualViewport.addEventListener('resize', function () {
+        refreshVirtualKeyboard(false, true); //forced=false, hide does not matter: no change of old value
+      });
 
       function visualVP_scrollHandler() {
         var visualVP = window.visualViewport;
@@ -396,13 +382,48 @@ H5P.FormulaApplet = (function ($, Question) {
 
       // mathQuillify legacy applets with syntax <p class="formula_applet solution">...</p>
       mathQuillifyLegacyApplets();
-      resizeHandler(); // evokes initVirtualKeyboard(false, isMobile, undefined)
+      // first call of refreshVirtualKeyboard
+      refreshVirtualKeyboard(true, true); // forced=true, hide=true
     }
     counter++;
 
+    var isMobile_old;
+    /** refreshVirtualKeyboard calls initVirtualKeyboard if
+     * - called the first time
+     * - if isMobile has changed, then with hide=isVirtualKeyboardHidden()
+     */
+    function refreshVirtualKeyboard(forced, hide) {
+      var isMobile = (window.visualViewport.width <= 600);
+      if (forced) {
+        //if forced, do not check if isMobile has changed and respect parameter hide
+        H5Pbridge.initVirtualKeyboard(false, isMobile, hide); //isEditor=false
+      } else {
+        // if not forced, check if isMobile changed
+        // if changed, ignore parameter hide; take hide from state of keyboard
+        if (isMobile !== isMobile_old) {
+          var hide_old = H5Pbridge.isVirtualKeyboardHidden();
+          H5Pbridge.initVirtualKeyboard(false, isMobile, hide_old); //isEditor=false
+          isMobile_old = isMobile;
+        }
+      }
+
+      // TODO DELETE obsolete code
+      // at first call of refreshVirtualKeyboard isMobile_old will be set from undefined to 'hide'
+      // isMobile_old = typeof isMobile_old == 'undefined' ? 'hide' : isMobile_old;
+      // console.log(ev);
+      // if (isMobile !== isMobile_old) {
+      // var hide = (isMobile_old === 'hide') || H5Pbridge.isVirtualKeyboardHidden();
+      // console.log('isMobile=', isMobile, 'hide=', hide, ev);
+      // TODO DELETE next line, as moved to "one linebefore showVirtualKeyboard" 
+      // H5Pbridge.setUnitButtonText(self.params.unitButtonText);
+      // H5Pbridge.initVirtualKeyboard(false, isMobile, hide); //isEditor=false
+      // isMobile_old = isMobile;
+      // }
+    }
+
     // things to be done after each append
     var options = self.options;
-    
+
     try {
       var id = options.id;
       listOfAllFormulaAppletIds.push(id);
@@ -459,6 +480,7 @@ H5P.FormulaApplet = (function ($, Question) {
       $el.on('click', clickHandler);
 
       function clickHandler(ev) {
+        // console.log(ev.target, ev);
         try {
           if (typeof domElem !== 'undefined') {
             if (hasResultField) {
@@ -487,9 +509,13 @@ H5P.FormulaApplet = (function ($, Question) {
       // attach button for evoking virtual keyboard
       try {
         // make virtual keyboard show/hide by mouseclick
-        ($('<button class="keyb_button">\u2328</button>')).insertAfter($el);
-        $('button.keyb_button').on('mousedown', function () {
-          H5Pbridge.showVirtualKeyboard();
+        var $keyboardInvokeButton = $('<button class="keyb_button">\u2328</button>');
+        $keyboardInvokeButton.insertAfter($el);
+        $keyboardInvokeButton.on('mousedown', function (ev) {
+          // console.log(ev.target, ev);
+          console.log('mousedown -> unitButtonText=' + self.params.unitButtonText);
+          H5Pbridge.setUnitButtonText(self.params.unitButtonText);
+          refreshVirtualKeyboard(true, false); //forced=true, hide=false -> show keyboard
           $("button.keyb_button").removeClass('selected');
         });
         // TODO DELETE obsolete code for right/wrong tag

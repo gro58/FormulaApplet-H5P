@@ -94,5 +94,15 @@
     "default": "(Un)Set<br>Unit",
     "common": true,
     "optional": true
+  },
+  {
+    "label": "Text for \"Input Button\" ",
+    "description": "used by virtual keyboard",
+    "importance": "low",
+    "name": "inputButtonText",
+    "type": "text",
+    "default": "Set Input Field",
+    "common": true,
+    "optional": true
   }
 ]

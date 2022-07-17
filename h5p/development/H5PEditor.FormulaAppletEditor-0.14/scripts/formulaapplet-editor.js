@@ -121,6 +121,8 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       //code that needs to be executed when DOM is ready, after manipulation, goes here
       console.log('DOM is ready');
       var isMobile = (window.parent.innerWidth <= 600);
+      H5Pbridge.setUnitButtonText(params.unitButtonText);
+      H5Pbridge.setInputButtonText(params.inputButtonText);
       H5Pbridge.initVirtualKeyboard(true, isMobile, false); //isEditor=true isMobile=? hide=false
 
       // get config.debug value from js/config.json.ori -> show or hide debugging fields

@@ -56,6 +56,11 @@
       "label": "Text für den Button \"Einheit\" ",
       "description": "wird von der virtuellen Tastatur benötigt",
       "default": "Einheit setzen/löschen"
+    },
+    {
+      "label": "Text für den Button \"Eingabe-Feld\" ",
+      "description": "wird von der virtuellen Tastatur benötigt",
+      "default": "Eingabefeld setzen"
     }
   ]
 }

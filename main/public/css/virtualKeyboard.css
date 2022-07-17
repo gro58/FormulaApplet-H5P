@@ -96,12 +96,16 @@ div#virtualKeyboard.h5pEditor .virtualKeyboardButton.smallgap {
 	background-color: orange;
 }
 
-.virtualKeyboardButton.virtualKeyboard-unit {
-	font-size: 120%;
+.virtualKeyboardButton.virtualKeyboard-setunsetUnit {
+	font-size: 80%;
+	color: green;
+	line-height: 140%;
 }
 
-.virtualKeyboardButton.virtualKeyboard-clear_unit {
-	font-size: 120%;
+.virtualKeyboardButton.virtualKeyboard-setinput {
+	font-size: 80%;
+	color: green;
+	line-height: 140%;
 }
 
 .virtualKeyboardButton.virtualKeyboard-version {

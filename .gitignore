@@ -41,6 +41,6 @@ h5p/development/H5PEditor.FormulaAppletEditor-0.13/scripts/bundle.js.map
 TODO-20220618.jpg
 TODO-20220619.jpg
 make-h5p/temp.h5p
-make-h5p/formulaapplet_latest.h5p
 h5p/development/H5P.TextUtilities-1.3/scripts/text-utilities.js
 h5p/development/H5P.TextUtilities-1.3/library.json
+make-h5p/formulaapplet*.h5p

@@ -17,7 +17,7 @@ export var keys_mixed_mobile = [
         ["power_of_ten", "10<sup>⬚</sup>", "10^"],
         ["lg", "lg", "lg("],
         ["squareroot", "<span style=\"white-space: nowrap; font-size:larger\">&radic;<span style=\"text-decoration:overline;\">&nbsp;&#x2b1a;&nbsp;</span></span>", "\\sqrt "],
-        ["setunsetUnit", "<span>dummy: set unit</span>", "#setUnit"],
+        ["setunsetUnit", "dummy: set unit", "#setUnit"],
         ["backspace", "⌫", "#Backspace"]
     ],
     [

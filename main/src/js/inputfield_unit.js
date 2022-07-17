@@ -66,7 +66,7 @@ export function getSelection(mf, options) {
     }
 }
 
-export function setInput(editorMf) {
+export function setInputField(editorMf) {
     var sel = getSelection(editorMf, {
         erase: true
     });
