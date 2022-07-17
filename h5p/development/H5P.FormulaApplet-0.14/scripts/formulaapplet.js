@@ -14,10 +14,9 @@ H5P.FormulaApplet = (function ($, Question) {
   var STATE_CHECKING = 'checking';
   var STATE_SHOWING_SOLUTION = 'showing-solution';
   var STATE_FINISHED = 'finished';
+  var listOfAllFormulaAppletIds = [];
 
-
-  // TODO resize (?)
-  // $(document).trigger('resize');
+  $(document).trigger('resize');
 
 
   /**
@@ -59,21 +58,15 @@ H5P.FormulaApplet = (function ($, Question) {
         autoCheck: false,
         separateLines: false
       },
-      domElem: {},
+      domElem: {}
       // MathField: {dummyMathField: 'dummyMathFieldText'},
-      testoption: 'test'
     }, options);
-    // console.log(this.options)
     // TODO unify syntax: params/options
     this.params = this.options;
-    // console.log(this.params);
     // Keep provided id.
     this.id = id;
     this.options.sanitizedPrecision = sanitizedPrecision(this.options.precision);
-    this.options.testoption = 'test changed';
-    // console.log(H5PIntegration);
-    // console.log(this.params);
-    console.log('unitButtonText: ', this.params.unitButtonText);
+    // console.log('unitButtonText: ', this.params.unitButtonText);
   };
 
   // C.prototype.attach($container) is replaced by
@@ -83,6 +76,9 @@ H5P.FormulaApplet = (function ($, Question) {
   // Inheritance from Question class
   C.prototype = Object.create(Question.prototype);
   C.prototype.constructor = C;
+
+  // variable shared by all C's
+  // C.prototype.sharedVar = 'shared example';
 
   // createFormulaApplet: replacement for Blanks.prototype.createQuestions
   C.prototype.createFormulaApplet = function (labelId) {
@@ -344,25 +340,15 @@ H5P.FormulaApplet = (function ($, Question) {
     if (counter === 0) {
       // things to be done once
       console.log('formulaapplet.js ' + H5Pbridge.config.version);
-      // console.log(H5PIntegration.l10n['H5P']['h5pDescription']);
-      // debugger;
-      // console.log(H5P.t('translationTest'));
-      // console.log(H5P.t('translationTest','dummy var', 'H5P.FormulaApplet'));
-      // debugger;
-      //add meta tag if not existing
-      var viewp;
-      viewp = $('meta[name="viewport"]')[0];
-      console.log('before appending <meta name="viewport"', viewp);
+      var viewp = $('meta[name="viewport"]')[0];
       if (typeof viewp === 'undefined') {
         $('head').append('<meta name="viewport" content="width=device-width, initial-scale=1">');
       }
-      viewp = $('meta[name="viewport"]')[0];
-      console.log('after appending <meta name="viewport"', viewp);
 
+      $('body').append('<div id="hiddenList" style="display:none;">hidden list</div>');
       //add visualViewport handler
       // https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport
       $('body').append('<div id="layoutViewport"></div>');
-      // var bottomBar = document.getElementById('bottombar');
       var layoutViewport = document.getElementById('layoutViewport');
       window.visualViewport.addEventListener('scroll', visualVP_scrollHandler);
       window.visualViewport.addEventListener('resize', resizeHandler);
@@ -376,7 +362,7 @@ H5P.FormulaApplet = (function ($, Question) {
         var isMobile = (window.visualViewport.width <= 600);
         if (isMobile !== isMobile_old) {
           var hide = (isMobile_old === 'hide') || H5Pbridge.isVirtualKeyboardHidden();
-          console.log('isMobile=', isMobile, 'hide=', hide, ev);
+          // console.log('isMobile=', isMobile, 'hide=', hide, ev);
           H5Pbridge.setUnitButtonText(self.params.unitButtonText);
           H5Pbridge.initVirtualKeyboard(false, isMobile, hide); //isEditor=false
           isMobile_old = isMobile;
@@ -384,9 +370,9 @@ H5P.FormulaApplet = (function ($, Question) {
       }
 
       function visualVP_scrollHandler() {
-        // var visualVP = window.visualViewport;
-        console.log(visualVP);
-        console.log(layoutViewport.getBoundingClientRect());
+        var visualVP = window.visualViewport;
+        // console.log(visualVP);
+        // console.log(layoutViewport.getBoundingClientRect());
         // Since the vkbd is position: fixed we need to offset it by the visual
         // viewport's offset from the layout viewport origin.
         var offsetX = visualVP.offsetLeft;
@@ -414,13 +400,22 @@ H5P.FormulaApplet = (function ($, Question) {
     }
     counter++;
 
+    // things to be done after each append
     var options = self.options;
-    var id = options.id;
+    
+    try {
+      var id = options.id;
+      listOfAllFormulaAppletIds.push(id);
+      var jsonList = JSON.stringify(listOfAllFormulaAppletIds);
+      document.getElementById('hiddenList').innerHTML = jsonList;
+    } catch (error) {
+      console.log('ERROR creating listOfAllFormulaAppletIds (hidden)');
+    }
+
     // mathQuillifying
     var MQ = H5Pbridge.MQ;
     console.log('try to mathquillify ' + id);
-    console.log('options.translationTest=', options.translationTest);
-    console.log('options.testoption=', options.testoption);
+    // console.log('options.translationTest=', options.translationTest);
     var $el = $('#' + id + '.formula_applet:not(.mq-math-mode)');
     if (typeof $el === 'undefined') {
       throw id + ' not found';
@@ -439,7 +434,6 @@ H5P.FormulaApplet = (function ($, Question) {
       var domElem = $('#' + id + '.formula_applet:not(.mq-math-mode)')[0];
       // console.log(domElem);
       var expression = domElem.innerHTML;
-      // console.log('Mathquillify ' + id + ': ' + expression);
 
       // look for {{resultfield}}:
       var hasResultField = (expression.indexOf('{{result}}') >= 0);
@@ -457,7 +451,6 @@ H5P.FormulaApplet = (function ($, Question) {
       var mqEditableField;
       try {
         mqEditableField = MQ.StaticMath(domElem);
-        // MQ.StaticMath seems to generate a mqEditableField
       } catch (err) {
         console.error('Error using MQ.StaticMath: ' + err);
         console.trace();
@@ -481,7 +474,7 @@ H5P.FormulaApplet = (function ($, Question) {
                 $(domElem).nextAll("button.keyb_button:first").addClass('selected');
               }
             } else {
-              // element has no ResultField (static formula)
+              //static formula
               console.log(ev.currentTarget.id + ' has no ResultField');
             }
           }
@@ -499,6 +492,7 @@ H5P.FormulaApplet = (function ($, Question) {
           H5Pbridge.showVirtualKeyboard();
           $("button.keyb_button").removeClass('selected');
         });
+        // TODO DELETE obsolete code for right/wrong tag
         // insert span for right/wrong tag is replaced by H5P scoring
         // $('<span class="truefalse">&nbsp;</span>').insertAfter($el);
       } catch (error) {
@@ -544,21 +538,17 @@ H5P.FormulaApplet = (function ($, Question) {
     async function mathQuillifyLegacyApplets() {
       await H5Pbridge.domLoad;
       var MQ = H5Pbridge.MQ;
-      // console.log(MQ);
       console.log('mathQuillifyLegacyApplets');
       $('p.formula_applet.solution').each(function (index) {
         var domElem = $(this)[0];
         var expression = domElem.innerHTML;
         var solution = '';
-        var language = H5Pbridge.docLang();
         var isEditor = false;
         var temp = H5Pbridge.H5P_to_MathQuill(expression, solution, isEditor);
         domElem.innerHTML = temp;
-        // console.log(index, temp);
         MQ.StaticMath(domElem);
       });
     }
   }
-
   return C;
 })(H5P.jQuery, H5P.Question);

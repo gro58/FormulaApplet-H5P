@@ -26,12 +26,11 @@ var unitButtonText = "Unit";
 var inputText;
 var virtualKeyboardHidden = true;
 
-export function setUnitButtonText(text){
+export function setUnitButtonText(text) {
     unitButtonText = text;
 }
 
 function updateVirtualKeyboard(isMobile) {
-    console.log('updateVirtualKeyboard - isMobile=', isMobile);
     if (isMobile) {
         $('div#virtualKeyboard').addClass("isMobile");
     } else {
@@ -41,15 +40,15 @@ function updateVirtualKeyboard(isMobile) {
     const version = config.version + ' (' + docLang() + ') isMobile=' + isMobile;
     var message = '<p>&nbsp;</p>';
     message += '<p>H5P.FormulaApplet Version ' + version + '</p>';
-    var temp = repo.repository.url.slice(4) + '#readme'; //slice(4): delete start "git+"
-    message += '<p><a href="' + temp + '">' + temp + '</a></p>';
+    var temp = repo.repository.url.slice(4); //slice(4): delete start "git+"
+    message += '<p><a href="' + temp + '#readme">' + temp + '</a></p>';
     message += '<p>by <a href="https://www.grossmann.info">gro58</a></p>';
     message += '<p>&nbsp;</p>';
 
     // TODO move to semantics.json, de.json
     inputText = '<span style="font-size: 80%; color:green">Set input</span>';
     if (docLang() == 'de') {
-         inputText = '<span style="font-size: 80%; color:green">Eingabefeld setzen</span>';
+        inputText = '<span style="font-size: 80%; color:green">Eingabefeld setzen</span>';
     }
 
     if (isMobile) {
@@ -72,10 +71,6 @@ function getVirtualKeyboard(isEditor, isMobile) {
     let result = document.createElement("div");
     result.id = "virtualKeyboard";
     $(result).addClass(isEditor ? "h5pEditor" : "h5p");
-    // moved to updateVirtualKeyboard:
-    // if (isMobile) {
-    //     $(result).addClass("isMobile");
-    // }
     let header = document.createElement("div");
     header.id = "virtualKeyboard_header";
     header.innerText = "Move";

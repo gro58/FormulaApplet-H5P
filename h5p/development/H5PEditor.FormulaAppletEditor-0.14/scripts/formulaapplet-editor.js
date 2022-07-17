@@ -22,8 +22,6 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
    * @param {function} setValue
    */
 
-  // inspect available H5Pbridge methods
-  // console.log(H5Pbridge);
   var editorMf = {};
 
   function FormulaAppletEditor(parent, field, params, setValue) {
@@ -31,13 +29,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     this.field = field;
     this.params = params;
     this.setValue = setValue;
-
     this.changes = [];
-
-    //inspect various objects:
-    // console.log('FormulaAppletEditor object: ', this);
-    // console.log('H5Pbridge: ', H5Pbridge);
-    // console.log('H5PIntegration: ', H5PIntegration);
   }
 
   /**
@@ -50,13 +42,31 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     const h5p_id = ns.getNextFieldId(this.field);
     var params = self.parent.params;
 
-    // compose an HTML tag to be used by MathQuill using params and H5Pbridge
-    if (typeof params.id === 'undefined' || params.id === 'new_id') {
-      // TODO if params.id already exists (duplicate import), create new one!
+    // retrieve existing ids
+    var listOfFormulaAppletIds;
+    try {
+      //escape from nested iframes
+      var hiddenList = window.parent.parent.document.getElementById('hiddenList').innerHTML;
+      listOfFormulaAppletIds = JSON.parse(hiddenList);
+    } catch (error) {
+      listOfFormulaAppletIds = [];
+    }
+    // console.log('listOfFormulaAppletIds:', listOfFormulaAppletIds);
+
+    var id = params.id;
+    if (typeof id === 'undefined') {
+      id = 'new_id';
+    } else {
+      if (listOfFormulaAppletIds.indexOf(id) >= 0) {
+        // duplicate id (maybe importing twice)
+        id = 'new_id';
+      }
+    }
+    if (id === 'new_id') {
       params.id = randomId(14);
     }
 
-    // start of composing HTML
+    // compose an HTML tag to be used by MathQuill using params and H5Pbridge
     var html = '<p class="formula_applet';
     var expression = params.TEX_expression;
     if (typeof expression === 'undefined') {
@@ -82,8 +92,6 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
 
     // wrap temp into <span> and close <p class="formula_applet"...> tag
     html += '<span id="math-field">' + temp + '</span></p>';
-    // console.log('Assembled html: ' + html);
-
     var fieldMarkup = H5PEditor.createFieldMarkup(this.field, html, h5p_id);
     self.$item = H5PEditor.$(fieldMarkup);
     self.$formulaApplet = self.$item.find('.formula_applet');
@@ -92,15 +100,15 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       // TODO investigate use of self.config 
       appendTo: self.$item[0],
       preferredFormat: 'hex',
-      // expression: self.getExpression(),
+      // ori: expression: self.getExpression(),
       expression: " get: myExpression",
       change: function (expression) {
-        // self.setExpression(expression);
+        // ori: self.setExpression(expression);
         console.log('do, what is necessary if expression is changed ' + expression);
       },
       hide: function (expression) {
-        // Need this to get expression if cancel is clicked
-        // self.setExpression(expression);
+        // need this to get expression if cancel is clicked
+        // ori: self.setExpression(expression);
         console.log('do, what is necessary if expression is hidden ' + expression);
       }
     };
@@ -112,20 +120,10 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     $(function () {
       //code that needs to be executed when DOM is ready, after manipulation, goes here
       console.log('DOM is ready');
-
-      // var isMobile = (window.visualViewport.width <= 600);
-      console.log(window.parent.innerWidth);
       var isMobile = (window.parent.innerWidth <= 600);
-      H5Pbridge.initVirtualKeyboard(true, isMobile, false); 
-      //isEditor=true isMobile=? hide=false
+      H5Pbridge.initVirtualKeyboard(true, isMobile, false); //isEditor=true isMobile=? hide=false
 
-      // var kbDiv = H5Pbridge.createkeyboardDiv(true);
-      // var keyboardparent = H5P.jQuery('p.formula_applet').parent();
-      // keyboardparent.append(kbDiv);
-      // H5Pbridge.virtualKeyboardBindEvents();
-      // H5Pbridge.keyboardActivate('mixed');
-      
-      // get config.debug value from js/config.json.ori, show or hide debugging fields
+      // get config.debug value from js/config.json.ori -> show or hide debugging fields
       var css_display_value = (H5Pbridge.config.debug === 'true' ? '' : 'none');
       $('.field-name-data_b64').css('display', css_display_value);
       $('.field-name-id').css('display', css_display_value);
@@ -133,40 +131,17 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     });
   };
 
-  // obsolete parts concerning spectrum commented out
-
-  // /**
-  //  * Hide color selector
-  //  * @method hide
-  //  */
+  /**
+   * rest from spectrum example, may not be deleted
+   */
   FormulaAppletEditor.prototype.hide = function () {};
-
-  // /**
-  //  * Save the color
-  //  *
-  //  * @param {Object} color The
-  //  */
-  // FormulaAppletEditor.prototype.setColor = function (color) {
-  //     // Save the value, allow null
-  //     this.params = (color === null ? null : this.colorToString(color));
-  //     this.setValue(this.field, this.params);
-
-  //     this.changes.forEach(function (cb) {
-  //         cb(this.params);
-  //     })
-  // };
-
-  // FormulaAppletEditor.prototype.getColor = function () {
-  //     var isEmpty = (this.params === null || this.params === "");
-  //     return isEmpty ? null : this.params;
-  // };
 
   /**
    * Validate the current values.
    */
   FormulaAppletEditor.prototype.validate = function () {
-      this.hide();
-      return (this.params !== undefined && this.params.length !== 0);
+    this.hide();
+    return (this.params !== undefined && this.params.length !== 0);
   };
 
   FormulaAppletEditor.prototype.remove = function () {};
@@ -175,13 +150,13 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     var parent = this.parent;
     // make whole mathFieldSpan editable
     var mathFieldSpan = document.getElementById('math-field');
-    // TODO are next 3 lines necessary?
+    // TODO are next 8 lines necessary?
     var temp = mathFieldSpan.innerHTML;
     temp = temp.replace(/\\unit{/g, H5Pbridge.config.unit_replacement);
     if (mathFieldSpan.innerHTML === temp) {
       console.log(mathFieldSpan.innerHTML, 'did not change');
     } else {
-      console.log(mathFieldSpan.innerHTML,'changed to',temp);
+      console.log(mathFieldSpan.innerHTML, 'changed to', temp);
     }
     mathFieldSpan.innerHTML = temp;
 
@@ -192,7 +167,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
         edit: function (mathField) {
           try {
             if (H5Pbridge.isEditHandlerActive()) {
-              // latex -> expression, data_b64;
+              // latex -> temp.expression, temp.data_b64;
               var temp = H5Pbridge.MathQuill_to_H5P(mathField.latex());
               // TODO investigate if this.setValue() can be used instead of setValueAndSyncDOM().
               setValueAndSyncDOM('TEX_expression', temp.expression, parent);
@@ -218,11 +193,12 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     // https://stackoverflow.com/questions/7060750/detect-the-enter-key-in-a-text-input-field#7060762
     $tex_expression.on('keyup', function (event) {
       if (event.key === 'Enter' || event.keyCode === 13) {
-        // console.log(event.target);
         //process enter event
         refreshEditor(editorMf, event.target.value, params);
       }
     });
+
+    // TODO delete input event listener? good only for debugging
     $tex_expression[0].addEventListener('input', function (event) {
       // DOM -> field - done by H5P
 
@@ -243,7 +219,7 @@ function refreshEditor(editorMf, latex, params) {
   var solution = H5Pbridge.decode(params.data_b64);
   var temp = H5Pbridge.H5P_to_MathQuill(latex, solution, true);
   // H5P_to_MathQuill includes no_XSS method
-  console.log('refresh editor widget with ' + temp);
+  // console.log('refresh editor widget with ' + temp);
   var fallback = editorMf.latex();
   editorMf.latex(temp);
   if (editorMf.latex() === '') {
@@ -253,7 +229,8 @@ function refreshEditor(editorMf, latex, params) {
   }
 }
 
-// avoid name collision with setValue
+// avoid name collision with setValue()
+// TODO simplify, only for used cases 
 function setValueAndSyncDOM(name, value, parent) {
   parent.params[name] = value;
   // synchronize DOM 
