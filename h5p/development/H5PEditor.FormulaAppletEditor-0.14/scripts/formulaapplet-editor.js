@@ -90,10 +90,14 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     
     
     //escaping from nested iframes
-    var hiddenList = window.parent.parent.document.getElementById('hiddenLast').innerHTML;
-    var listOfFormulaAppletIds = JSON.parse(hiddenList);
-
-    console.log(listOfFormulaAppletIds);
+    var listOfFormulaAppletIds;
+    try {
+      var hiddenList = window.parent.parent.document.getElementById('hiddenList').innerHTML;
+      listOfFormulaAppletIds = JSON.parse(hiddenList);
+      } catch (error) {
+        listOfFormulaAppletIds = [];
+    }
+    console.log('listOfFormulaAppletIds:', listOfFormulaAppletIds);
 
     var id = params.id;
     if(typeof id === 'undefined'){
