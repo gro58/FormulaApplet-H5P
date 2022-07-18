@@ -406,19 +406,6 @@ H5P.FormulaApplet = (function ($, Question) {
           isMobile_old = isMobile;
         }
       }
-
-      // TODO DELETE obsolete code
-      // at first call of refreshVirtualKeyboard isMobile_old will be set from undefined to 'hide'
-      // isMobile_old = typeof isMobile_old == 'undefined' ? 'hide' : isMobile_old;
-      // console.log(ev);
-      // if (isMobile !== isMobile_old) {
-      // var hide = (isMobile_old === 'hide') || H5Pbridge.isVirtualKeyboardHidden();
-      // console.log('isMobile=', isMobile, 'hide=', hide, ev);
-      // TODO DELETE next line, as moved to "one linebefore showVirtualKeyboard" 
-      // H5Pbridge.setUnitButtonText(self.params.unitButtonText);
-      // H5Pbridge.initVirtualKeyboard(false, isMobile, hide); //isEditor=false
-      // isMobile_old = isMobile;
-      // }
     }
 
     // things to be done after each append
@@ -518,9 +505,6 @@ H5P.FormulaApplet = (function ($, Question) {
           refreshVirtualKeyboard(true, false); //forced=true, hide=false -> show keyboard
           $("button.keyb_button").removeClass('selected');
         });
-        // TODO DELETE obsolete code for right/wrong tag
-        // insert span for right/wrong tag is replaced by H5P scoring
-        // $('<span class="truefalse">&nbsp;</span>').insertAfter($el);
       } catch (error) {
         console.error(error);
       }

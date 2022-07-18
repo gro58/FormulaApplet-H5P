@@ -55,7 +55,6 @@ export function getSelection(mf, options) {
             console.error('Something went wrong with replacement of input field', check, postSelected);
         }
         selected = erased.substring(0, erased.length - postSelected.length);
-        // var result = [preSelected, selected, postSelected, ori]; old syntax, DELETE
         var result = {
             preSelected: preSelected,
             selected: selected,

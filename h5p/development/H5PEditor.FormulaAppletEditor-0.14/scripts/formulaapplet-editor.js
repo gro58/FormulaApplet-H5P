@@ -169,15 +169,19 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
         edit: function (mathField) {
           try {
             if (H5Pbridge.isEditHandlerActive()) {
-              // latex -> temp.expression, temp.data_b64;
+              // latex -> expression, data_b64;
               var temp = H5Pbridge.MathQuill_to_H5P(mathField.latex());
+              var expression = temp.expression;
+              var data_b64 = temp.data_b64;
               // TODO investigate if this.setValue() can be used to sync DOM, instead of targetField.
-              parent.params['TEX_expression'] = temp.expression;
+              // replacement for setValueAndSyncDOM
+              parent.params['TEX_expression'] = expression;
               var targetField = H5PEditor.findField('TEX_expression', parent);
-              targetField.$input[0].value = temp.expression;
-              parent.params['data_b64'] = temp.data_b64;
+              targetField.$input[0].value = expression;
+              console.log('data_b64: ', data_b64);
+              parent.params['data_b64'] = data_b64;
               var targetField = H5PEditor.findField('data_b64', parent);
-              targetField.$input[0].value = temp.data_b64;
+              targetField.$input[0].value = data_b64;
             }
           } catch (error) {
             console.error('ERROR in MQ.MathField edit handler: ' + error);

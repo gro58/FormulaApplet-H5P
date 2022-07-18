@@ -1,6 +1,6 @@
 {
   "name": "formelapplet-h5p",
-  "version": "0.14.104",
+  "version": "0.14.105",
   "description": "lets you create math or physics exercises using H5P",
   "main": "src/index.js",
   "scripts": {
