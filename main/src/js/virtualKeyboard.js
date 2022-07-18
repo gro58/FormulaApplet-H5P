@@ -23,16 +23,16 @@ import repo from "../../package.json";
 // vars are not global - bundler uses output.format = 'iife'
 var keys_mixed_ori = keys['mixed'];
 var unitButtonText = "Unit";
-var inputButtonText = "Unit";
+var inputButtonText = "Input";
 var virtualKeyboardHidden = true;
 
 export function setUnitButtonText(text) {
-    unitButtonText = text;
-    console.log('unitButtonText=', unitButtonText);
+    unitButtonText = '<span>' + text + '</span>';
+    // console.log('unitButtonText=', unitButtonText);
 }
 export function setInputButtonText(text) {
-    inputButtonText = text;
-    console.log('inputButtonText=', inputButtonText);
+    inputButtonText = '<span>' + text + '</span>';
+    // console.log('inputButtonText=', inputButtonText);
 }
 
 function updateVirtualKeyboard(isMobile) {
@@ -49,12 +49,6 @@ function updateVirtualKeyboard(isMobile) {
     message += '<p><a href="' + temp + '#readme">' + temp + '</a></p>';
     message += '<p>by <a href="https://www.grossmann.info">gro58</a></p>';
     message += '<p>&nbsp;</p>';
-
-    // TODO DELETE, moved to semantics.json, de.json
-    // inputText = '<span style="font-size: 80%; color:green">Set input</span>';
-    // if (docLang() == 'de') {
-    //     inputText = '<span style="font-size: 80%; color:green">Eingabefeld setzen</span>';
-    // }
 
     if (isMobile) {
         keys['mixed'] = keys_mixed_mobile;

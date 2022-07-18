@@ -96,18 +96,6 @@ div#virtualKeyboard.h5pEditor .virtualKeyboardButton.smallgap {
 	background-color: orange;
 }
 
-.virtualKeyboardButton.virtualKeyboard-setunsetUnit {
-	font-size: 80%;
-	color: green;
-	line-height: 140%;
-}
-
-.virtualKeyboardButton.virtualKeyboard-setinput {
-	font-size: 80%;
-	color: green;
-	line-height: 140%;
-}
-
 .virtualKeyboardButton.virtualKeyboard-version {
 	font-size: 150%;
 }
@@ -130,9 +118,18 @@ div#virtualKeyboard.h5pEditor .virtualKeyboardButton.smallgap {
 	color: green;
 }
 
-.virtualKeyboardButton.virtualKeyboard-setunsetUnit span {
+.virtualKeyboardButton.virtualKeyboard-setunsetUnit span{
 	font-size: 50%;
 	color: green;
+	/* line-height: 140%; */
+	vertical-align: middle;
+}
+
+.virtualKeyboardButton.virtualKeyboard-setinput span{
+	font-size: 50%;
+	color: green;
+	/* line-height: 140%; */
+	vertical-align: middle;
 }
 
 .virtualKeyboardButton.virtualKeyboard-sin span {

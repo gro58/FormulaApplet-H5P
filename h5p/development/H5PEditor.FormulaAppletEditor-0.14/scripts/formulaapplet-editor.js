@@ -171,9 +171,13 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
             if (H5Pbridge.isEditHandlerActive()) {
               // latex -> temp.expression, temp.data_b64;
               var temp = H5Pbridge.MathQuill_to_H5P(mathField.latex());
-              // TODO investigate if this.setValue() can be used instead of setValueAndSyncDOM().
-              setValueAndSyncDOM('TEX_expression', temp.expression, parent);
-              setValueAndSyncDOM('data_b64', temp.data_b64, parent);
+              // TODO investigate if this.setValue() can be used to sync DOM, instead of targetField.
+              parent.params['TEX_expression'] = temp.expression;
+              var targetField = H5PEditor.findField('TEX_expression', parent);
+              targetField.$input[0].value = temp.expression;
+              parent.params['data_b64'] = temp.data_b64;
+              var targetField = H5PEditor.findField('data_b64', parent);
+              targetField.$input[0].value = temp.data_b64;
             }
           } catch (error) {
             console.error('ERROR in MQ.MathField edit handler: ' + error);
@@ -234,22 +238,11 @@ function refreshEditor(editorMf, latex, params) {
 // avoid name collision with setValue()
 // TODO simplify, only for used cases 
 function setValueAndSyncDOM(name, value, parent) {
+  console.log('syncDOM', name, value)
   parent.params[name] = value;
   // synchronize DOM 
   var targetField = H5PEditor.findField(name, parent);
-  var type = targetField.field.type;
-  if (type === 'select') {
-    var $targetField = targetField.$select;
-    $targetField[0].value = value;
-  };
-  if (type === 'text') {
-    var $targetField = targetField.$input;
-    $targetField[0].value = value;
-  };
-  if (type === 'boolean') {
-    var $targetField = targetField.$input;
-    $targetField[0].checked = value;
-  };
+  targetField.$input[0].value = value;
 }
 
 function randomId(length) {
