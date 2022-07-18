@@ -22,23 +22,19 @@ H5P.FormulaApplet = (function ($, Question) {
   /**
    * Constructor function.
    */
-  function C(options, id) {
+  function C(params, id) {
 
     // Extend with Question
     var self = this;
-    // console.log(self);
     // Inheritance
     // Question.call(self, 'blanks');
     Question.call(self, 'FormulaApplet');
 
     this.$ = $(this);
-    // console.log(options);
-    // formulaapplet.js uses options like https://h5p.org/tutorial-greeting-card
-    // but blank.js uses params 
-    // Extend defaults with provided options
-    this.options = $.extend(true, {}, {
+    // Extend defaults with provided params
+    this.params = $.extend(true, {}, {
       // add option for result of sanitizedPrecision()
-      // this.options.precision will not be changed
+      // this.params.precision will not be changed
       sanitizedPrecision: '',
       // TODO make use of overallFeedback
       overallFeedback: [],
@@ -46,7 +42,6 @@ H5P.FormulaApplet = (function ($, Question) {
       showSolutions: "Show solution",
       tryAgain: "Try again",
       checkAnswer: "Check",
-      translationTest: "tT dummy",
       unitButtonText: "Unit",
       // behaviour from blanks.js
       behaviour: {
@@ -59,14 +54,10 @@ H5P.FormulaApplet = (function ($, Question) {
         separateLines: false
       },
       domElem: {}
-      // MathField: {dummyMathField: 'dummyMathFieldText'},
-    }, options);
-    // TODO unify syntax: params/options
-    this.params = this.options;
+    }, params);
     // Keep provided id.
     this.id = id;
-    this.options.sanitizedPrecision = sanitizedPrecision(this.options.precision);
-    // console.log('unitButtonText: ', this.params.unitButtonText);
+    this.params.sanitizedPrecision = sanitizedPrecision(this.params.precision);
   };
 
   // C.prototype.attach($container) is replaced by
@@ -86,9 +77,9 @@ H5P.FormulaApplet = (function ($, Question) {
     // $container.addClass("h5p-formulaapplet");
 
     var html = '<p class="formula_applet" id="';
-    html += self.options.id;
+    html += self.params.id;
     html += '">';
-    html += self.options.TEX_expression
+    html += self.params.TEX_expression
     html += '</p>';
     // $container.append(html, afterAppend(self), self);
     return $(html);
@@ -103,7 +94,6 @@ H5P.FormulaApplet = (function ($, Question) {
   C.prototype.registerDomElements = function () {
     var self = this;
 
-    // console.log(self);
     if (self.params.image) {
       // Register task image
       self.setImage(self.params.image.path);
@@ -214,10 +204,10 @@ H5P.FormulaApplet = (function ($, Question) {
 
   C.prototype.getScore_debug = function () {
     var self = this;
-    var options = self.params;
-    var id = options.id;
-    var mf = options.MathField;
-    var domElem = options.domElem;
+    var params = self.params;
+    var id = params.id;
+    var mf = params.MathField;
+    var domElem = params.domElem;
     if (Object.keys(domElem).length > 0) {
       console.log('debug getScore: ' + id, domElem, mf);
     }
@@ -232,26 +222,24 @@ H5P.FormulaApplet = (function ($, Question) {
   C.prototype.getScore = function () {
     // await H5Pbridge.domLoad;
     var self = this;
-    // console.log(self);
-    var options = self.params;
-    var domElem = options.domElem;
+    var params = self.params;
+    var domElem = params.domElem;
     var correct = 0;
     if (Object.keys(domElem).length > 0) {
-      var id = options.id;
-      var data_b64 = options.data_b64;
-      // var unitAuto = options.formulaAppletPhysics;
-      var precision = options.sanitizedPrecision;
-      var definitionSets = options.definitionSets;
-      var hasSolution = (options.formulaAppletMode === 'manu');
-      // console.log('getScore options ', id, options);
+      var id = params.id;
+      var data_b64 = params.data_b64;
+      var precision = params.sanitizedPrecision;
+      var definitionSets = params.definitionSets;
+      var hasSolution = (params.formulaAppletMode === 'manu');
+      // console.log('getScore params ', id, params);
 
       var isEqual;
       if (hasSolution) {
-        var latex = options.MathField.latex();
+        var latex = params.MathField.latex();
         isEqual = H5Pbridge.checkIfEqual(latex, data_b64, definitionSets, precision);
       } else {
         // look at whole equation: input field and surroundings
-        var mfContainer = H5Pbridge.MQ.StaticMath(options.domElem);
+        var mfContainer = H5Pbridge.MQ.StaticMath(params.domElem);
         isEqual = H5Pbridge.checkIfEquality(mfContainer.latex(), definitionSets, precision);
         // console.log(mfContainer.latex() + ' isEqual= ' + isEqual);
       }
@@ -409,10 +397,10 @@ H5P.FormulaApplet = (function ($, Question) {
     }
 
     // things to be done after each append
-    var options = self.options;
+    var params = self.params;
 
     try {
-      var id = options.id;
+      var id = params.id;
       listOfAllFormulaAppletIds.push(id);
       var jsonList = JSON.stringify(listOfAllFormulaAppletIds);
       document.getElementById('hiddenList').innerHTML = jsonList;
@@ -423,7 +411,6 @@ H5P.FormulaApplet = (function ($, Question) {
     // mathQuillifying
     var MQ = H5Pbridge.MQ;
     console.log('try to mathquillify ' + id);
-    // console.log('options.translationTest=', options.translationTest);
     var $el = $('#' + id + '.formula_applet:not(.mq-math-mode)');
     if (typeof $el === 'undefined') {
       throw id + ' not found';
@@ -499,8 +486,7 @@ H5P.FormulaApplet = (function ($, Question) {
         var $keyboardInvokeButton = $('<button class="keyb_button">\u2328</button>');
         $keyboardInvokeButton.insertAfter($el);
         $keyboardInvokeButton.on('mousedown', function (ev) {
-          // console.log(ev.target, ev);
-          console.log('mousedown -> unitButtonText=' + self.params.unitButtonText);
+          // console.log('mousedown -> unitButtonText=' + self.params.unitButtonText);
           H5Pbridge.setUnitButtonText(self.params.unitButtonText);
           refreshVirtualKeyboard(true, false); //forced=true, hide=false -> show keyboard
           $("button.keyb_button").removeClass('selected');
@@ -530,18 +516,17 @@ H5P.FormulaApplet = (function ($, Question) {
             },
           }
         });
-        options.MathField = mf;
+        params.MathField = mf;
       }
 
       function mathQuillEditHandler() {
         if (H5Pbridge.isEditHandlerActive()) {
-          if (options.formulaAppletPhysics) {
+          if (params.formulaAppletPhysics) {
             H5Pbridge.makeAutoUnitstring(mf);
           }
         }
       }
-      options.domElem = domElem;
-      // console.log(options);
+      params.domElem = domElem;
     };
     waitForDomElem.start();
 
