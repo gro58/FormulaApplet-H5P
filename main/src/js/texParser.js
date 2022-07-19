@@ -1467,13 +1467,13 @@ export function evaluateTree(filledTree) {
     // var hasValue = temp[0];
     // var hasValue = temp.hasValue;
     if (filledTree.hasValue) {
-        return val(filledTree.root, filledTree);
+        return evaluate(filledTree.root, filledTree);
     } else {
         return undefined;
     }
 }
 
-function val(node, tree) { // TODO: different name, too similar to function value?
+function evaluate(node, tree) {
     //recursive
     var fu, child0, child1, child2, temp;
     var children = node.children;
@@ -1495,7 +1495,7 @@ function val(node, tree) { // TODO: different name, too similar to function valu
     }
     if (numberOfChildren == 1) {
         child0 = tree.nodelist[children[0]];
-        var arg = val(child0, tree);
+        var arg = evaluate(child0, tree);
         if (node.type.startsWith('bracket-') || node.type == 'root' || node.type == 'unit') {
             if (node.type == 'bracket-\\left|') {
                 // absolute value
@@ -1518,8 +1518,8 @@ function val(node, tree) { // TODO: different name, too similar to function valu
     if (numberOfChildren == 2) {
         child0 = tree.nodelist[children[0]];
         child1 = tree.nodelist[children[1]];
-        var ch0 = val(child0, tree);
-        var ch1 = val(child1, tree);
+        var ch0 = evaluate(child0, tree);
+        var ch1 = evaluate(child1, tree);
         if (node.type == '*') {
             node.value = Number(ch0) * Number(ch1);
         }
@@ -1571,10 +1571,10 @@ function val(node, tree) { // TODO: different name, too similar to function valu
         child0 = tree.nodelist[children[0]];
         child1 = tree.nodelist[children[1]];
         child2 = tree.nodelist[children[2]];
-        var dummy = val(child0, tree);
-        dummy = val(child1, tree);
+        var dummy = evaluate(child0, tree);
+        dummy = evaluate(child1, tree);
         // eslint-disable-next-line no-unused-vars
-        dummy = val(child2, tree);
+        dummy = evaluate(child2, tree);
     }
     return node.value;
 }
