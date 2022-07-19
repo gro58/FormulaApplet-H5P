@@ -42,7 +42,7 @@ function updateVirtualKeyboard(isMobile) {
         $('div#virtualKeyboard').removeClass('isMobile');
     }
 
-    const version = config.version + ' (' + docLang() + ') isMobile=' + isMobile;
+    const version = config.version + ' docLang=' + docLang() + ' isMobile=' + isMobile;
     var message = '<p>&nbsp;</p>';
     message += '<p>H5P.FormulaApplet Version ' + version + '</p>';
     var temp = repo.repository.url.slice(4); //slice(4): delete start "git+"
