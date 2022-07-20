@@ -28,12 +28,16 @@ export var keys = {
             ["power_of_ten", "10<sup>⬚</sup>", "10^"],
             ["lg", "lg", "lg("],
             ["setunsetUnit", "dummy: set unit", "#setUnit"],
-            ["nthRoot", "<sup style=\"position: relative; top: -0.5em; right: -0.5em;\">⬚</sup><span style=\"white-space: nowrap; font-size:larger\">&radic;<span style=\"text-decoration:overline;\">&nbsp;&#x2b1a;&nbsp;</span></span>", "#nthroot"],
+            ["nthRoot",
+                "<sup style=\"position: relative; top: -0.5em; right: -0.5em;\">⬚</sup><span style=\"white-space: nowrap; font-size:larger\">&radic;<span style=\"text-decoration:overline;\">&nbsp;&#x2b1a;&nbsp;</span></span>",
+                "#nthroot"
+            ],
             ["smallgap-2", "", ""],
             ["1"],
             ["2"],
             ["3"],
-            ["up", "↑", "^"],
+            // ["up", "↑", "^"],
+            ["up", "&uarr;", "^"],
             ["backspace", "⌫", "#Backspace"]
         ],
         [
@@ -56,9 +60,9 @@ export var keys = {
             ["tan", "<span>tan</span>"],
             ["smallgap-0", "", ""],
             ["integral", "∫", "#integral"],
-            ["degree", "°"],
-            ["minute", "'"],
-            ["second", "''"],
+            ["degree", "°", "°"],
+            ["minute", "'", "'"],
+            ["second", "''", "''"],
             ["pi", "&pi;", "\\pi "]
         ],
         [
@@ -70,7 +74,7 @@ export var keys = {
             ["down", "&darr;", "#Down"],
             ["left", "<span>◅</span>", "#Left"],
             ["right", "<span>▻</span>", "#Right"],
-            ["up", "&uarr;", "#Up"]
+            ["up", "&uarr;", "^"],
         ],
         [
             ["ln"],
@@ -78,7 +82,7 @@ export var keys = {
             ["log_base", "log<sub>⬚</sub>", "log_"],
             ["smallgap-2", "", ""],
             ["abs_f", "<span>abs</span>"],
-            ["subscript", "⬚<sub>⬚</sub>"],
+            ["subscript", "⬚<sub>⬚</sub>", "#Down"],
             ["bracket-left", "(", "("],
             ["bracket-right", ")", ")"],
             ["backspace", "⌫", "#Backspace"]
@@ -87,7 +91,7 @@ export var keys = {
             ["exp", "e<sup>⬚</sup>"],
             ["power_of_ten", "10<sup>⬚</sup>", "10^"],
             ["power", "⬚<sup>⬚</sup>", "^"],
-            ["smallgap-3", "", ""],            
+            ["smallgap-3", "", ""],
             ["space", "&#826;", "\\ "],
             ["abs", "│⬚│", "| |"],
             ["infinity", "&infin;", "\\infinity "],
@@ -107,7 +111,7 @@ export var keys = {
             ["8"],
             ["9"],
             ["0"],
-            ["szlig", "&szlig;"]
+            ["szlig", "&szlig;", "ß"]
         ],
         [
             ["q"],
@@ -120,7 +124,7 @@ export var keys = {
             ["i"],
             ["o"],
             ["p"],
-            ["ue", "&uuml;"]
+            ["ue", "&uuml;", "ü"]
         ],
         [
             ["a"],
@@ -132,8 +136,8 @@ export var keys = {
             ["j"],
             ["k"],
             ["l"],
-            ["oe", "&ouml;"],
-            ["ae", "&auml;"],
+            ["oe", "&ouml;", "ö"],
+            ["ae", "&auml;", "ä"],
             ["backspace", "⌫", "#Backspace"]
         ],
         [
@@ -145,8 +149,8 @@ export var keys = {
             ["b"],
             ["n"],
             ["m"],
-            ["comma", ","],
-            ["up", "↑"],
+            ["comma", ",", ","],
+            ["up", "&uarr;", "^"],
             ["left", "<span>◅</span>", "#Left"],
             ["right", "<span>▻</span>", "#Right"],
             ["enter", "<span>⏎</span>", "#Enter"]
@@ -177,7 +181,7 @@ export var keys = {
             ["I"],
             ["O"],
             ["P"],
-            ["UE", "&Uuml;"]
+            ["UE", "&Uuml;", "Ü"]
         ],
         [
             ["A"],
@@ -189,8 +193,8 @@ export var keys = {
             ["J"],
             ["K"],
             ["L"],
-            ["OE", "&Ouml;"],
-            ["AE", "&Auml;"],
+            ["OE", "&Ouml;", "Ö"],
+            ["AE", "&Auml;", "Ä"],
             ["backspace", "⌫", "#Backspace"]
         ],
         [
@@ -202,8 +206,8 @@ export var keys = {
             ["B"],
             ["N"],
             ["M"],
-            ["comma", ","],
-            ["up", "↑"],
+            ["comma", ",", ","],
+            ["up", "&uarr;", "^"],
             ["left", "<span>◅</span>", "#Left"],
             ["right", "<span>▻</span>", "#Right"],
             ["enter", "<span>⏎</span>", "#Enter"]
@@ -276,36 +280,39 @@ export var keys = {
         [
             ["Phi", "&Phi;"],
             ["Zeta", "&Zeta;"],
-            ["Epsilon", "&Epsilon;"],
-            ["Rho", "&Rho;"],
-            ["Tau", "&Tau;"],
+            ["Epsilon", "E", "E"],
+            ["Rho", "R", "R"],
+            ["Tau", "T", "T"],
             ["Upsilon", "&Upsilon;"],
+            // ["Upsilon", "Y", "Y"],
             ["Theta", "&Theta;"],
-            ["Iota", "&Iota;"],
-            ["Omikron", "&Omicron;"],
+            ["Iota", "I", "I"],
+            // ["Omikron", "&Omicron;"],
+            ["Omikron", "O", "O"],
             ["Pi", "&Pi;"]
         ],
         [
-            ["Alpha", "&Alpha;"],
+            ["Alpha", "A", "A"],
             ["Sigma", "&Sigma;"],
             ["Delta", "&Delta;"],
             ["Phi", "&Phi;"],
             ["Gamma", "&Gamma;"],
-            ["Eta", "&Eta;"],
+            ["Eta", "E", "E"],
             ["Xi", "&Xi;"],
-            ["Kappa", "&Kappa;"],
+            ["Kappa", "K", "K"],
             ["Lambda", "&Lambda;"],
             ["backspace", "⌫", "#Backspace"]
         ],
         [
             ["shift", "⇑"],
-            ["Zeta", "&Zeta;"],
-            ["Chi", "&Chi;"],
+            ["Zeta", "Z", "Z"],
+            ["Chi", "X", "X"],
             ["Psi", "&Psi;"],
             ["Omega", "&Omega;"],
-            ["Beta", "&Beta;"],
-            ["Ny", "&Nu;"],
-            ["My", "&Mu;"],
+            ["Beta", "B", "B"],
+            ["Ny", "N", "N"],
+            // ["My", "&Mu;"],
+            ["My", "M", "M"],
             ["left", "<span>◅</span>", "#Left"],
             ["right", "<span>▻</span>", "#Right"],
             ["enter", "<span>⏎</span>", "#Enter"]
@@ -315,5 +322,5 @@ export var keys = {
         [
             ['version', 'message dummy', ' '] //message updated(replaced) by virtualkeyboard.js
         ]
-    ]  
+    ]
 }

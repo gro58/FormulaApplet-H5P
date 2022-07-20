@@ -125,14 +125,15 @@ function createTable(tableId, isEditor) {
         tbody.append(tr);
         for (var keyindex = 0; keyindex < keylist.length; keyindex++) {
             var key = keylist[keyindex];
+            console.log(key);
             if (isEditor && key[0] === 'enter') {
                 // key = setinput;
                 key = ['setinput', inputButtonText, '#setInputField'];
             }
-            if (typeof key[1] == 'undefined') {
+            if (typeof key[1] === 'undefined') {
                 key[1] = key[0];
             }
-            if (typeof key[2] == 'undefined') {
+            if (typeof key[2] === 'undefined') {
                 if (tableId == 'greek' || tableId == 'greek_caps') {
                     const ignore = '0_1_2_3_4_5_6_7_8_9_shift_';
                     if (ignore.indexOf(key[0] + '_') < 0) {

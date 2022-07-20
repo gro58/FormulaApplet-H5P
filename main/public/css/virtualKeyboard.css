@@ -128,7 +128,18 @@ div#virtualKeyboard.h5pEditor .virtualKeyboardButton.smallgap {
 .virtualKeyboardButton.virtualKeyboard-setinput span{
 	font-size: 50%;
 	color: green;
-	/* line-height: 140%; */
+	vertical-align: middle;
+}
+
+.virtualKeyboardButton.virtualKeyboard-nthRoot {
+	font-size: 1.8vw;
+	/* color: maroon; */
+	vertical-align: middle;
+}
+
+.virtualKeyboardButton.virtualKeyboard-squareroot {
+	font-size: 2vw;
+	/* color: springgreen; */
 	vertical-align: middle;
 }
 

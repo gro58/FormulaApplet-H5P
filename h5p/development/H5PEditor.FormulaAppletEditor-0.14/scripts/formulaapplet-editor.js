@@ -127,9 +127,12 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
 
       // get config.debug value from js/config.json.ori -> show or hide debugging fields
       var css_display_value = (H5Pbridge.config.debug === 'true' ? '' : 'none');
-      $('.field-name-data_b64').css('display', css_display_value);
-      $('.field-name-id').css('display', css_display_value);
-      $('.field-name-selected_language').css('display', css_display_value);
+      var $temp = $('div .field.field-name-data_b64');
+      $temp.css('display', css_display_value);
+      $temp = $('div .field-name-id');
+      $temp.css('display', css_display_value);
+      $temp = $('div .field-name-selected_language');
+      $temp.css('display', css_display_value);
     });
   };
 
