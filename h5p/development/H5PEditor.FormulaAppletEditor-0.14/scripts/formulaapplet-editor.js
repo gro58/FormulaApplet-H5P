@@ -116,25 +116,29 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     self.$item.appendTo($wrapper);
     editorMf = this.mathQuillifyEditor();
     init_synchronize(params);
+    hideDebugFields();
 
-    $(function () {
+    async function hideDebugFields() {
+      await H5Pbridge.domLoad;
+      // get config.debug value from js/config.json.ori -> show or hide debugging fields
+      var debug = (H5Pbridge.config.debug === "true"); //typeof ... is string, not boolean! OMG
+      var css_display_value = (debug ? '' : 'none');
+      var targetField;
+      // console.log(self);
+      // console.log(self.parent);
+      targetField = H5PEditor.findField('data_b64', self.parent);
+      targetField.$item.css('display', css_display_value);
+      targetField = H5PEditor.findField('id', self.parent);
+      targetField.$item.css('display', css_display_value);
+    };
+  
+     $(function () {
       //code that needs to be executed when DOM is ready, after manipulation, goes here
       console.log('DOM is ready');
       var isMobile = (window.parent.innerWidth <= 600);
       H5Pbridge.setUnitButtonText(params.unitButtonText);
       H5Pbridge.setInputButtonText(params.inputButtonText);
       H5Pbridge.initVirtualKeyboard(true, isMobile, false); //isEditor=true isMobile=? hide=false
-
-      // get config.debug value from js/config.json.ori -> show or hide debugging fields
-      var debug = H5Pbridge.config.debug;
-      var css_display_value = (debug ? '' : 'none');
-      var targetField;
-      targetField = H5PEditor.findField('data_b64', self.parent);
-      targetField.$item.css('display',css_display_value);
-      targetField = H5PEditor.findField('id', self.parent);
-      targetField.$item.css('display',css_display_value);
-
-      
 
       // TODO DELETE obsolete code. OK in Drupal7, failed in WordPress because of iFrames
       // var $temp = $('div .field.field-name-data_b64');
@@ -161,7 +165,7 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
 
   FormulaAppletEditor.prototype.remove = function () {};
 
-  FormulaAppletEditor.prototype.mathQuillifyEditor = function () {
+    FormulaAppletEditor.prototype.mathQuillifyEditor = function () {
     var parent = this.parent;
     // make whole mathFieldSpan editable
     var mathFieldSpan = document.getElementById('math-field');

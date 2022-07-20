@@ -264,6 +264,7 @@ export var keys = {
             ["enter", "<span>⏎</span>", "#Enter"]
         ]
     ],
+    // greek capitals, also used in mobile mode
     "greek_caps": [
         [
             ["1"],
@@ -277,7 +278,6 @@ export var keys = {
             ["9"],
             ["0"]
         ],
-        // TODO changes also in mobile version
         [
             ["Phi", "&Phi;"],
             ["Zeta", "&Zeta;"],
