@@ -126,13 +126,23 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       H5Pbridge.initVirtualKeyboard(true, isMobile, false); //isEditor=true isMobile=? hide=false
 
       // get config.debug value from js/config.json.ori -> show or hide debugging fields
-      var css_display_value = (H5Pbridge.config.debug === 'true' ? '' : 'none');
-      var $temp = $('div .field.field-name-data_b64');
-      $temp.css('display', css_display_value);
-      $temp = $('div .field-name-id');
-      $temp.css('display', css_display_value);
-      $temp = $('div .field-name-selected_language');
-      $temp.css('display', css_display_value);
+      var debug = H5Pbridge.config.debug;
+      var css_display_value = (debug ? '' : 'none');
+      var targetField;
+      targetField = H5PEditor.findField('data_b64', self.parent);
+      targetField.$item.css('display',css_display_value);
+      targetField = H5PEditor.findField('id', self.parent);
+      targetField.$item.css('display',css_display_value);
+
+      
+
+      // TODO DELETE obsolete code. OK in Drupal7, failed in WordPress because of iFrames
+      // var $temp = $('div .field.field-name-data_b64');
+      // $temp.css('display', css_display_value);
+      // $temp = $('div .field-name-id');
+      // $temp.css('display', css_display_value);
+      // $temp = $('div .field-name-selected_language');
+      // $temp.css('display', css_display_value);
     });
   };
 
@@ -181,9 +191,9 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
               parent.params['TEX_expression'] = expression;
               var targetField = H5PEditor.findField('TEX_expression', parent);
               targetField.$input[0].value = expression;
-              console.log('data_b64: ', data_b64);
               parent.params['data_b64'] = data_b64;
               var targetField = H5PEditor.findField('data_b64', parent);
+              // console.log('data_b64: ', data_b64);
               targetField.$input[0].value = data_b64;
             }
           } catch (error) {
@@ -242,15 +252,16 @@ function refreshEditor(editorMf, latex, params) {
   }
 }
 
+// TODO DELETE obsolete code 
 // avoid name collision with setValue()
 // TODO simplify, only for used cases 
-function setValueAndSyncDOM(name, value, parent) {
-  console.log('syncDOM', name, value)
-  parent.params[name] = value;
-  // synchronize DOM 
-  var targetField = H5PEditor.findField(name, parent);
-  targetField.$input[0].value = value;
-}
+// function setValueAndSyncDOM(name, value, parent) {
+//   console.log('syncDOM', name, value)
+//   parent.params[name] = value;
+//   // synchronize DOM 
+//   var targetField = H5PEditor.findField(name, parent);
+//   targetField.$input[0].value = value;
+// }
 
 function randomId(length) {
   var result = 'fa-';

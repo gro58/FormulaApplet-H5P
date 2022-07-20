@@ -125,7 +125,7 @@ function createTable(tableId, isEditor) {
         tbody.append(tr);
         for (var keyindex = 0; keyindex < keylist.length; keyindex++) {
             var key = keylist[keyindex];
-            console.log(key);
+            // console.log(key);
             if (isEditor && key[0] === 'enter') {
                 // key = setinput;
                 key = ['setinput', inputButtonText, '#setInputField'];

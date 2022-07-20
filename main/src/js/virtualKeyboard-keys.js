@@ -277,6 +277,7 @@ export var keys = {
             ["9"],
             ["0"]
         ],
+        // TODO changes also in mobile version
         [
             ["Phi", "&Phi;"],
             ["Zeta", "&Zeta;"],
