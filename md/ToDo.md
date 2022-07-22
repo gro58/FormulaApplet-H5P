@@ -24,6 +24,7 @@
 * Test using tree2tex.js
 * Tests using browsers like FireFox, IE, Edge, and using OS like Linux, Android, iOS
 * if two solutions: The order should not matter.
+* Lumi: resize is buggy. Why?
 
 ## Nice to have
 * Mobile devices: Get rid of virtual keyboard by expanding the system keyboard
@@ -40,6 +41,7 @@
 * Vectors
 * <del>Check only after pressing Enter</del> Use check button of H5P.Question
 * GeoGebra as an H5P package. Why?
+* Keyboard shortcut for open/close virtual keyboard
 ## GitHub
 * License (2nd)
 * [GIT Cheat Sheet](../../git-cheat.php "Spickzettel für GIT")
