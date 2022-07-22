@@ -2,7 +2,7 @@
 
 // import $ from "jquery";
 import parse, {
-    FaTree,
+    // FaTree,
     evaluateTree,
     fillWithValues
 } from "./texParser.js";
@@ -39,7 +39,6 @@ export function checkIfEqual(leftside, data_b64, definitionSets, precision) {
 
 export function checkIfEquality(equation, definitionSets, precision) {
     equation = equation.replace(/\\unit{/g, config.unit_replacement);
-    // legacy: use of config.unit_replacement
     // TODO: use of \\unit, replace parseTextColor(tree) by parseUnit(tree) in texParser.js
     // console.log(equation);
     var definitionArray = definitionString2Array(definitionSets);
@@ -60,21 +59,24 @@ export function checkIfEquality(equation, definitionSets, precision) {
     }
 }
 
-function fillWithRandomValAndCheckDefSets(treeVar, definitionArray) {
-    var rememberTree = JSON.stringify(treeVar);
+function fillWithRandomValAndCheckDefSets(tree, definitionArray) {
+    // do not change tree. Use clone of tree!
+    var rememberTree = JSON.stringify(tree);
     if (definitionArray.length == 0) {
-        fillWithValues(treeVar);
-        return treeVar;
+        fillWithValues(tree);
+        return tree;
     } else {
         // start watchdog
         var success = false;
         var start = new Date();
         var timePassedMilliseconds = 0;
         while (!success && timePassedMilliseconds < 2000) {
-            var tree2 = new FaTree();
-            tree2 = JSON.parse(rememberTree);
-            fillWithValues(tree2);
-            var variableValueList = tree2.variableValueList;
+            // TODO DELETE obsolete code
+            // var cloned_tree = new FaTree();
+            // cloned_tree = JSON.parse(rememberTree);
+            var cloned_tree = JSON.parse(rememberTree);
+            fillWithValues(cloned_tree);
+            var variableValueList = cloned_tree.variableValueList;
             // CheckDefinitionSets
             for (var i = 0; i < definitionArray.length; i++) {
                 var definitionset = parse(definitionArray[i]);
@@ -91,9 +93,9 @@ function fillWithRandomValAndCheckDefSets(treeVar, definitionArray) {
             timePassedMilliseconds = now.getTime() - start.getTime();
         }
         if (!success) {
-            tree2.hasValue = false;
-            tree2.variableValueList = [];
+            cloned_tree.hasValue = false;
+            cloned_tree.variableValueList = [];
         }
-        return tree2;
+        return cloned_tree;
     }
 }

@@ -521,12 +521,7 @@ export function parseTreeByIndex(tree) {
         case 1:
             message = 'delete spaces and remove backslash at \\min';
             tree.leaf.content = deleteSpaceAndRemoveBackslash(tree.leaf.content);
-            // TODO DELETE debugging code
-            // var tlc_before = tree.leaf.content;
             tree.leaf.content = makeDegreeUnit(tree.leaf.content);
-            // if (tlc_before !== tree.leaf.content){
-            // console.log(tlc_before, '->', tree.leaf.content);
-            // }
             break;
         case 2:
             message = 'parse brackets';
@@ -1403,10 +1398,6 @@ function decomposeUnit(unitstring) {
         value = 1;
         unit = '<unknown unit>';
     }
-    // TODO DELETE debugging code
-    // if(["°", "'", "''", "V", "A"].indexOf(unit) >=0){
-    //     console.log(isUnit, prefix, unit, value);
-    // }
     return [isUnit, prefix, unit, value];
 }
 
@@ -1464,19 +1455,7 @@ function unit2value(unitname) {
     return result;
 }
 
-
-export function value(tree) {
-    // TODO DELETE debugging code
-    console.clear();
-    fillWithValues(tree);
-    // temp = {temp.hasValue, temp.variableValueList}
-    return evaluateTree(tree);
-}
-
 export function evaluateTree(filledTree) {
-    // temp = {temp.hasValue, temp.variableValueList}
-    // var hasValue = temp[0];
-    // var hasValue = temp.hasValue;
     if (filledTree.hasValue) {
         return evaluate(filledTree.root, filledTree);
     } else {
@@ -1497,25 +1476,15 @@ function evaluate(node, tree) {
         if (node.type === 'invisible_zero') {
             node.value = 0;
         }
-        // TODO DELETE obsolete code
-        // this is done in fillWithValues()
-        // if (node.type === 'greek') {
-        //     if (content === '\\pi') {
-        //         // TODO DELETE debugging code
-        //         console.log('found pi ', node);
-        //         value = Math.PI;
-        //     }
-        // }
+        // pi and e are handled in fillWithValues()
         if (isInUnit(tree, node)) {
             temp = decomposeUnit(node.content);
             if (temp[0] === true) {
-                // TODO DELETE debugging code
-                console.log(temp);
+                // console.log(temp);
                 node.value = temp[3];
             }
         }
-        // TODO DELETE debugging code
-        console.log('eval ', node.type, node.content, node.value);
+        // console.log('eval ', node.type, node.content, node.value);
     }
     if (numberOfChildren === 1) {
         child0 = tree.nodelist[children[0]];
@@ -1665,9 +1634,7 @@ export function fillWithValues(treeVar, list) {
             if (isInUnit(treeVar, node)) {
                 var temp = decomposeUnit(node.content);
                 node.value = temp[3];
-                //node.type = 'unit';
-                // TODO DELETE debugging code
-                console.log('isInUnit', node.content, node.value);
+                // console.log('isInUnit', node.content, node.value);
             }
         });
         var i = 0;
@@ -1698,17 +1665,14 @@ export function fillWithValues(treeVar, list) {
                         var value = 1000 * Math.cos(u1) * Math.sqrt(u2);
                         // if necessary, replace random value with pi or e 
                         if (content === 'pi') {
-                            // TODO DELETE debugging code
-                            console.log('found pi ', node);
+                            // console.log('found pi ', node);
                             value = Math.PI;
                         }
                         if (content === 'e') {
-                            // TODO DELETE debugging code
-                            console.log('found e ', node);
+                            // console.log('found e ', node);
                             value = Math.E;
                         }
-                        // TODO DELETE debugging code
-                        console.log('fill ', content, value);
+                        // console.log('fill ', content, 'with', value);
                     } else {
                         value = list[content];
                         if (typeof value === 'undefined') {
