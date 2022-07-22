@@ -118,14 +118,14 @@ div#virtualKeyboard.h5pEditor .virtualKeyboardButton.smallgap {
 	color: green;
 }
 
-.virtualKeyboardButton.virtualKeyboard-setunsetUnit span{
+.virtualKeyboardButton.virtualKeyboard-setunsetUnit span {
 	font-size: 50%;
 	color: green;
 	/* line-height: 140%; */
 	vertical-align: middle;
 }
 
-.virtualKeyboardButton.virtualKeyboard-setinput span{
+.virtualKeyboardButton.virtualKeyboard-setinput span {
 	font-size: 50%;
 	color: green;
 	vertical-align: middle;
@@ -278,6 +278,9 @@ div#virtualKeyboard.h5pEditor#virtualKeyboard_header {
 
 /* Style the buttons inside the tab */
 .virtualKeyboard_tab button {
+	/* drupal7: overwrite color: buttoncolor */
+	/* WordPress: overwrite user agent stylesheet (colormag?) */
+	color: black;
 	background-color: #d0d0d0;
 	float: left;
 	left: 20px;

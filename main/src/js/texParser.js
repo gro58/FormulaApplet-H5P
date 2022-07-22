@@ -38,7 +38,7 @@ node.prototype.addBracket = function (tree) {
         this.content = leftpart + '§' + rightpart;
         var bracket = createNode('bracket-' + bra, '', tree);
         var middle = createNode('leaf', middlepart, tree);
-        if (middlepart == ' ') { // e.g. indefinite integral
+        if (middlepart === ' ') { // e.g. indefinite integral
             middle.type = 'empty';
         }
         // first connection
@@ -121,7 +121,7 @@ function withEachNode(tree, f) {
 
 function withEachLeaf(tree, f) {
     withEachNode(tree, function (node) {
-        if (node.type == 'leaf') {
+        if (node.type === 'leaf') {
             f(node);
         }
     })
@@ -129,7 +129,7 @@ function withEachLeaf(tree, f) {
 
 function withEachLeafOrGreek(tree, f) {
     withEachNode(tree, function (node) {
-        if (node.type == 'leaf' || node.type == 'greek') {
+        if (node.type === 'leaf' || node.type === 'greek') {
             f(node);
         }
     })
@@ -139,12 +139,12 @@ export function isInUnit(tree, node) {
     var result = false;
     var stop = false;
     do {
-        if (node.type == 'unit') {
+        if (node.type === 'unit') {
             result = true;
             stop = true;
         } else {
             node = tree.nodelist[node.parent];
-            if (node.type == 'root') {
+            if (node.type === 'root') {
                 stop = true;
             }
         }
@@ -459,7 +459,7 @@ function removeOperators(tree, kindOfOperators) {
                     operator.type = 'sub';
                 }
                 var rest = createNode('leaf', rightpart, tree);
-                if (rest.content == "") {
+                if (rest.content === "") {
                     rest.content = "0";
                     rest.type = "invisible_zero";
                 }
@@ -474,7 +474,7 @@ function removeOperators(tree, kindOfOperators) {
                 // connect new node operator at right side with new node rest
                 // Direction "up"
                 node.content = leftpart;
-                if (node.content == "") {
+                if (node.content === "") {
                     node.content = "0";
                     node.type = "invisible_zero";
                 }
@@ -491,7 +491,7 @@ function removeOperators(tree, kindOfOperators) {
                     tree.nodelist[rightchildren[i]].parent = rest.id;
                 }
             }
-        } while (loop == true);
+        } while (loop === true);
     });
     // return tree.nodelist;
 }
@@ -521,7 +521,12 @@ export function parseTreeByIndex(tree) {
         case 1:
             message = 'delete spaces and remove backslash at \\min';
             tree.leaf.content = deleteSpaceAndRemoveBackslash(tree.leaf.content);
+            // TODO DELETE debugging code
+            // var tlc_before = tree.leaf.content;
             tree.leaf.content = makeDegreeUnit(tree.leaf.content);
+            // if (tlc_before !== tree.leaf.content){
+            // console.log(tlc_before, '->', tree.leaf.content);
+            // }
             break;
         case 2:
             message = 'parse brackets';
@@ -701,10 +706,10 @@ function makeDegreeUnit(text) {
             number.push(result[1]);
             degree.push(result[4]);
             lastlastIndex = regex.lastIndex;
-        } else { // result == null
+        } else { // result === null
             stop = true;
         }
-    } while (stop == false);
+    } while (stop === false);
 
     // handle the end of text string
     gap = text.substring(lastlastIndex);
@@ -754,10 +759,10 @@ function makeDegreeUnit(text) {
                     default:
                         console.error('Error in texParser makeDegreeUnit');
                 }
-            } else { // result == null
+            } else { // result === null
                 stop = true;
             }
-        } while (stop == false);
+        } while (stop === false);
     }
 
     //test
@@ -785,7 +790,7 @@ function parseBrackets(tree) {
         var stop = false;
         do {
             var leftPos = node.addBracket(tree);
-            if (leftPos == -1) {
+            if (leftPos === -1) {
                 stop = true;
             }
         } while (stop === false)
@@ -860,7 +865,7 @@ function parseIntegral(tree) {
             var differential = right.substring(right.length - 2);
             if (differential.startsWith('d')) {
                 // repair if differential is too short
-                if (differential.length == 1) {
+                if (differential.length === 1) {
                     differential += 'x';
                 }
                 integrand.content = right.substr(0, right.length - 2);
@@ -1029,7 +1034,7 @@ function parseFunction(tree) {
                     arg.parent = fuNode.id;
                 } else {
                     // no power:", "\\sin...
-                    if (rest == '§') {
+                    if (rest === '§') {
                         // \\sin§
                         fuNode.children[0] = remember;
                         tree.nodelist[remember].parent = fuNode.id;
@@ -1180,7 +1185,7 @@ function parseNumbers(tree) {
         // backslash must be masked: \\
         var pos = content.search(regex);
         // if no number in content, pos=-1
-        if (pos == 0) { //content starts with number
+        if (pos === 0) { //content starts with number
             var match = content.match(regex);
             var num = content.substr(0, match[0].length);
             var rest = content.substring(match[0].length);
@@ -1198,19 +1203,19 @@ function parseMixedNumbers(tree) {
         var content = node.content.trim();
         if (content.startsWith('§§')) {
             var child0 = tree.nodelist[node.children[0]];
-            if (child0.type == 'number') {
+            if (child0.type === 'number') {
                 var child1 = tree.nodelist[node.children[1]];
-                if (child1.type == 'frac') {
+                if (child1.type === 'frac') {
                     var nomBracket = tree.nodelist[child1.children[0]];
-                    if (nomBracket.type == 'bracket-{') {
+                    if (nomBracket.type === 'bracket-{') {
                         var nom = tree.nodelist[nomBracket.children[0]];
                     }
                     var denomBracket = tree.nodelist[child1.children[1]];
-                    if (denomBracket.type == 'bracket-{') {
+                    if (denomBracket.type === 'bracket-{') {
                         var denom = tree.nodelist[denomBracket.children[0]];
                     }
                     try {
-                        if (nom.type == 'number' && denom.type == 'number') {
+                        if (nom.type === 'number' && denom.type === 'number') {
                             var mixedNum = createNode('mixedNumber', '', tree);
                             // leaf node has one child less and is parent of mixedNum
                             node.content = node.content.substr(1);
@@ -1288,7 +1293,7 @@ function parseSubPower(tree, power) {
             if (!power) {
                 if (exponentOrSubScript.type.startsWith('bracket')) {
                     var child = tree.nodelist[exponentOrSubScript.children[0]];
-                    if (child.type == 'leaf') {
+                    if (child.type === 'leaf') {
                         child.type = 'text'; // avoid later "timification"
                     }
                 }
@@ -1326,7 +1331,7 @@ function parseFactors(tree) {
             // no unit
             var content = node.content.trim();
             node.content = content;
-            if (content == "") {
+            if (content === "") {
                 content = "?";
             }
             if (content.length !== 1) {
@@ -1340,12 +1345,12 @@ function parseFactors(tree) {
         } else {
             // unit
             content = node.content.trim();
-            if (decomposeUnit(content)[0] == false) {
+            if (decomposeUnit(content)[0] === false) {
                 // try to separate rightmost (youngest) character
                 var left = content.substr(0, content.length - 1);
                 var right = content.substr(content.length - 1);
-                if (decomposeUnit(left)[0] == true) { //left is Unit
-                    if (decomposeUnit(right)[0] == true) { // right isUnit
+                if (decomposeUnit(left)[0] === true) { //left is Unit
+                    if (decomposeUnit(right)[0] === true) { // right isUnit
                         node.content = left + "*" + right;
                     }
                 }
@@ -1366,18 +1371,18 @@ function decomposeUnit(unitstring) {
     var prefix = '';
     var unit = 'dummy';
     var value = unit2value(unitstring);
-    if (value == 'u') {
+    if (value === 'u') {
         if (unitstring.length > 1) {
             // attempt to separate prefix and unit
             prefix = unitstring.substr(0, 1);
             // preserve default value of var unit
             var rest = unitstring.substr(1);
             var power = prefix2power(prefix);
-            if (power == 'u') {
+            if (power === 'u') {
                 isUnit = false;
             } else {
                 var temp = unit2value(rest);
-                if (temp == 'u') {
+                if (temp === 'u') {
                     isUnit = false;
                 } else {
                     // success of separation
@@ -1393,11 +1398,15 @@ function decomposeUnit(unitstring) {
         unit = unitstring;
         isUnit = true;
     }
-    if (isUnit == false) {
+    if (isUnit === false) {
         prefix = '';
         value = 1;
         unit = '<unknown unit>';
     }
+    // TODO DELETE debugging code
+    // if(["°", "'", "''", "V", "A"].indexOf(unit) >=0){
+    //     console.log(isUnit, prefix, unit, value);
+    // }
     return [isUnit, prefix, unit, value];
 }
 
@@ -1449,7 +1458,7 @@ function unit2value(unitname) {
     valueOf["K"] = valueOf["Kelvin"];
     valueOf["dag"] = 10 * valueOf["g"];
     var result = valueOf[unitname];
-    if (typeof result == 'undefined') {
+    if (typeof result === 'undefined') {
         result = 'u';
     }
     return result;
@@ -1457,6 +1466,8 @@ function unit2value(unitname) {
 
 
 export function value(tree) {
+    // TODO DELETE debugging code
+    console.clear();
     fillWithValues(tree);
     // temp = {temp.hasValue, temp.variableValueList}
     return evaluateTree(tree);
@@ -1478,26 +1489,39 @@ function evaluate(node, tree) {
     var fu, child0, child1, child2, temp;
     var children = node.children;
     var numberOfChildren = children.length;
-    if (numberOfChildren == 0) {
-        if (node.type == 'number') {
+    if (numberOfChildren === 0) {
+        if (node.type === 'number') {
             temp = node.content.replace(',', '.');
             node.value = temp;
         }
-        if (node.type == 'invisible_zero') {
+        if (node.type === 'invisible_zero') {
             node.value = 0;
         }
+        // TODO DELETE obsolete code
+        // this is done in fillWithValues()
+        // if (node.type === 'greek') {
+        //     if (content === '\\pi') {
+        //         // TODO DELETE debugging code
+        //         console.log('found pi ', node);
+        //         value = Math.PI;
+        //     }
+        // }
         if (isInUnit(tree, node)) {
             temp = decomposeUnit(node.content);
-            if (temp[0] == true) {
+            if (temp[0] === true) {
+                // TODO DELETE debugging code
+                console.log(temp);
                 node.value = temp[3];
             }
         }
+        // TODO DELETE debugging code
+        console.log('eval ', node.type, node.content, node.value);
     }
-    if (numberOfChildren == 1) {
+    if (numberOfChildren === 1) {
         child0 = tree.nodelist[children[0]];
         var arg = evaluate(child0, tree);
-        if (node.type.startsWith('bracket-') || node.type == 'root' || node.type == 'unit') {
-            if (node.type == 'bracket-\\left|') {
+        if (node.type.startsWith('bracket-') || node.type === 'root' || node.type === 'unit') {
+            if (node.type === 'bracket-\\left|') {
                 // absolute value
                 node.value = Math.abs(arg);
             } else {
@@ -1510,56 +1534,56 @@ function evaluate(node, tree) {
                 node.value = trigonometry(fu, arg);
             }
         }
-        if (node.type == 'sqrt') {
+        if (node.type === 'sqrt') {
             node.value = Math.sqrt(arg);
         }
     }
 
-    if (numberOfChildren == 2) {
+    if (numberOfChildren === 2) {
         child0 = tree.nodelist[children[0]];
         child1 = tree.nodelist[children[1]];
         var ch0 = evaluate(child0, tree);
         var ch1 = evaluate(child1, tree);
-        if (node.type == '*') {
+        if (node.type === '*') {
             node.value = Number(ch0) * Number(ch1);
         }
-        if (node.type == 'timesdivided') {
-            if (node.content == '\\cdot') {
+        if (node.type === 'timesdivided') {
+            if (node.content === '\\cdot') {
                 node.value = Number(ch0) * Number(ch1);
             }
-            if (node.content == ':') {
+            if (node.content === ':') {
                 node.value = Number(ch0) / Number(ch1);
             }
         }
-        if (node.type == 'nthroot') {
+        if (node.type === 'nthroot') {
             node.value = Math.pow(Number(ch1), (1 / Number(ch0)));
         }
-        if (node.type == 'power') {
+        if (node.type === 'power') {
             node.value = Math.pow(Number(ch0), Number(ch1));
         }
-        if (node.type == 'fu-log') {
+        if (node.type === 'fu-log') {
             node.value = Math.log(Number(ch1)) / Math.log(Number(ch0));
         }
-        if (node.type.startsWith('fu-') && node.content == 'power') {
+        if (node.type.startsWith('fu-') && node.content === 'power') {
             fu = node.type.substr(3)
             var base = trigonometry(fu, ch1);
             node.value = Math.pow(base, ch0)
         }
-        if (node.type == 'mixedNumber') {
+        if (node.type === 'mixedNumber') {
             node.value = Number(ch0) + Number(ch1);
         }
-        if (node.type == 'plusminus') {
-            if (node.content == '+') {
+        if (node.type === 'plusminus') {
+            if (node.content === '+') {
                 node.value = Number(ch0) + Number(ch1);
             }
-            if (node.content == '-') {
+            if (node.content === '-') {
                 node.value = Number(ch0) - Number(ch1);
             }
         }
-        if (node.type == 'frac') {
+        if (node.type === 'frac') {
             node.value = Number(ch0) / Number(ch1);
         }
-        if (node.type == 'equal') {
+        if (node.type === 'equal') {
             if (Number(ch1) !== 0) {
                 node.value = Number(ch0) / Number(ch1);
             } else {
@@ -1571,10 +1595,9 @@ function evaluate(node, tree) {
         child0 = tree.nodelist[children[0]];
         child1 = tree.nodelist[children[1]];
         child2 = tree.nodelist[children[2]];
-        var dummy = evaluate(child0, tree);
-        dummy = evaluate(child1, tree);
-        // eslint-disable-next-line no-unused-vars
-        dummy = evaluate(child2, tree);
+        evaluate(child0, tree);
+        evaluate(child1, tree);
+        evaluate(child2, tree);
     }
     return node.value;
 }
@@ -1582,59 +1605,60 @@ function evaluate(node, tree) {
 function trigonometry(fu, arg) {
     //'sinh', 'cosh', 'tanh', 'sin', 'cos', 'tan', 'ln', 'lg', 'log', 'exp', 'abs'
     var result = 'u';
-    if (fu == 'sinh') {
+    if (fu === 'sinh') {
         result = Math.sinh(arg);
     }
-    if (fu == 'cosh') {
+    if (fu === 'cosh') {
         result = Math.cosh(arg);
     }
-    if (fu == 'tanh') {
+    if (fu === 'tanh') {
         result = Math.tanh(arg);
     }
-    if (fu == 'sin') {
+    if (fu === 'sin') {
         result = Math.sin(arg);
     }
-    if (fu == 'cos') {
+    if (fu === 'cos') {
         result = Math.cos(arg);
     }
-    if (fu == 'tan') {
+    if (fu === 'tan') {
         result = Math.tan(arg);
     }
-    // if (fu == 'ln' || fu == 'log') {
-    if (fu == 'ln') {
+    // if (fu === 'ln' || fu === 'log') {
+    if (fu === 'ln') {
         result = Math.log(arg);
     }
-    if (fu == 'lg') {
+    if (fu === 'lg') {
         result = Math.log10(arg);
     }
-    if (fu == 'exp') {
+    if (fu === 'exp') {
         result = Math.exp(arg);
     }
-    if (fu == 'abs') {
+    if (fu === 'abs') {
         result = Math.abs(arg);
     }
-    if (fu == 'arcsin') {
+    if (fu === 'arcsin') {
         result = Math.asin(arg);
     }
-    if (fu == 'arccos') {
+    if (fu === 'arccos') {
         result = Math.acos(arg);
     }
-    if (fu == 'arctan') {
+    if (fu === 'arctan') {
         result = Math.atan(arg);
     }
     return result;
 }
 
 export function fillWithValues(treeVar, list) {
-    var random = (arguments.length == 1);
-    // random = true: fillWithRandomValues
-    // random = false: fill with values of variableValueList
+    // also used by checkIfEqual
+    var random = (arguments.length === 1);
+    // fillWithValues(treeVar) -> fill with random values
+    // fillWithValues(treeVar, list) fill with values of variableValueList
     var valueList = [];
     var hasValue = true;
     treeVar.withEachNode = function (node) {
-        if (node.type == 'integral') hasValue = false;
-        if (node.type == 'lim') hasValue = false;
-        if (node.type == 'text') hasValue = false;
+        if (node.type === 'integral') hasValue = false;
+        if (node.type === 'lim') hasValue = false;
+        if (node.type === 'text') hasValue = false;
     };
     if (hasValue) {
         withEachLeafOrGreek(treeVar, function (node) {
@@ -1642,6 +1666,8 @@ export function fillWithValues(treeVar, list) {
                 var temp = decomposeUnit(node.content);
                 node.value = temp[3];
                 //node.type = 'unit';
+                // TODO DELETE debugging code
+                console.log('isInUnit', node.content, node.value);
             }
         });
         var i = 0;
@@ -1652,7 +1678,7 @@ export function fillWithValues(treeVar, list) {
             do {
                 var node = nodelist[i];
                 // doThis may add or delete nodes!
-                if ((node.type == 'leaf' || node.type == 'greek') && (node.value == 'u')) {
+                if ((node.type === 'leaf' || node.type === 'greek') && (node.value === 'u')) {
                     // found leaf or greek with value undefined ('u')
                     found = true;
                     stop = true; //short circuit
@@ -1664,12 +1690,25 @@ export function fillWithValues(treeVar, list) {
                 }
                 if (found) {
                     var content = node.content;
-                    if (random == true) {
+                    if (random === true) {
                         // random = true -> fill with random value
-                        // Box-Muller
+                        // https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
                         var u1 = 2 * Math.PI * Math.random();
                         var u2 = -2 * Math.log(Math.random());
                         var value = 1000 * Math.cos(u1) * Math.sqrt(u2);
+                        // if necessary, replace random value with pi or e 
+                        if (content === 'pi') {
+                            // TODO DELETE debugging code
+                            console.log('found pi ', node);
+                            value = Math.PI;
+                        }
+                        if (content === 'e') {
+                            // TODO DELETE debugging code
+                            console.log('found e ', node);
+                            value = Math.E;
+                        }
+                        // TODO DELETE debugging code
+                        console.log('fill ', content, value);
                     } else {
                         value = list[content];
                         if (typeof value === 'undefined') {
@@ -1681,18 +1720,11 @@ export function fillWithValues(treeVar, list) {
                         }
                     }
                     if (typeof value !== 'undefined') {
+                        // fill all variables (leaf, greek) with same name (content) with the same value!
                         withEachLeafOrGreek(treeVar, function (node) {
-                            if (node.value == 'u') {
-                                if (node.content == content) {
+                            if (node.value === 'u') {
+                                if (node.content === content) {
                                     node.value = value;
-                                }
-                                if (node.content == '\\pi') {
-                                    node.value = Math.PI;
-                                    value = Math.PI;
-                                }
-                                if (node.content == 'e') {
-                                    node.value = Math.E;
-                                    value = Math.E;
                                 }
                             }
                         });
@@ -1751,14 +1783,14 @@ export function checkScientificNotation(texstring) {
     var leftOk = false;
     var left = regex.exec(mantissa);
     if (left !== null) {
-        if (mantissa == left[0]) {
+        if (mantissa === left[0]) {
             leftOk = true;
         }
     }
     var rightOk = false;
     var right = regex.exec(exponent);
     if (right !== null) {
-        if (exponent == right[0]) {
+        if (exponent === right[0]) {
             rightOk = true;
         }
     } else {

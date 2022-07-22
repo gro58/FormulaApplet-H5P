@@ -82,7 +82,8 @@ function getVirtualKeyboard(isEditor, isMobile) {
         "function": "&nbsp;f(x)&nbsp;",
         "abc": "abc",
         "greek": "\u03b1\u03b2\u03b3",
-        "info": "&nbsp;\u2754",
+        // "info": "&nbsp;\u2754",
+        "info": "&nbsp;info",
         // reversed order caused by 'float: right'
         "off": "&nbsp;\u2716",
         // "info_old": 'Version ' + config.version + ' (' + docLang() + ')'
