@@ -362,7 +362,7 @@ export function createkeyboardDiv(isEditor, isMobile) {
 }
 
 export default function initVirtualKeyboard(isEditor, isMobile, hide) {
-    console.log('initVirtualKeyboard isEditor=', isEditor, ' isMobile=', isMobile, 'hide=', hide);
+    // console.log('initVirtualKeyboard isEditor=', isEditor, ' isMobile=', isMobile, 'hide=', hide);
     updateVirtualKeyboard(isMobile);
     var kb = createkeyboardDiv(isEditor, isMobile);
     if (isEditor) {
@@ -423,7 +423,7 @@ function processVirtualKeyboardCommand(cmd) {
 
     // get selected mathField from DOM 
     // instead of get many from H5P.FormulaApplet (formulaapplet.js )
-    console.log(cmd);
+    // console.log(cmd);
     var mqEditableField = $('.formula_applet.mq-math-mode.selected').find('.mq-editable-field')[0];
     if (typeof mqEditableField === 'undefined') {
         mqEditableField = $('#math-field')[0];
@@ -444,7 +444,7 @@ function processVirtualKeyboardCommand(cmd) {
                 console.log('vkbd: keystroke "Shift-Enter"');
                 mf.keystroke('Shift-Enter');
             } else if (cmd === 'setInputField') {
-                console.log('setInputField-Event');
+                // console.log('setInputField-Event');
                 var temp = setInputField(mf);
                 // restore mf - not necessary any more
                 // mf.latex(temp.old);

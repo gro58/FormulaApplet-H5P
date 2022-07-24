@@ -32,8 +32,7 @@ export function no_XSS(str) {
     // sanitize before applying no_XSS - dirty hack
 
     if (result !== str) {
-        console.log('XSS protection:');
-        console.log("'" + str + "' -> '" + result + "'");
+        console.log("XSS protection:'", str, "' -> '", result, "'");
     }
 
     return result;

@@ -3,7 +3,7 @@
 var H5P = H5P || {};
 
 H5P.FormulaApplet = (function ($, Question) {
-  console.log('define H5P.FormulaApplet class');
+  // console.log('define H5P.FormulaApplet class');
 
   /**
    * @constant
@@ -363,7 +363,7 @@ H5P.FormulaApplet = (function ($, Question) {
           transform_style += offsetX + 'px,';
           transform_style += offsetY + 'px,';
           transform_style += 'scale(' + 1 / visualVP.scale + ')';
-          console.log('transform_style', transform_style);
+          // console.log('transform_style', transform_style);
           vkbd.style.transform = transform_style;
         }
       }
@@ -410,7 +410,7 @@ H5P.FormulaApplet = (function ($, Question) {
 
     // mathQuillifying
     var MQ = H5Pbridge.MQ;
-    console.log('try to mathquillify ' + id);
+    // console.log('try to mathquillify ' + id);
     var $el = $('#' + id + '.formula_applet:not(.mq-math-mode)');
     if (typeof $el === 'undefined') {
       throw id + ' not found';
@@ -495,7 +495,7 @@ H5P.FormulaApplet = (function ($, Question) {
         console.error(error);
       }
       if ($('#' + id).hasClass('mq-math-mode')) {
-        console.log(id + ': SUCCESS');
+        console.log(id + ' is mathQuillified');
       }
 
       //create MathField and attach edithandler

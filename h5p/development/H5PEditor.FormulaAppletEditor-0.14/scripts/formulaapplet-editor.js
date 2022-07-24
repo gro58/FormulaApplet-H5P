@@ -172,11 +172,11 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     // TODO are next 8 lines necessary?
     var temp = mathFieldSpan.innerHTML;
     temp = temp.replace(/\\unit{/g, H5Pbridge.config.unit_replacement);
-    if (mathFieldSpan.innerHTML === temp) {
-      console.log(mathFieldSpan.innerHTML, 'did not change');
-    } else {
-      console.log(mathFieldSpan.innerHTML, 'changed to', temp);
-    }
+    // if (mathFieldSpan.innerHTML === temp) {
+    //   console.log(mathFieldSpan.innerHTML, 'did not change');
+    // } else {
+    //   console.log(mathFieldSpan.innerHTML, 'changed to', temp);
+    // }
     mathFieldSpan.innerHTML = temp;
 
     if (!mathFieldSpan) throw new Error("Cannot find math-field. The FormulaAppletEditor must provide one.");
@@ -251,7 +251,7 @@ function refreshEditor(editorMf, latex, params) {
   editorMf.latex(temp);
   if (editorMf.latex() === '') {
     //no success
-    console.log('refresh editor widget: NO SUCCESS');
+    console.log('refresh editor widget: NO SUCCESS, use fallback');
     editorMf.latex(fallback);
   }
 }
