@@ -46,6 +46,7 @@ function getCopyTargets(filename) {
 		let extension;
 		if (filename.endsWith(".js")) extension = "js";
 		else if (filename.endsWith(".css")) extension = "css";
+		else if (filename.endsWith(".svg")) extension = "svg";
 		else throw Error("Invalid extension");
 		targets.push({
 			src: `./public/${ filename }`,
@@ -72,7 +73,7 @@ function resolveAfter4Seconds(x) {
 
 async function myTest() {
 	console.log('before await');
-	var y = await resolveAfter4Seconds('use !_call_makeh5p.bat to create formulaapplet_latest.h5p');
+	var y = await resolveAfter4Seconds('!_call_makeh5p.bat creates formulaapplet_latest.h5p');
 	console.log(y);
 	// console.log(targets);
 }
@@ -135,7 +136,8 @@ export default [{
 				.concat(getCopyTargets("css/gf09.css"))
 				.concat(getCopyTargets("css/table.css"))
 				.concat(getCopyTargets("css/virtualKeyboard.css"))
-				.concat(getCopyTargets("MathQuill/mathquill.css")),
+				.concat(getCopyTargets("MathQuill/mathquill.css"))
+				.concat(getCopyTargets("icon.svg")),
 			hook: "writeBundle"
 		})
 	]
