@@ -44,7 +44,8 @@
     "type": "text",
     "label": "Conditions",
     "description": "Definition set: List of conditions to be fulfilled if expression is checked<br>Example: x >= 0 & x^2 < y",
-    "default": "x > 0"
+    "default": "x > 0",
+    "optional": true
   },
   {
     "name": "precision",
@@ -91,7 +92,7 @@
     "importance": "low",
     "name": "unitButtonText",
     "type": "text",
-    "default": "(Un)Set<br>Unit",
+    "default": "(Un)Set Unit",
     "common": true,
     "optional": true
   },
