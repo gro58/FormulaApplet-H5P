@@ -106,7 +106,9 @@ H5P.FormulaApplet = (function ($, Question) {
     // self.setContent(self.createQuestions(), {
     //   'class': self.params.behaviour.separateLines ? 'h5p-separate-lines' : ''
     // });
-    self.setContent(self.createFormulaApplet(), {
+    var html = self.createFormulaApplet();
+    console.log('html:',html);
+    self.setContent(html, {
       'class': self.params.behaviour.separateLines ? 'h5p-separate-lines' : ''
     });
     self.afterAppend();
