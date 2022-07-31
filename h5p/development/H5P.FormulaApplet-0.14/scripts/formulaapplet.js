@@ -43,6 +43,7 @@ H5P.FormulaApplet = (function ($, Question) {
       tryAgain: "Try again",
       checkAnswer: "Check",
       unitButtonText: "Unit",
+      inputButtonText: "Input",
       // behaviour from blanks.js
       behaviour: {
         enableRetry: true,
