@@ -30,7 +30,7 @@
       "default": "x > 0"
     },
     {
-      "label": "Geanuigkeit",
+      "label": "Genauigkeit",
       "description": "Geforderte Genauigkeit der Antwort, z.B. 0,5% oder 0.5% oder 0.005",
       "default": "0.000001"
     },
