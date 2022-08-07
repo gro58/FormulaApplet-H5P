@@ -40,7 +40,7 @@
 * asinh, acosh, atanh
 * Complex Numbers
 * Vectors
-* <del>Check only after pressing Enter</del> Use check button of H5P.Question
+* <del>Check only after pressing Enter</del> <del>Use check button of H5P.Question</del> ✔
 * GeoGebra as an H5P package. Why?
 * Keyboard shortcut for open/close virtual keyboard
 ## GitHub
