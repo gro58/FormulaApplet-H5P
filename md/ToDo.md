@@ -7,7 +7,8 @@
 * Ask H5P Forum
 * <del>Use Lumi as an editor</del> ✔
 * <del>make H5P take care of type &lt;p class="formula_applet solution" id="bla"&gt;TEX code&lt;/p&gt;</del> ✔
-## Coding
+* support the [Tin Can API (xAPI)](https://de.wikipedia.org/wiki/Tin_Can_API), which can be used to record information about learner experiences.
+* ## Coding
 * use H5P.Question - Update H5P.FormulaApplet from 0.13 to 0.14 ✔
 * <del>WaiterFactory, createWaiter(): Use async/await</del> ✔
 * accept e.g. .080 for 0.080
@@ -39,7 +40,7 @@
 * asinh, acosh, atanh
 * Complex Numbers
 * Vectors
-* <del>Check only after pressing Enter</del> Use check button of H5P.Question
+* <del>Check only after pressing Enter</del> <del>Use check button of H5P.Question</del> ✔
 * GeoGebra as an H5P package. Why?
 * Keyboard shortcut for open/close virtual keyboard
 ## GitHub
