@@ -3,7 +3,7 @@
 var H5P = H5P || {};
 
 H5P.FormulaApplet = (function ($, Question) {
-  // console.log('define H5P.FormulaApplet class');
+  console.log('define H5P.FormulaApplet class');
 
   /**
    * @constant
@@ -548,5 +548,7 @@ H5P.FormulaApplet = (function ($, Question) {
       });
     }
   }
+  // is this place for resize sufficient for Lumi? Answer:No
+  // $(document).trigger('resize');
   return C;
 })(H5P.jQuery, H5P.Question);
