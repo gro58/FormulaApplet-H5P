@@ -46,8 +46,8 @@ function updateVirtualKeyboard(isMobile) {
     var message = '<p>&nbsp;</p>';
     message += '<p>H5P.FormulaApplet Version ' + version + '</p>';
     var temp = repo.repository.url.slice(4); //slice(4): delete start "git+"
-    message += '<p><a href="' + temp + '#readme">' + temp + '</a></p>';
-    message += '<p>by <a href="https://www.grossmann.info">gro58</a></p>';
+    message += '<p><a href="' + temp + '#readme" target="_blank">' + temp + '</a></p>';
+    message += '<p>by <a href="https://www.grossmann.info" target="_blank">gro58</a></p>';
     message += '<p>&nbsp;</p>';
 
     if (isMobile) {
