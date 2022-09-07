@@ -24,7 +24,6 @@ import {
 import initVirtualKeyboard, {
     showVirtualKeyboard,
     createkeyboardDiv,
-    virtualKeyboardBindEvents,
     keyboardActivate,
     isVirtualKeyboardHidden,
     setUnitButtonText,
@@ -54,7 +53,6 @@ export {
     initVirtualKeyboard,
     showVirtualKeyboard,
     createkeyboardDiv,
-    virtualKeyboardBindEvents,
     keyboardActivate,
     isVirtualKeyboardHidden,
     setUnitButtonText,

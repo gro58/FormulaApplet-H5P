@@ -160,7 +160,7 @@ function createTable(tableId, isEditor) {
     return result;
 }
 
-export function virtualKeyboardBindEvents() {
+function virtualKeyboardBindEvents(isEditor) {
     $(".virtualKeyboardButton").mousedown(function (ev) {
         ev.preventDefault();
         var cmd = clickEvent(ev);
@@ -173,46 +173,51 @@ export function virtualKeyboardBindEvents() {
         keyboardEvent0(cmd);
     });
     // dragElement(document.getElementById("virtualKeyboard"));
-    var virtualKeyboardElement = document.getElementById('virtualKeyboard');
-    // https://hammerjs.github.io/getting-started/
-    var mc = new Hammer(virtualKeyboardElement);
 
-    var leftTemp = 1;
-    var topTemp = 1;
-    var leftStart = 1;
-    var topStart = 1;
-    mc.on("panstart panmove", function (ev) {
-        if (ev.type == 'panstart') {
-            leftStart = virtualKeyboardElement.offsetLeft;
-            topStart = virtualKeyboardElement.offsetTop;
-            leftTemp = leftStart;
-            topTemp = topStart;
-        }
-        if (ev.type == 'panmove') {
-            leftTemp = leftStart + ev.deltaX;
-            topTemp = topStart + ev.deltaY;
-            virtualKeyboardElement.style.left = leftTemp + 'px';
-            virtualKeyboardElement.style.top = topTemp + 'px';
-        }
-    });
-    var scaleTemp = 1;
-    var scaleStart = 1;
-    mc.get('pinch').set({
-        enable: true
-    });
+    if (!isEditor) {
 
-    mc.on('pinch pinchstart', function (ev) {
-        if (ev.type == 'pinchstart') {
-            // start with scaleTemp of the last pinch
-            scaleStart = scaleTemp;
-        }
-        if (ev.type == 'pinch') {
-            scaleTemp = scaleStart * ev.scale;
-            var scalecommand = "translate(-50%, -50%) scale(" + scaleTemp + ")";
-            $("#virtualKeyboard").css("transform", scalecommand);
-        }
-    });
 
+        var virtualKeyboardElement = document.getElementById('virtualKeyboard');
+        // https://hammerjs.github.io/getting-started/
+        var hammerController = new Hammer(virtualKeyboardElement);
+
+        var leftTemp = 1;
+        var topTemp = 1;
+        var leftStart = 1;
+        var topStart = 1;
+        hammerController.on("panstart panmove", function (ev) {
+            if (ev.type == 'panstart') {
+                leftStart = virtualKeyboardElement.offsetLeft;
+                topStart = virtualKeyboardElement.offsetTop;
+                leftTemp = leftStart;
+                topTemp = topStart;
+            }
+            if (ev.type == 'panmove') {
+                leftTemp = leftStart + ev.deltaX;
+                topTemp = topStart + ev.deltaY;
+                virtualKeyboardElement.style.left = leftTemp + 'px';
+                virtualKeyboardElement.style.top = topTemp + 'px';
+            }
+        });
+        var scaleTemp = 1;
+        var scaleStart = 1;
+        hammerController.get('pinch').set({
+            enable: true
+        });
+
+        hammerController.on('pinch pinchstart', function (ev) {
+            if (ev.type == 'pinchstart') {
+                // start with scaleTemp of the last pinch
+                scaleStart = scaleTemp;
+            }
+            if (ev.type == 'pinch') {
+                scaleTemp = scaleStart * ev.scale;
+                var scalecommand = "translate(-50%, -50%) scale(" + scaleTemp + ")";
+                $("#virtualKeyboard").css("transform", scalecommand);
+            }
+        });
+    }
+    
     function clickEvent(ev) {
         var cmd = $(ev.target).attr('cmd');
         if (typeof cmd === 'undefined') {
@@ -237,7 +242,7 @@ function keyboardEvent0(cmd) {
                 activeKeyboard = 'abc';
                 break;
             default:
-                // activeKeyboard = 'abc';
+            // activeKeyboard = 'abc';
         }
         switch (activeKeyboard) {
             case 'greek':
@@ -250,8 +255,8 @@ function keyboardEvent0(cmd) {
                 activeKeyboard = 'greek';
                 break;
             default:
-                // activeKeyboard = 'abc';
-                // no change of keyboard
+            // activeKeyboard = 'abc';
+            // no change of keyboard
 
         }
     } else {
@@ -366,12 +371,6 @@ export default function initVirtualKeyboard(isEditor, isMobile, hide) {
     updateVirtualKeyboard(isMobile);
     var kb = createkeyboardDiv(isEditor, isMobile);
     if (isEditor) {
-        // var kbDiv = H5Pbridge.createkeyboardDiv(true);
-        // var keyboardparent = H5P.jQuery('p.formula_applet').parent();
-        // keyboardparent.append(kbDiv);
-        // H5Pbridge.virtualKeyboardBindEvents();
-        // H5Pbridge.keyboardActivate('mixed');
-
         var keyboardparent = $('p.formula_applet').parent();
         keyboardparent.append(kb);
     } else {
@@ -379,7 +378,7 @@ export default function initVirtualKeyboard(isEditor, isMobile, hide) {
         // TODO add to parent iframe?
         document.body.appendChild(kb);
     }
-    virtualKeyboardBindEvents();
+    virtualKeyboardBindEvents(isEditor);
     keyboardActivate('mixed');
     if (hide) {
         hideVirtualKeyboard();
