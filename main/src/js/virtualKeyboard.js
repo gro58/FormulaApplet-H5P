@@ -175,8 +175,6 @@ function virtualKeyboardBindEvents(isEditor) {
     // dragElement(document.getElementById("virtualKeyboard"));
 
     if (!isEditor) {
-
-
         var virtualKeyboardElement = document.getElementById('virtualKeyboard');
         // https://hammerjs.github.io/getting-started/
         var hammerController = new Hammer(virtualKeyboardElement);

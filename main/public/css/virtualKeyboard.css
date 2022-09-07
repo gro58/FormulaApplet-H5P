@@ -46,7 +46,7 @@ div#virtualKeyboard.h5p {
 }
 
 .virtualKeyboardButton {
-	background-color: #8bd;
+	background-color: rgb(207, 228, 242) !important;
 	/* width: 60px; */
 	width: 6vw;
 	/* min-width: 50px; */
