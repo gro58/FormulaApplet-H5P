@@ -139,14 +139,6 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       H5Pbridge.setUnitButtonText(params.unitButtonText);
       H5Pbridge.setInputButtonText(params.inputButtonText);
       H5Pbridge.initVirtualKeyboard(true, isMobile, false); //isEditor=true isMobile=? hide=false
-
-      // TODO DELETE obsolete code. OK in Drupal7, failed in WordPress because of iFrames
-      // var $temp = $('div .field.field-name-data_b64');
-      // $temp.css('display', css_display_value);
-      // $temp = $('div .field-name-id');
-      // $temp.css('display', css_display_value);
-      // $temp = $('div .field-name-selected_language');
-      // $temp.css('display', css_display_value);
     });
   };
 
@@ -190,8 +182,8 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
               var temp = H5Pbridge.MathQuill_to_H5P(mathField.latex());
               var expression = temp.expression;
               var data_b64 = temp.data_b64;
+              // replacement for setValueAndSyncDOM (obsolete)
               // TODO investigate if this.setValue() can be used to sync DOM, instead of targetField.
-              // replacement for setValueAndSyncDOM
               parent.params['TEX_expression'] = expression;
               var targetField = H5PEditor.findField('TEX_expression', parent);
               targetField.$input[0].value = expression;
@@ -255,17 +247,6 @@ function refreshEditor(editorMf, latex, params) {
     editorMf.latex(fallback);
   }
 }
-
-// TODO DELETE obsolete code 
-// avoid name collision with setValue()
-// TODO simplify, only for used cases 
-// function setValueAndSyncDOM(name, value, parent) {
-//   console.log('syncDOM', name, value)
-//   parent.params[name] = value;
-//   // synchronize DOM 
-//   var targetField = H5PEditor.findField(name, parent);
-//   targetField.$input[0].value = value;
-// }
 
 function randomId(length) {
   var result = 'fa-';

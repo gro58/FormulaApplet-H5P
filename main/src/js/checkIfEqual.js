@@ -71,9 +71,6 @@ function fillWithRandomValAndCheckDefSets(tree, definitionArray) {
         var start = new Date();
         var timePassedMilliseconds = 0;
         while (!success && timePassedMilliseconds < 2000) {
-            // TODO DELETE obsolete code
-            // var cloned_tree = new FaTree();
-            // cloned_tree = JSON.parse(rememberTree);
             var cloned_tree = JSON.parse(rememberTree);
             fillWithValues(cloned_tree);
             var variableValueList = cloned_tree.variableValueList;
