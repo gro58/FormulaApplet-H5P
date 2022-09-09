@@ -217,19 +217,17 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       }
     });
 
-    // TODO delete input event listener? good only for debugging
-    $tex_expression[0].addEventListener('input', function (event) {
-      // DOM -> field - done by H5P
-
-      // distinguish between events caused by keyboard input or by editorMf
-      if (event.isTrusted) {
-        var msg = ' (keyboard input)';
-        event.preventDefault();
-      } else {
-        var msg = ' (editorMf) - do nothing';
-      }
-      // console.log('TEX_expression changed: ' + event.target.value + msg);
-    });
+    // TODO delete code for debugging
+    // $tex_expression[0].addEventListener('input', function (event) {
+    //   // distinguish between events caused by keystrokes or by editorMf
+    //   if (event.isTrusted) {
+    //     var msg = ' (keyboard input)';
+    //     event.preventDefault();
+    //   } else {
+    //     var msg = ' (editorMf) - do nothing';
+    //   }
+    //   console.log('TEX_expression changed: ' + event.target.value + msg);
+    // });
   }
   return FormulaAppletEditor;
 })(H5P.jQuery);
