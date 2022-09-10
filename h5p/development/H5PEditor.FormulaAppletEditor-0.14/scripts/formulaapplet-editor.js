@@ -131,21 +131,32 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
       targetField = H5PEditor.findField('id', self.parent);
       targetField.$item.css('display', css_display_value);
     };
-  
-     $(function () {
+
+    $(function () {
       //code that needs to be executed when DOM is ready, after manipulation, goes here
       console.log('DOM is ready');
-      var isMobile = (window.parent.innerWidth <= 600);
-      H5Pbridge.setUnitButtonText(params.unitButtonText);
-      H5Pbridge.setInputButtonText(params.inputButtonText);
-      H5Pbridge.initVirtualKeyboard(true, isMobile, false); //isEditor=true isMobile=? hide=false
+      var textWaiter = H5Pbridge.createWaiter('for inputButtonText');
+      textWaiter.condition = function () { return (typeof params.inputButtonText !== 'undefined') };
+      textWaiter.doRest = async function () {
+        var isMobile = (window.parent.innerWidth <= 600);
+        H5Pbridge.setUnitButtonText(params.unitButtonText);
+        H5Pbridge.setInputButtonText(params.inputButtonText);
+        H5Pbridge.initVirtualKeyboard(true, isMobile, false); //isEditor=true isMobile=? hide=false
+      };
+      textWaiter.doError = async function () {
+        console.log("error waiting for typeof params.inputButtonText !== 'undefined'")
+        console.log('counter limit exceeded');
+      };
+      console.log('before call of waiter ' + textWaiter.name);
+      textWaiter.start();
+      console.log('after call of waiter ' + textWaiter.name);
     });
   };
 
   /**
    * rest from spectrum example, may not be deleted
    */
-  FormulaAppletEditor.prototype.hide = function () {};
+  FormulaAppletEditor.prototype.hide = function () { };
 
   /**
    * Validate the current values.
@@ -155,9 +166,9 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
     return (this.params !== undefined && this.params.length !== 0);
   };
 
-  FormulaAppletEditor.prototype.remove = function () {};
+  FormulaAppletEditor.prototype.remove = function () { };
 
-    FormulaAppletEditor.prototype.mathQuillifyEditor = function () {
+  FormulaAppletEditor.prototype.mathQuillifyEditor = function () {
     var parent = this.parent;
     // make whole mathFieldSpan editable
     var mathFieldSpan = document.getElementById('math-field');
