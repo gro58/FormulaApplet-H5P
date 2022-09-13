@@ -60,13 +60,13 @@ H5P.FormulaApplet = (function ($, Question) {
     this.params.sanitizedPrecision = sanitizedPrecision(this.params.precision);
 
     // see if this helps with lumi
-    var resizeTimer = window.setInterval(resizeTrigger, 2000);
+    console.log('trigger resize for id=', self.id);
+    self.trigger('resize');
 
-    function resizeTrigger() {
-      console.log('timer triggers resize for id=', self.id);
+    var delayedResize = window.setTimeout(function () {
+      console.log('delayedResize: trigger resize for id=', self.id);
       self.trigger('resize');
-    }
-
+    }, 2000);
   };
 
   // C.prototype.attach($container) is replaced by
@@ -98,7 +98,7 @@ H5P.FormulaApplet = (function ($, Question) {
   // ```js
   /**
    * Registers this question type's DOM elements before they are attached.
-   * Called from H5P.Question.
+   * Called by H5P.Question.
    */
   C.prototype.registerDomElements = function () {
     var self = this;
