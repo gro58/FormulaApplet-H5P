@@ -66,7 +66,7 @@ H5P.FormulaApplet = (function ($, Question) {
     var delayedResize = window.setTimeout(function () {
       console.log('delayedResize: trigger resize for id=', self.id);
       self.trigger('resize');
-    }, 2000);
+    }, 5000);
   };
 
   // C.prototype.attach($container) is replaced by
