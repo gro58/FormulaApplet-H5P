@@ -555,6 +555,8 @@ H5P.FormulaApplet = (function ($, Question) {
         MQ.StaticMath(domElem);
       });
     }
+    console.log('afterAppend: trigger resize of id=', self.id);
+    self.trigger('resize');
   }
   // is this place for resize sufficient for Lumi? Answer:No
   // $(document).trigger('resize');
