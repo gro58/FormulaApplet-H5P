@@ -147,15 +147,15 @@ H5PEditor.widgets.formulaAppletEditor = H5PEditor.FormulaAppletEditor = (functio
         console.log("error waiting for typeof params.inputButtonText !== 'undefined'")
         console.log('counter limit exceeded');
       };
-      console.log('before call of waiter ' + textWaiter.name);
+      // console.log('before call of waiter ' + textWaiter.name);
       textWaiter.start();
-      console.log('after call of waiter ' + textWaiter.name);
+      // console.log('after call of waiter ' + textWaiter.name);
     });
   };
 
-  /**
-   * rest from spectrum example, may not be deleted
-   */
+ /**
+ * rest of spectrum example, may not be deleted
+ */
   FormulaAppletEditor.prototype.hide = function () { };
 
   /**

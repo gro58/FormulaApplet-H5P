@@ -16,8 +16,7 @@ H5P.FormulaApplet = (function ($, Question) {
   var STATE_FINISHED = 'finished';
   var listOfAllFormulaAppletIds = [];
 
-  $(document).trigger('resize');
-
+  // $(document).trigger('resize');
 
   /**
    * Constructor function.
@@ -59,6 +58,15 @@ H5P.FormulaApplet = (function ($, Question) {
     // Keep provided id.
     this.id = id;
     this.params.sanitizedPrecision = sanitizedPrecision(this.params.precision);
+
+    // see if this helps with lumi
+    var resizeTimer = window.setInterval(resizeTrigger, 2000);
+
+    function resizeTrigger() {
+      console.log('timer triggers resize for id=', self.id);
+      self.trigger('resize');
+    }
+
   };
 
   // C.prototype.attach($container) is replaced by
@@ -108,7 +116,7 @@ H5P.FormulaApplet = (function ($, Question) {
     //   'class': self.params.behaviour.separateLines ? 'h5p-separate-lines' : ''
     // });
     var html = self.createFormulaApplet();
-    console.log('html:',html);
+    // console.log('html:', html);
     self.setContent(html, {
       'class': self.params.behaviour.separateLines ? 'h5p-separate-lines' : ''
     });
