@@ -16,8 +16,6 @@ H5P.FormulaApplet = (function ($, Question) {
   var STATE_FINISHED = 'finished';
   var listOfAllFormulaAppletIds = [];
 
-  // $(document).trigger('resize');
-
   /**
    * Constructor function.
    */
@@ -58,15 +56,6 @@ H5P.FormulaApplet = (function ($, Question) {
     // Keep provided id.
     this.id = id;
     this.params.sanitizedPrecision = sanitizedPrecision(this.params.precision);
-
-    // see if this helps with lumi
-    console.log('trigger resize for id=', self.id);
-    self.trigger('resize');
-
-    var delayedResize = window.setTimeout(function () {
-      console.log('delayedResize: trigger resize for id=', self.id);
-      self.trigger('resize');
-    }, 5000);
   };
 
   // C.prototype.attach($container) is replaced by
@@ -405,6 +394,7 @@ H5P.FormulaApplet = (function ($, Question) {
           isMobile_old = isMobile;
         }
       }
+      self.trigger('resize');
     }
 
     // things to be done after each append
@@ -501,12 +491,14 @@ H5P.FormulaApplet = (function ($, Question) {
           H5Pbridge.setUnitButtonText(self.params.unitButtonText);
           refreshVirtualKeyboard(true, false); //forced=true, hide=false -> show keyboard
           $("button.keyb_button").removeClass('selected');
+
         });
       } catch (error) {
         console.error(error);
       }
       if ($('#' + id).hasClass('mq-math-mode')) {
         console.log(id + ' is mathQuillified');
+        self.trigger('resize');
       }
 
       //create MathField and attach edithandler
@@ -555,10 +547,6 @@ H5P.FormulaApplet = (function ($, Question) {
         MQ.StaticMath(domElem);
       });
     }
-    console.log('afterAppend: trigger resize of id=', self.id);
-    self.trigger('resize');
   }
-  // is this place for resize sufficient for Lumi? Answer:No
-  // $(document).trigger('resize');
   return C;
 })(H5P.jQuery, H5P.Question);
