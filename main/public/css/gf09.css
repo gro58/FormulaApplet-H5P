@@ -84,14 +84,13 @@ div#output {
 	/* foreground = background */
 }
 
-/* #editor.formula_applet {
-	display: inline-block;
-} */
-
 /* H5P */
 
 .h5p-FormulaApplet {
 	background: transparent;
+	/* thanks to Oliver Tacke  */
+	min-width: 400px;
+	min-height: 500px; 
 }
 
 .formulaAppletEditor .formula_applet {
