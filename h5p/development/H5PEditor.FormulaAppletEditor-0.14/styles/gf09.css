@@ -90,8 +90,8 @@ div#output {
 	background: transparent;
 }
 
-.h5p-content .h5p-no-frame .h5p-FormulaApplet{
-	/* concerning Lumi; thanks to Oliver Tacke  */
+.h5p-content.h5p-no-frame .h5p-FormulaApplet{
+	/* concerning Lumi; thanks to Oliver Tacke!  */
 	min-width: 400px;
 	min-height: 500px; 
 }
