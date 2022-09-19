@@ -1,18 +1,20 @@
-div#virtualKeyboard {
+div#keyboard {
+	/* https://stackoverflow.com/questions/13379053/how-to-make-horizontal-scroll-on-page */
+	overflow-x: scroll;
+	white-space: nowrap;
 	/* width: fit-content; */
-	width: max-content;
-	/* top: auto; */
-	/* bottom: 1vh; */
-	/* https://www.w3schools.com/cssref/pr_pos_bottom.asp */
-	/* bottom: 5px; */
+}
+
+div#virtualKeyboard {
+	width: fit-content;
 	left: 50%;
 	max-width: 100vw;
 	min-width: 40vw;
-	/* background-color: #c0c0c050; transparency #50 */
 	background-color: #b2cee7;
 	border-radius: 3px;
 	z-index: 1000;
 	cursor: move;
+	white-space: normal;
 }
 
 div#virtualKeyboard.h5pEditor {
@@ -30,8 +32,6 @@ div#virtualKeyboard.h5p {
 	bottom: 0px;
 	transform-origin: bottom;
 	transform: translate(-50%, 0) scale(1);
-	/* background-color: red; */
-	/* transform: translate(0px, 0px) scale(1); */
 }
 
 
@@ -58,9 +58,10 @@ div#virtualKeyboard.h5p {
 	font-family: Arial, Helvetica, sans-serif;
 	/* font-size: 20pt; */
 	/* font-size: 3vw; */
-	font-size: 200%;
+	font-size: 150%;
 	text-align: center;
 	vertical-align: middle;
+	/* white-space: nowrap; */
 	line-height: 1;
 	border: 1px solid peru;
 	border-radius: 3px;
@@ -90,7 +91,7 @@ div#virtualKeyboard.h5pEditor .virtualKeyboardButton.smallgap {
 }
 
 .virtualKeyboard-backspace {
-	background-color: rgb(236, 114, 69);
+	background-color: rgb(236, 114, 69) !important;
 }
 
 .virtualKeyboard-backspace:hover {
@@ -99,7 +100,7 @@ div#virtualKeyboard.h5pEditor .virtualKeyboardButton.smallgap {
 }
 
 .virtualKeyboardButton.virtualKeyboard-version {
-	font-size: 150%;
+	font-size: 120%;
 }
 
 .virtualKeyboardButton.virtualKeyboard-version:hover {
@@ -134,13 +135,13 @@ div#virtualKeyboard.h5pEditor .virtualKeyboardButton.smallgap {
 }
 
 .virtualKeyboardButton.virtualKeyboard-nthRoot {
-	font-size: 1.8vw;
+	/* font-size: 1.8vw; */
 	/* color: maroon; */
 	vertical-align: middle;
 }
 
 .virtualKeyboardButton.virtualKeyboard-squareroot {
-	font-size: 2vw;
+	/* font-size: 2vw; */
 	/* color: springgreen; */
 	vertical-align: middle;
 }
@@ -159,14 +160,17 @@ div#virtualKeyboard.h5pEditor .virtualKeyboardButton.smallgap {
 
 .virtualKeyboardButton.virtualKeyboard-arcsin span {
 	font-size: 85%;
+	white-space: nowrap;
 }
 
 .virtualKeyboardButton.virtualKeyboard-arccos span {
 	font-size: 85%;
+	white-space: nowrap;
 }
 
 .virtualKeyboardButton.virtualKeyboard-arctan span {
 	font-size: 85%;
+	white-space: nowrap;
 }
 
 .virtualKeyboardButton.virtualKeyboard-power_of_ten sup {
