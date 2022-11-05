@@ -58,7 +58,7 @@ div#virtualKeyboard.h5p {
 	font-family: Arial, Helvetica, sans-serif;
 	/* font-size: 20pt; */
 	/* font-size: 3vw; */
-	font-size: 150%;
+	font-size: 200%;
 	text-align: center;
 	vertical-align: middle;
 	/* white-space: nowrap; */
@@ -280,6 +280,7 @@ div#virtualKeyboard.h5pEditor#virtualKeyboard_header {
 	overflow: hidden;
 	border: none;
 	background-color: transparent;
+	min-width: 70vw;
 }
 
 /* Style the buttons inside the tab */

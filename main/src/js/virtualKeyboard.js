@@ -42,12 +42,14 @@ function updateVirtualKeyboard(isMobile) {
         $('div#virtualKeyboard').removeClass('isMobile');
     }
 
-    const version = config.version + ' docLang=' + docLang() + ' isMobile=' + isMobile;
-    var message = '<p>&nbsp;</p>';
-    message += '<p>H5P.FormulaApplet Version ' + version + '</p>';
+    var message = '';
+    message += '<p>&nbsp;</p>';
+    message += '<p>H5P.FormulaApplet Version ' + config.version + '</p>';
+    message += '<p>docLang=' + docLang() + '</p>';
+    message += '<p>isMobile=' + isMobile + '</p>';
     var temp = repo.repository.url.slice(4); //slice(4): delete start "git+"
     message += '<p><a href="' + temp + '#readme" target="_blank">' + temp + '</a></p>';
-    message += '<p>by <a href="https://www.grossmann.info" target="_blank">gro58</a></p>';
+    // message += '<p>by <a href="https://www.grossmann.info" target="_blank">gro58</a></p>';
     message += '<p>&nbsp;</p>';
 
     if (isMobile) {
