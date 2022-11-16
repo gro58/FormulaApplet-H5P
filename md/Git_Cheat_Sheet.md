@@ -5,3 +5,7 @@
 * git remote show origin
 
 * git pull origin StrictMode
+
+# gf09-h5p turnaround
+* Im Terminal prh.ps1 aufrufen
+* 

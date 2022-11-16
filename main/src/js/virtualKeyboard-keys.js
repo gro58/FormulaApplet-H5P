@@ -29,7 +29,7 @@ export var keys = {
             ["lg", "lg", "lg("],
             ["setunsetUnit", "dummy: set unit", "#setUnit"],
             ["nthRoot",
-                "<sup style=\"position: relative; top: -0.5em; right: -0.5em;\">⬚</sup><span style=\"white-space: nowrap; font-size:larger\">&radic;<span style=\"text-decoration:overline;\">&nbsp;&#x2b1a;&nbsp;</span></span>",
+                "<sup style=\"position: relative; top: -0.6em; right: -0.5em;\">⬚</sup><span style=\"white-space: nowrap; font-size:larger\">&radic;<span style=\"text-decoration:overline;\">&nbsp;&#x2b1a;&nbsp;</span></span>",
                 "#nthroot"
             ],
             ["smallgap-2", "", ""],
