@@ -7,7 +7,10 @@ export var keys_mixed_mobile = [
         ["divided", "&divide;", "/"]
     ],
     [
-        ["nthRoot", "<span style=\"font-size: 2.1vw;\"><sup style=\"position: relative; top: -0.6em; right: -0.5em;\">⬚</sup><span style=\"white-space: nowrap; font-size:larger\">&radic;<span style=\"text-decoration:overline;\">&nbsp;&#x2b1a;&nbsp;</span></span></span>", "#nthroot"],
+        ["nthRoot",
+        // "<span style=\"font-size: 2.1vw;\"><sup style=\"position: relative; top: -0.6em; right: -0.5em;\">⬚</sup><span style=\"white-space: nowrap; font-size:larger\">&radic;<span style=\"text-decoration:overline;\">&nbsp;&#x2b1a;&nbsp;</span></span></span>",
+        "<sup>⬚</sup><span>&radic;<span>&nbsp;&#x2b1a;&nbsp;</span></span>",
+        "#nthroot"],
         ["e"],
         ["pi", "&pi;", "\\pi "],
         ["plus", "+", "+"],
