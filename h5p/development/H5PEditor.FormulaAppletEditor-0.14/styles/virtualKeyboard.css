@@ -121,6 +121,12 @@ div#virtualKeyboard.h5pEditor .virtualKeyboardButton.smallgap {
 	color: green;
 }
 
+/*(required by zum-apps)*/
+.virtualKeyboardButton.virtualKeyboard-setunsetUnit {
+	max-width: 10vh;
+	word-break: break-all;
+}
+
 .virtualKeyboardButton.virtualKeyboard-setunsetUnit span {
 	font-size: 60%;
 	color: green;
@@ -142,24 +148,25 @@ div#virtualKeyboard.h5pEditor .virtualKeyboardButton.smallgap {
 /* "<span style=\"white-space: nowrap; font-size:larger\">&radic;<span style=\"text-decoration:overline;\">&nbsp;&#x2b1a;&nbsp;</span></span>", */
 
 /* placeholder for order of the nth root */
-.virtualKeyboardButton.virtualKeyboard-nthRoot sup{
+.virtualKeyboardButton.virtualKeyboard-nthRoot sup {
 	/* color: crimson; */
 	font-size: smaller;
-	position: relative; 
-	top: -0.6em; 
-	right: -0.5em; 
+	position: relative;
+	top: -0.6em;
+	right: -0.5em;
 }
 
 /* root glyph */
-.virtualKeyboardButton.virtualKeyboard-nthRoot span{
+.virtualKeyboardButton.virtualKeyboard-nthRoot span {
 	/* color: green; */
-	white-space: nowrap; 
+	white-space: nowrap;
 	/* font-size:larger; */
 }
+
 /* overlined placeholder for radicand of the nth root */
-.virtualKeyboardButton.virtualKeyboard-nthRoot span span{
+.virtualKeyboardButton.virtualKeyboard-nthRoot span span {
 	/* color: blueviolet; */
-	text-decoration:overline;
+	text-decoration: overline;
 }
 
 .virtualKeyboardButton.virtualKeyboard-squareroot {
