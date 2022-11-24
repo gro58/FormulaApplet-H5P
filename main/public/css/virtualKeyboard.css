@@ -122,10 +122,11 @@ div#virtualKeyboard.h5pEditor .virtualKeyboardButton.smallgap {
 }
 
 /*(required by zum-apps)*/
-.virtualKeyboardButton.virtualKeyboard-setunsetUnit {
+/* this code crashes the virtual keyboard on the smartphone */
+/* .virtualKeyboardButton.virtualKeyboard-setunsetUnit {
 	max-width: 10vh;
 	word-break: break-all;
-}
+} */
 
 .virtualKeyboardButton.virtualKeyboard-setunsetUnit span {
 	font-size: 60%;
